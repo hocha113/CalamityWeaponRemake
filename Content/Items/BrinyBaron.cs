@@ -1,0 +1,161 @@
+﻿using CalamityMod.Items;
+using CalamityMod.Projectiles.Melee;
+using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Common.Interfaces;
+using CalamityWeaponRemake.Content.Projectiles;
+using Microsoft.Xna.Framework;
+using System.Linq;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameInput;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalamityWeaponRemake.Content.Items
+{
+    internal class BrinyBaron : CustomItems
+    {
+        public override string Texture => CWRConstant.Item + "BrinyBaron";
+
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[base.Item.type] = true;
+
+            DisplayName.SetDefault(
+                Languages.Translation(
+                    "海爵剑",
+                    "Briny Baron"
+                    )
+                );
+            Tooltip.SetDefault(
+                Languages.Translation(
+                    "",
+                    ""
+                    )
+                );
+        }
+
+        public override void SetDefaults()
+        {
+            Item.damage = 110;
+            Item.knockBack = 2f;
+            Item.useAnimation = Item.useTime = 15;
+            Item.DamageType = DamageClass.Melee;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.shootSpeed = 4f;
+            Item.shoot = ModContent.ProjectileType<Razorwind>();
+            Item.width = 100;
+            Item.height = 102;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(10)), type, damage, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(-10)), type, damage, knockback, player.whoAmI);
+            return true;
+        }
+
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                damage = (int)(damage);
+                Main.NewText(damage);
+                type = ModContent.ProjectileType<Razorwind>();
+            }
+            else
+            {
+                type = 0;
+            }
+        }
+
+        public override bool AltFunctionUse(Player player)
+        {
+            return true;
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            return true;
+        }
+
+        public override void HoldItem(Player player)
+        {
+            
+        }
+
+        public override void Update(ref float gravity, ref float maxFallSpeed)
+        {
+            
+        }
+
+        public override void UpdateInventory(Player player)
+        {
+            
+        }
+
+        public override void MeleeEffects(Player player, Rectangle hitbox)
+        {
+            if (Main.rand.NextBool(3))
+            {
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.Flare_Blue, 0f, 0f, 100, new Color(53, Main.DiscoG, 255));
+            }
+        }
+
+        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
+        {
+            target.AddBuff(BuffID.Wet, 120);
+            modifiers.CritDamage *= 0.5f;
+        }
+
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            Vector2 speed= HcMath.RandomBooleanValue(2, 1, true) ? new Vector2(16, 0) : new Vector2(-16, 0);
+            if (Main.projectile.Count(n => n.active && n.type == ModContent.ProjectileType<SeaBlueBrinySpout>() && n.ai[1] == 1) <= 2)
+            {
+                int proj = Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(player), target.Center, speed, ModContent.ProjectileType<SeaBlueBrinySpout>(), base.Item.damage, base.Item.knockBack, player.whoAmI);
+                Main.projectile[proj].timeLeft = 60;
+                Main.projectile[proj].localAI[1] = 30;
+            }
+        }
+
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
+        {
+            
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<SeaBlueBrinySpout>()] == 0)
+            {
+                Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(player), target.Center, Vector2.Zero, ModContent.ProjectileType<SeaBlueBrinySpout>(), base.Item.damage, base.Item.knockBack, player.whoAmI);
+            }
+        }
+
+        public override bool? UseItem(Player player)
+        {        
+            if (player.altFunctionUse == 2)
+            {
+                Item.noMelee = true;
+            }
+            else
+            {
+                Item.noMelee = false;
+            }
+            return null;
+        }
+
+        public override void UseAnimation(Player player)
+        {
+            Item.noUseGraphic = false;
+            Item.UseSound = SoundID.Item1;
+            if (player.altFunctionUse == 2)
+            {
+                Item.noUseGraphic = true;
+                Item.UseSound = SoundID.Item84;
+            }
+        }
+    }
+}

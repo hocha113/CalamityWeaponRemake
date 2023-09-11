@@ -1,0 +1,8 @@
+Items: {
+	BrinyBaron: {
+		DisplayName: 海爵剑
+		Tooltip: ""
+	}
+}
+
+Projectiles.SeaBlueBrinySpout.DisplayName: Sea Blue Briny Spout
