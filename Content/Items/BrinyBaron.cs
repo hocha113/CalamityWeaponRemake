@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -21,19 +20,6 @@ namespace CalamityWeaponRemake.Content.Items
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[base.Item.type] = true;
-
-            DisplayName.SetDefault(
-                Languages.Translation(
-                    "海爵剑",
-                    "Briny Baron"
-                    )
-                );
-            Tooltip.SetDefault(
-                Languages.Translation(
-                    "",
-                    ""
-                    )
-                );
         }
 
         public override void SetDefaults()
@@ -56,6 +42,7 @@ namespace CalamityWeaponRemake.Content.Items
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
+            player.AddBuff(BuffID.Wet, 180);
             Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(10)), type, damage, knockback, player.whoAmI);
             Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(-10)), type, damage, knockback, player.whoAmI);
             return true;
@@ -65,8 +52,7 @@ namespace CalamityWeaponRemake.Content.Items
         {
             if (player.altFunctionUse == 2)
             {
-                damage = (int)(damage);
-                Main.NewText(damage);
+                damage = (int)(damage * 0.2f);
                 type = ModContent.ProjectileType<Razorwind>();
             }
             else
@@ -111,6 +97,9 @@ namespace CalamityWeaponRemake.Content.Items
         public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
         {
             target.AddBuff(BuffID.Wet, 120);
+            int newDef = target.defDefense - 3;
+            if (newDef < 0) newDef = 0;
+            target.defense = newDef;
             modifiers.CritDamage *= 0.5f;
         }
 
@@ -126,8 +115,7 @@ namespace CalamityWeaponRemake.Content.Items
         }
 
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
-        {
-            
+        {           
             if (player.ownedProjectileCounts[ModContent.ProjectileType<SeaBlueBrinySpout>()] == 0)
             {
                 Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(player), target.Center, Vector2.Zero, ModContent.ProjectileType<SeaBlueBrinySpout>(), base.Item.damage, base.Item.knockBack, player.whoAmI);
@@ -156,6 +144,11 @@ namespace CalamityWeaponRemake.Content.Items
                 Item.noUseGraphic = true;
                 Item.UseSound = SoundID.Item84;
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>()).Register();
         }
     }
 }

@@ -1,8 +1,51 @@
 Items: {
 	BrinyBaron: {
-		// DisplayName: 海爵剑
+		DisplayName: 海爵剑
+		Tooltip: ""
+	}
+
+	CosmicShiv: {
+		// DisplayName: Cosmic Shiv
+		// Tooltip: ""
+	}
+
+	DimensionalRupture: {
+		// DisplayName: Dimensional Rupture
 		// Tooltip: ""
 	}
 }
 
-// Projectiles.SeaBlueBrinySpout.DisplayName: Sea Blue Briny Spout
+Projectiles: {
+	// SeaBlueBrinySpout.DisplayName: Sea Blue Briny Spout
+	// Melee.CosmicShivProjectile.DisplayName: Cosmic Shiv Projectile
+	// DimensionalRuptureProjectile.DisplayName: Dimensional Rupture Projectile
+	// CosmicRay_0.DisplayName: Cosmic Ray_0
+	// RemakeCosmicShivBall.DisplayName: Remake Cosmic Shiv Ball
+}
+
+Configs: {
+	ContentConfig: {
+		DisplayName: 内容设置
+
+		ForceReplaceResetContent: {
+			Label: 是否开启强制重制内容替换
+			Tooltip:
+				'''
+				如果开启，将直接修改灾厄模组的原内容
+				若您启用了其他灾厄附属模组，开启该功能可能会导致一些潜在的冲突问题
+				如果您选择关闭，此模组将向游戏中添加重制物品的获取方式，
+				这对于防止潜在的冲突问题是个好主意
+				'''
+		}
+
+		WeaponEnhancementSystem: {
+			Label: 是否开启传奇武器增强系统
+			Tooltip:
+				'''
+				如果开启，一些武器将重新获得传奇称号，这会影响其获取难度
+				传奇武器会随阶段的推进变得强大
+				关闭此项可以禁用此内容
+				'''
+		}
+	}
+}

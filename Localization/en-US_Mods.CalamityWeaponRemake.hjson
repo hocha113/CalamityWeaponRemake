@@ -1,8 +1,57 @@
 Items: {
 	BrinyBaron: {
-		DisplayName: 海爵剑
+		DisplayName: Briny Baron
+		Tooltip: ""
+	}
+
+	CosmicShiv: {
+		DisplayName: Cosmic Shiv
+		Tooltip: ""
+	}
+
+	DimensionalRupture: {
+		DisplayName: Dimensional Rupture
+		Tooltip: ""
+	}
+
+	A: {
+		DisplayName: A
 		Tooltip: ""
 	}
 }
 
-Projectiles.SeaBlueBrinySpout.DisplayName: Sea Blue Briny Spout
+Projectiles: {
+	SeaBlueBrinySpout.DisplayName: Sea Blue Briny Spout
+	Melee.CosmicShivProjectile.DisplayName: Cosmic Shiv Projectile
+	DimensionalRuptureProjectile.DisplayName: Dimensional Rupture Projectile
+	CosmicRay_0.DisplayName: Cosmic Ray_0
+	RemakeCosmicShivBall.DisplayName: Remake Cosmic Shiv Ball
+	B.DisplayName: B
+}
+
+Configs: {
+	ContentConfig: {
+		DisplayName: Content Config
+
+		ForceReplaceResetContent: {
+			Label: Enable Forceful Reset Content Replacement
+			Tooltip:
+				'''
+				If enabled, it will directly modify the original content of the Calamity mod.
+				If you have enabled other Calamity sub-mods, enabling this feature may lead to potential conflicts.
+				If you choose to disable it, this mod will add a way to obtain reset items in the game, 
+				which is a good idea to prevent potential conflicts.
+				'''
+		}
+
+		WeaponEnhancementSystem: {
+			Label: Enable Legendary Weapon Enhancement System
+			Tooltip:
+				'''
+				If enabled, some weapons will regain their legendary titles, affecting their acquisition difficulty. 
+				Legendary weapons will grow in power as you progress through stages. 
+				Disabling this option will deactivate this feature.
+				'''
+		}
+	}
+}

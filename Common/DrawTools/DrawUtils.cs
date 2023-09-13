@@ -233,7 +233,7 @@ namespace CalamityWeaponRemake.Common.DrawTools
                 float scale = maxScale - i * maxScale / layers;
                 Color colour = new(scale / maxScale, scale / maxScale, scale / maxScale);
                 rotation *= 0.8f;
-                spriteBatch.Draw(texture, position - (inWorld ? Main.screenPosition : Vector2.Zero), null, Color.Red * (i / layers) * alphaMultiplier, rotation, new Vector2(32, 32), scale * scaleMultiplier, SpriteEffects.None, 0);
+                spriteBatch.Draw(texture, position - (inWorld ? Main.screenPosition : Vector2.Zero), null, colour * (i / layers) * alphaMultiplier, rotation, new Vector2(32, 32), scale * scaleMultiplier, SpriteEffects.None, 0);
             }
         }
 

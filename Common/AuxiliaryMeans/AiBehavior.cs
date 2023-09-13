@@ -614,8 +614,9 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <param name="NPC">寻找主体</param>
         /// <param name="maxFindingDg">最大搜寻范围，如果值为-1则不开启范围限制</param>
         /// <returns>返回一个玩家实例，如果返回的实例为null，则说明玩家无效或者范围内无有效玩家</returns>
-        public static Player FindingTarget(Entity NPC, int maxFindingDg)
+        public static Player NPCFindingPlayerTarget(Entity NPC, int maxFindingDg)
         {
+            Player target = null;
             if (Main.netMode == NetmodeID.SinglePlayer)
             {
                 Player player = Main.player[Main.myPlayer];
@@ -651,19 +652,19 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
                         return player;
                     }
 
-                    float TargetDg = (player.Center - NPC.Center).LengthSquared();
+                    float TargetSquaredDg = (player.Center - NPC.Center).LengthSquared();
 
-                    bool FindingBool = TargetDg < MaxFindingDgSquared;
+                    bool FindingBool = TargetSquaredDg < MaxFindingDgSquared;
 
                     if (!FindingBool)
                     {
                         continue;
                     }
 
-                    MaxFindingDgSquared = TargetDg;
-                    return player;
+                    MaxFindingDgSquared = TargetSquaredDg;
+                    target = player;
                 }
-                return null;
+                return target;
             }
         }
 
@@ -676,7 +677,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         public static NPC ProjFindingNPCTarget(Projectile proj, int maxFindingDg)
         {
             float MaxFindingDgSquared = maxFindingDg * maxFindingDg;
-
+            NPC target = null;
             for (int i = 0; i < Main.npc.Length; i++)
             {
                 NPC npc = Main.npc[i];
@@ -686,8 +687,8 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
                     continue;
                 }
 
-                float TargetDg = (npc.Center - proj.Center).LengthSquared();
-                bool FindingBool = TargetDg < MaxFindingDgSquared;
+                float TargetSquaredDg = (npc.Center - proj.Center).LengthSquared();
+                bool FindingBool = TargetSquaredDg < MaxFindingDgSquared;
                 if (maxFindingDg == -1) FindingBool = true;
 
                 if (!FindingBool)
@@ -695,41 +696,10 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
                     continue;
                 }
 
-                MaxFindingDgSquared = TargetDg;
-                return npc;
+                MaxFindingDgSquared = TargetSquaredDg;
+                target = npc;
             }
-            return null;
-        }
-
-        /// <summary>
-        /// 用于弹幕寻找NPC目标的行为
-        /// </summary>
-        /// <param name="proj">寻找主体</param>
-        /// <param name="maxFindingDg">最大搜寻范围，如果值为 <see cref="-1"/> 则不开启范围限制</param>
-        /// <returns>返回一个NPC实例，如果返回的实例为 <see cref="null"/> ，则说明NPC无效或者范围内无有效NPC</returns>
-        public static NPC ProjFindingNPCTarget(Projectile proj, ref float maxFindingSquaredDg)
-        {
-            for (int i = 0; i < Main.npc.Length; i++)
-            {
-                NPC npc = Main.npc[i];
-
-                if (NPCAlive(npc) == false || npc.friendly == true || npc.dontTakeDamage == true)
-                {
-                    continue;
-                }
-
-                float TargetDg = (npc.Center - proj.Center).LengthSquared();
-                bool FindingBool = TargetDg < maxFindingSquaredDg;
-
-                if (!FindingBool)
-                {
-                    continue;
-                }
-
-                maxFindingSquaredDg = TargetDg;
-                return npc;
-            }
-            return null;
+            return target;
         }
 
         /// <summary>
@@ -740,41 +710,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <param name="Speed">速度</param>
         /// <param name="ShutdownDistance">停摆距离</param>
         /// <returns></returns>
-        public static void ChasingBehavior(Entity entity, Vector2 TargetCenter, float Speed, float ShutdownDistance)
-        {
-            if (entity == null) return;
-
-            Vector2 ToTarget = TargetCenter - entity.Center;
-            Vector2 ToTargetNormalize = ToTarget.SafeNormalize(Vector2.Zero);
-            entity.velocity = ToTargetNormalize * AsymptoticVelocity(entity.Center, TargetCenter, Speed, ShutdownDistance);
-        }
-
-        /// <summary>
-        /// 普通的追逐行为
-        /// </summary>
-        /// <param name="entity">需要操纵的实体</param>
-        /// <param name="TargetCenter">目标地点</param>
-        /// <param name="Speed">速度</param>
-        /// <param name="ShutdownDistance">停摆距离</param>
-        /// <returns></returns>
-        public static void ChasingBehavior(NPC entity, Vector2 TargetCenter, float Speed, float ShutdownDistance)
-        {
-            if (entity == null) return;
-
-            Vector2 ToTarget = TargetCenter - entity.Center;
-            Vector2 ToTargetNormalize = ToTarget.SafeNormalize(Vector2.Zero);
-            entity.velocity = ToTargetNormalize * AsymptoticVelocity(entity.Center, TargetCenter, Speed, ShutdownDistance);
-        }
-
-        /// <summary>
-        /// 普通的追逐行为
-        /// </summary>
-        /// <param name="entity">需要操纵的实体</param>
-        /// <param name="TargetCenter">目标地点</param>
-        /// <param name="Speed">速度</param>
-        /// <param name="ShutdownDistance">停摆距离</param>
-        /// <returns></returns>
-        public static Vector2 ChasingBehavior(Projectile entity, Vector2 TargetCenter, float Speed, float ShutdownDistance)
+        public static Vector2 ChasingBehavior(Entity entity, Vector2 TargetCenter, float Speed, float ShutdownDistance)
         {
             if (entity == null) return Vector2.Zero;
 
@@ -793,7 +729,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <param name="ignoreTiles">在检查障碍物时是否忽略瓦片</param>
         /// <param name="bossPriority">是否优先选择Boss</param>
         /// <returns>距离最近的NPC。</returns>
-        public static NPC ClosestNPCAt(this Vector2 origin, float maxDistanceToCheck, bool ignoreTiles = true, bool bossPriority = false)
+        public static NPC InOriginClosestNPC(this Vector2 origin, float maxDistanceToCheck, bool ignoreTiles = true, bool bossPriority = false)
         {
             NPC closestTarget = null;
             float distance = maxDistanceToCheck;
@@ -859,7 +795,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         {
             if (owner == null || !owner.whoAmI.WithinBounds(Main.player.Length) || !owner.MinionAttackTargetNPC.WithinBounds(Main.maxNPCs))
             {
-                return origin.ClosestNPCAt(maxDistanceToCheck, ignoreTiles);
+                return origin.InOriginClosestNPC(maxDistanceToCheck, ignoreTiles);
             }
             NPC npc = Main.npc[owner.MinionAttackTargetNPC];
             bool canHit = true;
@@ -873,24 +809,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
             {
                 return npc;
             }
-            return origin.ClosestNPCAt(maxDistanceToCheck, ignoreTiles);
-        }
-
-        /// <summary>
-        /// 普通的追逐行为
-        /// </summary>
-        /// <param name="entity">需要操纵的实体</param>
-        /// <param name="TargetCenter">目标地点</param>
-        /// <param name="Speed">速度</param>
-        /// <param name="ShutdownDistance">停摆距离</param>
-        /// <returns></returns>
-        public static void ChasingBehavior(Player entity, Vector2 TargetCenter, float Speed, float ShutdownDistance)
-        {
-            if (entity == null) return;
-
-            Vector2 ToTarget = TargetCenter - entity.Center;
-            Vector2 ToTargetNormalize = ToTarget.SafeNormalize(Vector2.Zero);
-            entity.velocity = ToTargetNormalize * AsymptoticVelocity(entity.Center, TargetCenter, Speed, ShutdownDistance);
+            return origin.InOriginClosestNPC(maxDistanceToCheck, ignoreTiles);
         }
 
         /// <summary>
@@ -925,10 +844,11 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
             if (entity.Center.Y < TargetCenter.Y) entity.velocity.Y += acceleration;
         }
 
+        /// <summary>
+        /// 处理实体的旋转行为
+        /// </summary>
         public static void EntityToRot(NPC entity, float ToRot, float rotSpeed)
         {
-            //entity.rotation = MathHelper.SmoothStep(entity.rotation, ToRot, rotSpeed);
-
             // 将角度限制在 -π 到 π 的范围内
             entity.rotation = MathHelper.WrapAngle(entity.rotation);
 
@@ -951,8 +871,6 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// </summary>
         public static void EntityToRot(Projectile entity, float ToRot, float rotSpeed)
         {
-            //entity.rotation = MathHelper.SmoothStep(entity.rotation, ToRot, rotSpeed);
-
             // 将角度限制在 -π 到 π 的范围内
             entity.rotation = MathHelper.WrapAngle(entity.rotation);
 
@@ -976,6 +894,98 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         public static Vector2 RotToSpeedVr(NPC entity, Vector2 targetCenter, float toRot, float speed, float shutdownDistance)
         {
             return (entity.rotation + MathHelper.ToRadians(90)).ToRotationVector2() * AsymptoticVelocity(entity.Center, targetCenter, speed, shutdownDistance) * -1;
+        }
+
+        #endregion
+
+        #region 实体初始化工具
+
+        /// <summary>
+        /// 创建一个弹射物并返回其实体索引
+        /// </summary>
+        /// <param name="sourceEntity">产生此弹射物的实体</param>
+        /// <param name="spanPos">弹射物的起始位置</param>
+        /// <param name="speedVr">弹射物的初始速度</param>
+        /// <param name="projectileType">弹射物的类型或ID</param>
+        /// <param name="damage">弹射物造成的伤害量</param>
+        /// <param name="knockBack">弹射物的击退效果</param>
+        /// <param name="owner">此弹射物的所有者ID</param>
+        /// <param name="ai0">弹射物的AI参数</param>
+        /// <param name="ai1">弹射物的AI参数</param>
+        /// <param name="ai2">弹射物的AI参数</param>
+        /// <param name="localAI0">弹射物的局部AI参数</param>
+        /// <param name="localAI1">弹射物的局部AI参数</param>
+        /// <param name="localAI2">弹射物的局部AI参数</param>
+        /// <param name="timeLeft">弹射物存在的时间，以游戏刻度为单位</param>
+        /// <param name="alpha">弹射物的透明度</param>
+        /// <param name="rotation">弹射物的旋转角度</param>
+        /// <param name="friendly">指示弹射物是否友好</param>
+        /// <param name="hostile">指示弹射物是否敌对</param>
+        /// <param name="tileCollide">指示弹射物是否与地图块发生碰撞</param>
+        /// <param name="size">弹射物的尺寸</param>
+        /// <param name="usesLocalNPCImmunityBool">指示是否使用本地NPC免疫功能</param>
+        /// <param name="localNPCHitCooldownFrame">当使用本地NPC免疫功能时，弹射物与同一NPC再次造成伤害之间的冷却时间（以游戏刻度为单位），值为 -1 表示它只能对特定 NPC 造成一次伤害。默认值 -2 没有效果</param>
+        /// <param name="idStaticNPCHitCooldownFrame">同一类型的弹射物再次对同一NPC造成伤害之间的冷却时间（以游戏刻度为单位）</param>
+        /// <returns>新创建弹射物的实体索引，如果出现内部异常将返回 -1 值</returns>
+        public static int CreateProjectile(
+            Entity sourceEntity,
+            Vector2 spanPos,
+            Vector2 speedVr,
+            int projectileType,
+            int damage = 0,
+            float knockBack = 0,
+            int owner = 0,
+            int ai0 = 0,
+            int ai1 = 0,
+            int ai2 = 0,
+            int localAI0 = 0,
+            int localAI1 = 0,
+            int localAI2 = 0,
+            int timeLeft = 60,
+            int alpha = 255,
+            float rotation = 0,           
+            bool friendly = false,
+            bool hostile = false,
+            bool tileCollide = false,
+            Vector2 size = default,
+            bool usesLocalNPCImmunityBool = false,
+            int localNPCHitCooldownFrame = 20,
+            int idStaticNPCHitCooldownFrame = 20
+            )
+        {
+            int obj = Projectile.NewProjectile(
+                GetEntitySource_Parent(sourceEntity),
+                spanPos,
+                speedVr,
+                projectileType,
+                damage,
+                knockBack,
+                owner,
+                ai0,
+                ai1,
+                ai2
+                );
+            Projectile projectile = GetProjectileInstance(obj);
+            if (projectile == null) return -1;
+
+            projectile.localAI[0] = localAI0;
+            projectile.localAI[1] = localAI1;
+            projectile.localAI[2] = localAI2;
+            projectile.timeLeft = timeLeft;
+            projectile.rotation = rotation;
+            projectile.alpha = alpha;
+            projectile.friendly = friendly;
+            projectile.hostile = hostile;
+            projectile.tileCollide = tileCollide;
+            projectile.Size = size = default ? new Vector2(projectile.width, projectile.height) : size;            
+            projectile.usesLocalNPCImmunity = usesLocalNPCImmunityBool;
+
+            if (!usesLocalNPCImmunityBool) return obj;
+
+            projectile.localNPCHitCooldown = localNPCHitCooldownFrame;
+            projectile.idStaticNPCHitCooldown = idStaticNPCHitCooldownFrame;
+
+            return obj;
         }
 
         #endregion

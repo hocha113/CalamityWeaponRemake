@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items;
 using CalamityMod.Projectiles.Melee;
+using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Content.Projectiles;
 using Microsoft.Xna.Framework;
@@ -9,12 +10,12 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityWeaponRemake.Content
+namespace CalamityWeaponRemake.Content.RemakeItems
 {
-    public class RemakeItems : GlobalItem
+    public class RemakeBrinyBaron : GlobalItem
     {
         public override void SetDefaults(Item item)
-        {            
+        {
             if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>())
             {
                 item.damage = 110;
@@ -38,11 +39,12 @@ namespace CalamityWeaponRemake.Content
         {
             if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>())
             {
+                player.AddBuff(BuffID.Wet, 180);
                 Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(10)), type, damage, knockback, player.whoAmI);
                 Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(-10)), type, damage, knockback, player.whoAmI);
                 return true;
             }
-            
+
             return base.Shoot(item, player, source, position, velocity, type, damage, knockback);
         }
 
@@ -68,6 +70,9 @@ namespace CalamityWeaponRemake.Content
             if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>())
             {
                 target.AddBuff(BuffID.Wet, 120);
+                int newDef = target.defDefense - 3;
+                if (newDef < 0) newDef = 0;
+                target.defense = newDef;
                 modifiers.CritDamage *= 0.5f;
             }
         }
@@ -105,7 +110,7 @@ namespace CalamityWeaponRemake.Content
             {
                 return base.UseItem(item, player);
             }
-            
+
         }
 
         public override void UseAnimation(Item item, Player player)
@@ -119,7 +124,7 @@ namespace CalamityWeaponRemake.Content
                     item.noUseGraphic = true;
                     item.UseSound = SoundID.Item84;
                 }
-            }               
+            }
         }
     }
 }

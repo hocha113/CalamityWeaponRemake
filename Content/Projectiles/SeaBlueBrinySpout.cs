@@ -122,7 +122,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
             {
                 if (Behavior == 1)
                 {
-                    Player target = AiBehavior.FindingTarget(Projectile, -1);
+                    Player target = AiBehavior.NPCFindingPlayerTarget(Projectile, -1);
                     if (target != null)
                     {
                         //Vector2 toTarget = Projectile.Center.To(target.Center).SafeNormalize(Vector2.Zero);
