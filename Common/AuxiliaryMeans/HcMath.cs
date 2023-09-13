@@ -207,6 +207,14 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
             return (float)Math.Atan2(destination.Y - center.Y, destination.X - center.X);
         }
 
+        public static float HorizontalComparison(Vector2 vr)
+        {
+            int mode = 1;
+            if (vr.X < 0) mode = -1;
+
+            return (3.7f - Math.Abs(vr.DotProduct(new Vector2(0, mode)))) / MathHelper.Pi;
+        }
+
         /// <summary>
         /// 一个随机布尔值获取方法
         /// </summary>

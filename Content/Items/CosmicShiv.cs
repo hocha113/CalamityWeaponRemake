@@ -10,6 +10,8 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityWeaponRemake.Content.Projectiles.Cosmic;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using System;
 
 namespace CalamityWeaponRemake.Content.Items
 {
@@ -46,6 +48,11 @@ namespace CalamityWeaponRemake.Content.Items
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             return true;
+        }
+
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            damage = (int)(damage * HcMath.HorizontalComparison(velocity));
         }
 
         public override bool CanUseItem(Player player)

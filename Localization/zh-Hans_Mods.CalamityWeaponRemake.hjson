@@ -13,14 +13,26 @@ Items: {
 		// DisplayName: Dimensional Rupture
 		// Tooltip: ""
 	}
+
+	A: {
+		// DisplayName: A
+		// Tooltip: ""
+	}
 }
 
 Projectiles: {
 	// SeaBlueBrinySpout.DisplayName: Sea Blue Briny Spout
-	// Melee.CosmicShivProjectile.DisplayName: Cosmic Shiv Projectile
+
+	Melee: {
+		// CosmicShivProjectile.DisplayName: Cosmic Shiv Projectile
+		// DimensionalRuptureProjectile.DisplayName: Dimensional Rupture Projectile
+	}
+
 	// DimensionalRuptureProjectile.DisplayName: Dimensional Rupture Projectile
 	// CosmicRay_0.DisplayName: Cosmic Ray_0
 	// RemakeCosmicShivBall.DisplayName: Remake Cosmic Shiv Ball
+	// B.DisplayName: B
+	// MightyStar.DisplayName: Mighty Star
 }
 
 Configs: {

@@ -9,8 +9,10 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\BrinyBaron.png" />
+    <None Remove="Assets\Cosmic.png" />
     <None Remove="Assets\Items\CosmicShiv.png" />
     <None Remove="Assets\Masking\BigGreyscaleCircle.png" />
+    <None Remove="Assets\Masking\CosmicFlame.png" />
     <None Remove="Assets\Masking\EnergyTrail.png" />
     <None Remove="Assets\Masking\EnergyTrail_White.png" />
     <None Remove="Assets\Masking\Extra_193.png" />

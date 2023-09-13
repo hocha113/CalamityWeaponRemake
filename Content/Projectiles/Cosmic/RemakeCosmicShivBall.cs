@@ -53,7 +53,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Cosmic
         }
 
         public override void AI()
-        {;
+        {
             Projectile.rotation = Projectile.velocity.ToRotation();
             if (Projectile.timeLeft < 190) Status = 1;
 

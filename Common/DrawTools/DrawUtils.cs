@@ -311,6 +311,20 @@ namespace CalamityWeaponRemake.Common.DrawTools
             }
         }
 
+        public static void DrawProjectile(this Projectile projectile, Texture2D texture2D)
+        {
+            Main.EntitySpriteDraw(
+                texture2D,
+                WDEpos(projectile.Center),
+                GetRec(texture2D),
+                Color.White,
+                projectile.rotation,
+                GetOrig(texture2D),
+                projectile.scale,
+                SpriteEffects.None,
+                0
+                );
+        }
 
         #endregion
     }
