@@ -42,9 +42,12 @@ namespace CalamityWeaponRemake.Content.RemakeItems
             return base.Shoot(item, player, source, position, velocity, type, damage, knockback);
         }
 
-        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            damage = (int)(damage * HcMath.HorizontalComparison(velocity));
+            if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.CosmicShiv>())
+            {
+                damage = (int)(damage * HcMath.HorizontalComparison(velocity));
+            }
         }
     }
 }

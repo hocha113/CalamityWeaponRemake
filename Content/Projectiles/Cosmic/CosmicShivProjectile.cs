@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles.Melee;
+using Terraria.ID;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Cosmic
 {
@@ -47,7 +48,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Cosmic
 
         public override void ExtraBehavior()
         {
-            Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 173);
+            Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.ShadowbeamStaff);
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

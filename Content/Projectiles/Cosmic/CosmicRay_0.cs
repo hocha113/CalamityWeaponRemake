@@ -33,7 +33,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Cosmic
             Projectile.penetrate = -1;
             Projectile.timeLeft = 90;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 12;
+            Projectile.localNPCHitCooldown = 8;
         }
 
         public override string Texture => CWRConstant.placeholder;
@@ -108,15 +108,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Cosmic
             if (ThisTimeValue % 10 == 0 && Projectile.timeLeft <= 60)
             {
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.rotation.ToRotationVector2() * 17, ModContent.ProjectileType<GalaxyStar>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
-
-                //int num2 = Main.rand.Next(4, 6);
-                //for (int j = -num2 / 2; j < num2 / 2; j++)
-                //{
-                //    int num3 = Main.rand.Next(-40, 41);
-                //    Vector2 vector3 = target.Center - new Vector2(0f, 800f + (float)num3).RotatedBy(MathHelper.ToRadians((float)j * 11f / (float)num2));
-                //    Vector2 velocity = Vector2.Normalize(target.Center - vector3) * 35f;
-                //    Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector3, velocity, ModContent.ProjectileType<GalaxyStar>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
-                //}
             }           
         }
 

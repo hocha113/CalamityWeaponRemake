@@ -33,6 +33,7 @@ Projectiles: {
 	// RemakeCosmicShivBall.DisplayName: Remake Cosmic Shiv Ball
 	// B.DisplayName: B
 	// MightyStar.DisplayName: Mighty Star
+	// StarDust.DisplayName: Star Dust
 }
 
 Configs: {
