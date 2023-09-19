@@ -1,11 +1,11 @@
-﻿using CalamityWeaponRemake.Common.WorldGeneration;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityWeaponRemake.Common.WorldGeneration;
 
 namespace CalamityWeaponRemake.Common.AuxiliaryMeans
 {
@@ -320,14 +320,8 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <returns>返回 true 表示活跃，返回 false 表示为空或者已经死亡的非活跃状态</returns>
         public static bool EntityAlive(Entity entity)
         {
-            if (entity == null || entity.active == false)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            if (entity == null) return false;
+            return entity.active;
         }
 
         /// <summary>
@@ -336,14 +330,8 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <returns>返回 true 表示活跃，返回 false 表示为空或者已经死亡的非活跃状态</returns>
         public static bool PlayerAlive(Player player)
         {
-            if (player == null || player.active == false || player.dead == true)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            if (player == null) return false;
+            return player.active && !player.dead;
         }
 
 
@@ -353,14 +341,8 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <returns>返回 true 表示活跃，返回 false 表示为空或者已经死亡的非活跃状态</returns>
         public static bool ProjectileAlive(Projectile projectile)
         {
-            if (projectile == null || projectile.active == false || projectile.timeLeft <= 0)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            if (projectile == null) return false;
+            return projectile.active && projectile.timeLeft > 0;
         }
 
         /// <summary>
@@ -369,14 +351,8 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <returns>返回 true 表示活跃，返回 false 表示为空或者已经死亡的非活跃状态</returns>
         public static bool NPCAlive(NPC npc)
         {
-            if (npc == null || npc.active == false || npc.timeLeft <= 0)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            if (npc == null) return false;
+            return npc.active && npc.timeLeft > 0;
         }
 
         /// <summary>
@@ -385,7 +361,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <returns>当获取值非法时将返回 <see cref="null"/> </returns>
         public static NPC GetNPCInstance(int npcIndex)
         {
-            if (HcMath.ValidateIndex(Main.npc, npcIndex))
+            if (npcIndex.ValidateIndex(Main.npc))
             {
                 NPC npc = Main.npc[npcIndex];
 
@@ -401,7 +377,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <returns>当获取值非法时将返回 <see cref="null"/> </returns>
         public static Projectile GetProjectileInstance(int projectileIndex)
         {
-            if (HcMath.ValidateIndex(Main.projectile, projectileIndex))
+            if (projectileIndex.ValidateIndex(Main.projectile))
             {
                 Projectile proj = Main.projectile[projectileIndex];
 
@@ -419,13 +395,18 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
             return npc.life / (float)npc.lifeMax;
         }
 
+        /// <summary>
+        /// 根据难度返回相应的血量数值
+        /// </summary>
         public static int ConvenientBossHealth(int normalHealth, int expertHealth, int masterHealth)
         {
             if (Main.expertMode) return expertHealth;
             if (Main.masterMode) return masterHealth;
             return normalHealth;
         }
-
+        /// <summary>
+        /// 根据难度返回相应的伤害数值
+        /// </summary>
         public static int ConvenientBossDamage(int normalDamage, int expertDamage, int masterDamage)
         {
             if (Main.expertMode) return expertDamage;
@@ -614,9 +595,10 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <param name="NPC">寻找主体</param>
         /// <param name="maxFindingDg">最大搜寻范围，如果值为-1则不开启范围限制</param>
         /// <returns>返回一个玩家实例，如果返回的实例为null，则说明玩家无效或者范围内无有效玩家</returns>
-        public static Player NPCFindingPlayerTarget(Entity NPC, int maxFindingDg)
+        public static Player NPCFindingPlayerTarget(this Entity NPC, int maxFindingDg)
         {
             Player target = null;
+
             if (Main.netMode == NetmodeID.SinglePlayer)
             {
                 Player player = Main.player[Main.myPlayer];
@@ -652,16 +634,16 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
                         return player;
                     }
 
-                    float TargetSquaredDg = (player.Center - NPC.Center).LengthSquared();
+                    float TargetDg = (player.Center - NPC.Center).LengthSquared();
 
-                    bool FindingBool = TargetSquaredDg < MaxFindingDgSquared;
+                    bool FindingBool = TargetDg < MaxFindingDgSquared;
 
                     if (!FindingBool)
                     {
                         continue;
                     }
 
-                    MaxFindingDgSquared = TargetSquaredDg;
+                    MaxFindingDgSquared = TargetDg;
                     target = player;
                 }
                 return target;
@@ -674,10 +656,11 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <param name="proj">寻找主体</param>
         /// <param name="maxFindingDg">最大搜寻范围，如果值为 <see cref="-1"/> 则不开启范围限制</param>
         /// <returns>返回一个NPC实例，如果返回的实例为 <see cref="null"/> ，则说明NPC无效或者范围内无有效NPC</returns>
-        public static NPC ProjFindingNPCTarget(Projectile proj, int maxFindingDg)
+        public static NPC ProjFindingNPCTarget(this Projectile proj, int maxFindingDg)
         {
             float MaxFindingDgSquared = maxFindingDg * maxFindingDg;
             NPC target = null;
+
             for (int i = 0; i < Main.npc.Length; i++)
             {
                 NPC npc = Main.npc[i];
@@ -687,8 +670,8 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
                     continue;
                 }
 
-                float TargetSquaredDg = (npc.Center - proj.Center).LengthSquared();
-                bool FindingBool = TargetSquaredDg < MaxFindingDgSquared;
+                float TargetDg = (npc.Center - proj.Center).LengthSquared();
+                bool FindingBool = TargetDg < MaxFindingDgSquared;
                 if (maxFindingDg == -1) FindingBool = true;
 
                 if (!FindingBool)
@@ -696,7 +679,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
                     continue;
                 }
 
-                MaxFindingDgSquared = TargetSquaredDg;
+                MaxFindingDgSquared = TargetDg;
                 target = npc;
             }
             return target;
@@ -710,7 +693,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <param name="Speed">速度</param>
         /// <param name="ShutdownDistance">停摆距离</param>
         /// <returns></returns>
-        public static Vector2 ChasingBehavior(Entity entity, Vector2 TargetCenter, float Speed, float ShutdownDistance)
+        public static Vector2 ChasingBehavior(this Entity entity, Vector2 TargetCenter, float Speed, float ShutdownDistance = 16)
         {
             if (entity == null) return Vector2.Zero;
 
@@ -729,7 +712,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <param name="ignoreTiles">在检查障碍物时是否忽略瓦片</param>
         /// <param name="bossPriority">是否优先选择Boss</param>
         /// <returns>距离最近的NPC。</returns>
-        public static NPC InOriginClosestNPC(this Vector2 origin, float maxDistanceToCheck, bool ignoreTiles = true, bool bossPriority = false)
+        public static NPC InPosClosestNPC(this Vector2 origin, float maxDistanceToCheck, bool ignoreTiles = true, bool bossPriority = false)
         {
             NPC closestTarget = null;
             float distance = maxDistanceToCheck;
@@ -793,9 +776,9 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <returns>距离最近的NPC</returns>
         public static NPC MinionHoming(this Vector2 origin, float maxDistanceToCheck, Player owner, bool ignoreTiles = true, bool checksRange = false)
         {
-            if (owner == null || !owner.whoAmI.WithinBounds(Main.player.Length) || !owner.MinionAttackTargetNPC.WithinBounds(Main.maxNPCs))
+            if (owner == null || !owner.whoAmI.ValidateIndex(Main.player.Length) || !owner.MinionAttackTargetNPC.ValidateIndex(Main.maxNPCs))
             {
-                return origin.InOriginClosestNPC(maxDistanceToCheck, ignoreTiles);
+                return origin.InPosClosestNPC(maxDistanceToCheck, ignoreTiles);
             }
             NPC npc = Main.npc[owner.MinionAttackTargetNPC];
             bool canHit = true;
@@ -809,7 +792,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
             {
                 return npc;
             }
-            return origin.InOriginClosestNPC(maxDistanceToCheck, ignoreTiles);
+            return origin.InPosClosestNPC(maxDistanceToCheck, ignoreTiles);
         }
 
         /// <summary>
@@ -820,7 +803,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <param name="Speed"></param>
         /// <param name="ShutdownDistance"></param>
         /// <returns></returns>
-        public static Vector2 GetChasingVelocity(Entity entity, Vector2 TargetCenter, float Speed, float ShutdownDistance)
+        public static Vector2 GetChasingVelocity(this Entity entity, Vector2 TargetCenter, float Speed, float ShutdownDistance)
         {
             if (entity == null) return Vector2.Zero;
 
@@ -836,7 +819,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <param name="TargetCenter">目标地点</param>
         /// <param name="acceleration">加速度系数</param>
         /// <returns></returns>
-        public static void AccelerationBehavior(Entity entity, Vector2 TargetCenter, float acceleration)
+        public static void AccelerationBehavior(this Entity entity, Vector2 TargetCenter, float acceleration)
         {
             if (entity.Center.X > TargetCenter.X) entity.velocity.X -= acceleration;
             if (entity.Center.X < TargetCenter.X) entity.velocity.X += acceleration;
@@ -844,11 +827,10 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
             if (entity.Center.Y < TargetCenter.Y) entity.velocity.Y += acceleration;
         }
 
-        /// <summary>
-        /// 处理实体的旋转行为
-        /// </summary>
         public static void EntityToRot(NPC entity, float ToRot, float rotSpeed)
         {
+            //entity.rotation = MathHelper.SmoothStep(entity.rotation, ToRot, rotSpeed);
+
             // 将角度限制在 -π 到 π 的范围内
             entity.rotation = MathHelper.WrapAngle(entity.rotation);
 
@@ -869,8 +851,10 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <summary>
         /// 处理实体的旋转行为
         /// </summary>
-        public static void EntityToRot(Projectile entity, float ToRot, float rotSpeed)
+        public static void EntityToRot(this Projectile entity, float ToRot, float rotSpeed)
         {
+            //entity.rotation = MathHelper.SmoothStep(entity.rotation, ToRot, rotSpeed);
+
             // 将角度限制在 -π 到 π 的范围内
             entity.rotation = MathHelper.WrapAngle(entity.rotation);
 
@@ -886,106 +870,6 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
             {
                 entity.rotation -= MathHelper.WrapAngle(-diff) * rotSpeed;
             }
-        }
-
-        /// <summary>
-        /// 在实体旋转的基础上返回相对应的速度向量
-        /// </summary>
-        public static Vector2 RotToSpeedVr(NPC entity, Vector2 targetCenter, float toRot, float speed, float shutdownDistance)
-        {
-            return (entity.rotation + MathHelper.ToRadians(90)).ToRotationVector2() * AsymptoticVelocity(entity.Center, targetCenter, speed, shutdownDistance) * -1;
-        }
-
-        #endregion
-
-        #region 实体初始化工具
-
-        /// <summary>
-        /// 创建一个弹射物并返回其实体索引
-        /// </summary>
-        /// <param name="sourceEntity">产生此弹射物的实体</param>
-        /// <param name="spanPos">弹射物的起始位置</param>
-        /// <param name="speedVr">弹射物的初始速度</param>
-        /// <param name="projectileType">弹射物的类型或ID</param>
-        /// <param name="damage">弹射物造成的伤害量</param>
-        /// <param name="knockBack">弹射物的击退效果</param>
-        /// <param name="owner">此弹射物的所有者ID</param>
-        /// <param name="ai0">弹射物的AI参数</param>
-        /// <param name="ai1">弹射物的AI参数</param>
-        /// <param name="ai2">弹射物的AI参数</param>
-        /// <param name="localAI0">弹射物的局部AI参数</param>
-        /// <param name="localAI1">弹射物的局部AI参数</param>
-        /// <param name="localAI2">弹射物的局部AI参数</param>
-        /// <param name="timeLeft">弹射物存在的时间，以游戏刻度为单位</param>
-        /// <param name="alpha">弹射物的透明度</param>
-        /// <param name="rotation">弹射物的旋转角度</param>
-        /// <param name="friendly">指示弹射物是否友好</param>
-        /// <param name="hostile">指示弹射物是否敌对</param>
-        /// <param name="tileCollide">指示弹射物是否与地图块发生碰撞</param>
-        /// <param name="size">弹射物的尺寸</param>
-        /// <param name="usesLocalNPCImmunityBool">指示是否使用本地NPC免疫功能</param>
-        /// <param name="localNPCHitCooldownFrame">当使用本地NPC免疫功能时，弹射物与同一NPC再次造成伤害之间的冷却时间（以游戏刻度为单位），值为 -1 表示它只能对特定 NPC 造成一次伤害。默认值 -2 没有效果</param>
-        /// <param name="idStaticNPCHitCooldownFrame">同一类型的弹射物再次对同一NPC造成伤害之间的冷却时间（以游戏刻度为单位）</param>
-        /// <returns>新创建弹射物的实体索引，如果出现内部异常将返回 -1 值</returns>
-        public static int CreateProjectile(
-            Entity sourceEntity,
-            Vector2 spanPos,
-            Vector2 speedVr,
-            int projectileType,
-            int damage = 0,
-            float knockBack = 0,
-            int owner = 0,
-            int ai0 = 0,
-            int ai1 = 0,
-            int ai2 = 0,
-            int localAI0 = 0,
-            int localAI1 = 0,
-            int localAI2 = 0,
-            int timeLeft = 60,
-            int alpha = 255,
-            float rotation = 0,           
-            bool friendly = false,
-            bool hostile = false,
-            bool tileCollide = false,
-            Vector2 size = default,
-            bool usesLocalNPCImmunityBool = false,
-            int localNPCHitCooldownFrame = 20,
-            int idStaticNPCHitCooldownFrame = 20
-            )
-        {
-            int obj = Projectile.NewProjectile(
-                GetEntitySource_Parent(sourceEntity),
-                spanPos,
-                speedVr,
-                projectileType,
-                damage,
-                knockBack,
-                owner,
-                ai0,
-                ai1,
-                ai2
-                );
-            Projectile projectile = GetProjectileInstance(obj);
-            if (projectile == null) return -1;
-
-            projectile.localAI[0] = localAI0;
-            projectile.localAI[1] = localAI1;
-            projectile.localAI[2] = localAI2;
-            projectile.timeLeft = timeLeft;
-            projectile.rotation = rotation;
-            projectile.alpha = alpha;
-            projectile.friendly = friendly;
-            projectile.hostile = hostile;
-            projectile.tileCollide = tileCollide;
-            projectile.Size = size = default ? new Vector2(projectile.width, projectile.height) : size;            
-            projectile.usesLocalNPCImmunity = usesLocalNPCImmunityBool;
-
-            if (!usesLocalNPCImmunityBool) return obj;
-
-            projectile.localNPCHitCooldown = localNPCHitCooldownFrame;
-            projectile.idStaticNPCHitCooldown = idStaticNPCHitCooldownFrame;
-
-            return obj;
         }
 
         #endregion

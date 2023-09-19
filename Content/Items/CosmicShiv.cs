@@ -50,11 +50,6 @@ namespace CalamityWeaponRemake.Content.Items
             return true;
         }
 
-        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
-        {
-            damage = (int)(damage * HcMath.HorizontalComparison(velocity));
-        }
-
         public override bool CanUseItem(Player player)
         {
             return true;

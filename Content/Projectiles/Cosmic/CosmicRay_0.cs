@@ -99,7 +99,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Cosmic
             ThisTimeValue++;
             if (ThisTimeValue > 30) SterDust = true;
 
-            NPC target = Projectile.Center.InOriginClosestNPC(9900);
+            NPC target = Projectile.Center.InPosClosestNPC(9900);
 
             if (AiBehavior.NPCAlive(target) == false) return;
 

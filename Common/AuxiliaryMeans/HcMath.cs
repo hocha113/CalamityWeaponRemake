@@ -43,14 +43,8 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
             float diff = MathHelper.WrapAngle(toRot - rot);
 
             // 选择修改幅度小的方向进行旋转
-            if (Math.Abs(diff) < MathHelper.Pi)
-            {
-                rot += diff * rotSpeed;
-            }
-            else
-            {
-                rot -= MathHelper.WrapAngle(-diff) * rotSpeed;
-            }
+            if (Math.Abs(diff) < MathHelper.Pi) rot += diff * rotSpeed;
+            else rot -= MathHelper.WrapAngle(-diff) * rotSpeed;
 
             return rot;
         }
@@ -62,10 +56,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <param name="targetAngle">目标角度（待比较角度）</param>
         /// <returns>从基准角度到目标角度的差异，范围在 -π 到 π 之间</returns>
         public static float CompareAngle(float baseAngle, float targetAngle)
-        {
-            // 计算两个角度之间的差异并将结果限制在 -π 到 π 的范围内
-            return (baseAngle - targetAngle + (float)Math.PI * 3) % MathHelper.TwoPi - (float)Math.PI;
-        }
+            => (baseAngle - targetAngle + (float)Math.PI * 3) % MathHelper.TwoPi - (float)Math.PI;// 计算两个角度之间的差异并将结果限制在 -π 到 π 的范围内
 
         /// <summary>
         /// 将给定的角度值转换为以 π 为中心的标准化角度
@@ -150,7 +141,10 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         {
             float angularSeparation = targetAngle - startAngle;
             double randomPosx = (angularSeparation * HcRandom.NextDouble() + startAngle) * (MathHelper.Pi / 180);
-            return new Vector2((float)Math.Cos(randomPosx), (float)Math.Sin(randomPosx)) * ModeLength;
+            float cosValue = (float)Math.Cos(randomPosx);
+            float sinValue = (float)Math.Sin(randomPosx);
+
+            return new Vector2(cosValue, sinValue) * ModeLength;
         }
 
         /// <summary>
@@ -165,36 +159,23 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <summary>
         /// 简单安全的获取一个单位向量，如果出现非法情况则会返回 <see cref="Vector2.Zero"/>
         /// </summary>
-        public static Vector2 UnitVector(this Vector2 vr)
-        {
-            Vector2 newVr = vr.SafeNormalize(Vector2.Zero);
-            return newVr;
-        }
+        public static Vector2 UnitVector(this Vector2 vr) => vr.SafeNormalize(Vector2.Zero);
 
         /// <summary>
         /// 计算两个向量的点积
         /// </summary>
-        public static float DotProduct(this Vector2 vr1, Vector2 vr2)
-        {
-            return vr1.X * vr2.X + vr1.Y * vr2.Y;
-        }
+        public static float DotProduct(this Vector2 vr1, Vector2 vr2) => vr1.X * vr2.X + vr1.Y * vr2.Y;
 
         /// <summary>
         /// 计算两个向量的叉积
         /// </summary>
-        public static float CrossProduct(this Vector2 vr1, Vector2 vr2)
-        {
-            return vr1.X * vr2.Y - vr1.Y * vr2.X;
-        }
+        public static float CrossProduct(this Vector2 vr1, Vector2 vr2) => vr1.X * vr2.Y - vr1.Y * vr2.X;
 
         /// <summary>
         /// 获取向量与另一个向量的夹角
         /// </summary>
         /// <returns>返回劣弧角，即取值范围为 0 到 π 弧度之间</returns>
-        public static float VetorialAngle(this Vector2 vr1, Vector2 vr2)
-        {
-            return (float)Math.Acos(vr1.DotProduct(vr2) / (vr1.Length() * vr2.Length()));
-        }
+        public static float VetorialAngle(this Vector2 vr1, Vector2 vr2) => (float)Math.Acos(vr1.DotProduct(vr2) / (vr1.Length() * vr2.Length()));
 
         /// <summary>
         /// 计算从中心点到目标点的角度（以弧度为单位）
@@ -202,18 +183,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <param name="destination">目标点</param>
         /// <param name="center">中心点</param>
         /// <returns>从中心点到目标点的角度（以弧度为单位）</returns>
-        public static float AngleTo(Vector2 destination, Vector2 center)
-        {
-            return (float)Math.Atan2(destination.Y - center.Y, destination.X - center.X);
-        }
-
-        public static float HorizontalComparison(Vector2 vr)
-        {
-            int mode = 1;
-            if (vr.X < 0) mode = -1;
-
-            return (3.7f - Math.Abs(vr.DotProduct(new Vector2(0, mode)))) / MathHelper.Pi;
-        }
+        public static float AngleTo(Vector2 destination, Vector2 center) => (float)Math.Atan2(destination.Y - center.Y, destination.X - center.X);
 
         /// <summary>
         /// 一个随机布尔值获取方法
@@ -224,20 +194,8 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <returns></returns>
         public static bool RandomBooleanValue(int ProbabilityDenominator, int ProbabilityExpectation, bool DesiredObject)
         {
-            int randomInt = (int)HcRandom.NextInt64(0, ProbabilityDenominator);
-
-            if (DesiredObject && randomInt == ProbabilityExpectation)
-            {
-                return true;
-            }
-            else if (randomInt == ProbabilityExpectation)
-            {
-                return false;
-            }
-            else
-            {
-                return false;
-            }
+            int randomInt = HcRandom.Next(0, ProbabilityDenominator);
+            return randomInt == ProbabilityExpectation && DesiredObject;
         }
 
         /// <summary>
@@ -254,88 +212,6 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
                     return 1;
                 else
                     return 0;
-            }
-        }
-
-        /// <summary>
-        /// 获取一组离散点
-        /// </summary>
-        /// <param name="numPoints">点数量，这将决定数组的索引值</param>
-        /// <param name="Length">随机长度</param>
-        /// <param name="Deviation">随机宽度</param>
-        /// <param name="startPosition">开始位置</param>
-        /// <param name="destinationPosition">结束位置，如果不输入则默认让点的分布末端离散</param>
-        /// <returns>返回一串向量值类型的点数组</returns>
-        public static Vector2[] GetRandomPos(int numPoints, float Length, float Deviation, Vector2 startPosition, Vector2 destinationPosition = default)
-        {
-            Vector2[] PosNillm = new Vector2[numPoints];
-            Vector2 Pos = startPosition;
-            float intervalY = Length / numPoints;
-            float NewInterval = 0;
-            if (destinationPosition == default)
-            {
-                for (int i = 0; i < numPoints; i++)
-                {
-                    intervalY += (float)HcRandom.NextDouble() * intervalY * 0.15f * HcRandom.Next(-1, 2);
-                    NewInterval += intervalY;
-                    float intervalX = HcRandom.Next(-1, 2) * NewInterval;
-                    Vector2 RandomVr = new Vector2(intervalX, intervalY);
-                    Pos += RandomVr;
-                    PosNillm[i] = Pos;
-                }
-                return PosNillm;
-            }
-            else
-            {
-                for (int i = 0; i < numPoints / 2; i++)
-                {
-                    intervalY += (float)HcRandom.NextDouble() * intervalY * 0.15f * HcRandom.Next(-1, 2);
-                    NewInterval += intervalY;
-                    float intervalX = HcRandom.Next(-1, 2) * NewInterval;
-                    Vector2 RandomVr = new Vector2(intervalX, intervalY);
-                    Pos += RandomVr;
-                    PosNillm[i] = Pos;
-                }
-                for (int i = numPoints / 2; i < numPoints; i++)
-                {
-                    intervalY += (float)HcRandom.NextDouble() * intervalY * 0.15f * HcRandom.Next(-1, 2);
-                    NewInterval -= intervalY;
-                    float intervalX = HcRandom.Next(-1, 2) * NewInterval;
-                    Vector2 RandomVr = new Vector2(intervalX, intervalY);
-                    Pos += RandomVr;
-                    PosNillm[i] = Pos;
-                }
-                return PosNillm;
-            }
-        }
-
-        public static void GenerateCurve(ref List<Vector2> points, Vector2 startPoint, Vector2 endPoint, int numPoints, Vector2 controlPoint, float gravityFactor)
-        {
-            points = new List<Vector2>();
-
-            if (controlPoint == Vector2.Zero) controlPoint = (startPoint + endPoint) / 2f;
-
-            float curveLength = Vector2.Distance(startPoint, endPoint);    // 曲线长度
-
-            for (int i = 0; i < numPoints; i++)
-            {
-                float t = (float)i / (numPoints - 1);
-
-                // 根据贝塞尔曲线公式计算点的位置
-                float u = 1f - t;
-                float tt = t * t;
-                float uu = u * u;
-                float uuu = uu * u;
-                float ttt = tt * t;
-
-                // 根据双曲函数调整控制点的 Y 坐标
-                float adjustedControlPointY = controlPoint.Y + curveLength * gravityFactor * (float)Math.Tanh(t * Math.PI);
-
-                Vector2 adjustedControlPoint = new Vector2(controlPoint.X, adjustedControlPointY);
-
-                Vector2 point = uuu * startPoint + 3f * uu * t * adjustedControlPoint + 3f * u * tt * adjustedControlPoint + ttt * endPoint;
-
-                points.Add(point);
             }
         }
 
@@ -490,105 +366,12 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         }
 
         /// <summary>
-        /// 使用贝塞尔曲线算法生成离散的点集，常用于绘制不规则路径线条，如闪电
-        /// </summary>
-        public class LightningGenerator
-        {
-            public static Vector2[] GenerateLightning(Vector2 startPoint, Vector2 endPoint, int numPoints, float deviation)
-            {
-                Vector2[] controlPoints = GetControlPoints(startPoint, endPoint, numPoints, deviation);
-                Vector2[] lightningPath = GenerateBezierCurve(controlPoints, numPoints);
-
-                return lightningPath;
-            }
-
-            private static Vector2[] GetControlPoints(Vector2 startPoint, Vector2 endPoint, int numPoints, float deviation)
-            {
-                Vector2[] controlPoints = new Vector2[numPoints + 2];
-                controlPoints[0] = startPoint;
-                controlPoints[numPoints + 1] = endPoint;
-
-                float length = Vector2.Distance(startPoint, endPoint);
-                float segmentLength = length / (numPoints + 1);
-
-                for (int i = 1; i <= numPoints; i++)
-                {
-                    float t = i / (float)(numPoints + 1);
-                    float offset = deviation * (1 - 2 * t);
-                    Vector2 direction = Vector2.Normalize(endPoint - startPoint);
-                    Vector2 perpendicular = new Vector2(-direction.Y, direction.X);
-                    Vector2 controlPoint = startPoint + t * (endPoint - startPoint) + offset * perpendicular;
-
-                    controlPoints[i] = controlPoint;
-                }
-
-                return controlPoints;
-            }
-
-            private static Vector2[] GenerateBezierCurve(Vector2[] controlPoints, int numPoints)
-            {
-                Vector2[] curvePoints = new Vector2[numPoints];
-                for (int i = 0; i < numPoints; i++)
-                {
-                    float t = (i + 1) / (float)(numPoints + 1);
-                    curvePoints[i] = BezierInterpolation(controlPoints, t);
-                }
-
-                return curvePoints;
-            }
-
-            private static Vector2 BezierInterpolation(Vector2[] points, float t)
-            {
-                int n = points.Length - 1;
-                Vector2 result = Vector2.Zero;
-
-                for (int i = 0; i <= n; i++)
-                {
-                    float binomialCoefficient = BinomialCoefficient(n, i);
-                    float powerT = (float)Math.Pow(t, i);
-                    float powerOneMinusT = (float)Math.Pow(1 - t, n - i);
-                    result += binomialCoefficient * powerT * powerOneMinusT * points[i];
-                }
-
-                return result;
-            }
-
-            private static int BinomialCoefficient(int n, int k)
-            {
-                if (k == 0 || k == n)
-                {
-                    return 1;
-                }
-
-                int[] coefficients = new int[n + 1];
-                coefficients[0] = 1;
-
-                for (int i = 1; i <= n; i++)
-                {
-                    coefficients[i] = 1;
-                    for (int j = i - 1; j > 0; j--)
-                    {
-                        coefficients[j] += coefficients[j - 1];
-                    }
-                }
-
-                return coefficients[k];
-            }
-        }
-
-        /// <summary>
         /// 将游戏中的极角值转化为顺时针的正角值，处理角度对象
         /// </summary>
         public static float PolarToAngle_D(float polar)
         {
-            if (polar < 0)
-            {
-                return 360 + polar;
-            }
-            else
-            {
-                return polar;
-            }
+            if (polar < 0) return 360 + polar;
+            else return polar;
         }
 
         /// <summary>
@@ -605,32 +388,18 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// 检测索引的合法性
         /// </summary>
         /// <returns>合法将返回 <see cref="true"/></returns>
-        public static bool ValidateIndex(Array array, int index)
-        {
-            if (index < 0 || index > array.Length - 1) return false;
-            else return true;
-        }
-
+        public static bool ValidateIndex(this int index, Array array) => index >= 0 && index < array.Length;
 
         /// <summary>
         /// 检测索引的合法性
         /// </summary>
         /// <returns>合法将返回 <see cref="true"/></returns>
-        public static bool ValidateIndex(List<int> ts, int index)
-        {
+        public static bool ValidateIndex(List<int> ts, int index) => index >= 0 && index < ts.Count;
 
-            if (index < 0 || index > ts.Count - 1) return false;
-            else return true;
-        }
-
-        public static bool WithinBounds(this int index, int cap)
-        {
-            if (index >= 0)
-            {
-                return index < cap;
-            }
-            return false;
-        }
+        /// <summary>
+        /// 检测索引的合法性
+        /// </summary>
+        public static bool ValidateIndex(this int index, int cap) => index >= 0 && index < cap;
 
         /// <summary>
         /// 会自动替补-1元素
@@ -645,10 +414,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
             {
                 list[index] = valueToAdd;
             }
-            else
-            {
-                list.Add(valueToAdd);
-            }
+            else list.Add(valueToAdd);
         }
 
         /// <summary>
@@ -677,27 +443,28 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <param name="list"></param>
         public static void SweepLoadLists(ref List<int> list)
         {
-            if (list.Count > 0 && list.All(num => num == -1))
+            int count = list.Count;
+            int i = 0;
+            while (i < count)
             {
-                list.RemoveAll(num => num == -1);
+                if (list[i] == -1)
+                {
+                    list.RemoveAt(i);
+                    count--;
+                }
+                else i++;
             }
         }
 
         /// <summary>
         /// 单独的重载集合方法
         /// </summary>
-        public static void UnLoadList(ref List<int> Lists)
-        {
-            Lists = new List<int>();
-        }
+        public static void UnLoadList(ref List<int> Lists) => new List<int>();
 
         /// <summary>
         /// 将数组克隆出一份List类型
         /// </summary>
-        public static List<T> ToList<T>(this T[] array)
-        {
-            return new List<T>(array);
-        }
+        public static List<T> ToList<T>(this T[] array) => new List<T>(array);
 
         /// <summary>
         /// 对float集合进行平滑插值，precision不应该输入0值或者负值
@@ -717,8 +484,8 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
                 float currentValue = originalList[i];
                 float nextValue = originalList[i + 1];
                 float dis = nextValue - currentValue;
-                float absDis = Math.Abs(dis);
-                int numInterpolations = (int)absDis * precisionCounter;
+                int absDis = (int)Math.Abs(dis);
+                int numInterpolations = absDis * precisionCounter;
 
                 for (int j = 1; j <= numInterpolations; j++)
                 {
@@ -739,10 +506,9 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         public static List<Vector2> InterpolateVectorList(List<Vector2> originalList, float precision = 1)
         {
             if (precision <= 0) precision = 1;
-            int precisionCounter = (int)(1f / precision);
-            if (precisionCounter < 1) precisionCounter = 1;
+            int precisionCounter = Math.Max(1, (int)(1f / precision));
 
-            List<Vector2> interpolatedList = new List<Vector2>();
+            List<Vector2> interpolatedList = new List<Vector2>(originalList.Count * (2 * precisionCounter + 1));
 
             for (int i = 0; i < originalList.Count - 1; i++)
             {
@@ -750,15 +516,15 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
 
                 Vector2 currentValue = originalList[i];
                 Vector2 nextValue = originalList[i + 1];
-                float disX = Math.Abs(nextValue.X - currentValue.X);
-                float disY = Math.Abs(nextValue.Y - currentValue.Y);
-                float maxDis = Math.Max(disX, disY);
-                int numInterpolations = (int)maxDis * precisionCounter;
+                float maxDis = Math.Max(Math.Abs(nextValue.X - currentValue.X), Math.Abs(nextValue.Y - currentValue.Y));
+                int numInterpolations = Math.Max(1, (int)(maxDis * precisionCounter));
 
                 for (int j = 1; j <= numInterpolations; j++)
                 {
                     float t = j / (float)(numInterpolations + 1);
-                    Vector2 interpolatedValue = Vector2.Lerp(currentValue, nextValue, t);
+                    Vector2 interpolatedValue;
+                    interpolatedValue.X = MathHelper.Lerp(currentValue.X, nextValue.X, t);
+                    interpolatedValue.Y = MathHelper.Lerp(currentValue.Y, nextValue.Y, t);
                     interpolatedList.Add(interpolatedValue);
                 }
             }
@@ -782,21 +548,27 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
 
             List<Vector2> interpolatedList = new List<Vector2>();
 
+            Vector2[] controlPoints = new Vector2[4]; // 用于存储控制点
+
             for (int i = 0; i < originalList.Count - 1; i++)
             {
                 Vector2 startPoint = originalList[i];
                 Vector2 endPoint = originalList[i + 1];
 
                 // 创建贝塞尔曲线的控制点，这里使用中点
-                Vector2 controlPoint1 = (startPoint + endPoint) / 2;
-                Vector2 controlPoint2 = (startPoint + endPoint) / 2;
+                Vector2 midPoint = (startPoint + endPoint) / 2;
+
+                controlPoints[0] = startPoint;
+                controlPoints[1] = midPoint;
+                controlPoints[2] = midPoint;
+                controlPoints[3] = endPoint;
 
                 for (int j = 0; j <= precisionCounter; j++)
                 {
                     float t = j / (float)precisionCounter;
 
                     // 计算贝塞尔曲线点
-                    Vector2 interpolatedValue = CalculateBezierPoint(startPoint, controlPoint1, controlPoint2, endPoint, t);
+                    Vector2 interpolatedValue = CalculateBezierPoint(controlPoints, t);
                     interpolatedList.Add(interpolatedValue);
                 }
             }
@@ -807,21 +579,39 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         }
 
         // 计算贝塞尔曲线上的点
-        private static Vector2 CalculateBezierPoint(Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3, float t)
+        private static Vector2 CalculateBezierPoint(Vector2[] controlPoints, float t)
         {
             float u = 1 - t;
             float tt = t * t;
             float uu = u * u;
             float uuu = uu * u;
-            float ttu = tt * u;
+            //float ttu = tt * u;
             float ttt = tt * t;
 
-            Vector2 p = uuu * p0;
-            p += 3 * uu * t * p1;
-            p += 3 * u * tt * p2;
-            p += ttt * p3;
+            Vector2 p = uuu * controlPoints[0];
+            p += 3 * uu * t * controlPoints[1];
+            p += 3 * u * tt * controlPoints[2];
+            p += ttt * controlPoints[3];
 
             return p;
+        }
+
+        public const float TwoPi = MathF.PI * 2;
+        public const float FourPi = MathF.PI * 4;
+        public const float ThreePi = MathF.PI * 3;
+        public const float PiOver3 = MathF.PI / 3f;
+        public const float PiOver5 = MathF.PI / 5f;
+        public const float PiOver6 = MathF.PI / 6f;
+
+        /// <summary>
+        /// 一个速率不变的震荡因子
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns>返回值在 Pi 到 -Pi 之间</returns>
+        public static float Oscillation(float time)
+        {
+            float newTime = time % FourPi;
+            return newTime >= 0 && newTime < TwoPi ? -MathHelper.Pi + newTime : MathHelper.Pi - newTime;
         }
     }
 }

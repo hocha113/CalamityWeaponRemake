@@ -7,7 +7,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
     public static class Languages
     {
         /// <summary>
-        /// 根据语言选项返回字符
+        /// 一个根据语言选项返回字符的方法
         /// </summary>
         public static string Translation(string Chinese = null, string English = null, string Japanese = null, string Russian = null)
         {

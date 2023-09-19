@@ -100,7 +100,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Cosmic
             }
             if (Status == 1)
             {
-                NPC newTarget = Projectile.Center.InOriginClosestNPC(9900);
+                NPC newTarget = Projectile.Center.InPosClosestNPC(9900);
                 if (newTarget != null)
                 {
                     AiBehavior.ChasingBehavior(Projectile, newTarget.Center, 27f, 16);
