@@ -27,11 +27,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <summary>
         /// 获取生成源
         /// </summary>
-        public static EntitySource_Parent GetEntitySource_Parent(Entity entity)
-        {
-            EntitySource_Parent Source = new EntitySource_Parent(entity);
-            return Source;
-        }
+        public static EntitySource_Parent GetEntitySource_Parent(Entity entity) => new EntitySource_Parent(entity);
 
         /// <summary>
         /// 判断是否发生对视
@@ -353,6 +349,22 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         {
             if (npc == null) return false;
             return npc.active && npc.timeLeft > 0;
+        }
+
+        /// <summary>
+        /// 根据索引返回在player域中的player实例，同时考虑合法性校验
+        /// </summary>
+        /// <returns>当获取值非法时将返回 <see cref="null"/> </returns>
+        public static Player GetPlayerInstance(int playerIndex)
+        {
+            if (playerIndex.ValidateIndex(Main.player))
+            {
+                Player player = Main.player[playerIndex];
+
+                if (PlayerAlive(player)) return player;
+                else return null;
+            }
+            else return null;
         }
 
         /// <summary>

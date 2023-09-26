@@ -18,6 +18,11 @@ Items: {
 		DisplayName: A
 		Tooltip: ""
 	}
+
+	DragonsBreath: {
+		DisplayName: Dragons Breath
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -34,6 +39,11 @@ Projectiles: {
 	B.DisplayName: B
 	MightyStar.DisplayName: Mighty Star
 	StarDust.DisplayName: Star Dust
+	RenderDistort.DisplayName: Render Distort
+	RenderGap.DisplayName: Render Gap
+	DragonsBreathProjectiles.DisplayName: Dragons Breath Projectiles
+	DragonFireRupture.DisplayName: Dragon Fire Rupture
+	GunCasing.DisplayName: Gun Casing
 }
 
 Configs: {
