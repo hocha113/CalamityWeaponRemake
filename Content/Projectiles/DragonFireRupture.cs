@@ -119,15 +119,19 @@ namespace CalamityWeaponRemake.Content.Projectiles
             return AiBehavior.CircularHitboxCollision(Projectile.Center, 72, targetHitbox);
         }
 
-        int dorFireType = ModContent.BuffType<Dragonfire>();
+        int dorFireType => ModContent.BuffType<Dragonfire>();
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            Projectile.timeLeft -= 10;
+            Projectile.localNPCHitCooldown += 10;
             target.AddBuff(dorFireType, 180);
             base.OnHitNPC(target, hit, damageDone);
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
+            Projectile.timeLeft -= 15;
+            Projectile.localNPCHitCooldown += 30;
             target.AddBuff(dorFireType, 60);
             base.OnHitPlayer(target, info);
         }
@@ -166,6 +170,8 @@ namespace CalamityWeaponRemake.Content.Projectiles
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D mainValue = DrawUtils.GetT2DValue(Texture);
+            float slp = Projectile.timeLeft / 60f;
+            if (slp > 1) slp = 1;
 
             Main.EntitySpriteDraw(
                 mainValue,
@@ -174,7 +180,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
                 Color.White,
                 Projectile.rotation,
                 DrawUtils.GetOrig(mainValue, Projectile.frameCounter, 7),
-                Projectile.scale,
+                Projectile.scale * slp,
                 SpriteEffects.None,
                 0
                 );
@@ -190,7 +196,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
                 Color.White,
                 Projectile.rotation,
                 DrawUtils.GetOrig(mainValue, _ncb.frame, 7),
-                Projectile.scale,
+                Projectile.scale * slp,
                 SpriteEffects.None,
                 0
                 );

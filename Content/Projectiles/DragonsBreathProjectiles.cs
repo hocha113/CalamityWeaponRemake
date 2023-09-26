@@ -160,7 +160,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
             {
                 float angleOffset = MathHelper.ToRadians(-6 + i * 6);
                 Vector2 rotatedVel = (Projectile.rotation + angleOffset).ToRotationVector2() * 13f;
-                Projectile.NewProjectile(GetEntitySource_Parent(Projectile), shootPos, rotatedVel, fireCross, (int)(Projectile.damage * 0.62f), Projectile.knockBack, Owner.whoAmI);
+                Projectile.NewProjectile(GetEntitySource_Parent(Projectile), shootPos, rotatedVel, fireCross, (int)(Projectile.damage * 0.75f), Projectile.knockBack, Owner.whoAmI);
             }
         }
 

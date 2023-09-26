@@ -65,11 +65,11 @@
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\Dusts\" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="CalamityMod">
       <HintPath>..\..\ModReader\CalamityMod\CalamityMod.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\Dusts\" />
   </ItemGroup>
 </Project>
