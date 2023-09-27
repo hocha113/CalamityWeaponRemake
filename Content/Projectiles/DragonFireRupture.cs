@@ -122,6 +122,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
         int dorFireType => ModContent.BuffType<Dragonfire>();
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            Projectile.damage -= 15;
             Projectile.timeLeft -= 10;
             Projectile.localNPCHitCooldown += 10;
             target.AddBuff(dorFireType, 180);
@@ -130,6 +131,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
+            Projectile.damage -= 55;
             Projectile.timeLeft -= 15;
             Projectile.localNPCHitCooldown += 30;
             target.AddBuff(dorFireType, 60);

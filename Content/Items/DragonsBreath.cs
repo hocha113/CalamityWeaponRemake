@@ -26,7 +26,7 @@ namespace CalamityWeaponRemake.Content.Items
 
         public override void SetDefaults()
         {
-            Item.damage = 228;
+            Item.damage = 328;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 124;
             Item.height = 78;

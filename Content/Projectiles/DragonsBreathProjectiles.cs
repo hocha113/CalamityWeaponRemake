@@ -63,6 +63,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
 
         Player Owner => GetPlayerInstance(Projectile.owner);
         Vector2 toMou => Owner.Center.To(Main.MouseWorld);
+        bool spanSmogsBool = false;
         public override void AI()
         {
             ThisTimeValue++;
@@ -114,7 +115,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
                         Vector2 vr = (Projectile.rotation - MathHelper.ToRadians(Main.rand.NextFloat(80, 100)) * Owner.direction).ToRotationVector2() * Main.rand.NextFloat(3, 7) + Owner.velocity;
                         Projectile.NewProjectile(GetEntitySource_Parent(Projectile), Projectile.Center, vr, ModContent.ProjectileType<GunCasing>(), 10, Projectile.knockBack, Owner.whoAmI);
                     }
-
+                    spanSmogsBool = true;
                     ShootFire(shootPos);
                     SpawnDragonsBreathDust(shootPos, speed);
                     Projectile.rotation += MathHelper.ToRadians(-15) * Owner.direction;
@@ -127,6 +128,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
             {
                 if (ThisTimeValue % 30 == 0)
                 {
+                    spanSmogsBool = true;
                     SpawnDragonsBreathDust(shootPos, speed);                   
                     shootPos = Owner.Center + offset * 33 + offset.GetNormalVector() * 16 * Owner.direction;
                     SpawnSomgDust(shootPos, speed);
@@ -134,7 +136,6 @@ namespace CalamityWeaponRemake.Content.Projectiles
                     SoundEngine.PlaySound(in SoundID.Item74, shootPos);
                 }
             }
-            
         }
 
         int fireType => ModContent.ProjectileType<DragonsBreathRound>();
@@ -218,7 +219,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            return null;
+            return false;
         }
 
         public override bool PreDraw(ref Color lightColor)
