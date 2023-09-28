@@ -1,4 +1,5 @@
-﻿using CalamityWeaponRemake.Content.Items;
+﻿using CalamityWeaponRemake.Content.Items.Melee;
+using CalamityWeaponRemake.Content.Items.Ranged;
 using Terraria;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;

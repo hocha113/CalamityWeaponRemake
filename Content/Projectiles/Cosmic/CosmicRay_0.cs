@@ -118,7 +118,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Cosmic
             float spikeAmplitude = 22f;
             float scale = Main.rand.NextFloat(1f, 1.35f);
 
-            for (float spikeAngle = 0f; spikeAngle < MathF.PI * 2f; spikeAngle += 0.01f)
+            for (float spikeAngle = 0f; spikeAngle < MathF.PI * 2f; spikeAngle += 0.1f)
             {
                 Vector2 offset = spikeAngle.ToRotationVector2() * (2f + (float)(Math.Sin(angle + spikeAngle * (float)numSpikes) + 1.0) * spikeAmplitude)
                                  * Main.rand.NextFloat(0.95f, 1.05f);
@@ -151,6 +151,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Cosmic
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            Projectile.localNPCHitCooldown += 2;
+            Projectile.damage -= 15;
+
             if (SterDust)
             {
                 NewSterDust(target.Center);

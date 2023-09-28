@@ -18,11 +18,11 @@ using static CalamityWeaponRemake.Common.AuxiliaryMeans.AiBehavior;
 using static CalamityWeaponRemake.Common.DrawTools.DrawUtils;
 using static Terraria.ModLoader.PlayerDrawLayer;
 
-namespace CalamityWeaponRemake.Content.Projectiles
+namespace CalamityWeaponRemake.Content.Projectiles.Ranged
 {
     internal class DragonsBreathProjectiles : CustomProjectiles
     {
-        public override string Texture => CWRConstant.Item + "DragonsBreath";
+        public override string Texture => CWRConstant.Item_Ranged + "DragonsBreath";
 
         public override void SetStaticDefaults()
         {
@@ -53,7 +53,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
 
         public override void OnSpawn(IEntitySource source)
         {
-            if (Owner != null) Projectile.rotation = toMou.ToRotation();           
+            if (Owner != null) Projectile.rotation = toMou.ToRotation();
         }
 
         public override bool ShouldUpdatePosition()
@@ -100,7 +100,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
             {
                 if (ThisTimeValue % 60 == 0)
                 {
-                    Projectile.localAI[2] = 0;                    
+                    Projectile.localAI[2] = 0;
                 }
 
                 if (ThisTimeValue % 30 == 0 && ThisTimeValue % 60 != 0)
@@ -129,10 +129,10 @@ namespace CalamityWeaponRemake.Content.Projectiles
                 if (ThisTimeValue % 30 == 0)
                 {
                     spanSmogsBool = true;
-                    SpawnDragonsBreathDust(shootPos, speed);                   
+                    SpawnDragonsBreathDust(shootPos, speed);
                     shootPos = Owner.Center + offset * 33 + offset.GetNormalVector() * 16 * Owner.direction;
                     SpawnSomgDust(shootPos, speed);
-                    ShootFire2(shootPos);                   
+                    ShootFire2(shootPos);
                     SoundEngine.PlaySound(in SoundID.Item74, shootPos);
                 }
             }
@@ -149,7 +149,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
                 float angleOffset = MathHelper.ToRadians(-3 + i);
                 Vector2 rotatedVel = (Projectile.rotation + angleOffset).ToRotationVector2() * 13f;
                 Projectile.NewProjectile(GetEntitySource_Parent(Owner), shootPos, rotatedVel, (int)Projectile.localAI[1], Projectile.damage, Projectile.knockBack, Owner.whoAmI);
-                Projectile.NewProjectile(GetEntitySource_Parent(Projectile), shootPos, rotatedVel, fireType, (int)(Projectile.damage * 1.2f), Projectile.knockBack, Owner.whoAmI);               
+                Projectile.NewProjectile(GetEntitySource_Parent(Projectile), shootPos, rotatedVel, fireType, (int)(Projectile.damage * 1.2f), Projectile.knockBack, Owner.whoAmI);
             }
         }
 
@@ -188,7 +188,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
                 }
                 float num = Main.rand.NextFloat(3f, 13f) * splNum;
                 float angleRandom = 0.06f;
-                Vector2 dustVel = Utils.RotatedBy(new Vector2(num, 0f), (double)velocity.ToRotation(), default(Vector2));
+                Vector2 dustVel = new Vector2(num, 0f).RotatedBy((double)velocity.ToRotation(), default);
                 dustVel = dustVel.RotatedBy(0f - angleRandom);
                 dustVel = dustVel.RotatedByRandom(2f * angleRandom);
                 if (Main.rand.NextBool(4))

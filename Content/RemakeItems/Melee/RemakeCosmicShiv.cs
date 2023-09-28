@@ -10,7 +10,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityWeaponRemake.Content.RemakeItems
+namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
     public class RemakeCosmicShiv : GlobalItem
     {

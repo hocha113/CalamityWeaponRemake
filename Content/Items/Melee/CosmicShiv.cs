@@ -1,19 +1,23 @@
 ﻿using CalamityMod.Items;
+using CalamityMod.Projectiles.Melee.Shortswords;
 using CalamityMod.Rarities;
+using CalamityMod;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.Interfaces;
-using CalamityWeaponRemake.Content.Projectiles.Cosmic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityWeaponRemake.Content.Projectiles.Cosmic;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using System;
 
-namespace CalamityWeaponRemake.Content.Items
+namespace CalamityWeaponRemake.Content.Items.Melee
 {
-    internal class DimensionalRupture : CustomItems
+    internal class CosmicShiv : CustomItems
     {
-        public override string Texture => CWRConstant.Item + "DimensionalRupture";
+        public override string Texture => CWRConstant.Item + "Melee/" + "CosmicShiv";
 
         public override void SetStaticDefaults()
         {
@@ -24,22 +28,25 @@ namespace CalamityWeaponRemake.Content.Items
         {
             Item.useStyle = ItemUseStyleID.Rapier;
             Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = 30;
-            Item.useTime = 30;
+            Item.useAnimation = 15;
+            Item.useTime = 15;
             Item.width = 44;
             Item.height = 44;
-            Item.damage = 258;
+            Item.damage = 218;
             Item.knockBack = 9f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<MightyStar>();
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
+            Item.shoot = ModContent.ProjectileType<CosmicShivProjectile>();
             Item.shootSpeed = 2.4f;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.Calamity().donorItem = true;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {            
+        {
             return true;
         }
 

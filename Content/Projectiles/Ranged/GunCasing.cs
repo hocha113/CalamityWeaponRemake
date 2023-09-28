@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityWeaponRemake.Content.Projectiles
+namespace CalamityWeaponRemake.Content.Projectiles.Ranged
 {
     internal class GunCasing : CustomProjectiles
     {
@@ -61,7 +61,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
             Projectile.rotation += MathHelper.ToRadians(Projectile.velocity.X * 13);
             Projectile.velocity += new Vector2(0, 0.1f);
 
-            if(ThisTimeValue % 13 == 0) Dust.NewDust(Projectile.Center, 3, 3, DustID.Smoke, Projectile.velocity.X, Projectile.velocity.Y);
+            if (ThisTimeValue % 13 == 0) Dust.NewDust(Projectile.Center, 3, 3, DustID.Smoke, Projectile.velocity.X, Projectile.velocity.Y);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

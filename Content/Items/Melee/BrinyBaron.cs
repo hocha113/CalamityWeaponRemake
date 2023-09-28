@@ -11,15 +11,15 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityWeaponRemake.Content.Items
+namespace CalamityWeaponRemake.Content.Items.Melee
 {
     internal class BrinyBaron : CustomItems
     {
-        public override string Texture => CWRConstant.Item + "BrinyBaron";
+        public override string Texture => CWRConstant.Item + "Melee/" + "BrinyBaron";
 
         public override void SetStaticDefaults()
         {
-            ItemID.Sets.ItemsThatAllowRepeatedRightClick[base.Item.type] = true;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -73,17 +73,17 @@ namespace CalamityWeaponRemake.Content.Items
 
         public override void HoldItem(Player player)
         {
-            
+
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
-            
+
         }
 
         public override void UpdateInventory(Player player)
         {
-            
+
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -105,25 +105,25 @@ namespace CalamityWeaponRemake.Content.Items
 
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            Vector2 speed= HcMath.RandomBooleanValue(2, 1, true) ? new Vector2(16, 0) : new Vector2(-16, 0);
+            Vector2 speed = HcMath.RandomBooleanValue(2, 1, true) ? new Vector2(16, 0) : new Vector2(-16, 0);
             if (Main.projectile.Count(n => n.active && n.type == ModContent.ProjectileType<SeaBlueBrinySpout>() && n.ai[1] == 1) <= 2)
             {
-                int proj = Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(player), target.Center, speed, ModContent.ProjectileType<SeaBlueBrinySpout>(), base.Item.damage, base.Item.knockBack, player.whoAmI);
+                int proj = Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(player), target.Center, speed, ModContent.ProjectileType<SeaBlueBrinySpout>(), Item.damage, Item.knockBack, player.whoAmI);
                 Main.projectile[proj].timeLeft = 60;
                 Main.projectile[proj].localAI[1] = 30;
             }
         }
 
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
-        {           
+        {
             if (player.ownedProjectileCounts[ModContent.ProjectileType<SeaBlueBrinySpout>()] == 0)
             {
-                Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(player), target.Center, Vector2.Zero, ModContent.ProjectileType<SeaBlueBrinySpout>(), base.Item.damage, base.Item.knockBack, player.whoAmI);
+                Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(player), target.Center, Vector2.Zero, ModContent.ProjectileType<SeaBlueBrinySpout>(), Item.damage, Item.knockBack, player.whoAmI);
             }
         }
 
         public override bool? UseItem(Player player)
-        {        
+        {
             if (player.altFunctionUse == 2)
             {
                 Item.noMelee = true;

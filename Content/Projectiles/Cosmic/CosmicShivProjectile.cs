@@ -15,7 +15,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Cosmic
 {
     internal class CosmicShivProjectile : BaseShortswordProjectile
     {
-        public override string Texture => CWRConstant.Item + "CosmicShiv";
+        public override string Texture => CWRConstant.Item_Melee + "CosmicShiv";
 
         public override Action<Projectile> EffectBeforePullback => delegate
         {

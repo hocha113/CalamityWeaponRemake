@@ -10,7 +10,29 @@
   <ItemGroup>
     <None Remove="Assets\BrinyBaron.png" />
     <None Remove="Assets\Cosmic.png" />
+    <None Remove="Assets\Effects\TerrorBlade.png" />
+    <None Remove="Assets\Effects\TerrorBladeGlow.png" />
+    <None Remove="Assets\Items\AethersWhisper.png" />
+    <None Remove="Assets\Items\AnahitasArpeggio.png" />
+    <None Remove="Assets\Items\BansheeHook.png" />
+    <None Remove="Assets\Items\BansheeHookGlow.png" />
+    <None Remove="Assets\Items\BlightedCleaver.png" />
+    <None Remove="Assets\Items\BlossomFlux.png" />
+    <None Remove="Assets\Items\BurntSienna.png" />
+    <None Remove="Assets\Items\CometQuasher.png" />
     <None Remove="Assets\Items\CosmicShiv.png" />
+    <None Remove="Assets\Items\DefiledGreatsword.png" />
+    <None Remove="Assets\Items\EntropicClaymore.png" />
+    <None Remove="Assets\Items\GildedProboscis.png" />
+    <None Remove="Assets\Items\MagneticMeltdown.png" />
+    <None Remove="Assets\Items\SubsumingVortex.png" />
+    <None Remove="Assets\Items\SubsumingVortexGlow.png" />
+    <None Remove="Assets\Items\TearsofHeaven.png" />
+    <None Remove="Assets\Items\Terratomere.png" />
+    <None Remove="Assets\Items\Thunderstorm.png" />
+    <None Remove="Assets\Items\TyrannysEnd.png" />
+    <None Remove="Assets\Items\VoidVortex.png" />
+    <None Remove="Assets\Items\VoltaicClimax.png" />
     <None Remove="Assets\Masking\BigGreyscaleCircle.png" />
     <None Remove="Assets\Masking\CosmicFlame.png" />
     <None Remove="Assets\Masking\EnergyTrail.png" />
@@ -65,7 +87,14 @@
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Assets\Items\Summon\" />
     <Folder Include="Content\Dusts\" />
+    <Folder Include="Content\Items\Summon\" />
+    <Folder Include="Content\Projectiles\Magic\" />
+    <Folder Include="Content\Projectiles\Melee\" />
+    <Folder Include="Content\Projectiles\Summon\" />
+    <Folder Include="Content\RemakeItems\Magic\" />
+    <Folder Include="Content\RemakeItems\Summon\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="CalamityMod">

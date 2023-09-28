@@ -4,7 +4,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Content.Projectiles;
+using CalamityWeaponRemake.Content.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -12,7 +12,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static CalamityWeaponRemake.Common.AuxiliaryMeans.AiBehavior;
 
-namespace CalamityWeaponRemake.Content.RemakeItems
+namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
 {
     internal class RemakeDragonsBreath : GlobalItem
     {
@@ -62,7 +62,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems
                 return false;
             }
             else
-            return base.Shoot(item, player, source, position, velocity, type, damage, knockback);
+                return base.Shoot(item, player, source, position, velocity, type, damage, knockback);
         }
     }
 }

@@ -183,7 +183,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Cosmic
                 Dust.NewDustPerfect(Projectile.Center, 173, value, 0, default(Color), scale).customData = 0.025f;
             }
 
-            //ShootCosmicShivBlade();
             CircularDamage(80f);
         }
 

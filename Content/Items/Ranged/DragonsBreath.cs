@@ -9,15 +9,15 @@ using CalamityMod.Rarities;
 using CalamityMod;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityWeaponRemake.Content.Projectiles;
 using static CalamityWeaponRemake.Common.AuxiliaryMeans.AiBehavior;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Content.Projectiles.Ranged;
 
-namespace CalamityWeaponRemake.Content.Items
+namespace CalamityWeaponRemake.Content.Items.Ranged
 {
     internal class DragonsBreath : CustomItems
     {
-        public override string Texture => CWRConstant.Item + "DragonsBreath";
+        public override string Texture => CWRConstant.Item + "Ranged/" + "DragonsBreath";
 
         public override void SetStaticDefaults()
         {
@@ -62,7 +62,7 @@ namespace CalamityWeaponRemake.Content.Items
                 if (player.altFunctionUse == 2)
                 {
                     Main.projectile[heldProj].ai[0] = 1;
-                }                              
+                }
             }
             if (heldProj.ValidateIndex(Main.projectile))
             {
