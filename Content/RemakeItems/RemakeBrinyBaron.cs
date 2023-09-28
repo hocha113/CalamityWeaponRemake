@@ -16,7 +16,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems
     {
         public override void SetDefaults(Item item)
         {
-            if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>())
+            if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>() && CWRConstant.ForceReplaceResetContent)
             {
                 item.damage = 110;
                 item.knockBack = 2f;
@@ -37,7 +37,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems
 
         public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>())
+            if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>() && CWRConstant.ForceReplaceResetContent)
             {
                 player.AddBuff(BuffID.Wet, 180);
                 Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(10)), type, damage, knockback, player.whoAmI);
@@ -50,7 +50,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems
 
         public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>())
+            if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>() && CWRConstant.ForceReplaceResetContent)
             {
                 if (player.altFunctionUse == 2)
                 {
@@ -67,7 +67,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems
 
         public override void ModifyHitNPC(Item item, Player player, NPC target, ref NPC.HitModifiers modifiers)
         {
-            if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>())
+            if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>() && CWRConstant.ForceReplaceResetContent)
             {
                 target.AddBuff(BuffID.Wet, 120);
                 int newDef = target.defDefense - 3;
@@ -79,7 +79,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems
 
         public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>())
+            if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>() && CWRConstant.ForceReplaceResetContent)
             {
                 Vector2 speed = HcMath.RandomBooleanValue(2, 1, true) ? new Vector2(16, 0) : new Vector2(-16, 0);
                 if (Main.projectile.Count(n => n.active && n.type == ModContent.ProjectileType<SeaBlueBrinySpout>() && n.ai[1] == 1) <= 2)
@@ -94,7 +94,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems
 
         public override bool? UseItem(Item item, Player player)
         {
-            if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>())
+            if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>() && CWRConstant.ForceReplaceResetContent)
             {
                 if (player.altFunctionUse == 2)
                 {
@@ -115,7 +115,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems
 
         public override void UseAnimation(Item item, Player player)
         {
-            if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>())
+            if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>() && CWRConstant.ForceReplaceResetContent)
             {
                 item.noUseGraphic = false;
                 item.UseSound = SoundID.Item1;

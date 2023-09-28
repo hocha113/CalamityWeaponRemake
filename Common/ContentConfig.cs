@@ -9,17 +9,13 @@ namespace CalamityWeaponRemake.Common
     {
         public override ConfigScope Mode => ConfigScope.ServerSide;
 
-        public ContentConfig()
-        {
-            ForceReplaceResetContent = true;
-            WeaponEnhancementSystem = false;
-        }
-
         [BackgroundColor(192, 54, 64, 192)]
+        [ReloadRequired]
         [DefaultValue(true)]
         public bool ForceReplaceResetContent { get; set; }
 
         [BackgroundColor(192, 54, 64, 192)]
+        [ReloadRequired]
         [DefaultValue(true)]
         public bool WeaponEnhancementSystem { get; set; }
 

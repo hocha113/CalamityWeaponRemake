@@ -1,4 +1,6 @@
-﻿namespace CalamityWeaponRemake.Common
+﻿using Terraria.ModLoader;
+
+namespace CalamityWeaponRemake.Common
 {
     public static class CWRConstant
     {
@@ -12,5 +14,8 @@
         public static string noEffects = "Assets/Effects/";
         public static string noItem = "Assets/Items/";
         public static string noProjectile = "Assets/Projectiles/";
+
+        public static bool ForceReplaceResetContent => ModContent.GetInstance<ContentConfig>().ForceReplaceResetContent;
+        public static bool WeaponEnhancementSystem => ModContent.GetInstance<ContentConfig>().WeaponEnhancementSystem;
     }
 }

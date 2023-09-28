@@ -2,6 +2,7 @@
 using CalamityMod.Items;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Rarities;
+using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Content.Projectiles;
 using Microsoft.Xna.Framework;
@@ -17,7 +18,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems
     {
         public override void SetDefaults(Item item)
         {
-            if (item.type == ModContent.ItemType<DragonsBreath>())
+            if (item.type == ModContent.ItemType<DragonsBreath>() && CWRConstant.ForceReplaceResetContent)
             {
                 item.damage = 328;
                 item.DamageType = DamageClass.Ranged;
@@ -44,7 +45,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems
         static int heldProj = -1;
         public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (item.type == ModContent.ItemType<DragonsBreath>())
+            if (item.type == ModContent.ItemType<DragonsBreath>() && CWRConstant.ForceReplaceResetContent)
             {
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<DragonsBreathProjectiles>()] == 0)
                 {

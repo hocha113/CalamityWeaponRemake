@@ -1,6 +1,7 @@
 ﻿using CalamityMod;
 using CalamityMod.Items;
 using CalamityMod.Rarities;
+using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Content.Projectiles.Cosmic;
 using Microsoft.Xna.Framework;
@@ -15,7 +16,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems
     {
         public override void SetDefaults(Item item)
         {
-            if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.CosmicShiv>())
+            if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.CosmicShiv>() && CWRConstant.ForceReplaceResetContent)
             {
                 item.useStyle = ItemUseStyleID.Rapier;
                 item.DamageType = DamageClass.Melee;
