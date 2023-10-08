@@ -47,7 +47,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
             return upPos;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
 
         }

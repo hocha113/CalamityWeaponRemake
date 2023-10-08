@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil;
 using System.Collections.Generic;
+using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -46,7 +47,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
         public override int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
         public override int ThisTimeValue { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Owner != null) Projectile.rotation = toMou.ToRotation();
         }
@@ -61,8 +62,27 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
             return false;
         }
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(Projectile.localAI[0]);
+            writer.Write(Projectile.localAI[1]);
+            writer.Write(Projectile.localAI[2]);
+            writer.Write(toMou.X);
+            writer.Write(toMou.Y);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Projectile.localAI[0] = reader.ReadInt32();
+            Projectile.localAI[1] = reader.ReadInt32();
+            Projectile.localAI[2] = reader.ReadInt32();
+            toMou.X = reader.ReadSingle();
+            toMou.Y = reader.ReadSingle();
+        }
+
         Player Owner => GetPlayerInstance(Projectile.owner);
-        Vector2 toMou => Owner.Center.To(Main.MouseWorld);
+        Vector2 toMou = Vector2.Zero;
+        Vector2 oldMou = Vector2.Zero;
         bool spanSmogsBool = false;
         public override void AI()
         {
@@ -77,14 +97,26 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
             {
                 if (Status == 0)
                 {
+                    if (Projectile.owner != Main.myPlayer) return;
                     if (PlayerInput.Triggers.Current.MouseLeft) Projectile.timeLeft = 2;
                     else Projectile.Kill();
                 }
                 if (Status == 1)
                 {
+                    if (Projectile.owner != Main.myPlayer) return;
                     if (PlayerInput.Triggers.Current.MouseRight) Projectile.timeLeft = 2;
                     else Projectile.Kill();
                 }
+            }
+
+            if (Projectile.IsOwnedByLocalPlayer())
+            {
+                if (oldMou != Main.MouseWorld)
+                {
+                    toMou = Owner.Center.To(Main.MouseWorld);
+                    Projectile.netUpdate = true;
+                    oldMou = Main.MouseWorld;
+                }                
             }
 
             Owner.direction = toMou.X > 0 ? 1 : -1;
@@ -122,6 +154,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
                     Owner.velocity += speed * -0.2f;
                     SoundEngine.PlaySound(in SoundID.Item38, shootPos);
                     Projectile.localAI[2]++;
+                    Projectile.netUpdate = true;
                 }
             }
             if (Status == 1)
@@ -134,6 +167,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
                     SpawnSomgDust(shootPos, speed);
                     ShootFire2(shootPos);
                     SoundEngine.PlaySound(in SoundID.Item74, shootPos);
+                    Projectile.netUpdate = true;
                 }
             }
         }

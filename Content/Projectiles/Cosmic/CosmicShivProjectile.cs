@@ -53,6 +53,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Cosmic
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            
             for (int i = 0; i < 36; i++)
             {
                 int dustID = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height - 16, 173);

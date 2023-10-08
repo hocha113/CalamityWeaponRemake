@@ -11,6 +11,7 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityWeaponRemake.Common.Interfaces;
 using CalamityWeaponRemake.Common;
+using System.IO;
 
 namespace CalamityWeaponRemake.Content.Projectiles
 {
@@ -54,7 +55,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
             get => (int)Projectile.localAI[0]; set => Projectile.localAI[0] = value;
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
 
         }
@@ -69,14 +70,30 @@ namespace CalamityWeaponRemake.Content.Projectiles
             return false;
         }
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(Projectile.localAI[0]);
+            writer.Write(Projectile.localAI[1]);
+            writer.Write(Projectile.localAI[2]);
+            writer.Write(Projectile.alpha);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Projectile.localAI[0] = reader.ReadInt32();
+            Projectile.localAI[1] = reader.ReadInt32();
+            Projectile.localAI[2] = reader.ReadInt32();
+            Projectile.alpha = reader.ReadInt32();
+        }
+
         public override void AI()
         {
             ThisTimeValue++;
 
             if (Status == 0)
             {
-                //if (MaxTierLimit == 0) MaxTierLimit = 5;
-                if (Magnifying == 0) Magnifying = 0.12f;
+                if (Magnifying == 0) 
+                    Magnifying = 0.12f;
                 Behavior++;
                 Status = 1;
             }
@@ -86,10 +103,12 @@ namespace CalamityWeaponRemake.Content.Projectiles
                 if (Behavior == 1)
                 {
                     OwnerProJindex = Projectile.whoAmI;
-                    Projectile.alpha = HcMath.HcRandom.Next(0, 10000);
+                    if (Projectile.IsOwnedByLocalPlayer()) 
+                        Projectile.alpha = HcMath.HcRandom.Next(0, 10000);
+                    Projectile.netUpdate = true;
                 }
 
-                if (Behavior <= MaxTierLimit && ThisTimeValue > 5)
+                if (Behavior <= MaxTierLimit && ThisTimeValue > 5 && Projectile.IsOwnedByLocalPlayer())
                 {
                     int proj = Projectile.NewProjectile(
                         AiBehavior.GetEntitySource_Parent(Projectile),
@@ -109,6 +128,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
                         newProj.localAI[1] = MaxTierLimit;
                         newProj.scale *= 1 + Behavior * Magnifying;
                         newProj.alpha = Projectile.alpha;
+                        newProj.netUpdate = true;
                     }
                     else
                     {
@@ -116,6 +136,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
                     }
 
                     Status = 2;
+                    Projectile.netUpdate = true;
                 }
             }
             if (Status == 2)
@@ -158,13 +179,6 @@ namespace CalamityWeaponRemake.Content.Projectiles
             else
             {
 
-            }
-
-            for (int i = 0; i < 3; i++)
-            {
-                //int dust = Dust.NewDust(Projectile.Center + new Vector2(-50 * Projectile.scale, 0), (int)(Projectile.width * Projectile.scale), (int)(Projectile.height * Projectile.scale), DustID.FireworkFountain_Red);
-                //Main.dust[dust].velocity = Main.dust[dust].position.To(Projectile.Center).SafeNormalize(Vector2.Zero) * HcMath.HcRandom.Next(7, 13) + Projectile.velocity * 1.3f;
-                //Main.dust[dust].noGravity = true;
             }
 
             if (PlayerInput.Triggers.Current.MouseRight) Projectile.Kill();

@@ -6,6 +6,10 @@ using Microsoft.Xna.Framework;
 using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System;
 
 namespace CalamityWeaponRemake.Common.AuxiliaryMeans
 {
@@ -35,16 +39,235 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
             return damageClass == intendedClass || damageClass.GetEffectInheritance(intendedClass);
         }
 
+        /// <summary>
+        /// 通过玩家ID、弹幕标识和可选的弹幕类型来获取对应的弹幕索引
+        /// </summary>
+        /// <param name="player">玩家的ID</param>
+        /// <param name="projectileIdentity">弹幕的标识</param>
+        /// <param name="projectileType">可选的弹幕类型</param>
+        /// <returns>找到的弹幕索引，如果未找到则返回 -1</returns>
+        public static int GetProjectileByIdentity(int player, int projectileIdentity, params int[] projectileType)
+        {
+            for (int i = 0; i < Main.maxProjectiles; i++)
+            {
+                if (Main.projectile[i].active && Main.projectile[i].identity == projectileIdentity && Main.projectile[i].owner == player
+                    && (projectileType.Length == 0 || projectileType.Contains(Main.projectile[i].type)))
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        /// <summary>
+        /// 创建一个新的召唤物投射物，并返回其索引
+        /// </summary>
+        /// <param name="source">实体来源</param>
+        /// <param name="spawn">生成位置</param>
+        /// <param name="velocity">初始速度</param>
+        /// <param name="type">投射物类型</param>
+        /// <param name="rawBaseDamage">原始基础伤害</param>
+        /// <param name="knockback">击退力度</param>
+        /// <param name="owner">所有者ID（默认为255）</param>
+        /// <param name="ai0">自定义AI参数0（默认为0）</param>
+        /// <param name="ai1">自定义AI参数1（默认为0）</param>
+        /// <returns>新投射物的索引</returns>
+        public static int NewSummonProjectile(IEntitySource source, Vector2 spawn, Vector2 velocity, int type, int rawBaseDamage, float knockback, int owner = 255, float ai0 = 0, float ai1 = 0)
+        {
+            int projectileIndex = Projectile.NewProjectile(source, spawn, velocity, type, rawBaseDamage, knockback, owner, ai0, ai1);
+            if (projectileIndex != Main.maxProjectiles)
+            {
+                Main.projectile[projectileIndex].originalDamage = rawBaseDamage;
+                Main.projectile[projectileIndex].ContinuouslyUpdateDamageStats = true;
+            }
+            return projectileIndex;
+        }
+
         #region NetUtils
 
         /// <summary>
-        /// 判断是否处于非服务端状态，如果是在单人或者客户端下将返回true
+        /// 判断是否处于客户端状态，如果是在单人或者服务端下将返回false
         /// </summary>
-        public static bool isClient => Main.netMode == NetmodeID.SinglePlayer || Main.netMode == NetmodeID.MultiplayerClient;
+        public static bool isClient => Main.netMode == NetmodeID.MultiplayerClient;
         /// <summary>
         /// 仅判断是否处于单人状态，在单人模式下返回true
         /// </summary>
         public static bool isSinglePlayer => Main.netMode == NetmodeID.SinglePlayer;
+        /// <summary>
+        /// 发收统一端口的实例
+        /// </summary>
+        public static ModPacket Packet => CalamityWeaponRemake.Instance.GetPacket();
+        /// <summary>
+        /// 检查一个 Projectile 对象是否属于当前客户端玩家拥有的，如果是，返回true
+        /// </summary>
+        public static bool IsOwnedByLocalPlayer(this Projectile projectile) => projectile.owner == Main.myPlayer;
+
+        /// <summary>
+        /// 同步整个世界状态
+        /// </summary>
+        public static void SyncWorld()
+        {
+            if (Main.dedServ)
+            {
+                NetMessage.SendData(7);
+            }
+        }
+
+        /// <summary>
+        /// 将指定数量的元素从二进制读取器读取到列表中，使用提供的读取函数
+        /// </summary>
+        /// <typeparam name="T">列表中的元素类型</typeparam>
+        /// <param name="reader">要读取的二进制读取器</param>
+        /// <param name="list">要填充读取元素的列表</param>
+        /// <param name="count">要读取的元素数量</param>
+        /// <param name="readFunction">用于从二进制读取器中读取类型 T 的元素的函数</param>
+        public static void ReadToList<T>(this BinaryReader reader, List<T> list, int count, Func<BinaryReader, T> readFunction)
+        {
+            list.Clear();
+            for (int i = 0; i < count; i++)
+            {
+                T value = readFunction(reader);
+                list.Add(value);
+            }
+        }
+
+        /// <summary>
+        /// 从二进制读取器中读取指定数量的整数到列表中
+        /// </summary>
+        /// <param name="reader">要读取的二进制读取器</param>
+        /// <param name="list">要填充读取整数的列表</param>
+        /// <param name="count">要读取的整数数量</param>
+        public static void ReadToList(this BinaryReader reader, List<int> list, int count)
+        {
+            list.Clear();
+            for (int i = 0; i < count; i++)
+            {
+                int value = reader.ReadInt32();
+                list.Add(value);
+            }
+        }
+
+        /// <summary>
+        /// 从二进制读取器中读取指定数量的字节到列表中
+        /// </summary>
+        /// <param name="reader">要读取的二进制读取器</param>
+        /// <param name="list">要填充读取字节的列表</param>
+        /// <param name="count">要读取的字节数量</param>
+        public static void ReadToList(this BinaryReader reader, List<byte> list, int count)
+        {
+            list.Clear();
+            for (int i = 0; i < count; i++)
+            {
+                byte value = reader.ReadByte();
+                list.Add(value);
+            }
+        }
+
+        /// <summary>
+        /// 从二进制读取器中读取指定数量的单精度浮点数到列表中
+        /// </summary>
+        /// <param name="reader">要读取的二进制读取器</param>
+        /// <param name="list">要填充读取单精度浮点数的列表</param>
+        /// <param name="count">要读取的单精度浮点数数量</param>
+        public static void ReadToList(this BinaryReader reader, List<float> list, int count)
+        {
+            list.Clear();
+            for (int i = 0; i < count; i++)
+            {
+                float value = reader.ReadSingle();
+                list.Add(value);
+            }
+        }
+
+        /// <summary>
+        /// 从二进制读取器中读取指定数量的二维向量到列表中
+        /// </summary>
+        /// <param name="reader">要读取的二进制读取器</param>
+        /// <param name="list">要填充读取二维向量的列表</param>
+        /// <param name="count">要读取的二维向量数量</param>
+        public static void ReadToList(this BinaryReader reader, List<Vector2> list, int count)
+        {
+            list.Clear();
+            for (int i = 0; i < count; i++)
+            {
+                float valueX = reader.ReadSingle();
+                float valueY = reader.ReadSingle();
+                list.Add(new Vector2(valueX, valueY));
+            }
+        }
+
+        /// <summary>
+        /// 将列表中的元素数量和元素内容写入二进制写入器，使用提供的写入函数
+        /// </summary>
+        /// <typeparam name="T">列表中的元素类型</typeparam>
+        /// <param name="writer">要写入的二进制写入器</param>
+        /// <param name="list">要写入的列表</param>
+        /// <param name="writeFunction">用于将类型 T 的元素写入二进制写入器的函数</param>
+        public static void WriteList<T>(this BinaryWriter writer, List<T> list, Action<BinaryWriter, T> writeFunction)
+        {
+            writer.Write(list.Count);
+            foreach (T value in list)
+            {
+                writeFunction(writer, value);
+            }
+        }
+
+        /// <summary>
+        /// 将整数列表写入二进制写入器
+        /// </summary>
+        /// <param name="writer">要写入的二进制写入器</param>
+        /// <param name="list">要写入的整数列表</param>
+        public static void WriteList(this BinaryWriter writer, List<int> list)
+        {
+            writer.Write(list.Count);
+            foreach (int value in list)
+            {
+                writer.Write(value);
+            }
+        }
+
+        /// <summary>
+        /// 将字节列表写入二进制写入器
+        /// </summary>
+        /// <param name="writer">要写入的二进制写入器</param>
+        /// <param name="list">要写入的字节列表</param>
+        public static void WriteList(this BinaryWriter writer, List<byte> list)
+        {
+            writer.Write(list.Count);
+            foreach (byte value in list)
+            {
+                writer.Write(value);
+            }
+        }
+
+        /// <summary>
+        /// 将单精度浮点数列表写入二进制写入器
+        /// </summary>
+        /// <param name="writer">要写入的二进制写入器</param>
+        /// <param name="list">要写入的单精度浮点数列表</param>
+        public static void WriteList(this BinaryWriter writer, List<float> list)
+        {
+            writer.Write(list.Count);
+            foreach (float value in list)
+            {
+                writer.Write(value);
+            }
+        }
+
+        /// <summary>
+        /// 将二维向量列表写入二进制写入器
+        /// </summary>
+        /// <param name="writer">要写入的二进制写入器</param>
+        /// <param name="list">要写入的二维向量列表</param>
+        public static void WriteList(this BinaryWriter writer, List<Vector2> list)
+        {
+            writer.Write(list.Count);
+            foreach (Vector2 value in list)
+            {
+                writer.Write(value.X);
+                writer.Write(value.Y);
+            }
+        }
 
 
         /// <summary>
@@ -108,10 +331,8 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
                 if (Main.netMode == NetmodeID.Server)
                     NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, n);
             }
-
             return n;
         }
-
         #endregion
     }
 }

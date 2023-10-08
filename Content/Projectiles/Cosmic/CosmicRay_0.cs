@@ -84,7 +84,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Cosmic
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             
         }
@@ -105,7 +105,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Cosmic
 
             Vector2 toTarget = Projectile.Center.To(target.Center);
 
-            if (ThisTimeValue % 10 == 0 && Projectile.timeLeft <= 60)
+            if (ThisTimeValue % 10 == 0 && Projectile.timeLeft <= 60 && Projectile.IsOwnedByLocalPlayer())
             {
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.rotation.ToRotationVector2() * 17, ModContent.ProjectileType<GalaxyStar>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
             }           

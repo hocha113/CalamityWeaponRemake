@@ -15,7 +15,7 @@ namespace CalamityWeaponRemake.Common.Interfaces
         public abstract int Behavior { get; set; }
         public abstract int ThisTimeValue { get; set; }
         public abstract override void OnSpawn(IEntitySource source);
-        public abstract override void Kill(int timeLeft);
+        public abstract override void OnKill(int timeLeft);
         public abstract override bool ShouldUpdatePosition();
         public abstract override void AI();
         public abstract override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox);

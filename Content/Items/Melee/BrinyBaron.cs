@@ -105,18 +105,22 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            Vector2 speed = HcMath.RandomBooleanValue(2, 1, true) ? new Vector2(16, 0) : new Vector2(-16, 0);
-            if (Main.projectile.Count(n => n.active && n.type == ModContent.ProjectileType<SeaBlueBrinySpout>() && n.ai[1] == 1) <= 2)
+            if (player.whoAmI == Main.myPlayer)
             {
-                int proj = Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(player), target.Center, speed, ModContent.ProjectileType<SeaBlueBrinySpout>(), Item.damage, Item.knockBack, player.whoAmI);
-                Main.projectile[proj].timeLeft = 60;
-                Main.projectile[proj].localAI[1] = 30;
-            }
+                Vector2 speed = HcMath.RandomBooleanValue(2, 1, true) ? new Vector2(16, 0) : new Vector2(-16, 0);
+                if (Main.projectile.Count(n => n.active && n.type == ModContent.ProjectileType<SeaBlueBrinySpout>() && n.ai[1] == 1) <= 2)
+                {
+                    int proj = Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(player), target.Center, speed, ModContent.ProjectileType<SeaBlueBrinySpout>(), Item.damage, Item.knockBack, player.whoAmI);
+                    Main.projectile[proj].timeLeft = 60;
+                    Main.projectile[proj].localAI[1] = 30;
+                    Main.projectile[proj].netUpdate = true;
+                }
+            }            
         }
 
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<SeaBlueBrinySpout>()] == 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<SeaBlueBrinySpout>()] == 0 && player.whoAmI == Main.myPlayer)
             {
                 Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(player), target.Center, Vector2.Zero, ModContent.ProjectileType<SeaBlueBrinySpout>(), Item.damage, Item.knockBack, player.whoAmI);
             }
