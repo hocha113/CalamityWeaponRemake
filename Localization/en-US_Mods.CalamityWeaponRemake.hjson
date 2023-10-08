@@ -81,6 +81,7 @@ Projectiles: {
 	Melee: {
 		CosmicShivProjectile.DisplayName: Cosmic Shiv Projectile
 		DimensionalRuptureProjectile.DisplayName: Dimensional Rupture Projectile
+		RemakeCosmicShivProjectile.DisplayName: Remake Cosmic Shiv Projectile
 	}
 
 	DimensionalRuptureProjectile.DisplayName: Dimensional Rupture Projectile
@@ -100,6 +101,9 @@ Projectiles: {
 	RemakeTerratomereHoldoutProj.DisplayName: Remake Terratomere Holdout Proj
 	RedLightningFeather.DisplayName: Red Lightning Feather
 	TerratomereBolt.DisplayName: Terratomere Bolt
+	GildedProboscisKevinLightning.DisplayName: Gilded Proboscis Kevin Lightning
+	TerratomereBigSlashs.DisplayName: Terratomere Big Slashs
+	TerratomereBolts.DisplayName: Terratomere Bolts
 }
 
 Configs: {

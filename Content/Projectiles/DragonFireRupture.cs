@@ -181,7 +181,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
                 DrawUtils.GetRec(mainValue, Projectile.frameCounter, 7),
                 Color.White,
                 Projectile.rotation,
-                DrawUtils.GetOrig(mainValue, Projectile.frameCounter, 7),
+                DrawUtils.GetOrig(mainValue, 7),
                 Projectile.scale * slp,
                 SpriteEffects.None,
                 0
@@ -197,7 +197,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
                 DrawUtils.GetRec(mainValue, _ncb.frame, 7),
                 Color.White,
                 Projectile.rotation,
-                DrawUtils.GetOrig(mainValue, _ncb.frame, 7),
+                DrawUtils.GetOrig(mainValue, 7),
                 Projectile.scale * slp,
                 SpriteEffects.None,
                 0

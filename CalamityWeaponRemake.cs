@@ -26,8 +26,6 @@ namespace CalamityWeaponRemake
             base.Load();
         }
 
-        
-
         public override void Unload()
         {
             base.Unload();

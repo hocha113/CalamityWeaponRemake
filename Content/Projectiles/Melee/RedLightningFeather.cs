@@ -108,7 +108,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 DrawUtils.GetRec(mainValue, Projectile.frameCounter, 4),
                 Color.White,
                 Projectile.rotation,
-                DrawUtils.GetOrig(mainValue, Projectile.frameCounter, 4),
+                DrawUtils.GetOrig(mainValue, 4),
                 Projectile.scale,
                 SpriteEffects.None,
                 0

@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework;
 using CalamityWeaponRemake.Common;
 using static Humanizer.In;
 using Terraria.GameInput;
+using CalamityWeaponRemake.Common.DrawTools;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 {
@@ -85,14 +87,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                     Projectile.rotation += MathHelper.ToRadians(25);
                     if (Projectile.localAI[1] % 10 == 0)
                     {
-                        for (int i = 0; i < 6; i++)
+                        for (int i = 0; i < 3; i++)
                         {
-                            Vector2 vr = HcMath.GetRandomVevtor(0, 360, 25);
+                            Vector2 vr = HcMath.GetRandomVevtor(0, 360, 15);
                             Projectile.NewProjectile(
                                 AiBehavior.GetEntitySource_Parent(owner),
                                 owner.Center,
                                 vr,
-                                ModContent.ProjectileType<BansheeHookScythe>(),
+                                ModContent.ProjectileType<RedLightningFeather>(),
                                 Projectile.damage / 2,
                                 0,
                                 owner.whoAmI
@@ -114,21 +116,17 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                         Projectile.Center = Vector2.Lerp(topos, Projectile.Center, 0.01f);
                         Projectile.rotation = toMous.ToRotation() + MathHelper.PiOver4;
 
-                        if (Projectile.localAI[1] > 10 && Projectile.localAI[1] % 20 == 0)
+                        if (Projectile.localAI[1] > 10 && owner.ownedProjectileCounts[ModContent.ProjectileType<GildedProboscisKevinLightning>()] == 0)
                         {
-                            for (int i = 0; i < 3; i++)
-                            {
-                                Vector2 spanPos = Main.MouseWorld + HcMath.GetRandomVevtor(0, 360, 160);
-                                Projectile.NewProjectile(
+                            Projectile.NewProjectile(
                                     AiBehavior.GetEntitySource_Parent(owner),
-                                    spanPos,
-                                    spanPos.To(Main.MouseWorld).UnitVector() * 15f,
-                                    ModContent.ProjectileType<BansheeHookScythe>(),
+                                    owner.Center,
+                                    owner.Center.To(Main.MouseWorld).UnitVector() * 15f,
+                                    ModContent.ProjectileType<GildedProboscisKevinLightning>(),
                                     Projectile.damage / 2,
                                     0,
                                     owner.whoAmI
                                     );
-                            }
                         }
                     }
                 }
@@ -152,6 +150,24 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 obj.statLife++;
                 obj.HealEffect(1);
             }
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D texture2D = DrawUtils.GetT2DValue(Texture);
+
+            if (Projectile.ai[1] == 0)
+            {
+                return base.PreDraw(ref lightColor);
+            }
+            else
+            {
+                Main.EntitySpriteDraw(
+                    texture2D, DrawUtils.WDEpos(Projectile.Center), null, lightColor,
+                    Projectile.rotation + MathHelper.PiOver2, DrawUtils.GetOrig(texture2D),
+                    Projectile.scale, SpriteEffects.None);
+                return false;
+            }         
         }
     }
 }

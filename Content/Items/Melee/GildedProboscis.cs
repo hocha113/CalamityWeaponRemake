@@ -13,11 +13,16 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 {
     internal class GildedProboscis : ModItem
     {
+        public const float TargetingDistance = 884f;
+
+        public const int LightningArea = 1800;
+
         public override string Texture => CWRConstant.Item_Melee + "GildedProboscis";
 
         public override void SetStaticDefaults()
         {
-            ItemID.Sets.Spears[base.Item.type] = true;
+            ItemID.Sets.Spears[Type] = true;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
         }
 
         public override void SetDefaults()
@@ -41,9 +46,19 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.shootSpeed = 13f;
         }
 
+        public override bool AltFunctionUse(Player player)
+        {
+            return true;
+        }
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            return base.Shoot(player, source, position, velocity, type, damage, knockback);
+            int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+            if (player.altFunctionUse == 2)
+            {
+                Main.projectile[proj].ai[1] = 1;
+            }
+            return false;
         }
 
         public override bool CanUseItem(Player player)

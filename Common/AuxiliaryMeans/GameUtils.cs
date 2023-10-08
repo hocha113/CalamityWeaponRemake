@@ -83,6 +83,9 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
             return projectileIndex;
         }
 
+        public static CWRnpc CWR(this NPC npc)
+            => npc.GetGlobalNPC<CWRnpc>();
+
         #region NetUtils
 
         /// <summary>

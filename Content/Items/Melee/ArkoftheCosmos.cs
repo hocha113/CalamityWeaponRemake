@@ -79,22 +79,22 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public override void SetDefaults()
         {
-            base.Item.width = (base.Item.height = 136);
-            base.Item.damage = 1770;
-            base.Item.DamageType = DamageClass.MeleeNoSpeed;
-            base.Item.noMelee = true;
-            base.Item.noUseGraphic = true;
-            base.Item.useAnimation = 15;
-            base.Item.useTime = 15;
-            base.Item.useTurn = true;
-            base.Item.useStyle = 5;
-            base.Item.knockBack = 9.5f;
-            base.Item.UseSound = null;
-            base.Item.autoReuse = true;
-            base.Item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            base.Item.shoot = 10;
-            base.Item.shootSpeed = 28f;
-            base.Item.rare = ModContent.RarityType<Violet>();
+            Item.width = (base.Item.height = 136);
+            Item.damage = 1770;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 15;
+            Item.useTime = 15;
+            Item.useTurn = true;
+            Item.useStyle = 5;
+            Item.knockBack = 9.5f;
+            Item.UseSound = null;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.shoot = 10;
+            Item.shootSpeed = 28f;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override void ModifyWeaponCrit(Player player, ref float crit)

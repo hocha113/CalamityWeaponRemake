@@ -156,7 +156,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 {
                     Vector2 vr = Owner.Center.To(Main.MouseWorld).UnitVector().RotatedBy(MathHelper.ToRadians(-10 + 10 * i));
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - vector * 0.4f, vr * 15, 
-                        ModContent.ProjectileType<TerratomereBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        ModContent.ProjectileType<TerratomereBolts>(), (int)(Projectile.damage * 0.65f), Projectile.knockBack, Projectile.owner);
                 }
             }
 
@@ -297,7 +297,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                     Vector2 spanPos = target.Center + offsetVr;
                     Vector2 vr = offsetVr.UnitVector() * -30;
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), spanPos, vr,
-                    ModContent.ProjectileType<TerratomereBigSlash>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    ModContent.ProjectileType<TerratomereBigSlashs>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
         }

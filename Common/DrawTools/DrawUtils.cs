@@ -85,7 +85,7 @@ namespace CalamityWeaponRemake.Common.DrawTools
         /// <param name="frameCounter">帧索引</param>
         /// <param name="frameCounterMax">总帧数，该值默认为1</param>
         /// <returns></returns>
-        public static Vector2 GetOrig(Texture2D value, int frameCounter, int frameCounterMax = 1)
+        public static Vector2 GetOrig(Texture2D value, int frameCounterMax = 1)
         {
             float singleFrameY = value.Height / frameCounterMax;
             return new Vector2(value.Width * 0.5f, singleFrameY / 2);

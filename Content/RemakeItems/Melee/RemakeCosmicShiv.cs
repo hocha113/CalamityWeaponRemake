@@ -3,7 +3,7 @@ using CalamityMod.Items;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Content.Projectiles.Cosmic;
+using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -30,7 +30,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 item.autoReuse = true;
                 item.noUseGraphic = true;
                 item.noMelee = true;
-                item.shoot = ModContent.ProjectileType<CosmicShivProjectile>();
+                item.shoot = ModContent.ProjectileType<RemakeCosmicShivProjectile>();
                 item.shootSpeed = 2.4f;
                 item.value = CalamityGlobalItem.Rarity14BuyPrice;
                 item.rare = ModContent.RarityType<DarkBlue>();
