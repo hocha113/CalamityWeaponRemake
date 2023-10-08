@@ -1,1 +1,2 @@
-CalamityWeaponRemake is a pretty cool mod, it does...this. Modify this file with a description of your mod.
+This mod is dedicated to rewriting certain items from the Calamity mod. 
+The way the rewritten content is integrated can be determined through adjustable settings!

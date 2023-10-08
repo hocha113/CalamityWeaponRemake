@@ -23,6 +23,56 @@ Items: {
 		// DisplayName: Dragons Breath
 		// Tooltip: ""
 	}
+
+	BansheeHook: {
+		// DisplayName: Banshee Hook
+		// Tooltip: ""
+	}
+
+	BlightedCleaver: {
+		// DisplayName: Blighted Cleaver
+		// Tooltip: ""
+	}
+
+	BurntSienna: {
+		// DisplayName: Burnt Sienna
+		// Tooltip: ""
+	}
+
+	CometQuasher: {
+		// DisplayName: Comet Quasher
+		// Tooltip: ""
+	}
+
+	DefiledGreatsword: {
+		// DisplayName: Defiled Greatsword
+		// Tooltip: ""
+	}
+
+	EntropicClaymore: {
+		// DisplayName: Entropic Claymore
+		// Tooltip: ""
+	}
+
+	GildedProboscis: {
+		// DisplayName: Gilded Proboscis
+		// Tooltip: ""
+	}
+
+	Terratomere: {
+		// DisplayName: Terratomere
+		// Tooltip: ""
+	}
+
+	TerrorBlade: {
+		// DisplayName: Terror Blade
+		// Tooltip: ""
+	}
+
+	ArkoftheCosmos: {
+		// DisplayName: Arkofthe Cosmos
+		// Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -44,6 +94,12 @@ Projectiles: {
 	// DragonsBreathProjectiles.DisplayName: Dragons Breath Projectiles
 	// DragonFireRupture.DisplayName: Dragon Fire Rupture
 	// GunCasing.DisplayName: Gun Casing
+	// HeldProjectiles.DisplayName: Held Projectiles
+	// RemakeBansheeHookScythe.DisplayName: Remake Banshee Hook Scythe
+	// RemakeBlazingPhantomBlade.DisplayName: Remake Blazing Phantom Blade
+	// RemakeTerratomereHoldoutProj.DisplayName: Remake Terratomere Holdout Proj
+	// RedLightningFeather.DisplayName: Red Lightning Feather
+	// TerratomereBolt.DisplayName: Terratomere Bolt
 }
 
 Configs: {

@@ -36,7 +36,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Cosmic
         public override int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
         public override int ThisTimeValue { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             Lighting.AddLight(Projectile.Center, new Vector3(92, 58, 156));
         }

@@ -25,6 +25,8 @@
     <None Remove="Assets\Items\EntropicClaymore.png" />
     <None Remove="Assets\Items\GildedProboscis.png" />
     <None Remove="Assets\Items\MagneticMeltdown.png" />
+    <None Remove="Assets\Items\Melee\ArkoftheCosmos.png" />
+    <None Remove="Assets\Items\Melee\ArkoftheCosmosGlow.png" />
     <None Remove="Assets\Items\SubsumingVortex.png" />
     <None Remove="Assets\Items\SubsumingVortexGlow.png" />
     <None Remove="Assets\Items\TearsofHeaven.png" />
@@ -79,6 +81,11 @@
     <None Remove="Assets\Projectiles\BrinyTyphoonBubble.png" />
     <None Remove="Assets\Projectiles\CosmicShivBlade.png" />
     <None Remove="Assets\Projectiles\Cyclone.png" />
+    <None Remove="Assets\Projectiles\Melee\BansheeHookScythe.png" />
+    <None Remove="Assets\Projectiles\Melee\BlazingPhantomBlade.png" />
+    <None Remove="Assets\Projectiles\Melee\DrataliornusFlame.png" />
+    <None Remove="Assets\Projectiles\Melee\GildedProboscisProj.png" />
+    <None Remove="Assets\Projectiles\Melee\RedLightningFeather.png" />
     <None Remove="Assets\Projectiles\TornadoProj.png" />
     <None Remove="Content\Projectiles\ModeProj.txt" />
     <None Remove="ModeText\ModeItemText.txt" />
@@ -91,7 +98,6 @@
     <Folder Include="Content\Dusts\" />
     <Folder Include="Content\Items\Summon\" />
     <Folder Include="Content\Projectiles\Magic\" />
-    <Folder Include="Content\Projectiles\Melee\" />
     <Folder Include="Content\Projectiles\Summon\" />
     <Folder Include="Content\RemakeItems\Magic\" />
     <Folder Include="Content\RemakeItems\Summon\" />

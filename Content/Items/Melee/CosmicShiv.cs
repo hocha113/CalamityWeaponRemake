@@ -15,14 +15,9 @@ using System;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {
-    internal class CosmicShiv : CustomItems
+    internal class CosmicShiv : ModItem
     {
         public override string Texture => CWRConstant.Item + "Melee/" + "CosmicShiv";
-
-        public override void SetStaticDefaults()
-        {
-
-        }
 
         public override void SetDefaults()
         {
@@ -53,21 +48,6 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         public override bool CanUseItem(Player player)
         {
             return true;
-        }
-
-        public override void HoldItem(Player player)
-        {
-
-        }
-
-        public override void Update(ref float gravity, ref float maxFallSpeed)
-        {
-
-        }
-
-        public override void UpdateInventory(Player player)
-        {
-
         }
 
         public override bool? UseItem(Player player)

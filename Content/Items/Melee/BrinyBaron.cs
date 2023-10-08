@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {
-    internal class BrinyBaron : CustomItems
+    internal class BrinyBaron : ModItem
     {
         public override string Texture => CWRConstant.Item + "Melee/" + "BrinyBaron";
 
@@ -69,21 +69,6 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         public override bool CanUseItem(Player player)
         {
             return true;
-        }
-
-        public override void HoldItem(Player player)
-        {
-
-        }
-
-        public override void Update(ref float gravity, ref float maxFallSpeed)
-        {
-
-        }
-
-        public override void UpdateInventory(Player player)
-        {
-
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

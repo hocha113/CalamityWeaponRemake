@@ -49,12 +49,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
 
         public override void OnKill(int timeLeft)
         {
-            if (Owner != null) Projectile.rotation = toMou.ToRotation();
+            if (Owner != null && Projectile.IsOwnedByLocalPlayer())
+                Projectile.rotation = Owner.Center.To(Main.MouseWorld).ToRotation();
         }
 
         public override void OnSpawn(IEntitySource source)
         {
-            if (Owner != null) Projectile.rotation = toMou.ToRotation();
+            if (Owner != null && Projectile.IsOwnedByLocalPlayer()) 
+                Projectile.rotation = Owner.Center.To(Main.MouseWorld).ToRotation();
         }
 
         public override bool ShouldUpdatePosition()
@@ -69,6 +71,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
             writer.Write(Projectile.localAI[2]);
             writer.Write(toMou.X);
             writer.Write(toMou.Y);
+            writer.Write(spanSmogsBool);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -78,6 +81,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
             Projectile.localAI[2] = reader.ReadInt32();
             toMou.X = reader.ReadSingle();
             toMou.Y = reader.ReadSingle();
+            spanSmogsBool = reader.ReadBoolean();
         }
 
         Player Owner => GetPlayerInstance(Projectile.owner);
@@ -95,18 +99,21 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
             }
             else
             {
-                if (Status == 0)
+                if (Projectile.IsOwnedByLocalPlayer())
                 {
-                    if (Projectile.owner != Main.myPlayer) return;
-                    if (PlayerInput.Triggers.Current.MouseLeft) Projectile.timeLeft = 2;
-                    else Projectile.Kill();
-                }
-                if (Status == 1)
-                {
-                    if (Projectile.owner != Main.myPlayer) return;
-                    if (PlayerInput.Triggers.Current.MouseRight) Projectile.timeLeft = 2;
-                    else Projectile.Kill();
-                }
+                    if (Status == 0)
+                    {
+                        if (Projectile.owner != Main.myPlayer) return;
+                        if (PlayerInput.Triggers.Current.MouseLeft) Projectile.timeLeft = 2;
+                        else Projectile.Kill();
+                    }
+                    if (Status == 1)
+                    {
+                        if (Projectile.owner != Main.myPlayer) return;
+                        if (PlayerInput.Triggers.Current.MouseRight) Projectile.timeLeft = 2;
+                        else Projectile.Kill();
+                    }
+                }                
             }
 
             if (Projectile.IsOwnedByLocalPlayer())
@@ -135,7 +142,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
                     Projectile.localAI[2] = 0;
                 }
 
-                if (ThisTimeValue % 30 == 0 && ThisTimeValue % 60 != 0)
+                if (ThisTimeValue % 30 == 0 && ThisTimeValue % 60 != 0 && !Main.dedServ)
                 {
                     SoundEngine.PlaySound(ModSound.loadTheRounds, Projectile.Center);
                 }
@@ -144,8 +151,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
                 {
                     for (int i = 0; i < 2; i++)
                     {
-                        Vector2 vr = (Projectile.rotation - MathHelper.ToRadians(Main.rand.NextFloat(80, 100)) * Owner.direction).ToRotationVector2() * Main.rand.NextFloat(3, 7) + Owner.velocity;
-                        Projectile.NewProjectile(GetEntitySource_Parent(Projectile), Projectile.Center, vr, ModContent.ProjectileType<GunCasing>(), 10, Projectile.knockBack, Owner.whoAmI);
+                        if (Projectile.IsOwnedByLocalPlayer())
+                        {
+                            Vector2 vr = (Projectile.rotation - MathHelper.ToRadians(Main.rand.NextFloat(80, 100)) * Owner.direction).ToRotationVector2() * Main.rand.NextFloat(3, 7) + Owner.velocity;
+                            Projectile.NewProjectile(GetEntitySource_Parent(Projectile), Projectile.Center, vr, ModContent.ProjectileType<GunCasing>(), 10, Projectile.knockBack, Owner.whoAmI);
+                        }                      
                     }
                     spanSmogsBool = true;
                     ShootFire(shootPos);
