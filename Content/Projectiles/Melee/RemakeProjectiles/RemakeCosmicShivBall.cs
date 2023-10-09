@@ -171,7 +171,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             float num = Main.rand.NextFloat(MathF.PI * 2f);
             int num2 = 5;

@@ -13,9 +13,9 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 {
     internal class GildedProboscis : ModItem
     {
-        public const float TargetingDistance = 884f;
+        public const float TargetingDistance = 2084f;
 
-        public const int LightningArea = 1800;
+        public const int LightningArea = 2800;
 
         public override string Texture => CWRConstant.Item_Melee + "GildedProboscis";
 

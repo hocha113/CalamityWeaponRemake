@@ -105,6 +105,8 @@ Projectiles: {
 	TerratomereBigSlashs.DisplayName: Terratomere Big Slashs
 	TerratomereBolts.DisplayName: Terratomere Bolts
 	TerratomereBeams.DisplayName: Terratomere Beams
+	AbominateHookScythe.DisplayName: Abominate Hook Scythe
+	AbominateSpirit.DisplayName: Abominate Spirit
 }
 
 Configs: {

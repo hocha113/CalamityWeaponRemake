@@ -12,6 +12,8 @@ using static Humanizer.In;
 using Terraria.GameInput;
 using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework.Graphics;
+using CalamityMod.Sounds;
+using Terraria.Audio;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 {
@@ -43,6 +45,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         }
 
         Player owner => AiBehavior.GetPlayerInstance(Projectile.owner);
+        int projIndex = -1;
         public override void AI()
         {
             if (Projectile.ai[1] == 0)
@@ -60,7 +63,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                                 Projectile.Center,
                                 vr,
                                 ModContent.ProjectileType<RedLightningFeather>(),
-                                Projectile.damage,
+                                Projectile.damage / 2,
                                 Projectile.knockBack,
                                 Main.myPlayer
                                 );
@@ -85,9 +88,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 {
                     Projectile.Center = owner.Center;
                     Projectile.rotation += MathHelper.ToRadians(25);
-                    if (Projectile.localAI[1] % 10 == 0)
+                        
+                    if (Projectile.localAI[1] % 20 == 0)
                     {
-                        for (int i = 0; i < 3; i++)
+                        SoundEngine.PlaySound(in CommonCalamitySounds.MeatySlashSound, Projectile.Center);
+                        for (int i = 0; i < 6; i++)
                         {
                             Vector2 vr = HcMath.GetRandomVevtor(0, 360, 15);
                             Projectile.NewProjectile(
@@ -95,7 +100,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                                 owner.Center,
                                 vr,
                                 ModContent.ProjectileType<RedLightningFeather>(),
-                                Projectile.damage / 2,
+                                Projectile.damage,
                                 0,
                                 owner.whoAmI
                                 );
@@ -118,16 +123,29 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
                         if (Projectile.localAI[1] > 10 && owner.ownedProjectileCounts[ModContent.ProjectileType<GildedProboscisKevinLightning>()] == 0)
                         {
-                            Projectile.NewProjectile(
+                            projIndex = Projectile.NewProjectile(
                                     AiBehavior.GetEntitySource_Parent(owner),
                                     owner.Center,
                                     owner.Center.To(Main.MouseWorld).UnitVector() * 15f,
                                     ModContent.ProjectileType<GildedProboscisKevinLightning>(),
-                                    Projectile.damage / 2,
+                                    Projectile.damage / 3,
                                     0,
                                     owner.whoAmI
                                     );
                         }
+                        Projectile kevin = AiBehavior.GetProjectileInstance(projIndex);
+                        if (kevin != null)
+                        {
+                            Vector2 pos = Projectile.Center + toMous.UnitVector() * 85;
+                            kevin.Center = pos;
+
+                            if (Projectile.localAI[1] > 500)
+                            {
+                                kevin.Kill();
+                                Projectile.ai[2] = 0;
+                                Projectile.localAI[1] = 0;
+                            }
+                        }                        
                     }
                 }
             }

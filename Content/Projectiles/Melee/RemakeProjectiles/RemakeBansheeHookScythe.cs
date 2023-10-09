@@ -32,22 +32,18 @@ public class RemakeBansheeHookScythe : ModProjectile
         Projectile.penetrate = -1;
         Projectile.timeLeft = 90;
         Projectile.usesLocalNPCImmunity = true;
-        Projectile.localNPCHitCooldown = -1;
+        Projectile.localNPCHitCooldown = 20;
     }
-
-    public int Status { get => (int)Projectile.ai[0]; set => Projectile.ai[0] = value; }
-    public int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
-    public int ThisTimeValue { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
 
     public override void AI()
     {
         Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.6f / 255f, 0f, 0f);
-        Projectile.localAI[0] += MathHelper.ToRadians(35);
+        Projectile.ai[0] += MathHelper.ToRadians(35);
         NPC target = Projectile.Center.InPosClosestNPC(600);
         if (Projectile.timeLeft < 65 && target != null)
         {
             Vector2 toTarget = Projectile.Center.To(target.Center).UnitVector();
-            Projectile.EntityToRot(toTarget.ToRotation(), 0.05f);
+            Projectile.EntityToRot(toTarget.ToRotation(), 0.07f);
             Projectile.velocity = Projectile.rotation.ToRotationVector2() * 15;
         }
     }
@@ -67,17 +63,36 @@ public class RemakeBansheeHookScythe : ModProjectile
     public override bool PreDraw(ref Color lightColor)
     {
         Texture2D mainValue = DrawUtils.GetT2DValue(Texture);
+        Color color = HcMath.RecombinationColor((Color.Red, 0.3f), (Projectile.GetAlpha(lightColor), 0.7f));
         Main.EntitySpriteDraw(
             mainValue,
             DrawUtils.WDEpos(Projectile.Center),
             null,
-            HcMath.RecombinationColor((Color.Red, 0.3f), (Projectile.GetAlpha(lightColor), 0.7f)),
-            Projectile.localAI[0],
+            color,
+            Projectile.ai[0],
             DrawUtils.GetOrig(mainValue),
             Projectile.scale,
             SpriteEffects.None,
             0
             );
+
+        for (int i = 0; i < Projectile.oldPos.Length; i++)
+        {
+            float alp = 1 - (i / (float)Projectile.oldPos.Length);
+            float slp = 1 - (i / (float)Projectile.oldPos.Length) * 0.5f;
+            Main.EntitySpriteDraw(
+                mainValue,
+                DrawUtils.WDEpos(Projectile.oldPos[i] + Projectile.Center - Projectile.position),
+                null,
+                color * alp * 0.5f,
+                Projectile.ai[0],
+                DrawUtils.GetOrig(mainValue),
+                Projectile.scale * slp,
+                SpriteEffects.None,
+                0
+            );
+        }
+
         return false;
     }
 }

@@ -83,7 +83,6 @@
     <None Remove="Assets\Projectiles\BrinySpout.png" />
     <None Remove="Assets\Projectiles\BrinyTyphoonBubble.png" />
     <None Remove="Assets\Projectiles\CosmicShivBlade.png" />
-    <None Remove="Assets\Projectiles\Cyclone.png" />
     <None Remove="Assets\Projectiles\Melee\BansheeHookScythe.png" />
     <None Remove="Assets\Projectiles\Melee\BlazingPhantomBlade.png" />
     <None Remove="Assets\Projectiles\Melee\DrataliornusFlame.png" />

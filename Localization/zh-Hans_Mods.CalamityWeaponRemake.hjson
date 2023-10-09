@@ -104,6 +104,7 @@ Projectiles: {
 	// GildedProboscisKevinLightning.DisplayName: Gilded Proboscis Kevin Lightning
 	// TerratomereBigSlashs.DisplayName: Terratomere Big Slashs
 	// TerratomereBolts.DisplayName: Terratomere Bolts
+	// TerratomereBeams.DisplayName: Terratomere Beams
 }
 
 Configs: {

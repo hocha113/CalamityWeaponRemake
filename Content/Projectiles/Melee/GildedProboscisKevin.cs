@@ -1,20 +1,19 @@
-﻿using CalamityMod.Particles;
-using CalamityMod;
+﻿using CalamityMod;
+using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Common.DrawTools;
+using CalamityWeaponRemake.Common.Effects;
+using CalamityWeaponRemake.Content.Items.Melee;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Utilities;
 using System;
+using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
-using CalamityWeaponRemake.Common.DrawTools;
-using Microsoft.Xna.Framework;
-using CalamityWeaponRemake.Content.Items.Melee;
-using CalamityWeaponRemake.Common.Effects;
-using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using Terraria.GameInput;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee
 {
@@ -40,12 +39,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             set;
         }
 
-        // This stores the sound slot of the electric sound it makes, so it may be properly updated in terms of position and looped.
         public SlotId ElectricitySound;
 
         public Player Owner => Main.player[Projectile.owner];
 
-        // This is necessary because render target work must be done.
         public bool CanUpdate
         {
             get => Projectile.localAI[0] == 1f;
@@ -58,7 +55,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public ref float LightningDistance => ref Projectile.localAI[0];
 
-        public static Color LightningColor => Color.Lerp(Color.Red, Color.Gold, 0.7f);
+        public static Color LightningColor => Color.Lerp(Color.DarkRed, Color.Gold, 0.7f);
 
         public override void SetStaticDefaults()
         {
@@ -72,13 +69,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
         {
             Projectile.width = Projectile.height = 30;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Magic;
+            Projectile.DamageType = DamageClass.Default;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 7200;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 6;
+            Projectile.localNPCHitCooldown = 5;
         }
 
         public override void OnSpawn(IEntitySource source)
@@ -97,34 +94,29 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public override void AI()
         {
-            // Die if no longer holding the click button or otherwise cannot use the item.
-            if (AiBehavior.PlayerAlive(Owner) == false)
+            //防御性代码，任何时候都不希望后续代码访问null值玩家或者非活跃的对象
+            if (AiBehavior.PlayerAlive(Owner) == false)                
             {
                 Projectile.Kill();
                 return;
             }
-
+            //按键判定，当主玩家释放右键时立刻杀死弹幕
             if (Projectile.IsOwnedByLocalPlayer())
             {
                 if (PlayerInput.Triggers.Current.MouseRight) Projectile.timeLeft = 2;
                 else Projectile.Kill();
             }
 
-            // Stick to the owner.
-            Projectile.Center = Owner.MountedCenter + Projectile.velocity * new Vector2(24f, 16f);
-
-            // Decide a target every frame.
+            //寻找目标
             TargetIndex = -1;
-            NPC potentialTarget = Projectile.Center.InPosClosestNPC(900);
+            NPC potentialTarget = Projectile.Center.InPosClosestNPC(GildedProboscis.TargetingDistance, false);
             if (potentialTarget != null)
             {
                 TargetIndex = potentialTarget.whoAmI;
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(potentialTarget.Center), 0.6f);
                 LightningDistance = Projectile.Distance(potentialTarget.Center);
             }
-
-            // If no target was found, aim the lightning in the direction of the mouse.
-            else if (Main.myPlayer == Owner.whoAmI)
+            else if (Main.myPlayer == Owner.whoAmI)//如果没找到，那么就让电流对准鼠标
             {
                 Vector2 aimDirection = Projectile.SafeDirectionTo(Main.MouseWorld);
                 if (Projectile.velocity != aimDirection)
@@ -135,25 +127,18 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 }
             }
 
-            // Clamp the lightning distance so that it does not exceed the range of the render target.
+            //电流的长度限制
             float maxLightningRange = GildedProboscis.LightningArea * 0.5f - 8f;
             if (LightningDistance >= maxLightningRange)
                 LightningDistance = maxLightningRange;
 
-            // Determine the direction the owner should face.
             Owner.ChangeDir(Math.Sign(Projectile.velocity.X));
 
-            // Determine the rotation based on the direction of the velocity.
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            // Continuously use mana. If the owner has no more mana to use, destroy this projectile.
-            if (Time % 5f == 4f && !Owner.CheckMana(Owner.ActiveItem(), -1, true))
-                Projectile.Kill();
-
-            // Adjust player values such as arm rotation.
+            //玩家手臂适配
             AdjustPlayerValues();
 
-            // Decide frames.
             Projectile.frameCounter++;
             Projectile.frame = Projectile.frameCounter / 3 % Main.projFrames[Type];
 
@@ -176,12 +161,31 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            return projHitbox.Distance(targetHitbox.Center()) <= GildedProboscis.TargetingDistance;
+            bool collBool = false;
+            float point = 0;
+            if (Time > 51)
+            {
+                if (TargetIndex == -1)
+                {
+                    collBool = Collision.CheckAABBvLineCollision(
+                        targetHitbox.TopLeft(),
+                        targetHitbox.Size(),
+                        Projectile.Center,
+                        Main.MouseWorld,
+                        16,
+                        ref point
+                        );
+                }
+                else
+                {
+                    collBool = projHitbox.Distance(targetHitbox.Center()) <= GildedProboscis.TargetingDistance;
+                }
+            }           
+            return collBool;
         }
 
         public void UpdateLightningField()
         {
-            // Update the lightning effect every frame.
             Main.instance.GraphicsDevice.SetRenderTarget(TemporaryAuxillaryTarget.Target);
             Main.instance.GraphicsDevice.Clear(Color.Transparent);
 
@@ -189,14 +193,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.AnisotropicClamp, DepthStencilState.Default, Main.Rasterizer);
 
             Main.instance.GraphicsDevice.Textures[0] = LightningTarget.Target;
-            Main.instance.GraphicsDevice.Textures[1] = DrawUtils.GetT2DValue(CWRConstant.Masking + "WavyNoise");
+            Main.instance.GraphicsDevice.Textures[1] = DrawUtils.GetT2DValue(CWRConstant.Masking + "Extra_193");//WavyNoise
 
             float angularOffset = Projectile.oldRot[0] - Projectile.oldRot[1];
-            Vector2 lightningDirection = Projectile.velocity.SafeNormalize(Vector2.Zero);
+            Vector2 lightningDirection = Projectile.velocity.UnitVector();
 
             LightningCoordinateOffset += lightningDirection * -0.003f;
 
-            // Supply a bunch of parameters to the shader.
             var shader = EffectsRegistry.KevinLightningShader.Shader;
             shader.Parameters["uColor"].SetValue(LightningColor.ToVector3());
             shader.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly);
@@ -207,11 +210,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             shader.Parameters["noiseCoordsOffset"].SetValue(LightningCoordinateOffset);
             shader.Parameters["currentFrame"].SetValue(Main.GameUpdateCount);
             shader.Parameters["lightningLength"].SetValue(LightningDistance / LightningTarget.Target.Width + 0.5f);
-            shader.Parameters["zoomFactor"].SetValue(55f);
+            shader.Parameters["zoomFactor"].SetValue(75f);
             shader.Parameters["bigArc"].SetValue(Main.rand.NextBool(1));
             shader.CurrentTechnique.Passes["UpdatePass"].Apply();
 
-            // Draw the result to the next frame and copy it over.
             Main.spriteBatch.Draw(LightningTarget.Target, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, 0, 0f);
             Main.spriteBatch.End();
 
@@ -219,36 +221,80 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             LightningTarget.Target.CopyContentsFrom(TemporaryAuxillaryTarget.Target);
         }
 
-        // Kevin should be at maximum brightness at all times.
-        public override Color? GetAlpha(Color lightColor) => Color.White * Projectile.Opacity;
+        public override Color? GetAlpha(Color lightColor) => Color.DarkRed * Projectile.Opacity;
 
         public override bool PreDraw(ref Color lightColor)
         {
             if (LightningTarget.IsDisposed)
                 return true;
+            Texture2D mainValue = DrawUtils.GetT2DValue(CWRConstant.Masking + "Hexagram2_White");
+            int slp = (int)Time * 5;
+            if (slp > 255) slp = 255;
 
             Main.Rasterizer = RasterizerState.CullNone;
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            Main.spriteBatch.Draw(LightningTarget.Target, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation - MathHelper.PiOver2, LightningTarget.Target.Size() * 0.5f, Projectile.scale, 0, 0f);
+            if (slp >= 255) Main.spriteBatch.Draw(LightningTarget.Target, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation - MathHelper.PiOver2, LightningTarget.Target.Size() * 0.5f, Projectile.scale, 0, 0f);
+            for (int i = 0; i < 5; i++)
+            {
+                Main.spriteBatch.Draw(
+                    mainValue,
+                    DrawUtils.WDEpos(Projectile.Center),
+                    null,
+                    Color.Red,
+                    MathHelper.ToRadians(Time * 5 + i * 15),
+                    DrawUtils.GetOrig(mainValue),
+                    (slp / 755f),
+                    SpriteEffects.None,
+                    0
+                    );
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                Main.spriteBatch.Draw(
+                    mainValue,
+                    DrawUtils.WDEpos(Projectile.Center),
+                    null,
+                    Color.White,
+                    MathHelper.ToRadians(Time * 6 + i * 15),
+                    DrawUtils.GetOrig(mainValue),
+                    (slp / 1055f),
+                    SpriteEffects.None,
+                    0
+                    );
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                Main.spriteBatch.Draw(
+                    mainValue,
+                    DrawUtils.WDEpos(Projectile.Center),
+                    null,
+                    Color.Gold,
+                    MathHelper.ToRadians(Time * 9 + i * 15),
+                    DrawUtils.GetOrig(mainValue),
+                    (slp / 1355f),
+                    SpriteEffects.None,
+                    0
+                    );
+            }
             Main.spriteBatch.ResetBlendState();
-
             return true;
         }
 
-        public override bool? CanHitNPC(NPC target) => target.whoAmI == TargetIndex ? null : false;
-
-        // Apply hit effects to the affected NPC.
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             for (int i = 0; i < 8; i++)
             {
-                Vector2 sparkVelocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(2f, 8f);
-                Color sparkColor = Color.Lerp(LightningColor, Color.White, Main.rand.NextFloat(0.5f));
-                
-
-                sparkVelocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(2f, 23f);
-                Color arcColor = Color.Lerp(LightningColor, Color.White, Main.rand.NextFloat(0.1f, 0.65f));
+                Vector2 pos = new Vector2(
+                    Main.rand.Next(target.width / -2, target.width / 2),
+                    Main.rand.Next(target.height / -2, target.height / 2)
+                    );
+                Dust.NewDust(
+                    pos,
+                    13,
+                    13,
+                    DustID.WitherLightning
+                    );
             }
         }
 

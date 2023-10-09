@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using Terraria.GameInput;
 using CalamityWeaponRemake.Common.DrawTools;
+using Terraria.Audio;
+using Terraria.ID;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 {
@@ -78,8 +80,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 }
             }
             if (Projectile.ai[1] == 1)
-            {
-                if (PlayerInput.Triggers.Current.MouseRight) Projectile.timeLeft = 2;
+            {                
                 Projectile.velocity = Vector2.Zero;
                 if (owner == null)
                 {
@@ -89,15 +90,22 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 Projectile.localAI[1]++;
 
                 if (Projectile.IsOwnedByLocalPlayer())
+                {
+                    if (PlayerInput.Triggers.Current.MouseRight) Projectile.timeLeft = 2;
                     owner.direction = owner.Center.To(Main.MouseWorld).X > 0 ? 1 : -1;
+                }                    
 
                 if (Projectile.ai[2] == 0)
                 {
                     Projectile.Center = owner.Center;
                     Projectile.rotation += MathHelper.ToRadians(25);
-                    if (Projectile.localAI[1] % 10 == 0)
+                    if (Projectile.localAI[1] % 20 == 0)
                     {
-                        for (int i = 0; i < 6; i++)
+                        SoundEngine.PlaySound(
+                            SoundID.DD2_GhastlyGlaivePierce,
+                            Projectile.Center
+                            );
+                        for (int i = 0; i < 9; i++)
                         {
                             Vector2 vr = HcMath.GetRandomVevtor(0, 360, 25);
                             Projectile.NewProjectile(
@@ -124,8 +132,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                         Vector2 toMous = owner.Center.To(Main.MouseWorld).UnitVector();
                         Vector2 topos = toMous * 56 + owner.Center;
                         Projectile.Center = Vector2.Lerp(topos, Projectile.Center, 0.01f);
-                        Projectile.rotation = toMous.ToRotation() + MathHelper.PiOver4;
-                        
+                        Projectile.rotation = toMous.ToRotation();
+                        Projectile.localAI[2]++;
                         if (Projectile.localAI[1] > 10 && Projectile.localAI[1] % 20 == 0)
                         {
                             for (int i = 0; i < 3; i++)
@@ -135,8 +143,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                                     AiBehavior.GetEntitySource_Parent(owner),
                                     spanPos,
                                     spanPos.To(Main.MouseWorld).UnitVector() * 15f,
-                                    ModContent.ProjectileType<BansheeHookScythe>(),
-                                    Projectile.damage / 2,
+                                    ModContent.ProjectileType<AbominateHookScythe>(),
+                                    Projectile.damage,
                                     0,
                                     owner.whoAmI
                                     );
@@ -186,6 +194,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         {
             Texture2D texture2D = Projectile.spriteDirection == -1 ? ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Spears/BansheeHookAlt").Value
                 : ModContent.Request<Texture2D>(Texture).Value;
+            
             if (Projectile.ai[1] == 0)
             {
                 Vector2 position = Projectile.position + new Vector2(Projectile.width, Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
@@ -196,9 +205,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             {
                 Main.EntitySpriteDraw(
                     texture2D, DrawUtils.WDEpos(Projectile.Center), null, lightColor, 
-                    Projectile.rotation, DrawUtils.GetOrig(texture2D), 
+                    Projectile.rotation + MathHelper.PiOver4, DrawUtils.GetOrig(texture2D), 
                     Projectile.scale, SpriteEffects.None);
             }
+
+            
+
             return false;
         }
 
@@ -216,8 +228,68 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             {
                 Main.EntitySpriteDraw(
                     texture2D, DrawUtils.WDEpos(Projectile.Center), null, lightColor,
-                    Projectile.rotation, DrawUtils.GetOrig(texture2D),
+                    Projectile.rotation + MathHelper.PiOver4, DrawUtils.GetOrig(texture2D),
                     Projectile.scale, SpriteEffects.None);
+            }
+
+            DrawStar();
+        }
+
+        public void DrawStar()
+        {
+            if (Projectile.localAI[2] != 0)
+            {
+                Texture2D mainValue = DrawUtils.GetT2DValue(CWRConstant.Masking + "StarTexture_White");
+                Vector2 pos = DrawUtils.WDEpos(Projectile.Center + Projectile.rotation.ToRotationVector2() * 45 * Projectile.scale);
+                int Time = (int)Projectile.localAI[2];
+                int slp = Time * 5;
+                if (slp > 255) { slp = 255; }
+
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+                for (int i = 0; i < 5; i++)
+                {
+                    Main.spriteBatch.Draw(
+                        mainValue,
+                        pos,
+                        null,
+                        Color.Red,
+                        MathHelper.ToRadians(Time * 5 + i * 17),
+                        DrawUtils.GetOrig(mainValue),
+                        (slp / 1755f),
+                        SpriteEffects.None,
+                        0
+                        );
+                }
+                for (int i = 0; i < 5; i++)
+                {
+                    Main.spriteBatch.Draw(
+                        mainValue,
+                        pos,
+                        null,
+                        Color.White,
+                        MathHelper.ToRadians(Time * 6 + i * 17),
+                        DrawUtils.GetOrig(mainValue),
+                        (slp / 2055f),
+                        SpriteEffects.None,
+                        0
+                        );
+                }
+                for (int i = 0; i < 5; i++)
+                {
+                    Main.spriteBatch.Draw(
+                        mainValue,
+                        pos,
+                        null,
+                        Color.Gold,
+                        MathHelper.ToRadians(Time * 9 + i * 17),
+                        DrawUtils.GetOrig(mainValue),
+                        (slp / 2355f),
+                        SpriteEffects.None,
+                        0
+                        );
+                }
+                Main.spriteBatch.ResetBlendState();
             }
         }
 

@@ -1,0 +1,166 @@
+﻿using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Common.DrawTools;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+using Terraria.ID;
+using Terraria;
+using Terraria.ModLoader;
+using Terraria.DataStructures;
+using Microsoft.Xna.Framework.Audio;
+using Terraria.Audio;
+
+namespace CalamityWeaponRemake.Content.Projectiles.Melee
+{
+    internal class AbominateSpirit : ModProjectile
+    {
+        public override string Texture => CWRConstant.Projectile + "Mizu";
+
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailingMode[Type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Type] = 8;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 48;
+            Projectile.height = 48;
+            Projectile.scale = 3f;
+            Projectile.alpha = 100;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Default;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 90;
+            Projectile.extraUpdates = 2;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+        }
+
+        public ref float Status => ref Projectile.ai[0];
+
+        public override void OnSpawn(IEntitySource source)
+        {
+            SoundEngine.PlaySound(
+                SoundID.NPCDeath39,
+                Projectile.Center
+                );
+        }
+
+        public override void AI()
+        {
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            DrawUtils.ClockFrame(ref Projectile.frameCounter, 15, 2);
+
+            if (Status == 3)
+            {
+                Projectile.timeLeft = 2;
+                Projectile.scale *= 1.001f;
+                Player target = AiBehavior.GetPlayerInstance(Projectile.owner);
+                if (target != null)
+                {
+                    float leng = Projectile.Center.To(target.Center).Length();
+                    Projectile.ChasingBehavior(
+                        target.Center,
+                        3 + leng / 150f
+                        );
+                    if (leng < 60)
+                    {
+                        target.Heal(2);
+                        for (int i = 0; i < 13; i++)
+                        {
+                            Vector2 vr = HcMath.GetRandomVevtor(0, 360, Main.rand.Next(4, 7));
+                            Dust.NewDust(target.Center, 13, 13, DustID.HealingPlus, vr.X, vr.Y);
+                        }
+                        Projectile.Kill();
+                    }
+                }
+                if (Projectile.scale > 5)
+                {
+                    for (int i = 0; i < 13; i++)
+                    {
+                        Vector2 vr = HcMath.GetRandomVevtor(0, 360, Main.rand.Next(4, 7));
+                        Dust.NewDust(target.Center, 13, 13, DustID.HealingPlus, vr.X, vr.Y);
+                        Projectile.Kill();
+                    }
+                }
+            }
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            switch (Status)
+            {
+                case 0:
+                    target.AddBuff(BuffID.ShadowFlame, 360);
+                    target.AddBuff(BuffID.OnFire3, 360);
+                    target.AddBuff(BuffID.CursedInferno, 360);
+                    break;
+                case 1:
+                    int types = Main.rand.Next(0, 5);
+                    Player owner = AiBehavior.GetPlayerInstance(Projectile.owner);
+                    if (owner == null) return;
+                    switch (types)
+                    {
+                        case 0:
+                            owner.AddBuff(BuffID.WeaponImbueCursedFlames, 160);
+                            break;
+                        case 1:
+                            owner.AddBuff(BuffID.WeaponImbueFire, 160);
+                            break;
+                        case 2:
+                            owner.AddBuff(BuffID.WeaponImbueIchor, 160);
+                            break;
+                        case 3:
+                            owner.AddBuff(BuffID.WeaponImbuePoison, 160);
+                            break;
+                        case 4:
+                            owner.AddBuff(BuffID.WeaponImbueNanites, 160);
+                            break;
+                    }
+                    break;
+                case 2:
+                    target.AddBuff(BuffID.BloodButcherer, 360);
+                    target.AddBuff(BuffID.Daybreak, 360);
+                    break;
+            }
+        }
+
+        public override Color? GetAlpha(Color lightColor)
+        {
+            if (Projectile.timeLeft < 85)
+            {
+                byte b = (byte)(Projectile.timeLeft * 3);
+                byte alpha = (byte)(100f * (b / 255f));
+                return new Color(lightColor.R, lightColor.G, lightColor.B, alpha);
+            }
+
+            return new Color(255, 255, 255, 100);
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D mainValue = DrawUtils.GetT2DValue(Texture);
+            Color color = Color.White;
+            if (Status == 0) color = Color.DarkRed;
+            else if (Status == 1) color = Color.DarkGreen;
+            else if (Status == 2) color = Color.OliveDrab;
+            else color = Color.Gold;
+
+            Main.EntitySpriteDraw(
+                mainValue,
+                DrawUtils.WDEpos(Projectile.Center),
+                DrawUtils.GetRec(mainValue, Projectile.frameCounter, 3),
+                Projectile.GetAlpha(color),
+                Projectile.rotation - MathHelper.PiOver2,
+                DrawUtils.GetOrig(mainValue, 3),
+                Projectile.scale,
+                SpriteEffects.None,
+                0
+                );
+            return false;
+        }
+    }
+}
