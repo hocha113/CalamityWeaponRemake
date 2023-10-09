@@ -78,7 +78,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                     Vector2 spanPos = target.Center + offsetVr;
                     Vector2 vr = offsetVr.UnitVector() * -50;
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), spanPos, vr,
-                    ModContent.ProjectileType<TerratomereBigSlashs>(), Projectile.damage + 100, Projectile.knockBack, Projectile.owner);
+                    ModContent.ProjectileType<TerratomereBigSlashs>(), (int)(Projectile.damage *0.75f + 50), Projectile.knockBack, Projectile.owner);
                 }
             }
         }

@@ -156,7 +156,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 {
                     Vector2 vr = Owner.Center.To(Main.MouseWorld).UnitVector().RotatedBy(MathHelper.ToRadians(-10 + 10 * i));
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - vector * 0.4f, vr * 15, 
-                        ModContent.ProjectileType<TerratomereBolts>(), (int)(Projectile.damage * 0.65f), Projectile.knockBack, Projectile.owner);
+                        ModContent.ProjectileType<TerratomereBolts>(), (int)(Projectile.damage * 0.4f), Projectile.knockBack, Projectile.owner);
                 }
             }
 
@@ -164,11 +164,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             {
                 Vector2 vector2 = InitialRotation.ToRotationVector2() * Owner.ActiveItem().shootSpeed / 6f;
                 Vector2 position = Projectile.Center + vector2.SafeNormalize(Vector2.UnitY) * 64f;
-                int num = Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, vector2, ModContent.ProjectileType<TerratomereBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                int num = Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, vector2, ModContent.ProjectileType<TerratomereBeams>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 if (Main.projectile.IndexInRange(num))
                 {
                     Main.projectile[num].ai[0] = (Direction == 1f).ToInt();
-                    Main.projectile[num].ModProjectile<TerratomereBeam>().ControlPoints = GenerateSlashPoints().ToArray();
+                    Main.projectile[num].ModProjectile<TerratomereBeams>().ControlPoints = GenerateSlashPoints().ToArray();
                 }
             }
         }
