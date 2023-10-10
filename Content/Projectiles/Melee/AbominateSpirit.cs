@@ -33,16 +33,17 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 90;
+            Projectile.timeLeft = 120;
             Projectile.extraUpdates = 2;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -1;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public ref float Status => ref Projectile.ai[0];
 
         public override void OnSpawn(IEntitySource source)
         {
+            Projectile.rotation = Projectile.velocity.ToRotation();
             SoundEngine.PlaySound(
                 SoundID.NPCDeath39,
                 Projectile.Center
@@ -64,11 +65,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                     float leng = Projectile.Center.To(target.Center).Length();
                     Projectile.ChasingBehavior(
                         target.Center,
-                        3 + leng / 150f
+                        6 + leng / 100f
                         );
                     if (leng < 60)
                     {
-                        target.Heal(2);
+                        if (Projectile.ai[1] > 10000)
+                            target.Heal(Main.rand.Next(10, 15));
+                        else 
+                            target.Heal(Main.rand.Next(1, 3));
                         for (int i = 0; i < 13; i++)
                         {
                             Vector2 vr = HcMath.GetRandomVevtor(0, 360, Main.rand.Next(4, 7));
@@ -126,6 +130,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                     target.AddBuff(BuffID.Daybreak, 360);
                     break;
             }
+            Projectile.damage -= 20;
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -146,14 +151,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             Color color = Color.White;
             if (Status == 0) color = Color.DarkRed;
             else if (Status == 1) color = Color.DarkGreen;
-            else if (Status == 2) color = Color.OliveDrab;
+            else if (Status == 2) color = Color.Blue;
             else color = Color.Gold;
 
             Main.EntitySpriteDraw(
                 mainValue,
                 DrawUtils.WDEpos(Projectile.Center),
                 DrawUtils.GetRec(mainValue, Projectile.frameCounter, 3),
-                Projectile.GetAlpha(color),
+                HcMath.RecombinationColor((Projectile.GetAlpha(lightColor), 0.5f), (color, 0.5f)),
                 Projectile.rotation - MathHelper.PiOver2,
                 DrawUtils.GetOrig(mainValue, 3),
                 Projectile.scale,

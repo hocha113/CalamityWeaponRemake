@@ -107,6 +107,8 @@ Projectiles: {
 	TerratomereBeams.DisplayName: Terratomere Beams
 	AbominateHookScythe.DisplayName: Abominate Hook Scythe
 	AbominateSpirit.DisplayName: Abominate Spirit
+	SpiritFlame.DisplayName: Spirit Flame
+	DoGDeaths.DisplayName: Do G Deaths
 }
 
 Configs: {

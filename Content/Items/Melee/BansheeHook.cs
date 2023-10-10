@@ -12,6 +12,11 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
+using Terraria.Audio;
+using CalamityMod.Sounds;
+using CalamityMod.Items.Armor.Bloodflare;
+using static Humanizer.In;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {
@@ -87,6 +92,9 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, ai4);
             if (player.altFunctionUse == 2)
             {
+                SoundEngine.PlaySound(in CommonCalamitySounds.MeatySlashSound, player.Center);
+                SoundEngine.PlaySound(in BloodflareHeadRanged.ActivationSound, player.Center);
+                player.CWR().BansheeHookCharge = 0;
                 Main.projectile[proj].ai[1] = 1;
             }
             return false;

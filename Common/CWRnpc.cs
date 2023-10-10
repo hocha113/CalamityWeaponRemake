@@ -6,7 +6,7 @@ using Terraria.ModLoader.IO;
 
 namespace CalamityWeaponRemake.Common
 {
-    public class CWRnpc : GlobalNPC
+    public class CWRNpc : GlobalNPC
     {
         public override bool InstancePerEntity => true;
 

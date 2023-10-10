@@ -18,6 +18,7 @@ namespace CalamityWeaponRemake.Common
         public static string Projectile_Melee = "CalamityWeaponRemake/Assets/Projectiles/Melee/";
         public static string Projectile_Ranged = "CalamityWeaponRemake/Assets/Projectiles/Ranged/";
         public static string Projectile_Summon = "CalamityWeaponRemake/Assets/Projectiles/Summon/";
+        public static string UI = Asset + "UIs/";
 
         public static string noEffects = "Assets/Effects/";
         public static string noItem = "Assets/Items/";

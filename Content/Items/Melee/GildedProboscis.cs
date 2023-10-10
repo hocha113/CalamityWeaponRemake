@@ -8,6 +8,8 @@ using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
+using CalamityMod.Sounds;
+using Terraria.Audio;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {
@@ -56,6 +58,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (player.altFunctionUse == 2)
             {
+                SoundEngine.PlaySound(in CommonCalamitySounds.MeatySlashSound, player.Center);
                 Main.projectile[proj].ai[1] = 1;
             }
             return false;

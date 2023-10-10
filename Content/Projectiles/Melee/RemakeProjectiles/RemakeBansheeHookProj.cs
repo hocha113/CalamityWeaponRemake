@@ -16,6 +16,9 @@ using Terraria.GameInput;
 using CalamityWeaponRemake.Common.DrawTools;
 using Terraria.Audio;
 using Terraria.ID;
+using static Humanizer.In;
+using CalamityMod.Items.Armor.Bloodflare;
+using CalamityMod.Sounds;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 {
@@ -29,7 +32,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
         public override Action<Projectile> EffectBeforeReelback => delegate
         {
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Projectile.velocity * 0.5f, Projectile.velocity * 0.8f, ModContent.ProjectileType<RemakeBansheeHookScythe>(), Projectile.damage, Projectile.knockBack * 0.85f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Projectile.velocity * 0.5f, Projectile.velocity * 0.8f, ModContent.ProjectileType<RemakeBansheeHookScythe>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack * 0.85f, Projectile.owner);
         };
 
         public override string Texture => CWRConstant.Item_Melee + "BansheeHook";
@@ -52,16 +55,17 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             Projectile.alpha = 255;
         }
 
-        Player owner => AiBehavior.GetPlayerInstance(Projectile.owner);
+        Player Owner => AiBehavior.GetPlayerInstance(Projectile.owner);
+        int drawUIalp = 0;
         public override void AI()
         {
             if (Projectile.ai[1] == 0)
             {
                 base.AI();
 
-                if (owner != null)
+                if (Owner != null)
                 {
-                    if (owner.itemAnimation == owner.itemAnimationMax / 2 && Projectile.IsOwnedByLocalPlayer())
+                    if (Owner.itemAnimation == Owner.itemAnimationMax / 2 && Projectile.IsOwnedByLocalPlayer())
                     {
                         for (int i = 0; i < 4; i++)
                         {
@@ -82,7 +86,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             if (Projectile.ai[1] == 1)
             {                
                 Projectile.velocity = Vector2.Zero;
-                if (owner == null)
+                if (Owner == null)
                 {
                     Projectile.Kill();
                     return;
@@ -91,36 +95,78 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
                 if (Projectile.IsOwnedByLocalPlayer())
                 {
+                    float frontArmRotation = (MathHelper.PiOver2 - 0.31f) * -Owner.direction;
+                    Owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, frontArmRotation);
                     if (PlayerInput.Triggers.Current.MouseRight) Projectile.timeLeft = 2;
-                    owner.direction = owner.Center.To(Main.MouseWorld).X > 0 ? 1 : -1;
+                    Owner.direction = Owner.Center.To(Main.MouseWorld).X > 0 ? 1 : -1;
                 }                    
 
                 if (Projectile.ai[2] == 0)
                 {
-                    Projectile.Center = owner.Center;
+                    Projectile.Center = Owner.Center;
                     Projectile.rotation += MathHelper.ToRadians(25);
-                    if (Projectile.localAI[1] % 20 == 0)
+
+                    drawUIalp+=5;
+                    if (drawUIalp > 255) drawUIalp = 255;
+
+                    if (Projectile.IsOwnedByLocalPlayer())
                     {
-                        SoundEngine.PlaySound(
-                            SoundID.DD2_GhastlyGlaivePierce,
-                            Projectile.Center
-                            );
-                        for (int i = 0; i < 9; i++)
+                        Owner.CWR().BansheeHookCharge += 8.333f;
+                        if (Projectile.localAI[1] % 20 == 0)
                         {
-                            Vector2 vr = HcMath.GetRandomVevtor(0, 360, 25);
-                            Projectile.NewProjectile(
-                                AiBehavior.GetEntitySource_Parent(owner),
-                                owner.Center,
-                                vr,
-                                ModContent.ProjectileType<BansheeHookScythe>(),
-                                Projectile.damage / 2,
-                                0,
-                                owner.whoAmI
+                            SoundEngine.PlaySound(
+                                SoundID.DD2_GhastlyGlaivePierce,
+                                Projectile.Center
                                 );
+                            for (int i = 0; i < 9; i++)
+                            {
+                                Vector2 vr = HcMath.GetRandomVevtor(0, 360, 25);
+                                Projectile.NewProjectile(
+                                    AiBehavior.GetEntitySource_Parent(Owner),
+                                    Owner.Center,
+                                    vr,
+                                    ModContent.ProjectileType<BansheeHookScythe>(),
+                                    Projectile.damage / 2,
+                                    0,
+                                    Owner.whoAmI
+                                    );
+                            }
                         }
-                    }
+                        if (Projectile.localAI[1] % 10 == 0)
+                        {
+                            for (int i = 0; i < 9; i++)
+                            {
+                                Vector2 vr = (MathHelper.TwoPi / 9 * i).ToRotationVector2() * 10;
+                                Projectile.NewProjectile(
+                                    AiBehavior.GetEntitySource_Parent(Owner),
+                                    Owner.Center,
+                                    vr,
+                                    ModContent.ProjectileType<SpiritFlame>(),
+                                    Projectile.damage / 3,
+                                    0,
+                                    Owner.whoAmI,
+                                    1
+                                    );
+                            }
+                            for (int i = 0; i < 9; i++)
+                            {
+                                Vector2 vr = (MathHelper.TwoPi / 9 * i).ToRotationVector2() * 20;
+                                Projectile.NewProjectile(
+                                    AiBehavior.GetEntitySource_Parent(Owner),
+                                    Owner.Center,
+                                    vr,
+                                    ModContent.ProjectileType<SpiritFlame>(),
+                                    Projectile.damage / 4,
+                                    0,
+                                    Owner.whoAmI,
+                                    1
+                                    );
+                            }
+                        }
+                    }                    
                     if (Projectile.localAI[1] > 60)
                     {
+                        Owner.CWR().BansheeHookCharge = 500;
                         Projectile.ai[2] = 1;
                         Projectile.localAI[1] = 0;
                     }
@@ -129,26 +175,56 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 {                    
                     if (Projectile.IsOwnedByLocalPlayer())
                     {                        
-                        Vector2 toMous = owner.Center.To(Main.MouseWorld).UnitVector();
-                        Vector2 topos = toMous * 56 + owner.Center;
+                        Vector2 toMous = Owner.Center.To(Main.MouseWorld).UnitVector();
+                        Vector2 topos = toMous * 56 + Owner.Center;
                         Projectile.Center = Vector2.Lerp(topos, Projectile.Center, 0.01f);
                         Projectile.rotation = toMous.ToRotation();
                         Projectile.localAI[2]++;
+
+                        Owner.CWR().BansheeHookCharge--;
+
                         if (Projectile.localAI[1] > 10 && Projectile.localAI[1] % 20 == 0)
                         {
+                            int damages = (int)(Projectile.damage * 0.4f);
                             for (int i = 0; i < 3; i++)
                             {
                                 Vector2 spanPos = Main.MouseWorld + HcMath.GetRandomVevtor(0, 360, 160);
                                 Projectile.NewProjectile(
-                                    AiBehavior.GetEntitySource_Parent(owner),
+                                    AiBehavior.GetEntitySource_Parent(Owner),
                                     spanPos,
                                     spanPos.To(Main.MouseWorld).UnitVector() * 15f,
                                     ModContent.ProjectileType<AbominateHookScythe>(),
-                                    Projectile.damage,
+                                    damages,
                                     0,
-                                    owner.whoAmI
+                                    Owner.whoAmI
                                     );
                             }
+                        }
+                        if (Projectile.localAI[1] > 10 && Projectile.localAI[1] % 15 == 0)
+                        {
+                            for (int i = 0; i < 3; i++)
+                            {
+                                Vector2 pos = Projectile.Center + Projectile.rotation.ToRotationVector2() * 45 * Projectile.scale + HcMath.GetRandomVevtor(0, 360, Main.rand.Next(2, 16));
+                                Projectile.NewProjectile(
+                                        AiBehavior.GetEntitySource_Parent(Owner),
+                                        pos,
+                                        Vector2.Zero,
+                                        ModContent.ProjectileType<SpiritFlame>(),
+                                        Projectile.damage / 2,
+                                        0,
+                                        Owner.whoAmI
+                                        );
+                            }                            
+                        }
+
+                        if (Owner.CWR().BansheeHookCharge <= 0)
+                        {
+                            Projectile.ai[2] = 0;
+                            Projectile.localAI[1] = 0;
+                            Projectile.netUpdate = true;
+                            Owner.CWR().BansheeHookCharge = 0;
+                            SoundEngine.PlaySound(in CommonCalamitySounds.MeatySlashSound, Projectile.Center);
+                            SoundEngine.PlaySound(in BloodflareHeadRanged.ActivationSound, Projectile.Center);
                         }
                     }
                 }
@@ -231,8 +307,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                     Projectile.rotation + MathHelper.PiOver4, DrawUtils.GetOrig(texture2D),
                     Projectile.scale, SpriteEffects.None);
             }
-
+            DrawKevinChargeBar();
             DrawStar();
+            
         }
 
         public void DrawStar()
@@ -291,6 +368,41 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 }
                 Main.spriteBatch.ResetBlendState();
             }
+        }
+
+        public void DrawKevinChargeBar()
+        {
+            if (Owner == null || Projectile.ai[1] != 1) return;
+
+            Texture2D textureFront = DrawUtils.GetT2DValue("CalamityWeaponRemake/Assets/UIs/GenericBarFront");
+            Texture2D textureBack = DrawUtils.GetT2DValue("CalamityWeaponRemake/Assets/UIs/GenericBarBack");
+            Vector2 drawPos = DrawUtils.WDEpos(Owner.Center + new Vector2(textureFront.Width / -2, 135));
+            float alp = (drawUIalp / 255f);
+            Rectangle backRec = new Rectangle(0, 0, (int)(textureBack.Width * (Owner.CWR().BansheeHookCharge / 500f)), textureBack.Height);
+
+            Main.EntitySpriteDraw(
+                textureFront,
+                drawPos,
+                null,
+                Color.Red * alp,
+                0,
+                new Vector2(3, 1),
+                1.2f,
+                SpriteEffects.None,
+                0
+                );
+
+            Main.EntitySpriteDraw(
+                textureBack,
+                drawPos,
+                backRec,
+                Color.DarkGoldenrod * alp,
+                0,
+                Vector2.Zero,
+                1,
+                SpriteEffects.None,
+                0
+                );
         }
 
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)

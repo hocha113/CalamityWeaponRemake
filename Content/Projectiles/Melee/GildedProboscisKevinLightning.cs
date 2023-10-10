@@ -3,6 +3,7 @@ using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Common.DrawTools;
 using CalamityWeaponRemake.Common.Effects;
+using CalamityWeaponRemake.Common.WorldGeneration;
 using CalamityWeaponRemake.Content.Items.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -75,7 +76,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             Projectile.timeLeft = 7200;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 5;
+            Projectile.localNPCHitCooldown = 7;
         }
 
         public override void OnSpawn(IEntitySource source)
@@ -136,6 +137,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
+            //不希望闪电穿墙打击对象，这里控制实际距离
+            CollTileLine();
+
             //玩家手臂适配
             AdjustPlayerValues();
 
@@ -143,6 +147,21 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             Projectile.frame = Projectile.frameCounter / 3 % Main.projFrames[Type];
 
             Time++;
+        }
+
+        public void CollTileLine()
+        {
+            Vector2 rotVr = Projectile.Center.To(Main.MouseWorld).UnitVector();
+            for (int i = 0; i < LightningDistance / 16f; i++)
+            {
+                Vector2 cedPos = Projectile.Center + rotVr * i * 16;
+                Vector2 tilePos = AiBehavior.WEPosToTilePos(cedPos);
+                Tile tile = TileHelper.GetTile(tilePos);
+                if (tile.HasSolidTile())
+                {
+                    LightningDistance = i * 16;
+                }
+            }
         }
 
         public void AdjustPlayerValues()
@@ -153,8 +172,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
             Owner.itemRotation = (Projectile.direction * Projectile.velocity).ToRotation();
-
-            // Update the player's arm directions to make it look as though they're holding the horn.
+            //控制玩家手臂
             float frontArmRotation = (MathHelper.PiOver2 - 0.31f) * -Owner.direction;
             Owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, frontArmRotation);
         }
@@ -163,23 +181,28 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
         {
             bool collBool = false;
             float point = 0;
+            Vector2 endPos;
             if (Time > 51)
             {
                 if (TargetIndex == -1)
                 {
-                    collBool = Collision.CheckAABBvLineCollision(
-                        targetHitbox.TopLeft(),
-                        targetHitbox.Size(),
-                        Projectile.Center,
-                        Main.MouseWorld,
-                        16,
-                        ref point
-                        );
+                    endPos = Projectile.Center + Projectile.Center
+                        .To(Main.MouseWorld).UnitVector() * LightningDistance;                    
                 }
                 else
                 {
-                    collBool = projHitbox.Distance(targetHitbox.Center()) <= GildedProboscis.TargetingDistance;
+                    endPos = Projectile.Center + Projectile.Center
+                        .To(Main.npc[(int)TargetIndex].Center).UnitVector() * LightningDistance;
                 }
+
+                collBool = Collision.CheckAABBvLineCollision(
+                        targetHitbox.TopLeft(),
+                        targetHitbox.Size(),
+                        Projectile.Center,
+                        endPos,
+                        16,
+                        ref point
+                        );
             }           
             return collBool;
         }
