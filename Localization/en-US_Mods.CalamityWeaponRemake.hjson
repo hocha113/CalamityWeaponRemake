@@ -114,6 +114,15 @@ Projectiles: {
 	AbominateSpirit.DisplayName: Abominate Spirit
 	SpiritFlame.DisplayName: Spirit Flame
 	DoGDeaths.DisplayName: Do G Deaths
+	ArkoftheAncientsParryHoldouts.DisplayName: Arkofthe Ancients Parry Holdouts
+	ArkoftheCosmosBlasts.DisplayName: Arkofthe Cosmos Blasts
+	ArkoftheCosmosParryHoldouts.DisplayName: Arkofthe Cosmos Parry Holdouts
+	ArkoftheCosmosSwungBlades.DisplayName: Arkofthe Cosmos Swung Blades
+	RendingNeedles.DisplayName: Rending Needles
+	ArkoftheCosmosConstellations.DisplayName: Arkofthe Cosmos Constellations
+	EonBolts.DisplayName: Eon Bolts
+	ProximaCentauri.DisplayName: Proxima Centauri
+	SlaughterEonBolts.DisplayName: Slaughter Eon Bolts
 }
 
 Configs: {

@@ -94,6 +94,7 @@
     <None Remove="Assets\Projectiles\Melee\DrataliornusFlame.png" />
     <None Remove="Assets\Projectiles\Melee\GildedProboscisProj.png" />
     <None Remove="Assets\Projectiles\Melee\RedLightningFeather.png" />
+    <None Remove="Assets\Projectiles\Melee\RendingNeedle.png" />
     <None Remove="Assets\Projectiles\TornadoProj.png" />
     <None Remove="Assets\UIs\GenericBarBack.png" />
     <None Remove="Assets\UIs\GenericBarFront.png" />
