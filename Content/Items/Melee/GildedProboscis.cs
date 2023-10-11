@@ -1,15 +1,14 @@
-﻿using CalamityMod.Items;
-using CalamityMod.Projectiles.Melee.Spears;
-using CalamityMod;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
+﻿using CalamityMod;
+using CalamityMod.Items;
+using CalamityMod.Sounds;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
-using CalamityMod.Sounds;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {

@@ -1,14 +1,14 @@
-﻿using CalamityMod.Projectiles.Melee;
-using CalamityMod;
+﻿using CalamityMod;
+using CalamityMod.Projectiles.Melee;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Content.Items.Melee;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using CalamityWeaponRemake.Content.Items.Melee;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee
 {
@@ -49,7 +49,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public float SlashWidthFunction(float _)
         {
-            return (float)Projectile.width * Projectile.scale * Utils.GetLerpValue(0f, 0.1f, _, clamped: true);
+            return Projectile.width * Projectile.scale * Utils.GetLerpValue(0f, 0.1f, _, clamped: true);
         }
 
         public Color SlashColorFunction(float _)
@@ -61,7 +61,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
         {
             TargetIndex = target.whoAmI;
             target.CWR().TerratomereBoltOnHitNum++;
-            if (target.CWR().TerratomereBoltOnHitNum > 6) 
+            if (target.CWR().TerratomereBoltOnHitNum > 6)
                 target.CWR().TerratomereBoltOnHitNum = 0;
             target.netUpdate = true;
             if (target.CWR().TerratomereBoltOnHitNum > 5)
@@ -74,7 +74,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 Projectile.velocity *= 0.2f;
                 Projectile.damage = 0;
                 Projectile.netUpdate = true;
-            }           
+            }
         }
 
         public override void OnKill(int timeLeft)

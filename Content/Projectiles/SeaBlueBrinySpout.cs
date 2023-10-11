@@ -1,17 +1,17 @@
-﻿using CalamityWeaponRemake.Common.AuxiliaryMeans;
+﻿using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Common.DrawTools;
-using Microsoft.Xna.Framework.Graphics;
+using CalamityWeaponRemake.Common.Interfaces;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameInput;
 using Terraria.ID;
-using Terraria;
 using Terraria.ModLoader;
-using CalamityWeaponRemake.Common.Interfaces;
-using CalamityWeaponRemake.Common;
-using System.IO;
 
 namespace CalamityWeaponRemake.Content.Projectiles
 {
@@ -62,7 +62,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
 
         public override void OnSpawn(IEntitySource source)
         {
-            
+
         }
 
         public override bool ShouldUpdatePosition()
@@ -92,7 +92,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
 
             if (Status == 0)
             {
-                if (Magnifying == 0) 
+                if (Magnifying == 0)
                     Magnifying = 0.12f;
                 Behavior++;
                 Status = 1;
@@ -103,7 +103,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
                 if (Behavior == 1)
                 {
                     OwnerProJindex = Projectile.whoAmI;
-                    if (Projectile.IsOwnedByLocalPlayer()) 
+                    if (Projectile.IsOwnedByLocalPlayer())
                         Projectile.alpha = HcMath.HcRandom.Next(0, 10000);
                     Projectile.netUpdate = true;
                 }

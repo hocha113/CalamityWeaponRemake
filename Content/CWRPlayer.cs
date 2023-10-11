@@ -1,7 +1,6 @@
-﻿using Terraria.DataStructures;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
-namespace CalamityWeaponRemake.Common
+namespace CalamityWeaponRemake.Content
 {
     public class CWRPlayer : ModPlayer
     {

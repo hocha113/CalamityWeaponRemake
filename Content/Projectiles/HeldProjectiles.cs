@@ -7,10 +7,8 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameInput;
-using Terraria.ModLoader;
 using static CalamityWeaponRemake.Common.AuxiliaryMeans.AiBehavior;
 using static CalamityWeaponRemake.Common.DrawTools.DrawUtils;
-using static Humanizer.In;
 
 namespace CalamityWeaponRemake.Content.Projectiles
 {
@@ -20,7 +18,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
 
         public override void SetStaticDefaults()
         {
-            
+
         }
 
         public override void SetDefaults()
@@ -107,7 +105,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
 
         public override void AI()
         {
-            
+
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

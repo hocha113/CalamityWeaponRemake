@@ -1,8 +1,8 @@
 ﻿using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Common.DrawTools;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -40,12 +40,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
         public override void AI()
         {
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.6f / 255f, 0f, 0f);
-            Projectile.localAI[0] += MathHelper.ToRadians(35);       
+            Projectile.localAI[0] += MathHelper.ToRadians(35);
 
             if (Projectile.ai[0] == 0)
             {
                 Projectile.velocity *= 0.95f;
-            }            
+            }
             if (Projectile.ai[0] == 1)
             {
                 NPC target = AiBehavior.GetNPCInstance((int)Projectile.ai[2]);
@@ -67,7 +67,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                         }
                     }
                     Projectile.localAI[1] = target.lifeMax;
-                }  
+                }
                 else
                 {
                     if (Projectile.IsOwnedByLocalPlayer())
@@ -85,14 +85,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                             Projectile.localAI[1]
                             );
                         Projectile.Kill();
-                    }                  
+                    }
                 }
             }
             Time++;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {            
+        {
             if (Main.rand.NextBool(5) && Projectile.numHits < 5)
             {
                 Vector2 offset = HcMath.GetRandomVevtor(70, 110, Main.rand.Next(500, 600));
@@ -110,7 +110,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                     );
             }
             Projectile.timeLeft -= 10;
-            Projectile.ai[0] = 1;            
+            Projectile.ai[0] = 1;
             if (Projectile.ai[2] == 0)
                 Projectile.ai[2] = target.whoAmI;
         }

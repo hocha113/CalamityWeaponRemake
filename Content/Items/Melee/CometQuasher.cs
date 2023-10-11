@@ -1,15 +1,14 @@
-﻿using CalamityMod.Items;
+﻿using CalamityMod;
+using CalamityMod.Items;
 using CalamityMod.Projectiles.Melee;
+using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using Microsoft.Xna.Framework;
+using System;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using Microsoft.Xna.Framework;
-using CalamityMod;
-using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using Mono.Cecil;
-using System;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {
@@ -41,11 +40,11 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         {
             float num116 = base.Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, reverseRotation: true);
-            float num117 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num118 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+            float num117 = Main.mouseX + Main.screenPosition.X - vector2.X;
+            float num118 = Main.mouseY + Main.screenPosition.Y - vector2.Y;
             if (player.gravDir == -1f)
             {
-                num118 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
+                num118 = Main.screenPosition.Y + Main.screenHeight - Main.mouseY - vector2.Y;
             }
             float num119 = (float)Math.Sqrt(num117 * num117 + num118 * num118);
             if ((float.IsNaN(num117) && float.IsNaN(num118)) || (num117 == 0f && num118 == 0f))
@@ -60,11 +59,11 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             }
             for (int num113 = 0; num113 < 2; num113++)
             {
-                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)Main.rand.Next(201) * (0f - (float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
-                vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
+                vector2 = new Vector2(player.position.X + player.width * 0.5f + Main.rand.Next(201) * (0f - player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+                vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
                 vector2.Y -= 100 * num113;
-                num117 = (float)Main.mouseX + Main.screenPosition.X - vector2.X + (float)Main.rand.Next(-40, 41) * 0.03f;
-                num118 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+                num117 = Main.mouseX + Main.screenPosition.X - vector2.X + Main.rand.Next(-40, 41) * 0.03f;
+                num118 = Main.mouseY + Main.screenPosition.Y - vector2.Y;
                 if (num118 < 0f)
                 {
                     num118 *= -1f;
@@ -78,7 +77,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                 num117 *= num119;
                 num118 *= num119;
                 float num114 = num117;
-                float num115 = num118 + (float)Main.rand.Next(-40, 41) * 0.02f;
+                float num115 = num118 + Main.rand.Next(-40, 41) * 0.02f;
                 int proj = Projectile.NewProjectile(source, vector2.X, vector2.Y, num114 * 0.75f, num115 * 0.75f, ModContent.ProjectileType<CometQuasherMeteor>(), (int)(Item.damage * 0.25f), Item.knockBack, player.whoAmI, 0f, 0.5f + (float)Main.rand.NextDouble() * 0.3f);
                 Main.projectile[proj].Calamity().lineColor = Main.rand.Next(3);
             }
@@ -108,11 +107,11 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             IEntitySource source = player.GetSource_ItemUse(base.Item);
             float num116 = base.Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, reverseRotation: true);
-            float num117 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num118 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+            float num117 = Main.mouseX + Main.screenPosition.X - vector2.X;
+            float num118 = Main.mouseY + Main.screenPosition.Y - vector2.Y;
             if (player.gravDir == -1f)
             {
-                num118 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
+                num118 = Main.screenPosition.Y + Main.screenHeight - Main.mouseY - vector2.Y;
             }
             float num119 = (float)Math.Sqrt(num117 * num117 + num118 * num118);
             if ((float.IsNaN(num117) && float.IsNaN(num118)) || (num117 == 0f && num118 == 0f))
@@ -127,11 +126,11 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             }
             for (int num113 = 0; num113 < 2; num113++)
             {
-                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)Main.rand.Next(201) * (0f - (float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
-                vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
+                vector2 = new Vector2(player.position.X + player.width * 0.5f + Main.rand.Next(201) * (0f - player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+                vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
                 vector2.Y -= 100 * num113;
-                num117 = (float)Main.mouseX + Main.screenPosition.X - vector2.X + (float)Main.rand.Next(-40, 41) * 0.03f;
-                num118 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+                num117 = Main.mouseX + Main.screenPosition.X - vector2.X + Main.rand.Next(-40, 41) * 0.03f;
+                num118 = Main.mouseY + Main.screenPosition.Y - vector2.Y;
                 if (num118 < 0f)
                 {
                     num118 *= -1f;
@@ -145,8 +144,8 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                 num117 *= num119;
                 num118 *= num119;
                 float num114 = num117;
-                float num115 = num118 + (float)Main.rand.Next(-40, 41) * 0.02f;
-                int proj = Projectile.NewProjectile(source, vector2.X, vector2.Y, num114 * 0.75f, num115 * 0.75f, ModContent.ProjectileType<CometQuasherMeteor>(), (int)((float)base.Item.damage * 0.3f), base.Item.knockBack, player.whoAmI, 0f, 0.5f + (float)Main.rand.NextDouble() * 0.3f);
+                float num115 = num118 + Main.rand.Next(-40, 41) * 0.02f;
+                int proj = Projectile.NewProjectile(source, vector2.X, vector2.Y, num114 * 0.75f, num115 * 0.75f, ModContent.ProjectileType<CometQuasherMeteor>(), (int)(Item.damage * 0.3f), base.Item.knockBack, player.whoAmI, 0f, 0.5f + (float)Main.rand.NextDouble() * 0.3f);
                 Main.projectile[proj].Calamity().lineColor = Main.rand.Next(3);
             }
         }
@@ -155,7 +154,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         {
             if (Main.rand.NextBool(3))
             {
-                Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 6);
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 6);
             }
         }
     }

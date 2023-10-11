@@ -1,15 +1,16 @@
-﻿using Terraria.Chat;
-using Terraria.ID;
-using Terraria.Localization;
-using Terraria;
+﻿using CalamityWeaponRemake.Content;
 using Microsoft.Xna.Framework;
-using Terraria.Audio;
-using Terraria.ModLoader;
-using Terraria.DataStructures;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System;
+using Terraria;
+using Terraria.Audio;
+using Terraria.Chat;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Common.AuxiliaryMeans
 {

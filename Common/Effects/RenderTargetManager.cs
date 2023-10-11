@@ -1,8 +1,7 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using Terraria.ModLoader;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Common.Effects
 {

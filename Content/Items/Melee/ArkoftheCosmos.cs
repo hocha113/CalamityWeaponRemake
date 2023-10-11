@@ -1,18 +1,18 @@
-﻿using CalamityMod.Items;
+﻿using CalamityMod;
+using CalamityMod.Items;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Rarities;
-using Microsoft.Xna.Framework.Graphics;
+using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System;
+using System.Linq;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using Terraria;
-using System.Linq;
-using CalamityMod;
-using CalamityWeaponRemake.Common;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {
@@ -79,7 +79,8 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public override void SetDefaults()
         {
-            Item.width = (base.Item.height = 136);
+            Item.width = 136;
+            Item.height = 136;
             Item.damage = 1770;
             Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.noMelee = true;
@@ -132,7 +133,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                 if (Charge > 0f && player.controlUp)
                 {
                     float angle = velocity.ToRotation();
-                    Projectile.NewProjectile(source, player.Center + angle.ToRotationVector2() * 90f, velocity, ModContent.ProjectileType<ArkoftheCosmosBlast>(), (int)((float)damage * Charge * chargeDamageMultiplier * blastDamageMultiplier), 0f, player.whoAmI, Charge);
+                    Projectile.NewProjectile(source, player.Center + angle.ToRotationVector2() * 90f, velocity, ModContent.ProjectileType<ArkoftheCosmosBlast>(), (int)(damage * Charge * chargeDamageMultiplier * blastDamageMultiplier), 0f, player.whoAmI, Charge);
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3f)
                     {
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3f;
@@ -147,13 +148,13 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             }
             if (Charge > 0f)
             {
-                damage = (int)(chargeDamageMultiplier * (float)damage);
+                damage = (int)(chargeDamageMultiplier * damage);
             }
             float scissorState = ((Combo == 4f) ? 2f : (Combo % 2f));
             Projectile.NewProjectile(source, player.Center, velocity, ModContent.ProjectileType<ArkoftheCosmosSwungBlade>(), damage, knockback, player.whoAmI, scissorState, Charge);
             if (scissorState != 2f)
             {
-                Projectile.NewProjectile(source, player.Center + velocity.SafeNormalize(Vector2.Zero) * 20f, velocity * 1.4f, ModContent.ProjectileType<RendingNeedle>(), (int)((float)damage * NeedleDamageMultiplier), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, player.Center + velocity.SafeNormalize(Vector2.Zero) * 20f, velocity * 1.4f, ModContent.ProjectileType<RendingNeedle>(), (int)(damage * NeedleDamageMultiplier), knockback, player.whoAmI);
             }
             Combo += 1f;
             if (Combo > 4f)
@@ -193,13 +194,13 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Texture2D handleTexture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/ArkoftheCosmosHandle", (AssetRequestMode)2).Value;
             Texture2D bladeTexture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/ArkoftheCosmosGlow", (AssetRequestMode)2).Value;
             float bladeOpacity = ((Charge > 0f) ? 1f : (MathHelper.Clamp((float)Math.Sin(Main.GlobalTimeWrappedHourly % (float)Math.PI) * 2f, 0f, 1f) * 0.7f + 0.3f));
-            spriteBatch.Draw(handleTexture, position, (Rectangle?)null, drawColor, 0f, origin, scale, (SpriteEffects)0, 0f);
-            spriteBatch.Draw(bladeTexture, position, (Rectangle?)null, drawColor * bladeOpacity, 0f, origin, scale, (SpriteEffects)0, 0f);
+            spriteBatch.Draw(handleTexture, position, null, drawColor, 0f, origin, scale, 0, 0f);
+            spriteBatch.Draw(bladeTexture, position, null, drawColor * bladeOpacity, 0f, origin, scale, 0, 0f);
             return false;
         }
 
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
-        {           
+        {
             if (!(Charge <= 0f))
             {
                 Texture2D barBG = ModContent.Request<Texture2D>("CalamityMod/UI/MiscTextures/GenericBarBack", (AssetRequestMode)2).Value;
@@ -207,12 +208,12 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                 float barScale = 3f;
                 Vector2 barOrigin = barBG.Size() * 0.5f;
                 float yOffset = 50f;
-                Vector2 drawPos = position + Vector2.UnitY * scale * ((float)frame.Height - yOffset);
+                Vector2 drawPos = position + Vector2.UnitY * scale * (frame.Height - yOffset);
                 Rectangle frameCrop = default(Rectangle);
-                frameCrop = new Rectangle(0, 0, (int)(Charge / 10f * (float)barFG.Width), barFG.Height);
+                frameCrop = new Rectangle(0, 0, (int)(Charge / 10f * barFG.Width), barFG.Height);
                 Color color = Main.hslToRgb(Main.GlobalTimeWrappedHourly * 0.6f % 1f, 1f, 0.75f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f) * 0.1f);
-                spriteBatch.Draw(barBG, drawPos, (Rectangle?)null, color, 0f, barOrigin, scale * barScale, (SpriteEffects)0, 0f);
-                spriteBatch.Draw(barFG, drawPos, (Rectangle?)frameCrop, color * 0.8f, 0f, barOrigin, scale * barScale, (SpriteEffects)0, 0f);
+                spriteBatch.Draw(barBG, drawPos, null, color, 0f, barOrigin, scale * barScale, 0, 0f);
+                spriteBatch.Draw(barFG, drawPos, (Rectangle?)frameCrop, color * 0.8f, 0f, barOrigin, scale * barScale, 0, 0f);
             }
         }
     }

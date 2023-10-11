@@ -2,12 +2,12 @@
 using CalamityMod.Items;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Rarities;
+using CalamityWeaponRemake.Common;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using Microsoft.Xna.Framework;
-using CalamityWeaponRemake.Common;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {
@@ -56,7 +56,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         {
             if (Main.rand.NextBool(5))
             {
-                Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 106);
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 106);
             }
         }
 

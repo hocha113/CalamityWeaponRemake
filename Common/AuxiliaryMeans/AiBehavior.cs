@@ -1,11 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityWeaponRemake.Common.WorldGeneration;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityWeaponRemake.Common.WorldGeneration;
 
 namespace CalamityWeaponRemake.Common.AuxiliaryMeans
 {

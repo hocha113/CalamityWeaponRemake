@@ -1,16 +1,15 @@
-﻿using CalamityMod.Particles;
-using CalamityMod;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using ReLogic.Content;
-using System;
-using Terraria.Graphics.Shaders;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
+﻿using CalamityMod;
+using CalamityMod.Particles;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityMod.Projectiles.Melee;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
+using System;
+using Terraria;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee
 {
@@ -60,7 +59,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 Vector2 toTarget = Projectile.Center.To(target.Center);
                 Projectile.EntityToRot(toTarget.ToRotation(), 0.17f);
                 Projectile.velocity = Projectile.rotation.ToRotationVector2() * Projectile.velocity.Length();
-            }  
+            }
             if (target != null && Projectile.timeLeft <= 30)
             {
                 Projectile.ChasingBehavior(target.Center, 32);
@@ -78,7 +77,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                     Vector2 spanPos = target.Center + offsetVr;
                     Vector2 vr = offsetVr.UnitVector() * -50;
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), spanPos, vr,
-                    ModContent.ProjectileType<TerratomereBigSlashs>(), (int)(Projectile.damage *0.75f + 50), Projectile.knockBack, Projectile.owner);
+                    ModContent.ProjectileType<TerratomereBigSlashs>(), (int)(Projectile.damage * 0.75f + 50), Projectile.knockBack, Projectile.owner);
                 }
             }
         }
@@ -106,7 +105,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak", (AssetRequestMode)2));
             TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 30);
             Texture2D texture = ModContent.Request<Texture2D>(Texture, (AssetRequestMode)2).Value;
-            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Color.Lerp(lightColor, Color.White, 0.5f), Projectile.rotation + (float)Math.PI / 2f, texture.Size() / 2f, Projectile.scale, (SpriteEffects)0);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Color.Lerp(lightColor, Color.White, 0.5f), Projectile.rotation + (float)Math.PI / 2f, texture.Size() / 2f, Projectile.scale, 0);
             return false;
         }
     }

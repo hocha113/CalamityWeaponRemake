@@ -1,5 +1,4 @@
-﻿using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Terraria.ModLoader.Config;
 
 namespace CalamityWeaponRemake.Common

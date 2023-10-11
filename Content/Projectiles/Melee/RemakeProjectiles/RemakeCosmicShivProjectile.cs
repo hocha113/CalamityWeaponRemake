@@ -1,15 +1,11 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod;
 using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ModLoader;
-using CalamityMod.Projectiles.Melee;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 {

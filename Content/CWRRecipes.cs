@@ -1,15 +1,16 @@
-﻿using CalamityWeaponRemake.Content.Items.Melee;
+﻿using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Content.Items.Ranged;
 using Terraria;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
-namespace CalamityWeaponRemake.Common
+namespace CalamityWeaponRemake.Content
 {
-    internal class ContentRecipes : ModSystem
+    internal class CWRRecipes : ModSystem
     {
-        public static int[] RemakItemType => new int[] 
-        { 
+        public static int[] RemakItemType => new int[]
+        {
             ItemType<BrinyBaron>(),
             ItemType<CosmicShiv>(),
             ItemType<DragonsBreath>(),

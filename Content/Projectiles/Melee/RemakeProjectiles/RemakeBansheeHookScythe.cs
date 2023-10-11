@@ -1,11 +1,11 @@
-﻿using Terraria.ModLoader;
-using Terraria;
-using Microsoft.Xna.Framework;
-using CalamityWeaponRemake.Common;
-using Terraria.ID;
-using CalamityWeaponRemake.Common.DrawTools;
-using Microsoft.Xna.Framework.Graphics;
+﻿using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Common.DrawTools;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
 
@@ -46,6 +46,12 @@ public class RemakeBansheeHookScythe : ModProjectile
             Projectile.EntityToRot(toTarget.ToRotation(), 0.07f);
             Projectile.velocity = Projectile.rotation.ToRotationVector2() * 15;
         }
+    }
+
+    public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+    {
+        Projectile.velocity *= 0.95f;
+        Projectile.damage -= 25;
     }
 
     public override Color? GetAlpha(Color lightColor)

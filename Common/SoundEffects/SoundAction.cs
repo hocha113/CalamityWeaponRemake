@@ -1,8 +1,6 @@
-﻿using Terraria.Audio;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ID;
+﻿using Microsoft.Xna.Framework;
 using ReLogic.Utilities;
+using Terraria.Audio;
 
 namespace CalamityWeaponRemake.Common.SoundEffects
 {

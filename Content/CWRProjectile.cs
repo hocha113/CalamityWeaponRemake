@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityWeaponRemake.Common
+namespace CalamityWeaponRemake.Content
 {
     internal class CWRProjectile : GlobalProjectile
     {

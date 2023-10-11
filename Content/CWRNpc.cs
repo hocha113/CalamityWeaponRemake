@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
-namespace CalamityWeaponRemake.Common
+namespace CalamityWeaponRemake.Content
 {
     public class CWRNpc : GlobalNPC
     {
@@ -29,17 +29,17 @@ namespace CalamityWeaponRemake.Common
             {
                 if (e is EndOfStreamException eose)
                 {
-                    CalamityWeaponRemake.Instance.Logger.Error((object)"Failed to parse CalamityWeaponRemake packet: Packet was too short, missing data, or otherwise corrupt.", (Exception)eose);
+                    CalamityWeaponRemake.Instance.Logger.Error("Failed to parse CalamityWeaponRemake packet: Packet was too short, missing data, or otherwise corrupt.", eose);
                     return;
                 }
                 if (e is ObjectDisposedException ode)
                 {
-                    CalamityWeaponRemake.Instance.Logger.Error((object)"Failed to parse CalamityWeaponRemake packet: Packet reader disposed or destroyed.", (Exception)ode);
+                    CalamityWeaponRemake.Instance.Logger.Error("Failed to parse CalamityWeaponRemake packet: Packet reader disposed or destroyed.", ode);
                     return;
                 }
                 if (e is IOException ioe)
                 {
-                    CalamityWeaponRemake.Instance.Logger.Error((object)"Failed to parse CalamityWeaponRemake packet: An unknown I/O error occurred.", (Exception)ioe);
+                    CalamityWeaponRemake.Instance.Logger.Error("Failed to parse CalamityWeaponRemake packet: An unknown I/O error occurred.", ioe);
                     return;
                 }
                 throw;

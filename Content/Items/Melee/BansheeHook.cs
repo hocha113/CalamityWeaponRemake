@@ -1,22 +1,20 @@
 ﻿using CalamityMod;
 using CalamityMod.Items;
-using CalamityMod.Projectiles.Melee.Spears;
+using CalamityMod.Items.Armor.Bloodflare;
 using CalamityMod.Rarities;
+using CalamityMod.Sounds;
+using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using System;
-using Terraria.DataStructures;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
-using Terraria.Audio;
-using CalamityMod.Sounds;
-using CalamityMod.Items.Armor.Bloodflare;
-using static Humanizer.In;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {
@@ -68,11 +66,11 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float num82 = (float)Main.mouseX + Main.screenPosition.X - position.X;
-            float num83 = (float)Main.mouseY + Main.screenPosition.Y - position.Y;
+            float num82 = Main.mouseX + Main.screenPosition.X - position.X;
+            float num83 = Main.mouseY + Main.screenPosition.Y - position.Y;
             if (player.gravDir == -1f)
             {
-                num83 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - position.Y;
+                num83 = Main.screenPosition.Y + Main.screenHeight - Main.mouseY - position.Y;
             }
             float num84 = (float)Math.Sqrt(num82 * num82 + num83 * num83);
             if ((float.IsNaN(num82) && float.IsNaN(num83)) || (num82 == 0f && num83 == 0f))
@@ -87,7 +85,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             }
             num82 *= num84;
             num83 *= num84;
-            float ai4 = Main.rand.NextFloat() * base.Item.shootSpeed * 0.75f * (float)player.direction;
+            float ai4 = Main.rand.NextFloat() * base.Item.shootSpeed * 0.75f * player.direction;
             velocity = new Vector2(num82, num83);
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, ai4);
             if (player.altFunctionUse == 2)

@@ -1,12 +1,12 @@
-﻿using CalamityMod.Items;
+﻿using CalamityMod;
+using CalamityMod.Items;
 using CalamityMod.Projectiles.Melee;
-using CalamityMod;
+using CalamityWeaponRemake.Common;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using Microsoft.Xna.Framework;
-using CalamityWeaponRemake.Common;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {
@@ -43,8 +43,8 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             int num6 = Main.rand.Next(4, 6);
             for (int index = 0; index < num6; index++)
             {
-                float SpeedX = velocity.X + (float)Main.rand.Next(-20, 21) * 0.05f;
-                float SpeedY = velocity.Y + (float)Main.rand.Next(-20, 21) * 0.05f;
+                float SpeedX = velocity.X + Main.rand.Next(-20, 21) * 0.05f;
+                float SpeedY = velocity.Y + Main.rand.Next(-20, 21) * 0.05f;
                 float damageMult = 0.5f;
                 switch (index)
                 {
@@ -60,7 +60,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                         damageMult = 0.8f;
                         break;
                 }
-                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, (int)((float)damage * damageMult), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * damageMult), knockback, player.whoAmI);
             }
             return false;
         }
@@ -69,7 +69,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         {
             if (Main.rand.NextBool(3))
             {
-                Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 27);
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 27);
             }
         }
     }

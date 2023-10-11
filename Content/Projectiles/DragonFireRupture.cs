@@ -1,14 +1,14 @@
-﻿using CalamityWeaponRemake.Common.AuxiliaryMeans;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Common.DrawTools;
+using CalamityWeaponRemake.Common.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using Terraria;
-using CalamityWeaponRemake.Common.Interfaces;
-using CalamityWeaponRemake.Common;
-using Microsoft.Xna.Framework;
-using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityWeaponRemake.Content.Projectiles
 {
@@ -74,8 +74,8 @@ namespace CalamityWeaponRemake.Content.Projectiles
         public override void AI()
         {
             ThisTimeValue++;
-            NPC target = Projectile.Center.InPosClosestNPC(360);   
-            
+            NPC target = Projectile.Center.InPosClosestNPC(360);
+
             if (target != null)
             {
                 Vector2 toTarget = Projectile.Center.To(target.Center);

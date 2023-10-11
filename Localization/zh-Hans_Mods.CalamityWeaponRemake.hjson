@@ -73,6 +73,11 @@ Items: {
 		// DisplayName: Arkofthe Cosmos
 		// Tooltip: ""
 	}
+
+	GodIarmHem: {
+		// DisplayName: God Iarm Hem
+		// Tooltip: ""
+	}
 }
 
 Projectiles: {

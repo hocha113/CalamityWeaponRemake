@@ -1,12 +1,10 @@
 ﻿using CalamityMod.Projectiles.Ranged;
-using CalamityMod.Projectiles.Summon;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Common.Interfaces;
 using CalamityWeaponRemake.Common.SoundEffects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Mono.Cecil;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
@@ -17,7 +15,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static CalamityWeaponRemake.Common.AuxiliaryMeans.AiBehavior;
 using static CalamityWeaponRemake.Common.DrawTools.DrawUtils;
-using static Terraria.ModLoader.PlayerDrawLayer;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Ranged
 {
@@ -55,7 +52,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
 
         public override void OnSpawn(IEntitySource source)
         {
-            if (Owner != null && Projectile.IsOwnedByLocalPlayer()) 
+            if (Owner != null && Projectile.IsOwnedByLocalPlayer())
                 Projectile.rotation = Owner.Center.To(Main.MouseWorld).ToRotation();
         }
 
@@ -113,7 +110,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
                         if (PlayerInput.Triggers.Current.MouseRight) Projectile.timeLeft = 2;
                         else Projectile.Kill();
                     }
-                }                
+                }
             }
 
             if (Projectile.IsOwnedByLocalPlayer())
@@ -123,7 +120,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
                     toMou = Owner.Center.To(Main.MouseWorld);
                     Projectile.netUpdate = true;
                     oldMou = Main.MouseWorld;
-                }                
+                }
             }
 
             Owner.direction = toMou.X > 0 ? 1 : -1;
@@ -155,7 +152,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
                         {
                             Vector2 vr = (Projectile.rotation - MathHelper.ToRadians(Main.rand.NextFloat(80, 100)) * Owner.direction).ToRotationVector2() * Main.rand.NextFloat(3, 7) + Owner.velocity;
                             Projectile.NewProjectile(GetEntitySource_Parent(Projectile), Projectile.Center, vr, ModContent.ProjectileType<GunCasing>(), 10, Projectile.knockBack, Owner.whoAmI);
-                        }                      
+                        }
                     }
                     spanSmogsBool = true;
                     ShootFire(shootPos);

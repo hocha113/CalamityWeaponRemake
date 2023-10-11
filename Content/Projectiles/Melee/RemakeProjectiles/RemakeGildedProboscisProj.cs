@@ -1,22 +1,20 @@
 ﻿using CalamityMod;
-using Terraria.Localization;
-using Terraria;
 using CalamityMod.Projectiles.BaseProjectiles;
-using CalamityWeaponRemake.Content.Items.Melee;
-using Terraria.ModLoader;
-using CalamityMod.Projectiles.Melee;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using Microsoft.Xna.Framework;
-using CalamityWeaponRemake.Common;
-using static Humanizer.In;
-using Terraria.GameInput;
-using CalamityWeaponRemake.Common.DrawTools;
-using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Sounds;
+using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Common.DrawTools;
+using CalamityWeaponRemake.Content.Items.Melee;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.IO;
+using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameInput;
 using Terraria.ID;
-using System.IO;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 {
@@ -49,8 +47,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
         public override void OnSpawn(IEntitySource source)
         {
-            if (Projectile.IsOwnedByLocalPlayer()) 
-                Main.LocalPlayer.CWR().KevinCharge = 0;                           
+            if (Projectile.IsOwnedByLocalPlayer())
+                Main.LocalPlayer.CWR().KevinCharge = 0;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -93,7 +91,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             }//如果是左键弹幕，执行原有的基类行为
             if (Projectile.ai[1] == 1)
             {
-                drawUIalp+=5;
+                drawUIalp += 5;
                 if (drawUIalp > 255) drawUIalp = 255;//在此处控制充能UI的透明度参数
 
                 if (Projectile.IsOwnedByLocalPlayer())//当主人按住右键时锁定弹幕的存在时间
@@ -101,7 +99,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                     if (PlayerInput.Triggers.Current.MouseRight)
                         Projectile.timeLeft = 2;
                 }
-                
+
                 Projectile.velocity = Vector2.Zero;
                 if (Owner == null)//防御性代码，任何时候都不希望后续代码访问null值，或者对无效对象进行操作
                 {
@@ -121,7 +119,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                     Owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, frontArmRotation);
                     //Main.NewText(Projectile.ai[0]);
                     if (Projectile.IsOwnedByLocalPlayer())
-                    {                     
+                    {
                         if (Projectile.ai[0] % 20 == 0)//周期性发射弹幕
                         {
                             SoundEngine.PlaySound(SoundID.Item102, Projectile.Center);
@@ -147,7 +145,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                             Projectile.ai[0] = 0;
                             Projectile.netUpdate = true;
                         }
-                    }                   
+                    }
                 }
                 if (Projectile.ai[2] == 1)
                 {
@@ -159,7 +157,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                         Projectile.rotation = toMous.ToRotation() + MathHelper.PiOver4;
 
                         Main.LocalPlayer.CWR().KevinCharge = 500 - (int)Projectile.ai[0];//同步主人玩家的特斯拉充能值，后续将应用于UI绘制
-                        
+
                         if (Projectile.ai[0] > 10 && Owner.ownedProjectileCounts[ModContent.ProjectileType<GildedProboscisKevinLightning>()] == 0)
                         {
                             projIndex = Projectile.NewProjectile(
@@ -185,7 +183,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                                 kevin.netUpdate = true;
                                 Main.LocalPlayer.CWR().KevinCharge = 0;
                                 Projectile.ai[2] = 0;
-                                Projectile.ai[0] = 0;                               
+                                Projectile.ai[0] = 0;
                                 Projectile.netUpdate = true;
                                 SoundEngine.PlaySound(in CommonCalamitySounds.MeatySlashSound, Projectile.Center);
                             }//时长够了后切换回旋转阶段
@@ -229,7 +227,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                     Projectile.rotation + MathHelper.PiOver2, DrawUtils.GetOrig(texture2D),
                     Projectile.scale, SpriteEffects.None);
                 return false;
-            }         
+            }
         }
 
         public override void PostDraw(Color lightColor)
@@ -240,7 +238,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         public void DrawKevinChargeBar()
         {
             if (Owner == null || Projectile.ai[1] != 1) return;
-            
+
             Texture2D textureFront = DrawUtils.GetT2DValue("CalamityWeaponRemake/Assets/UIs/GenericBarFront");
             Texture2D textureBack = DrawUtils.GetT2DValue("CalamityWeaponRemake/Assets/UIs/GenericBarBack");
             Vector2 drawPos = DrawUtils.WDEpos(Owner.Center + new Vector2(textureFront.Width / -2, 135));

@@ -1,14 +1,13 @@
 ﻿using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Common.DrawTools;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Terraria.ID;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework.Audio;
 using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee
 {
@@ -71,7 +70,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                     {
                         if (Projectile.ai[1] > 10000)
                             target.Heal(Main.rand.Next(10, 15));
-                        else 
+                        else
                             target.Heal(Main.rand.Next(1, 3));
                         for (int i = 0; i < 13; i++)
                         {
@@ -90,6 +89,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                         Projectile.Kill();
                     }
                 }
+            }
+
+            if (Projectile.timeLeft < 85)
+            {
+                Projectile.alpha = Projectile.timeLeft * 3;
+            }
+            else
+            {
+                Projectile.alpha = 195;
             }
         }
 
@@ -133,18 +141,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             Projectile.damage -= 20;
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            if (Projectile.timeLeft < 85)
-            {
-                byte b = (byte)(Projectile.timeLeft * 3);
-                byte alpha = (byte)(100f * (b / 255f));
-                return new Color(lightColor.R, lightColor.G, lightColor.B, alpha);
-            }
-
-            return new Color(255, 255, 255, 100);
-        }
-
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D mainValue = DrawUtils.GetT2DValue(Texture);
@@ -154,11 +150,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             else if (Status == 2) color = Color.Blue;
             else color = Color.Gold;
 
+            float alp = Projectile.alpha / 255f;
+            color = HcMath.RecombinationColor((color, 0.5f), (new Color(255, 255, 255), 0.5f));
+
             Main.EntitySpriteDraw(
                 mainValue,
                 DrawUtils.WDEpos(Projectile.Center),
                 DrawUtils.GetRec(mainValue, Projectile.frameCounter, 3),
-                HcMath.RecombinationColor((Projectile.GetAlpha(lightColor), 0.5f), (color, 0.5f)),
+                color * alp,
                 Projectile.rotation - MathHelper.PiOver2,
                 DrawUtils.GetOrig(mainValue, 3),
                 Projectile.scale,

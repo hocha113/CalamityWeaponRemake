@@ -1,17 +1,16 @@
-﻿using CalamityWeaponRemake.Common.Interfaces;
-using Terraria.DataStructures;
-using Terraria;
-using CalamityWeaponRemake.Common;
-using Microsoft.Xna.Framework;
+﻿using CalamityMod;
 using CalamityMod.Items;
-using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Rarities;
-using CalamityMod;
+using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Common.Interfaces;
+using CalamityWeaponRemake.Content.Projectiles.Ranged;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static CalamityWeaponRemake.Common.AuxiliaryMeans.AiBehavior;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Content.Projectiles.Ranged;
 
 namespace CalamityWeaponRemake.Content.Items.Ranged
 {

@@ -1,19 +1,19 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Melee;
-using CalamityMod;
-using Microsoft.Xna.Framework.Graphics;
+using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Content.Items.Melee;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Terraria;
 using Terraria.Audio;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria;
 using Terraria.ModLoader;
-using System.Linq;
-using CalamityWeaponRemake.Content.Items.Melee;
-using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 {
@@ -155,7 +155,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 for (int i = 0; i < 3; i++)
                 {
                     Vector2 vr = Owner.Center.To(Main.MouseWorld).UnitVector().RotatedBy(MathHelper.ToRadians(-10 + 10 * i));
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - vector * 0.4f, vr * 15, 
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - vector * 0.4f, vr * 15,
                         ModContent.ProjectileType<TerratomereBolts>(), (int)(Projectile.damage * 0.4f), Projectile.knockBack, Projectile.owner);
                 }
             }

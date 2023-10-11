@@ -20,7 +20,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 {
     internal class GildedProboscisKevinLightning : ModProjectile
     {
-        public override string Texture => CWRConstant.placeholder; 
+        public override string Texture => CWRConstant.placeholder;
 
         public ManagedRenderTarget LightningTarget
         {
@@ -96,7 +96,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
         public override void AI()
         {
             //防御性代码，任何时候都不希望后续代码访问null值玩家或者非活跃的对象
-            if (AiBehavior.PlayerAlive(Owner) == false)                
+            if (AiBehavior.PlayerAlive(Owner) == false)
             {
                 Projectile.Kill();
                 return;
@@ -187,7 +187,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 if (TargetIndex == -1)
                 {
                     endPos = Projectile.Center + Projectile.Center
-                        .To(Main.MouseWorld).UnitVector() * LightningDistance;                    
+                        .To(Main.MouseWorld).UnitVector() * LightningDistance;
                 }
                 else
                 {
@@ -203,7 +203,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                         16,
                         ref point
                         );
-            }           
+            }
             return collBool;
         }
 

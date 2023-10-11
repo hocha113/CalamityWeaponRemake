@@ -1,17 +1,13 @@
-﻿using CalamityMod.Items;
-using CalamityMod.Projectiles.Melee.Shortswords;
+﻿using CalamityMod;
+using CalamityMod.Items;
 using CalamityMod.Rarities;
-using CalamityMod;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.Interfaces;
+using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using System;
-using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {

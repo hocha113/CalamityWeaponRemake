@@ -1,17 +1,12 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Events;
-using CalamityMod;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using ReLogic.Content;
-using System.IO;
-using System;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
+﻿using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.DrawTools;
-using CalamityWeaponRemake.Common;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.IO;
+using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles
 {
@@ -37,7 +32,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
             Projectile.Opacity = 0f;
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 5;
-            Projectile.timeLeft = 1800;
+            Projectile.timeLeft = 180;
             CooldownSlot = 1;
         }
 
@@ -64,18 +59,18 @@ namespace CalamityWeaponRemake.Content.Projectiles
 
         public override void AI()
         {
-            //if (Status == 0)
-            //{
-            //    //if (BossRushEvent.BossRushActive)
-            //    //{
-            //    //    Projectile.velocity *= 1.25f;
-            //    //}
-            //    Status = 1;
-            //}
-            //Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            if (Status == 0)
+            {
+                //if (BossRushEvent.BossRushActive)
+                //{
+                //    Projectile.velocity *= 1.25f;
+                //}
+                Status = 1;
+            }
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            
-            //ThisTimeValue++;
+
+            ThisTimeValue++;
         }
 
         public override bool CanHitPlayer(Player target)
@@ -102,36 +97,36 @@ namespace CalamityWeaponRemake.Content.Projectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
-            //if (ThisTimeValue >= 210f)
-            //{
-            //    return true;
-            //}
-            //if (Main.zenithWorld)
-            //{
-            //    return false;
-            //}
-            //Texture2D laserTelegraph = DrawUtils.GetT2DValue(CWRConstant.Projectile + "LaserWallTelegraphBeam");
-            //float yScale = 2f;
-            //if (ThisTimeValue < 30f)
-            //{
-            //    yScale = MathHelper.Lerp(0f, 2f, ThisTimeValue / 30f);
-            //}
-            //if (ThisTimeValue > 180f)
-            //{
-            //    yScale = MathHelper.Lerp(2f, 0f, (ThisTimeValue - 180f) / 30f);
-            //}
-            //Vector2 scaleInner;
-            //scaleInner = new Vector2(2400f / laserTelegraph.Width, yScale);
-            //Vector2 origin = laserTelegraph.Size() * new Vector2(0f, 0.5f);
-            //Vector2 scaleOuter = scaleInner * new Vector2(1f, 1.6f);
-            //Color colorOuter = Color.Lerp(Color.Cyan, Color.Purple, ThisTimeValue / 210f * 2f % 1f);
-            //Color colorInner = Color.Lerp(colorOuter, Color.White, 0.75f);
-            //colorOuter *= 0.7f;
-            //colorInner *= 0.7f;
-            //float drawRot = Projectile.rotation + MathHelper.PiOver2;
-            //Vector2 drawPos = DrawUtils.WDEpos(Projectile.Center);
-            //Main.EntitySpriteDraw(laserTelegraph, drawPos, null, colorInner, drawRot, origin, scaleInner, 0);
-            //Main.EntitySpriteDraw(laserTelegraph, drawPos, null, colorOuter, drawRot, origin, scaleOuter, 0);
+            if (ThisTimeValue >= 210f)
+            {
+                return true;
+            }
+            if (Main.zenithWorld)
+            {
+                return false;
+            }
+            Texture2D laserTelegraph = DrawUtils.GetT2DValue(CWRConstant.Projectile + "LaserWallTelegraphBeam");
+            float yScale = 2f;
+            if (ThisTimeValue < 30f)
+            {
+                yScale = MathHelper.Lerp(0f, 2f, ThisTimeValue / 30f);
+            }
+            if (ThisTimeValue > 180f)
+            {
+                yScale = MathHelper.Lerp(2f, 0f, (ThisTimeValue - 180f) / 30f);
+            }
+            Vector2 scaleInner;
+            scaleInner = new Vector2(2400f / laserTelegraph.Width, yScale);
+            Vector2 origin = laserTelegraph.Size() * new Vector2(0f, 0.5f);
+            Vector2 scaleOuter = scaleInner * new Vector2(1f, 1.6f);
+            Color colorOuter = Color.Lerp(Color.Cyan, Color.Purple, ThisTimeValue / 210f * 2f % 1f);
+            Color colorInner = Color.Lerp(colorOuter, Color.White, 0.75f);
+            colorOuter *= 0.7f;
+            colorInner *= 0.7f;
+            float drawRot = Projectile.rotation + MathHelper.PiOver2;
+            Vector2 drawPos = DrawUtils.WDEpos(Projectile.Center);
+            Main.EntitySpriteDraw(laserTelegraph, drawPos, null, colorInner, drawRot, origin, scaleInner, 0);
+            Main.EntitySpriteDraw(laserTelegraph, drawPos, null, colorOuter, drawRot, origin, scaleOuter, 0);
             return true;
         }
     }

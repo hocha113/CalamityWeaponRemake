@@ -1,12 +1,11 @@
 ﻿using CalamityMod;
-using System.Collections.Generic;
-using Terraria.Graphics.Shaders;
-using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
 using CalamityMod.Projectiles.Melee;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using Terraria;
+using Terraria.Graphics.Shaders;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee
 {
@@ -43,7 +42,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             if (owner != null) Projectile.Center = owner.Center;
             Projectile.Opacity = Utils.GetLerpValue(0f, 26f, Projectile.timeLeft, clamped: true);
             Projectile.velocity *= 0.91f;
-            Projectile.scale *= 1.03f;            
+            Projectile.scale *= 1.03f;
         }
 
         public float SlashWidthFunction(float completionRatio)
@@ -90,13 +89,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 targetHitbox.TopLeft(),
                 targetHitbox.Size(),
                 starPos,
-                Projectile.Center + 
+                Projectile.Center +
                 (Projectile.velocity.UnitVector() * Projectile.scale * 130)
                 .RotatedBy(MathHelper.ToRadians(-90 + i * 9))
                 );
                 if (collBool) break;
             }
-            
+
             return collBool;
         }
     }

@@ -2,7 +2,6 @@
 using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.Interfaces;
 using CalamityWeaponRemake.Content.Projectiles;
 using Microsoft.Xna.Framework;
 using System.Linq;
@@ -100,7 +99,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                     Main.projectile[proj].localAI[1] = 30;
                     Main.projectile[proj].netUpdate = true;
                 }
-            }            
+            }
         }
 
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
