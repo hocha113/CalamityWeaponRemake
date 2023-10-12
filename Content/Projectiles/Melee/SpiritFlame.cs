@@ -58,6 +58,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 Projectile.scale *= 1.01f;
                 Projectile.velocity = Projectile.velocity.RotatedBy(0.03f);
                 Projectile.velocity *= 0.99f;
+                Projectile.position += Main.player[Projectile.owner].velocity;//需要靠这行代码实现与玩家的相对静止
             }
             if (Projectile.ai[0] == 2)
             {
@@ -70,6 +71,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 Projectile.scale *= 1.015f;
                 Projectile.velocity = Projectile.velocity.RotatedBy(0.04f);
                 Projectile.velocity *= 0.995f;
+                Projectile.position += Main.player[Projectile.owner].velocity;
             }
         }
 

@@ -20,6 +20,8 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 {
     internal class BansheeHook : ModItem
     {
+        internal float BansheeHookCharge = 500;
+
         public override string Texture => CWRConstant.Item_Melee + "BansheeHook";
 
         public override void SetStaticDefaults()
@@ -37,7 +39,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.channel = true;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 21;
-            Item.useStyle = 5;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.useTime = 21;
             Item.knockBack = 8.5f;
             Item.UseSound = SoundID.DD2_GhastlyGlaivePierce;

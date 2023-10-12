@@ -54,6 +54,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         }
 
         Player Owner => AiBehavior.GetPlayerInstance(Projectile.owner);
+        BansheeHook bansheeHook => Owner.HeldItem.ModItem as BansheeHook;//oh，这个物品实例的转化访问语法是从鸿蒙方舟的项目中学习到的，
+                                                                         //这提供了不同实例之间互相访问的手段，尤其是当下的使用情景中尤为有用
         int drawUIalp = 0;
         public override void AI()
         {
@@ -89,6 +91,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                     Projectile.Kill();
                     return;
                 }
+                if (bansheeHook == null)
+                {
+                    Projectile.Kill();
+                    return;
+                }
                 Projectile.localAI[1]++;
 
                 if (Projectile.IsOwnedByLocalPlayer())
@@ -109,7 +116,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
                     if (Projectile.IsOwnedByLocalPlayer())
                     {
-                        Owner.CWR().BansheeHookCharge += 8.333f;
+                        bansheeHook.BansheeHookCharge += 8.333f;
                         if (Projectile.localAI[1] % 20 == 0)
                         {
                             SoundEngine.PlaySound(
@@ -164,7 +171,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                     }
                     if (Projectile.localAI[1] > 60)
                     {
-                        Owner.CWR().BansheeHookCharge = 500;
+                        bansheeHook.BansheeHookCharge = 500;
                         Projectile.ai[2] = 1;
                         Projectile.localAI[1] = 0;
                     }
@@ -179,7 +186,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                         Projectile.rotation = toMous.ToRotation();
                         Projectile.localAI[2]++;
 
-                        Owner.CWR().BansheeHookCharge--;
+                        bansheeHook.BansheeHookCharge--;
 
                         if (Projectile.localAI[1] > 10 && Projectile.localAI[1] % 20 == 0)
                         {
@@ -215,12 +222,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                             }
                         }
 
-                        if (Owner.CWR().BansheeHookCharge <= 0)
+                        if (bansheeHook.BansheeHookCharge <= 0)
                         {
                             Projectile.ai[2] = 0;
                             Projectile.localAI[1] = 0;
                             Projectile.netUpdate = true;
-                            Owner.CWR().BansheeHookCharge = 0;
+                            bansheeHook.BansheeHookCharge = 0;
                             SoundEngine.PlaySound(in CommonCalamitySounds.MeatySlashSound, Projectile.Center);
                             SoundEngine.PlaySound(in BloodflareHeadRanged.ActivationSound, Projectile.Center);
                         }
@@ -376,7 +383,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             Texture2D textureBack = DrawUtils.GetT2DValue("CalamityWeaponRemake/Assets/UIs/GenericBarBack");
             Vector2 drawPos = DrawUtils.WDEpos(Owner.Center + new Vector2(textureFront.Width / -2, 135));
             float alp = (drawUIalp / 255f);
-            Rectangle backRec = new Rectangle(0, 0, (int)(textureBack.Width * (Owner.CWR().BansheeHookCharge / 500f)), textureBack.Height);
+            Rectangle backRec = new Rectangle(0, 0, (int)(textureBack.Width * (bansheeHook.BansheeHookCharge / 500f)), textureBack.Height);
 
             Main.EntitySpriteDraw(
                 textureFront,

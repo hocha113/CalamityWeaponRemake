@@ -5,9 +5,6 @@ namespace CalamityWeaponRemake.Content
 {
     public class CWRPlayer : ModPlayer
     {
-        public int KevinCharge = 500;
-        public float BansheeHookCharge = 500;
-
         public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
         {
             base.ModifyHitByNPC(npc, ref modifiers);
