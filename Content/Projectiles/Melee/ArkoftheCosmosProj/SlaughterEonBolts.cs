@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 {
@@ -69,6 +70,21 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
                     GeneralParticleHandler.SpawnParticle(new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, Main.hslToRgb(Hue, 1f, 0.7f), 15, Main.rand.NextFloat(0.4f, 0.7f) * Projectile.scale, 0.8f, 0f, glowing: true, 0.05f, required: true));
                 }
             }
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            if (Projectile.IsOwnedByLocalPlayer())
+                Projectile.NewProjectileDirect(
+                    AiBehavior.GetEntitySource_Parent(Projectile),
+                    Projectile.Center,
+                    Vector2.Zero,
+                    ModContent.ProjectileType<SlaughterExplosion>(),
+                    Projectile.damage / 2,
+                    0,
+                    Projectile.owner,
+                    1
+                    );
         }
 
         internal Color ColorFunction(float completionRatio)

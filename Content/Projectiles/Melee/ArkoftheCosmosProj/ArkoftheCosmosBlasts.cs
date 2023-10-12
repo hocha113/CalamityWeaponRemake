@@ -11,9 +11,15 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityWeaponRemake.Content.Items.Melee;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using System.Security.Policy;
+using System.Runtime.InteropServices;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 {
+    /// <summary>
+    /// 冲刺弹幕
+    /// </summary>
     internal class ArkoftheCosmosBlasts : ModProjectile
     {
         private bool initialized;
@@ -64,9 +70,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 
         public float SnapTimer => 70f - Projectile.timeLeft;
 
-        public float HoldTimer => 70f - Projectile.timeLeft - 25f;
+        public float HoldTimer => 45f - Projectile.timeLeft;
 
-        public float StitchTimer => 70f - Projectile.timeLeft - 25f - 7.5f;
+        public float StitchTimer => 37.5f - Projectile.timeLeft;
 
         public float SnapProgress => MathHelper.Clamp(SnapTimer / 25f, 0f, 1f);
 
@@ -78,9 +84,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
         {
             get
             {
-                if (!(70f - Projectile.timeLeft <= 25f))
+                if (Projectile.timeLeft <= 45f)
                 {
-                    if (!(70f - Projectile.timeLeft <= 40f))
+                    if ( Projectile.timeLeft <= 30)
                     {
                         return 2;
                     }
@@ -189,7 +195,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             Owner.Calamity().LungingDown = true;
             Owner.fallStart = (int)(Owner.position.Y / 16f);
             Owner.velocity = Owner.SafeDirectionTo(scissorPosition, Vector2.Zero) * 60f;
-            if (!(Owner.Distance(scissorPosition) < 60f))
+            if (Owner.Distance(scissorPosition) > 60f)
             {
                 return;
             }
@@ -239,6 +245,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            ArkoftheCosmos arkoftheCosmos = Owner.HeldItem.ModItem as ArkoftheCosmos;
+            if (arkoftheCosmos != null)
+            {
+                arkoftheCosmos.Charge += 1;
+                if (arkoftheCosmos.Charge > 10) 
+                    arkoftheCosmos.Charge = 10;
+            }
             Color color = !Main.rand.NextBool() ? Main.rand.NextBool() ? Color.OrangeRed : Color.Gold : Main.rand.NextBool() ? Color.Orange : Color.Coral;
             GeneralParticleHandler.SpawnParticle(new PulseRing(target.Center, Vector2.Zero, color, 0.05f, 0.2f + Main.rand.NextFloat(0f, 1f), 30));
             for (int i = 0; i < 10; i++)
@@ -280,7 +293,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             Texture2D value = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomLine").Value;
             Color color = Color.Lerp(Color.OrangeRed, Color.White, SnapProgress);
             float rotation = Projectile.rotation + MathF.PI / 2f;
-            Main.EntitySpriteDraw(scale: new Vector2(0.2f * (1f - SnapProgress), ThrustDisplaceRatio() * 242f), texture: value, position: Projectile.Center - Main.screenPosition, sourceRectangle: null, color: color, rotation: rotation, origin: new Vector2(value.Width / 2f, value.Height), effects: SpriteEffects.None);
+            Main.EntitySpriteDraw(scale: new Vector2(0.2f * (1f - SnapProgress), ThrustDisplaceRatio() * 240f), texture: value, position: Projectile.Center - Main.screenPosition, sourceRectangle: null, color: color, rotation: rotation, origin: new Vector2(value.Width / 2f, value.Height), effects: SpriteEffects.None);
             if (HoldProgress <= 0.4f)
             {
                 Texture2D value2 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/SunderingScissorsLeft").Value;

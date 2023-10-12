@@ -30,6 +30,18 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         }
 
         /// <summary>
+        /// 一个根据语言选项返回字符的方法
+        /// </summary>
+        public static string Translation(string Chinese = null, string English = null, string Japanese = null, string Russian = null)
+        {
+            if (Language.ActiveCulture.Name == "zh-Hans") return Chinese;
+            if (Language.ActiveCulture.Name == "en-Hans") return English;
+            if (Language.ActiveCulture.Name == "ja-Hans") return Japanese;
+            if (Language.ActiveCulture.Name == "ru-Hans") return Russian;
+            return null;
+        }
+
+        /// <summary>
         /// 检查伤害类型是否与指定类型匹配或继承自指定类型
         /// </summary>
         /// <param name="damageClass">要检查的伤害类型</param>

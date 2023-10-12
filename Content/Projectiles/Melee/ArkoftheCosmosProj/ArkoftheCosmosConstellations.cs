@@ -85,7 +85,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
                 }  
                 else
                 {
-                    GameUtils.Text(Languages.Translation(
+                    GameUtils.Text(GameUtils.Translation(
                         "未能获取到 GeneralParticleHandler 类的成员 particleTypes ,请检查对象是否存在\n" +
                         "如果您是在游玩中看到此条信息，可以向coslowkimberli185@gmail.com发送反馈信息，我将会尽快修复问题",
                         "A member of the GeneralParticleHandler class, particleTypes, could not be obtained. Please check whether the object exists\n" +

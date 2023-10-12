@@ -84,7 +84,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             SoundStyle style = CommonCalamitySounds.ScissorGuillotineSnapSound;
             style.Volume = CommonCalamitySounds.ScissorGuillotineSnapSound.Volume * 1.3f;
             SoundEngine.PlaySound(in style, base.Projectile.Center);
-            CombatText.NewText(base.Projectile.Hitbox, new Color(111, 247, 200), Languages.Translation("PARRY!", "PARRY!"), dramatic: true);//CalamityUtils.GetTextValue("Misc.ArkParry")
+            CombatText.NewText(base.Projectile.Hitbox, new Color(111, 247, 200), GameUtils.Translation("PARRY!", "PARRY!"), dramatic: true);//CalamityUtils.GetTextValue("Misc.ArkParry")
             for (int i = 0; i < 5; i++)
             {
                 Vector2 vector = Main.rand.NextVector2Circular((float)Owner.Hitbox.Width * 2f, (float)Owner.Hitbox.Height * 1.2f);

@@ -123,6 +123,7 @@ Projectiles: {
 	EonBolts.DisplayName: Eon Bolts
 	ProximaCentauri.DisplayName: Proxima Centauri
 	SlaughterEonBolts.DisplayName: Slaughter Eon Bolts
+	SlaughterExplosion.DisplayName: Slaughter Explosion
 }
 
 Configs: {

@@ -120,6 +120,9 @@ Projectiles: {
 	// ArkoftheCosmosSwungBlades.DisplayName: Arkofthe Cosmos Swung Blades
 	// RendingNeedles.DisplayName: Rending Needles
 	// ArkoftheCosmosConstellations.DisplayName: Arkofthe Cosmos Constellations
+	// EonBolts.DisplayName: Eon Bolts
+	// ProximaCentauri.DisplayName: Proxima Centauri
+	// SlaughterEonBolts.DisplayName: Slaughter Eon Bolts
 }
 
 Configs: {
