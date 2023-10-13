@@ -87,10 +87,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
                 {
                     GameUtils.Text(GameUtils.Translation(
                         "未能获取到 GeneralParticleHandler 类的成员 particleTypes ,请检查对象是否存在\n" +
-                        "如果您是在游玩中看到此条信息，可以向coslowkimberli185@gmail.com发送反馈信息，我将会尽快修复问题",
+                        "如果您是在游玩中看到此条信息，可以向coslowkimberli185@gmail.com发送反馈信息，我会尽快修复问题",
                         "A member of the GeneralParticleHandler class, particleTypes, could not be obtained. Please check whether the object exists\n" +
                         "If you saw this while playing, you can send a feedback to coslowkimberli185@gmail.com and I'll fix it as soon as possible"
                         ));
+                    Projectile.Kill();
+                    return;
                 }
             }
         }
@@ -111,6 +113,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             {
                 Projectile.Kill();
                 return;
+            }
+
+            if (Projectile.ai[1] == 1)
+            {
+                Projectile projectile = AiBehavior.GetProjectileInstance((int)Projectile.ai[2]);
+                if (projectile == null)
+                {
+                    Projectile.Kill();
+                    return;
+                }
             }
 
             if (Timer % 15f == 0f && Projectile.timeLeft >= 20)

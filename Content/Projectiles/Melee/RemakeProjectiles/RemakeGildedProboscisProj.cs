@@ -20,8 +20,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 {
     internal class RemakeGildedProboscisProj : BaseSpearProjectile
     {
-        public int KevinCharge = 500;
-
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<GildedProboscis>();
 
         public override float InitialSpeed => 3f;
@@ -50,7 +48,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         public override void OnSpawn(IEntitySource source)
         {
             if (Projectile.IsOwnedByLocalPlayer())
-                gildedProboscis.KevinCharge = 0;
+                gildedProboscis.CWR().KevinCharge = 0;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -64,7 +62,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         }
 
         Player Owner => AiBehavior.GetPlayerInstance(Projectile.owner);
-        GildedProboscis gildedProboscis => Owner.HeldItem.ModItem as GildedProboscis;
+        Item gildedProboscis => Owner.HeldItem;
         int projIndex = -1;
         int drawUIalp = 0;
         public override void AI()
@@ -144,11 +142,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                                     Owner.whoAmI
                                     );
                             }
-                            gildedProboscis.KevinCharge += 500 / 3;
+                            gildedProboscis.CWR().KevinCharge += 500 / 3;
                         }
                         if (Projectile.ai[0] > 60)//当旋转时间超过60tike时切换下一个状态
                         {
-                            gildedProboscis.KevinCharge = 500;
+                            gildedProboscis.CWR().KevinCharge = 500;
                             Projectile.ai[2] = 1;
                             Projectile.ai[0] = 0;
                             Projectile.netUpdate = true;
@@ -164,7 +162,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                         Projectile.Center = Vector2.Lerp(topos, Projectile.Center, 0.01f);
                         Projectile.rotation = toMous.ToRotation() + MathHelper.PiOver4;
 
-                        gildedProboscis.KevinCharge = 500 - (int)Projectile.ai[0];//同步主人玩家的特斯拉充能值，后续将应用于UI绘制
+                        gildedProboscis.CWR().KevinCharge = 500 - (int)Projectile.ai[0];//同步主人玩家的特斯拉充能值，后续将应用于UI绘制
 
                         if (Projectile.ai[0] > 10 && Owner.ownedProjectileCounts[ModContent.ProjectileType<GildedProboscisKevinLightning>()] == 0)
                         {
@@ -189,7 +187,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                             {
                                 kevin.Kill();
                                 kevin.netUpdate = true;
-                                gildedProboscis.KevinCharge = 0;
+                                gildedProboscis.CWR().KevinCharge = 0;
                                 Projectile.ai[2] = 0;
                                 Projectile.ai[0] = 0;
                                 Projectile.netUpdate = true;
@@ -251,7 +249,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             Texture2D textureBack = DrawUtils.GetT2DValue("CalamityWeaponRemake/Assets/UIs/GenericBarBack");
             Vector2 drawPos = DrawUtils.WDEpos(Owner.Center + new Vector2(textureFront.Width / -2, 135));
             float alp = (drawUIalp / 255f);
-            Rectangle backRec = new Rectangle(0, 0, (int)(textureBack.Width * (gildedProboscis.KevinCharge / 500f)), textureBack.Height);
+            Rectangle backRec = new Rectangle(0, 0, (int)(textureBack.Width * (gildedProboscis.CWR().KevinCharge / 500f)), textureBack.Height);
 
             Main.EntitySpriteDraw(
                 textureFront,

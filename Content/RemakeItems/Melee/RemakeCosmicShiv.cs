@@ -36,10 +36,5 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 item.Calamity().donorItem = true;
             }
         }
-
-        public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            return base.Shoot(item, player, source, position, velocity, type, damage, knockback);
-        }
     }
 }

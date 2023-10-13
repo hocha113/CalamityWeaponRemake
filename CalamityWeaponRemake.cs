@@ -1,4 +1,5 @@
 using CalamityWeaponRemake.Common.Effects;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake
@@ -19,6 +20,13 @@ namespace CalamityWeaponRemake
         public override void Unload()
         {
             base.Unload();
+        }
+
+        public override void PostSetupContent()
+        {
+            //CalamityMod.Items.Weapons.Melee.ArkoftheCosmos arkoftheCosmos = new CalamityMod.Items.Weapons.Melee.ArkoftheCosmos();
+            //ModItem _arkoftheCosmos = arkoftheCosmos as ModItem;
+            //_arkoftheCosmos = Main.item[ModContent.ItemType<Content.Items.Melee.ArkoftheCosmos>()].ModItem;
         }
     }
 }

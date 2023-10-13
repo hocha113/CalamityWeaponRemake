@@ -62,7 +62,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 
         public ref float Charge => ref Projectile.ai[1];
 
-        public Player Owner => Main.player[Projectile.owner];
+        public Player Owner => AiBehavior.GetPlayerInstance(Projectile.owner);
 
         public float MaxSwingTime => SwirlSwing ? 55 : 35;
 
@@ -132,6 +132,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
         public ref float ChanceMissed => ref Projectile.localAI[1];
 
         public bool shootBool = true;
+
+        private ArkoftheCosmos arkoftheCosmos => Owner.HeldItem.ModItem as ArkoftheCosmos;
 
         public override void SetStaticDefaults()
         {
@@ -224,23 +226,50 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
                 }
                 if (mode == 1)
                 {
-                    float randomRotOffset = Main.rand.NextFloat(MathHelper.TwoPi);
-                    for (int i = 0; i < 13; i++)
+                    if (arkoftheCosmos.Charge == 0)
                     {
-                        Vector2 vr = (MathHelper.TwoPi / 13 * i + randomRotOffset).ToRotationVector2();
-                        Projectile.NewProjectileDirect(
-                        Projectile.GetSource_FromThis(),
-                        Owner.Center + vr * 30f,
-                        vr * 12f,
-                        ModContent.ProjectileType<SlaughterEonBolts>(),
-                        (int)(ArkoftheCosmos.SwirlBoltDamageMultiplier / ArkoftheCosmos.SwirlBoltAmount * Projectile.damage),
-                        0f,
-                        Owner.whoAmI,
-                        0.55f,
-                        MathF.PI / 20f
-                        )
-                        .timeLeft = 100;
+                        float rot = Owner.Center.To(Main.MouseWorld).ToRotation();
+                        Vector2 vr1 = (rot + MathHelper.ToRadians(-15)).ToRotationVector2();
+                        Vector2 vr2 = (rot + MathHelper.ToRadians(15)).ToRotationVector2();
+                        Projectile.NewProjectile(
+                            AiBehavior.GetEntitySource_Parent(Projectile),
+                            Owner.Center + vr1 * 15,
+                            vr1 * 15,
+                            ModContent.ProjectileType<DreadStar>(),
+                            Projectile.damage / 2,
+                            0,
+                            Projectile.owner
+                            );
+                        Projectile.NewProjectile(
+                            AiBehavior.GetEntitySource_Parent(Projectile),
+                            Owner.Center + vr2 * 15,
+                            vr2 * 15,
+                            ModContent.ProjectileType<DreadStar>(),
+                            Projectile.damage / 2,
+                            0,
+                            Projectile.owner
+                            );
                     }
+                    else
+                    {
+                        float randomRotOffset = Main.rand.NextFloat(MathHelper.TwoPi);
+                        for (int i = 0; i < 13; i++)
+                        {
+                            Vector2 vr = (MathHelper.TwoPi / 13 * i + randomRotOffset).ToRotationVector2();
+                            Projectile.NewProjectileDirect(
+                            Projectile.GetSource_FromThis(),
+                            Owner.Center + vr * 30f,
+                            vr * 12f,
+                            ModContent.ProjectileType<SlaughterEonBolts>(),
+                            (int)(ArkoftheCosmos.SwirlBoltDamageMultiplier / ArkoftheCosmos.SwirlBoltAmount * Projectile.damage),
+                            0f,
+                            Owner.whoAmI,
+                            0.55f,
+                            MathF.PI / 20f
+                            )
+                            .timeLeft = 100;
+                        }
+                    } 
                 }
             }
             shootBool = false;
@@ -248,6 +277,18 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 
         public override void AI()
         {
+            if (Owner == null)
+            {
+                Projectile.Kill();
+                return;
+            }
+
+            if (arkoftheCosmos == null)
+            {
+                Projectile.Kill();
+                return;
+            }
+
             if (!initialized)
             {
                 Projectile.timeLeft = Thrown ? 140 : (int)MaxSwingTime;
@@ -519,7 +560,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             SoundEngine.PlaySound(in style, Projectile.Center);
             if (Charge <= 1f)
             {
-                ArkoftheCosmos arkoftheCosmos = Owner.HeldItem.ModItem as ArkoftheCosmos;
                 if (arkoftheCosmos != null)
                 {
                     arkoftheCosmos.Charge = 2f;

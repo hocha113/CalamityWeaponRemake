@@ -20,8 +20,6 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 {
     internal class BansheeHook : ModItem
     {
-        internal float BansheeHookCharge = 500;
-
         public override string Texture => CWRConstant.Item_Melee + "BansheeHook";
 
         public override void SetStaticDefaults()
@@ -94,7 +92,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             {
                 SoundEngine.PlaySound(in CommonCalamitySounds.MeatySlashSound, player.Center);
                 SoundEngine.PlaySound(in BloodflareHeadRanged.ActivationSound, player.Center);
-                player.CWR().BansheeHookCharge = 0;
+                Item.CWR().BansheeHookCharge = 0;
                 Main.projectile[proj].ai[1] = 1;
             }
             return false;

@@ -61,6 +61,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
                 Head.Scale += (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f) * 0.02f * Projectile.scale;
             }
 
+            if (Projectile.timeLeft < 30)
+            {
+                NPC target = Projectile.Center.InPosClosestNPC(900);
+                if (target != null)
+                {
+                    Projectile.ChasingBehavior(target.Center, Projectile.velocity.Length());
+                    Projectile.velocity *= 1.05f;
+                }
+            }
+
             Lighting.AddLight(Projectile.Center, Color.Red.ToVector3());
             if (Main.rand.NextBool(2))
             {

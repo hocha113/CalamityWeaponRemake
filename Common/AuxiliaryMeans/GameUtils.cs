@@ -42,6 +42,14 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         }
 
         /// <summary>
+        /// 判断是否重写该物品
+        /// </summary>
+        public static bool RemakeByItem<T>(Item item) where T : ModItem
+        {
+            return item.type == ModContent.ItemType<T>() && CWRConstant.ForceReplaceResetContent;
+        }
+
+        /// <summary>
         /// 检查伤害类型是否与指定类型匹配或继承自指定类型
         /// </summary>
         /// <param name="damageClass">要检查的伤害类型</param>
@@ -101,6 +109,9 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
 
         public static CWRPlayer CWR(this Player player)
             => player.GetModPlayer<CWRPlayer>();
+
+        public static CWRItems CWR(this Item item)
+            => item.GetGlobalItem<CWRItems>();
 
         #region NetUtils
 

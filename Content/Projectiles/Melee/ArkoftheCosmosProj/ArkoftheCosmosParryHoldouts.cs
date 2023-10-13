@@ -11,16 +11,20 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityMod.Projectiles.Boss;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 {
+    /// <summary>
+    /// 剪刀
+    /// </summary>
     internal class ArkoftheCosmosParryHoldouts : ModProjectile
     {
         private bool initialized;
 
         private const float MaxTime = 340f;
 
-        private static float ParryTime = 15f;
+        private static float ParryTime = 30f;
 
         public CalamityUtils.CurveSegment anticipation = new CalamityUtils.CurveSegment(CalamityUtils.EasingType.SineBump, 0f, 0.2f, -0.05f);
 
@@ -38,25 +42,24 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 
         public override string Texture => "CalamityMod/Projectiles/Melee/RendingScissorsRight";
 
-        public Vector2 DistanceFromPlayer => base.Projectile.velocity * 10f + base.Projectile.velocity * 10f * ThrustDisplaceRatio();
+        public Vector2 DistanceFromPlayer => Projectile.velocity * 10f + Projectile.velocity * 10f * ThrustDisplaceRatio() + GetNewToMousVr();
 
-        public float Timer => 340f - (float)base.Projectile.timeLeft;
+        public float Timer => 340f - Projectile.timeLeft;
 
-        public float ParryProgress => (340f - (float)base.Projectile.timeLeft) / ParryTime;
+        public float ParryProgress => (340f - Projectile.timeLeft) / ParryTime;
 
-        public ref float AlreadyParried => ref base.Projectile.ai[1];
+        public ref float AlreadyParried => ref Projectile.ai[1];
 
-        public Player Owner => Main.player[base.Projectile.owner];
+        public Player Owner => Main.player[Projectile.owner];
 
         public override void SetDefaults()
         {
-            base.Projectile.DamageType = DamageClass.MeleeNoSpeed;
-            base.Projectile.width = (base.Projectile.height = 75);
-            base.Projectile.width = (base.Projectile.height = 75);
-            base.Projectile.tileCollide = false;
-            base.Projectile.friendly = true;
-            base.Projectile.penetrate = -1;
-            base.Projectile.noEnchantmentVisuals = true;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
+            Projectile.width = (Projectile.height = 75);
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.noEnchantmentVisuals = true;
         }
 
         public override bool? CanDamage()
@@ -67,8 +70,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float collisionPoint = 0f;
-            float num = 142f * base.Projectile.scale;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + base.Projectile.velocity * num, 44f, ref collisionPoint);
+            float num = 142f * Projectile.scale;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + Projectile.velocity * num, 44f, ref collisionPoint);
         }
 
         public void GeneralParryEffects()
@@ -83,8 +86,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             SoundEngine.PlaySound(in SoundID.DD2_WitherBeastCrystalImpact);
             SoundStyle style = CommonCalamitySounds.ScissorGuillotineSnapSound;
             style.Volume = CommonCalamitySounds.ScissorGuillotineSnapSound.Volume * 1.3f;
-            SoundEngine.PlaySound(in style, base.Projectile.Center);
-            CombatText.NewText(base.Projectile.Hitbox, new Color(111, 247, 200), GameUtils.Translation("PARRY!", "PARRY!"), dramatic: true);//CalamityUtils.GetTextValue("Misc.ArkParry")
+            SoundEngine.PlaySound(in style, Projectile.Center);
+            CombatText.NewText(Projectile.Hitbox, new Color(111, 247, 200), GameUtils.Translation("PARRY!", "PARRY!"), dramatic: true);//CalamityUtils.GetTextValue("Misc.ArkParry")
             for (int i = 0; i < 5; i++)
             {
                 Vector2 vector = Main.rand.NextVector2Circular((float)Owner.Hitbox.Width * 2f, (float)Owner.Hitbox.Height * 1.2f);
@@ -105,7 +108,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
                     Owner.GiveIFrames(35);
                 }
 
-                Vector2 position = ((target.Hitbox.Size().Length() < 140f) ? target.Center : (base.Projectile.Center + base.Projectile.rotation.ToRotationVector2() * 60f));
+                Vector2 position = ((target.Hitbox.Size().Length() < 140f) ? target.Center : (Projectile.Center + Projectile.rotation.ToRotationVector2() * 60f));
                 GeneralParticleHandler.SpawnParticle(new GenericSparkle(position, Vector2.Zero, Color.White, Color.HotPink, 1.2f, 35, 0.1f, 2f));
                 for (int i = 0; i < 10; i++)
                 {
@@ -119,31 +122,32 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
         {
             if (!initialized)
             {
-                base.Projectile.timeLeft = 340;
+                Projectile.timeLeft = 340;
                 SoundStyle style = SoundID.Item84;
                 style.Volume = SoundID.Item84.Volume * 0.3f;
-                SoundEngine.PlaySound(in style, base.Projectile.Center);
-                base.Projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
-                base.Projectile.velocity.Normalize();
-                base.Projectile.rotation = base.Projectile.velocity.ToRotation();
+                SoundEngine.PlaySound(in style, Projectile.Center);
+                Projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
+                Projectile.velocity.Normalize();
+                Projectile.rotation = Projectile.velocity.ToRotation();
+
                 initialized = true;
-                base.Projectile.netUpdate = true;
-                base.Projectile.netSpam = 0;
+                Projectile.netUpdate = true;
+                Projectile.netSpam = 0;
             }
 
-            base.Projectile.Center = Owner.Center + DistanceFromPlayer;
-            base.Projectile.scale = 1.4f + ThrustDisplaceRatio() * 0.2f;
+            Projectile.Center = Owner.Center + DistanceFromPlayer;
+            Projectile.scale = 1.4f + ThrustDisplaceRatio() * 0.2f;
             if (Timer > ParryTime)
             {
                 return;
             }
 
             float collisionPoint = 0f;
-            float num = 142f * base.Projectile.scale;
+            float num = 142f * Projectile.scale;
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 Projectile projectile = Main.projectile[i];
-                if (!projectile.active || !projectile.hostile || projectile.damage <= 1 || !(projectile.velocity.Length() * (float)(projectile.extraUpdates + 1) > 1f) || !(projectile.Size.Length() < 300f) || !Collision.CheckAABBvLineCollision(projectile.Hitbox.TopLeft(), projectile.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + base.Projectile.velocity * num, 24f, ref collisionPoint))
+                if (!projectile.active || !projectile.hostile || projectile.damage <= 1 || !(projectile.velocity.Length() * (float)(projectile.extraUpdates + 1) > 1f) || !(projectile.Size.Length() < 300f) || !Collision.CheckAABBvLineCollision(projectile.Hitbox.TopLeft(), projectile.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + Projectile.velocity * num, 24f, ref collisionPoint))
                 {
                     continue;
                 }
@@ -170,9 +174,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
                 break;
             }
 
-            Owner.heldProj = base.Projectile.whoAmI;
-            Owner.direction = Math.Sign(base.Projectile.velocity.X);
-            Owner.itemRotation = base.Projectile.rotation;
+            Owner.heldProj = Projectile.whoAmI;
+            Owner.direction = Math.Sign(Projectile.velocity.X);
+            Owner.itemRotation = Projectile.rotation;
             if (Owner.direction != 1)
             {
                 Owner.itemRotation -= MathF.PI;
@@ -190,6 +194,22 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             return CalamityUtils.PiecewiseAnimation(ParryProgress, anticipation, thrust, retract);
         }
 
+        bool tomousBool = true;
+        Vector2 toMou = Vector2.Zero;
+        float lengs = 0;
+        internal Vector2 GetNewToMousVr()
+        {            
+            if (tomousBool && Projectile.IsOwnedByLocalPlayer())
+            {
+                toMou = Owner.Center.To(Main.MouseWorld);
+                lengs = toMou.Length();
+                tomousBool = false;
+            }
+            float times = Timer;
+            if (times > 30) times = 30;
+            return toMou.UnitVector() * lengs * (times / 30f);
+        }
+
         internal float RotationRatio()
         {
             return CalamityUtils.PiecewiseAnimation(ParryProgress, openMore, close, stayClosed);
@@ -205,7 +225,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
                     Texture2D value2 = ModContent.Request<Texture2D>("CalamityMod/UI/MiscTextures/GenericBarFront").Value;
                     Vector2 position = Owner.Center - Main.screenPosition + new Vector2(0f, -36f) - value.Size() / 2f;
                     Rectangle value3 = new Rectangle(0, 0, (int)((Timer - ParryTime) / (340f - ParryTime) * (float)value2.Width), value2.Height);
-                    float num = ((Timer <= ParryTime + 25f) ? ((Timer - ParryTime) / 25f) : ((340f - Timer <= 8f) ? ((float)base.Projectile.timeLeft / 8f) : 1f));
+                    float num = ((Timer <= ParryTime + 25f) ? ((Timer - ParryTime) / 25f) : ((340f - Timer <= 8f) ? ((float)Projectile.timeLeft / 8f) : 1f));
                     Color color = Main.hslToRgb((float)Math.Sin(Main.GlobalTimeWrappedHourly * 1.2f) * 0.05f + 0.08f, 1f, 0.65f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 7f) * 0.1f);
                     Main.spriteBatch.Draw(value, position, color * num);
                     Main.spriteBatch.Draw(value2, position, value3, color * num * 0.8f);
@@ -218,16 +238,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             Texture2D value5 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/SunderingScissorsLeftGlow").Value;
             Texture2D value6 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/SunderingScissorsRight").Value;
             Texture2D value7 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/SunderingScissorsRightGlow").Value;
-            float num2 = base.Projectile.rotation + MathF.PI / 4f;
+            float num2 = Projectile.rotation + MathF.PI / 4f;
             float rotation = MathHelper.Lerp(num2 - MathF.PI / 4f, num2, RotationRatio());
             float rotation2 = MathHelper.Lerp(num2 + MathF.PI / 4f, num2, RotationRatio());
             Vector2 origin = new Vector2(33f, 86f);
             Vector2 origin2 = new Vector2(44f, 86f);
-            Vector2 position2 = Owner.Center + base.Projectile.velocity * 15f + base.Projectile.velocity * ThrustDisplaceRatio() * 50f - Main.screenPosition;
-            Main.EntitySpriteDraw(value6, position2, null, lightColor, rotation2, origin2, base.Projectile.scale, SpriteEffects.None);
-            Main.EntitySpriteDraw(value7, position2, null, Color.Lerp(lightColor, Color.White, 0.75f), rotation2, origin2, base.Projectile.scale, SpriteEffects.None);
-            Main.EntitySpriteDraw(value4, position2, null, lightColor, rotation, origin, base.Projectile.scale, SpriteEffects.None);
-            Main.EntitySpriteDraw(value5, position2, null, Color.Lerp(lightColor, Color.White, 0.75f), rotation, origin, base.Projectile.scale, SpriteEffects.None);
+            Vector2 position2 = Owner.Center + Projectile.velocity * 15f + Projectile.velocity * ThrustDisplaceRatio() * 50f + GetNewToMousVr() - Main.screenPosition;
+            Main.EntitySpriteDraw(value6, position2, null, lightColor, rotation2, origin2, Projectile.scale, SpriteEffects.None);
+            Main.EntitySpriteDraw(value7, position2, null, Color.Lerp(lightColor, Color.White, 0.75f), rotation2, origin2, Projectile.scale, SpriteEffects.None);
+            Main.EntitySpriteDraw(value4, position2, null, lightColor, rotation, origin, Projectile.scale, SpriteEffects.None);
+            Main.EntitySpriteDraw(value5, position2, null, Color.Lerp(lightColor, Color.White, 0.75f), rotation, origin, Projectile.scale, SpriteEffects.None);
             return false;
         }
 

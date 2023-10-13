@@ -14,8 +14,6 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 {
     internal class GildedProboscis : ModItem
     {
-        public int KevinCharge = 500;
-
         public const float TargetingDistance = 2084f;
 
         public const int LightningArea = 2800;

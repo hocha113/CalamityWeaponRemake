@@ -166,8 +166,16 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                 ModContent.ProjectileType<ArkoftheCosmosSwungBlades>(), damage, knockback, player.whoAmI, scissorState, Charge);
             if (scissorState != 2f)
             {
-                Projectile.NewProjectile(source, player.Center + velocity.SafeNormalize(Vector2.Zero) * 20f, velocity * 1.4f, 
+                if (Charge == 0)
+                {
+                    Projectile.NewProjectile(source, player.Center + velocity.SafeNormalize(Vector2.Zero) * 20f, velocity * 1.4f,
                     ModContent.ProjectileType<RendingNeedles>(), (int)(damage * NeedleDamageMultiplier + 500), knockback, player.whoAmI);
+                }
+                else
+                {
+                    Projectile.NewProjectile(source, player.Center + velocity.SafeNormalize(Vector2.Zero) * 30f, velocity * 0.4f,
+                    ModContent.ProjectileType<DreadRendingNeedles>(), (int)(damage * NeedleDamageMultiplier + 2500), knockback, player.whoAmI);
+                }
             }
             Combo += 1f;
             if (Combo > 4f)

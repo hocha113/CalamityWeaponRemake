@@ -31,19 +31,19 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 25;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = (Projectile.height = 30);
+            Projectile.width = 30;
+            Projectile.height = 30;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 80;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.tileCollide = false;
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 25;
         }
 
         public override void AI()
