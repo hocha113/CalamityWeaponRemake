@@ -34,6 +34,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.rare = 8;
             Item.shoot = ModContent.ProjectileType<CometQuasherMeteor>();
             Item.shootSpeed = 9f;
+            Item.CWR().remakeItem = true;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

@@ -2,6 +2,7 @@
 using CalamityMod.Items;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -34,6 +35,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.rare = ModContent.RarityType<DarkBlue>();
             Item.Calamity().donorItem = true;
+            Item.CWR().remakeItem = true;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

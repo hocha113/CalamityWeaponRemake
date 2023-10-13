@@ -37,6 +37,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.UseSound = SoundID.Item1;
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
+            Item.CWR().remakeItem = true;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

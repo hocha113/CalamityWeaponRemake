@@ -1,12 +1,20 @@
 Items: {
 	BrinyBaron: {
 		DisplayName: 海爵剑
-		Tooltip: ""
+		Tooltip:
+			'''
+			<left> 挥舞巨刃，击中敌人后向两侧发射水龙卷
+			<right> 发射三发水漩涡
+			'''
 	}
 
 	CosmicShiv: {
-		// DisplayName: Cosmic Shiv
-		// Tooltip: ""
+		DisplayName: 宇宙短剑
+		Tooltip:
+			'''
+			击中敌人后在玩家前方生成数个浩渺之眼
+			召唤宇宙射线灼烧敌人
+			'''
 	}
 
 	DimensionalRupture: {
@@ -25,8 +33,13 @@ Items: {
 	}
 
 	BansheeHook: {
-		// DisplayName: Banshee Hook
-		// Tooltip: ""
+		DisplayName: 女妖之爪
+		Tooltip:
+			'''
+			攻击时生成大量哀怨之镰，并发射一个追杀敌人的惊惧巨镰
+			右键积蓄惊惧能量，在能量耗尽前将在鼠标位置召唤大量憎恶镰刀，
+			憎恶镰刀击中敌人后会额外生成大量的怨灵，给予多种增益
+			'''
 	}
 
 	BlightedCleaver: {
@@ -55,8 +68,12 @@ Items: {
 	}
 
 	GildedProboscis: {
-		// DisplayName: Gilded Proboscis
-		// Tooltip: ""
+		DisplayName: 镀金鸟喙
+		Tooltip:
+			'''
+			攻击时分裂出带电羽毛
+			右键蓄能，在电量消耗完前将维持一道电流攻击沿路敌人
+			'''
 	}
 
 	Terratomere: {
@@ -73,11 +90,6 @@ Items: {
 		// DisplayName: Arkofthe Cosmos
 		// Tooltip: ""
 	}
-
-	GodIarmHem: {
-		// DisplayName: God Iarm Hem
-		// Tooltip: ""
-	}
 }
 
 Projectiles: {
@@ -92,7 +104,6 @@ Projectiles: {
 	// DimensionalRuptureProjectile.DisplayName: Dimensional Rupture Projectile
 	// CosmicRay_0.DisplayName: Cosmic Ray_0
 	// RemakeCosmicShivBall.DisplayName: Remake Cosmic Shiv Ball
-	// B.DisplayName: B
 	// MightyStar.DisplayName: Mighty Star
 	// StarDust.DisplayName: Star Dust
 	// RenderDistort.DisplayName: Render Distort

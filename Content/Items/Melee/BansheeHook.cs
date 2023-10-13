@@ -47,6 +47,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.shootSpeed = 42f;
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.rare = ModContent.RarityType<PureGreen>();
+            Item.CWR().remakeItem = true;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items;
 using CalamityMod.Projectiles.Healing;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -29,6 +30,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.rare = 1;
             Item.shoot = ModContent.ProjectileType<BurntSiennaProj>();
             Item.shootSpeed = 7f;
+            Item.CWR().remakeItem = true;
         }
 
         int sengs = 0;

@@ -32,7 +32,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 item.useTurn = true;
                 item.noUseGraphic = true;
                 item.useAnimation = 19;
-                item.useStyle = 5;
+                item.useStyle = ItemUseStyleID.Shoot;
                 item.useTime = 19;
                 item.knockBack = 8.75f;
                 item.UseSound = SoundID.Item1;

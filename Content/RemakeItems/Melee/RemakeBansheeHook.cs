@@ -1,15 +1,20 @@
-﻿using CalamityMod.Items;
+﻿using CalamityMod;
+using CalamityMod.Items;
 using CalamityMod.Items.Armor.Bloodflare;
 using CalamityMod.Rarities;
 using CalamityMod.Sounds;
+using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Melee
@@ -47,6 +52,28 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             }
         }
 
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (GameUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.BansheeHook>(item))
+            {
+                List<TooltipLine> newTooltips = new List<TooltipLine>(tooltips);
+
+                foreach (TooltipLine line in tooltips.ToList()) //复制 tooltips 集合，以便在遍历时修改
+                {
+                    if (line.Name == "Tooltip0")
+                    line.Hide();
+                }
+
+                TooltipLine newLine = new TooltipLine(Mod, "CWRText"
+                    , Language.GetText("Mods.CalamityWeaponRemake.Items.BansheeHook.Tooltip").Value);
+                newTooltips.Add(newLine);
+
+                tooltips.Clear(); // 清空原 tooltips 集合
+                tooltips.AddRange(newTooltips); // 添加修改后的 newTooltips 集合
+                CWRItems.AppAwakeningLine(tooltips);
+            }
+        }
+
         public override bool AltFunctionUse(Item item, Player player)
         {
             if (GameUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.BansheeHook>(item))
@@ -54,7 +81,8 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             return base.AltFunctionUse(item, player);
         }
 
-        public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source
+            , Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (GameUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.BansheeHook>(item))
             {

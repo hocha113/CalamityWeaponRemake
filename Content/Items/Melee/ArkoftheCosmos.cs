@@ -3,6 +3,7 @@ using CalamityMod.Items;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -97,6 +98,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.shoot = 10;
             Item.shootSpeed = 28f;
             Item.rare = ModContent.RarityType<Violet>();
+            Item.CWR().remakeItem = true;
         }
 
         public override void ModifyWeaponCrit(Player player, ref float crit)

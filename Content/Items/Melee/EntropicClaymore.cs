@@ -2,6 +2,7 @@
 using CalamityMod.Items;
 using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -31,6 +32,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.rare = 9;
             Item.shoot = ModContent.ProjectileType<EntropicFlechetteSmall>();
             Item.shootSpeed = 12f;
+            Item.CWR().remakeItem = true;
         }
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)

@@ -2,6 +2,7 @@
 using CalamityMod.Items;
 using CalamityMod.Sounds;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -45,6 +46,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.rare = 11;
             Item.shoot = ModContent.ProjectileType<RemakeGildedProboscisProj>();
             Item.shootSpeed = 13f;
+            Item.CWR().remakeItem = true;
         }
 
         public override bool AltFunctionUse(Player player)
