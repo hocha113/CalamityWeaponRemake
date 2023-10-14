@@ -123,12 +123,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             Player Owner = Main.player[Projectile.owner];
             if (AiBehavior.PlayerAlive(Owner) == false) return;
 
-            if (Owner.ownedProjectileCounts[ModContent.ProjectileType<CosmicRay_0>()] <= 12)
+            if (Owner.ownedProjectileCounts[ModContent.ProjectileType<CosmicRay>()] <= 12)
             {
                 float mode = Owner.Center.To(target.Center).Length() * 0.5f;
                 if (mode > 260) mode = 260;
                 Vector2 spanPos = Owner.Center + (Owner.Center.To(target.Center).ToRotation() + MathHelper.ToRadians(HcMath.HcRandom.Next(-45, 45))).ToRotationVector2() * mode;
-                int proj = Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(Projectile), spanPos, Vector2.Zero, ModContent.ProjectileType<CosmicRay_0>(), Projectile.damage * 2, Projectile.knockBack, Owner.whoAmI);
+                int proj = Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(Projectile), spanPos, Vector2.Zero, ModContent.ProjectileType<CosmicRay>(), Projectile.damage * 2, Projectile.knockBack, Owner.whoAmI);
                 Main.projectile[proj].rotation = Main.projectile[proj].Center.To(target.Center).ToRotation();
                 int dust = Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(Projectile), Owner.Center, Vector2.Zero, ModContent.ProjectileType<StarDust>(), 0, Projectile.knockBack, Owner.whoAmI, ai1: proj);
             }

@@ -1,6 +1,11 @@
 ﻿using CalamityMod;
+using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Common.DrawTools;
+using CalamityWeaponRemake.Content.Items.Melee;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,6 +26,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         {
             Projectile.width = 50;
             Projectile.height = 50;
+            Projectile.MaxUpdates = 2;
             Projectile.aiStyle = 18;
             Projectile.alpha = 100;
             Projectile.friendly = true;
@@ -28,18 +34,52 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             Projectile.tileCollide = false;
             Projectile.penetrate = 3;
             Projectile.ignoreWater = true;
-            AIType = 274;
-            Projectile.MaxUpdates = 2;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 20 * Projectile.MaxUpdates;
             Projectile.timeLeft = 180 * Projectile.MaxUpdates;
+            Projectile.aiStyle = -1;            
         }
 
         public override void AI()
         {
+            
             Lighting.AddLight(Projectile.Center, 0.6f, 0f, 0f);
-            float homingVelocity = Projectile.ai[0] == 1f ? 8f : 4f;
-            CalamityUtils.HomeInOnNPC(Projectile, ignoreTiles: true, 250f, homingVelocity, 20f);
+            Projectile.rotation += 0.4f;
+            NPC target = Projectile.Center.InPosClosestNPC(900);
+            if (Projectile.ai[0] == 0)
+            {
+                if (Projectile.ai[1] == 0)
+                { 
+                    Projectile.velocity *= 0.98f;
+                    if (Projectile.timeLeft < 100)
+                    {
+                        Projectile.velocity *= 5;
+                        Projectile.ai[1] = 1;
+                    }
+                }
+                if (Projectile.ai[1] == 1 && target != null)
+                {
+                    
+                    Projectile.ChasingBehavior(target.Center, Projectile.velocity.Length());
+                    Projectile.velocity *= 1.005f;
+                }
+            }
+            if (Projectile.ai[0] == 1)
+            {
+                if (Projectile.ai[1] == 0)
+                {
+                    Projectile.velocity *= 0.995f;
+                    if (Projectile.timeLeft < 100)
+                    {
+                        Projectile.ai[1] = 1;
+                    }
+                }
+                if (Projectile.ai[1] == 1 && target != null)
+                {
+                    Projectile.ChasingBehavior(target.Center, Projectile.velocity.Length());
+                    Projectile.velocity *= 1.008f;
+                }
+            }
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -56,12 +96,43 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
-            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Type], lightColor);
+            //Texture2D texture = DrawUtils.GetT2DValue(Texture);
+            //Main.EntitySpriteDraw(
+            //    texture,
+            //    Projectile.Center - Main.screenPosition,
+            //    null,
+            //    lightColor,
+            //    Projectile.rotation,
+            //    DrawUtils.GetOrig(texture),
+            //    Projectile.scale,
+            //    SpriteEffects.None,
+            //    0
+            //    );
+            CalamityUtils.DrawAfterimagesCentered(base.Projectile, ProjectileID.Sets.TrailingMode[base.Projectile.type], lightColor);
             return false;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            if (Projectile.numHits == 0 && Projectile.ai[0] == 0)
+            {
+                int type = ModContent.ProjectileType<HyperBlade>();
+                for (int i = 0; i < 3; i++)
+                {
+                    Vector2 offsetvr = HcMath.GetRandomVevtor(-97.5f, -82.5f, 360);
+                    Vector2 spanPos = target.Center + offsetvr;
+                    Projectile.NewProjectile(
+                        AiBehavior.GetEntitySource_Parent(Projectile),
+                        spanPos,
+                        -offsetvr.UnitVector() * 12,
+                        type,
+                        Projectile.damage / 2,
+                        0,
+                        Projectile.owner
+                        );
+                }
+            }
+
             target.AddBuff(24, 180);
         }
     }

@@ -112,7 +112,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 {
                     SoundEngine.PlaySound(in CommonCalamitySounds.MeatySlashSound, player.Center);
                     SoundEngine.PlaySound(in BloodflareHeadRanged.ActivationSound, player.Center);
-                    item.CWR().BansheeHookCharge = 0;
+                    item.CWR().FrightEnergyCharge = 0;
                     Main.projectile[proj].ai[1] = 1;
                 }
                 return false;

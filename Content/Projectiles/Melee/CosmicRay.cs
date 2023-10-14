@@ -12,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee
 {
-    internal class CosmicRay_0 : ModProjectile
+    internal class CosmicRay : ModProjectile
     {
         public override void SetStaticDefaults()
         {

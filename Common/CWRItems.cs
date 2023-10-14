@@ -1,9 +1,11 @@
 ﻿using CalamityMod;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Common
@@ -17,9 +19,15 @@ namespace CalamityWeaponRemake.Common
         public override bool InstancePerEntity => true;
 
         public bool remakeItem;
-
-        public float BansheeHookCharge = 500;
+        public Player HoldOwner = null;
+        public float FrightEnergyCharge = 500;
         public int KevinCharge = 500;
+        public float RageEnergy;
+
+        public override void HoldItem(Item item, Player player)
+        {
+            OwnerByDir(item, player);
+        }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
@@ -32,6 +40,15 @@ namespace CalamityWeaponRemake.Common
                     );
 
                 AppAwakeningLine(tooltips);
+            }
+        }
+
+        private void OwnerByDir(Item item, Player player)
+        {
+            if (item.useStyle == ItemUseStyleID.Swing 
+                || player.whoAmI == Main.myPlayer)
+            {
+                player.direction = Math.Sign(player.position.To(Main.MouseWorld).X);
             }
         }
 

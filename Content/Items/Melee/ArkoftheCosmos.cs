@@ -83,7 +83,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         {
             Item.width = 136;
             Item.height = 136;
-            Item.damage = 1570;
+            Item.damage = 1270;
             Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.noMelee = true;
             Item.noUseGraphic = true;

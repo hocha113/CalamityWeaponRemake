@@ -1,4 +1,5 @@
 ﻿using CalamityMod;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Sounds;
 using CalamityWeaponRemake.Common;
@@ -20,7 +21,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 {
     internal class RemakeGildedProboscisProj : BaseSpearProjectile
     {
-        public override LocalizedText DisplayName => CalamityUtils.GetItemName<GildedProboscis>();
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Content.Items.Melee.GildedProboscis>();
 
         public override float InitialSpeed => 3f;
 
@@ -241,36 +242,51 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             DrawKevinChargeBar();
         }
 
+        int barsFrame = 0;
         public void DrawKevinChargeBar()
         {
             if (Owner == null || Projectile.ai[1] != 1) return;
-
-            Texture2D textureFront = DrawUtils.GetT2DValue("CalamityWeaponRemake/Assets/UIs/GenericBarFront");
-            Texture2D textureBack = DrawUtils.GetT2DValue("CalamityWeaponRemake/Assets/UIs/GenericBarBack");
-            Vector2 drawPos = DrawUtils.WDEpos(Owner.Center + new Vector2(textureFront.Width / -2, 135));
+            Texture2D kevinChargeBack = DrawUtils.GetT2DValue(CWRConstant.UI + "KevinChargeBack");
+            Texture2D kevinChargeBars = DrawUtils.GetT2DValue(CWRConstant.UI + "KevinChargeBars");
+            Texture2D kevinChargeTop = DrawUtils.GetT2DValue(CWRConstant.UI + "KevinChargeTop");
+            float slp = 3;
+            Vector2 drawPos = DrawUtils.WDEpos(Owner.Center + new Vector2(kevinChargeBack.Width / -2 * slp, 135));
             float alp = (drawUIalp / 255f);
-            Rectangle backRec = new Rectangle(0, 0, (int)(textureBack.Width * (gildedProboscis.CWR().KevinCharge / 500f)), textureBack.Height);
+            DrawUtils.ClockFrame(ref barsFrame, 5, 3);
+            Rectangle backRec = new Rectangle(0, barsFrame * kevinChargeBack.Height, (int)(kevinChargeBack.Width * (gildedProboscis.CWR().KevinCharge / 500f)), kevinChargeBack.Height);           
 
             Main.EntitySpriteDraw(
-                textureFront,
+                kevinChargeBack,
                 drawPos,
                 null,
-                Color.Gold * alp,
+                Color.White * alp,
                 0,
-                new Vector2(3, 1),
-                1.2f,
+                Vector2.Zero,
+                slp,
                 SpriteEffects.None,
                 0
                 );
 
             Main.EntitySpriteDraw(
-                textureBack,
+                kevinChargeBars,
                 drawPos,
                 backRec,
-                Color.DarkGoldenrod * alp,
+                Color.White * alp,
                 0,
                 Vector2.Zero,
-                1,
+                slp,
+                SpriteEffects.None,
+                0
+                );
+
+            Main.EntitySpriteDraw(
+                kevinChargeTop,
+                drawPos,
+                null,
+                Color.White * alp,
+                0,
+                Vector2.Zero,
+                slp,
                 SpriteEffects.None,
                 0
                 );

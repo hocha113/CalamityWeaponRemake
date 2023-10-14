@@ -12,6 +12,8 @@ using Terraria.ModLoader;
 using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityMod.Projectiles.Boss;
+using CalamityWeaponRemake.Common.DrawTools;
+using CalamityWeaponRemake.Common;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 {
@@ -248,7 +250,70 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             Main.EntitySpriteDraw(value7, position2, null, Color.Lerp(lightColor, Color.White, 0.75f), rotation2, origin2, Projectile.scale, SpriteEffects.None);
             Main.EntitySpriteDraw(value4, position2, null, lightColor, rotation, origin, Projectile.scale, SpriteEffects.None);
             Main.EntitySpriteDraw(value5, position2, null, Color.Lerp(lightColor, Color.White, 0.75f), rotation, origin, Projectile.scale, SpriteEffects.None);
+            DrawChain();
             return false;
+        }
+
+        public void DrawChain()
+        {
+            Texture2D mainValue = DrawUtils.GetT2DValue(CWRConstant.Masking + "Streak3");
+            Texture2D startValue = DrawUtils.GetT2DValue(CWRConstant.Projectile + "TornadoProj");
+
+            Vector2 toOwner = Owner.Center.To(Projectile.Center);
+            float lengs = toOwner.Length();
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.AnisotropicWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+
+            Main.EntitySpriteDraw(
+                mainValue,
+                DrawUtils.WDEpos(Owner.Center),
+                DrawUtils.GetRec(mainValue, 0, 0, (int)lengs, mainValue.Height),
+                new Color(92, 58, 156),
+                Projectile.rotation,
+                new Vector2(0, mainValue.Height * 0.5f),
+                new Vector2(1, 0.2f),
+                SpriteEffects.None,
+                0
+            );
+
+            Projectile.localAI[0]++;
+
+            int vortexLayers = Projectile.timeLeft - 250;
+            if (Projectile.timeLeft >= 77) vortexLayers = 90 - Projectile.timeLeft - 250;
+            if (vortexLayers > 13 && Projectile.timeLeft < 77 + 250) vortexLayers = 13;
+
+            for (int i = 0; i < vortexLayers; i++)
+            {
+                Main.EntitySpriteDraw(
+                startValue,
+                DrawUtils.WDEpos(Owner.Center),
+                DrawUtils.GetRec(startValue),
+                new Color(92, 58, 156),
+                Projectile.rotation + MathHelper.ToRadians(Projectile.localAI[0] * (i / 5f) + 30 * i),
+                DrawUtils.GetOrig(startValue),
+                (1 + i * 0.5f) * 0.5f,
+                SpriteEffects.None,
+                0
+                );
+            }
+
+            for (int i = 0; i < 13; i++)
+            {
+                Main.EntitySpriteDraw(
+                startValue,
+                DrawUtils.WDEpos(Projectile.Center),
+                DrawUtils.GetRec(startValue),
+                new Color(92, 58, 156),
+                Projectile.rotation + MathHelper.ToRadians(Projectile.localAI[0] * (i / 5f) + 30 * i),
+                DrawUtils.GetOrig(startValue),
+                1,
+                SpriteEffects.None,
+                0
+                );
+            }
+
+            Main.spriteBatch.ResetBlendState();
         }
 
         public override void OnKill(int timeLeft)

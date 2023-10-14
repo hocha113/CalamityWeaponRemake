@@ -101,7 +101,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             {
                 if (Owner.channel && !Owner.noItems && !Owner.CCed)
                 {
-                    return Owner.HeldItem.type == ModContent.ItemType<ArkoftheCosmos>();
+                    //需要考虑到，这个弹幕会被重制物品发射。也会被原模组物品发射
+                    return Owner.HeldItem.type == ModContent.ItemType<ArkoftheCosmos>() 
+                        || Owner.HeldItem.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.ArkoftheCosmos>();
                 }
 
                 return false;

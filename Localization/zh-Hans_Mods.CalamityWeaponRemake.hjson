@@ -103,6 +103,7 @@ Projectiles: {
 
 	// DimensionalRuptureProjectile.DisplayName: Dimensional Rupture Projectile
 	// CosmicRay_0.DisplayName: Cosmic Ray_0
+	// CosmicRay.DisplayName: Cosmic Ray
 	// RemakeCosmicShivBall.DisplayName: Remake Cosmic Shiv Ball
 	// MightyStar.DisplayName: Mighty Star
 	// StarDust.DisplayName: Star Dust
@@ -137,6 +138,7 @@ Projectiles: {
 	// SlaughterExplosion.DisplayName: Slaughter Explosion
 	// DreadRendingNeedles.DisplayName: Dread Rending Needles
 	// DreadStar.DisplayName: Dread Star
+	// SunlightBlades.DisplayName: Sunlight Blades
 }
 
 Configs: {

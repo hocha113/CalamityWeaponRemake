@@ -119,7 +119,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
                     if (Projectile.IsOwnedByLocalPlayer())
                     {
-                        bansheeHook.CWR().BansheeHookCharge += 8.333f;
+                        bansheeHook.CWR().FrightEnergyCharge += 8.333f;
                         if (Projectile.localAI[1] % 20 == 0)
                         {
                             SoundEngine.PlaySound(
@@ -174,7 +174,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                     }
                     if (Projectile.localAI[1] > 60)
                     {
-                        bansheeHook.CWR().BansheeHookCharge = 500;
+                        bansheeHook.CWR().FrightEnergyCharge = 500;
                         Projectile.ai[2] = 1;
                         Projectile.localAI[1] = 0;
                     }
@@ -189,7 +189,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                         Projectile.rotation = toMous.ToRotation();
                         Projectile.localAI[2]++;
 
-                        bansheeHook.CWR().BansheeHookCharge--;
+                        bansheeHook.CWR().FrightEnergyCharge--;
 
                         if (Projectile.localAI[1] > 10 && Projectile.localAI[1] % 20 == 0)
                         {
@@ -225,12 +225,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                             }
                         }
 
-                        if (bansheeHook.CWR().BansheeHookCharge <= 0)
+                        if (bansheeHook.CWR().FrightEnergyCharge <= 0)
                         {
                             Projectile.ai[2] = 0;
                             Projectile.localAI[1] = 0;
                             Projectile.netUpdate = true;
-                            bansheeHook.CWR().BansheeHookCharge = 0;
+                            bansheeHook.CWR().FrightEnergyCharge = 0;
                             SoundEngine.PlaySound(in CommonCalamitySounds.MeatySlashSound, Projectile.Center);
                             SoundEngine.PlaySound(in BloodflareHeadRanged.ActivationSound, Projectile.Center);
                         }
@@ -381,33 +381,46 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         public void DrawKevinChargeBar()
         {
             if (Owner == null || Projectile.ai[1] != 1) return;
-
-            Texture2D textureFront = DrawUtils.GetT2DValue("CalamityWeaponRemake/Assets/UIs/GenericBarFront");
-            Texture2D textureBack = DrawUtils.GetT2DValue("CalamityWeaponRemake/Assets/UIs/GenericBarBack");
-            Vector2 drawPos = DrawUtils.WDEpos(Owner.Center + new Vector2(textureFront.Width / -2, 135));
+            Texture2D frightEnergyChargeBack = DrawUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeBack");
+            Texture2D frightEnergyChargeBar = DrawUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeBar");
+            Texture2D frightEnergyChargeTop = DrawUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeTop");
+            float slp = 3;
+            Vector2 drawPos = DrawUtils.WDEpos(Owner.Center + new Vector2(frightEnergyChargeBar.Width / -2 * slp, 135));
             float alp = (drawUIalp / 255f);
-            Rectangle backRec = new Rectangle(0, 0, (int)(textureBack.Width * (bansheeHook.CWR().BansheeHookCharge / 500f)), textureBack.Height);
+            Rectangle backRec = new Rectangle(0, 0, (int)(frightEnergyChargeBar.Width * (bansheeHook.CWR().FrightEnergyCharge / 500f)), frightEnergyChargeBar.Height);
 
             Main.EntitySpriteDraw(
-                textureFront,
+                frightEnergyChargeBack,
                 drawPos,
                 null,
-                Color.Red * alp,
+                Color.White * alp,
                 0,
-                new Vector2(3, 1),
-                1.2f,
+                Vector2.Zero,
+                slp,
                 SpriteEffects.None,
                 0
                 );
 
             Main.EntitySpriteDraw(
-                textureBack,
+                frightEnergyChargeBar,
                 drawPos,
                 backRec,
-                Color.DarkGoldenrod * alp,
+                Color.White * alp,
                 0,
                 Vector2.Zero,
-                1,
+                slp,
+                SpriteEffects.None,
+                0
+                );
+
+            Main.EntitySpriteDraw(
+                frightEnergyChargeTop,
+                drawPos,
+                null,
+                Color.White * alp,
+                0,
+                Vector2.Zero,
+                slp,
                 SpriteEffects.None,
                 0
                 );
