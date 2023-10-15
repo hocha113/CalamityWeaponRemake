@@ -6,7 +6,6 @@ using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Common.DrawTools;
 using CalamityWeaponRemake.Content.Projectiles.Melee;
-using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -54,7 +53,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             base.PostDrawInInventory(spriteBatch, position, frame, drawColor, itemColor, origin, scale);
             if (Item.CWR().HoldOwner != null && rageEnergy > 0)
             {
-                DrawKevinChargeBar(Item.CWR().HoldOwner);
+                DrawRageEnergyChargeBar(Item.CWR().HoldOwner);
             }
         }
 
@@ -202,7 +201,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             target.AddBuff(70, 150);
         }
 
-        public void DrawKevinChargeBar(Player player)
+        public void DrawRageEnergyChargeBar(Player player)
         {
             if (player.HeldItem.type != Item.type) return;
             Texture2D rageEnergyTop = DrawUtils.GetT2DValue(CWRConstant.UI + "RageEnergyTop");

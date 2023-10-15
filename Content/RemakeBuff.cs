@@ -1,4 +1,7 @@
-﻿using Terraria;
+﻿using CalamityWeaponRemake.Content.Dusts;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content
@@ -9,13 +12,14 @@ namespace CalamityWeaponRemake.Content
         {
             switch (type)
             {
-                case 98:
+                case BuffID.BeetleMight1:
+                    
                     player.GetAttackSpeed<MeleeDamageClass>() += 0.05f;
                     break;
-                case 99:
+                case BuffID.BeetleMight2:
                     player.GetAttackSpeed<MeleeDamageClass>() += 0.1f;
                     break;
-                case 100:
+                case BuffID.BeetleMight3:
                     player.GetAttackSpeed<MeleeDamageClass>() += 0.15f;
                     break;
             }

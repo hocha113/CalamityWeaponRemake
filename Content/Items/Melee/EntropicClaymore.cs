@@ -1,10 +1,14 @@
 ﻿using CalamityMod;
 using CalamityMod.Items;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Content.Projectiles.Melee;
+using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,23 +19,28 @@ namespace CalamityWeaponRemake.Content.Items.Melee
     {
         public override string Texture => CWRConstant.Item_Melee + "EntropicClaymore";
 
+        public static readonly Color EntropicColor1 = new Color(25, 5, 9);
+
+        public static readonly Color EntropicColor2 = new Color(25, 5, 9);
+
+        public static readonly SoundStyle SwingSound = SoundID.Item1;
+
         public override void SetDefaults()
         {
-            Item.width = 130;
-            Item.height = 106;
-            Item.damage = 90;
+            Item.damage = 122;
             Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = 26;
-            Item.useStyle = 1;
-            Item.useTime = 26;
-            Item.useTurn = true;
+            Item.useAnimation = 78;
+            Item.useTime = 78;
             Item.knockBack = 5.25f;
-            Item.UseSound = SoundID.Item1;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
             Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
             Item.value = CalamityGlobalItem.Rarity9BuyPrice;
-            Item.rare = 9;
-            Item.shoot = ModContent.ProjectileType<EntropicFlechetteSmall>();
-            Item.shootSpeed = 12f;
+            Item.rare = ItemRarityID.Cyan;
+            Item.shoot = ModContent.ProjectileType<EntropicClaymoreHoldoutProj>();
+            Item.shootSpeed = 12f;            
             Item.CWR().remakeItem = true;
         }
 
@@ -42,28 +51,23 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int num6 = Main.rand.Next(4, 6);
-            for (int index = 0; index < num6; index++)
-            {
-                float SpeedX = velocity.X + Main.rand.Next(-20, 21) * 0.05f;
-                float SpeedY = velocity.Y + Main.rand.Next(-20, 21) * 0.05f;
-                float damageMult = 0.5f;
-                switch (index)
-                {
-                    case 0:
-                        type = ModContent.ProjectileType<EntropicFlechetteSmall>();
-                        break;
-                    case 1:
-                        type = ModContent.ProjectileType<EntropicFlechette>();
-                        damageMult = 0.65f;
-                        break;
-                    case 2:
-                        type = ModContent.ProjectileType<EntropicFlechetteLarge>();
-                        damageMult = 0.8f;
-                        break;
-                }
-                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * damageMult), knockback, player.whoAmI);
-            }
+            Item.initialize();
+            Item.CWR().ai[0]++;
+            if (Item.CWR().ai[0] > 2)
+                Item.CWR().ai[0] = 0;
+            Item.NetStateChanged
+            Projectile proj = Projectile.NewProjectileDirect(
+                source,
+                position,
+                velocity,
+                type,
+                damage,
+                knockback,
+                player.whoAmI,
+                ai2 : Item.useTime
+                );
+            proj.timeLeft = Item.useTime;
+            proj.localAI[0] = Item.CWR().ai[0];
             return false;
         }
 

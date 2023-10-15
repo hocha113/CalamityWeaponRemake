@@ -3,6 +3,7 @@ using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
@@ -18,13 +19,38 @@ namespace CalamityWeaponRemake.Common
         //我无法找到更好的解决方法，于是只能创建并即将大量应用这个CWRItems类
         public override bool InstancePerEntity => true;
 
+        /// <summary>
+        /// 用于存储物品的状态值，对这个数组的使用避免了额外类成员的创建
+        /// (自建类成员数据对于修改物品而言总是令人困惑)。
+        /// 这个数组不会自动的网络同步，需要在合适的时机下调用同步指令
+        /// </summary>
+        public float[] ai = new float[] {0, 0, 0};
+        /// <summary>
+        /// 是否是一个重制物品
+        /// </summary>
         public bool remakeItem;
+        /// <summary>
+        /// 是否正在真近战
+        /// </summary>
         public bool closeCombat;
-        public float offsetItemScale;
+        /// <summary>
+        /// 正在手持这个物品的玩家实例
+        /// </summary>
         public Player HoldOwner = null;
+
         public float FrightEnergyCharge = 500;
         public int KevinCharge = 500;
         public float RageEnergy;
+
+        public override void NetSend(Item item, BinaryWriter writer)
+        {
+            base.NetSend(item, writer);
+        }
+
+        public override void NetReceive(Item item, BinaryReader reader)
+        {
+            base.NetReceive(item, reader);
+        }
 
         public override void HoldItem(Item item, Player player)
         {

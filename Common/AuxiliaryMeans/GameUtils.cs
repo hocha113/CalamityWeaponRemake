@@ -115,6 +115,12 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         public static CWRItems CWR(this Item item)
             => item.GetGlobalItem<CWRItems>();
 
+        public static void initialize(this Item item)
+        {
+            if (item.CWR().ai == null)
+                item.CWR().ai = new float[] { 0, 0, 0 };
+        }
+
         #region NetUtils
 
         /// <summary>

@@ -65,7 +65,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
             if (Item.CWR().HoldOwner != null && rageEnergy > 0)
             {
-                DrawKevinChargeBar(Item.CWR().HoldOwner);
+                DrawRageEnergyChargeBar(Item.CWR().HoldOwner);
             }
         }
 
@@ -188,7 +188,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.CWR().RageEnergy = tag.GetFloat("TerrorBlades_rageEnergy");
         }
 
-        public void DrawKevinChargeBar(Player player)
+        public void DrawRageEnergyChargeBar(Player player)
         {
             if (player.HeldItem.type != Item.type) return;
             Texture2D rageEnergyTop = DrawUtils.GetT2DValue(CWRConstant.UI + "RageEnergyTop");
