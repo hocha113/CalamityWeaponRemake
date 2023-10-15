@@ -34,11 +34,13 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// </summary>
         public static string Translation(string Chinese = null, string English = null, string Japanese = null, string Russian = null)
         {
-            if (Language.ActiveCulture.Name == "zh-Hans") return Chinese;
-            if (Language.ActiveCulture.Name == "en-US") return English;
-            if (Language.ActiveCulture.Name == "ja-Hans") return Japanese;
-            if (Language.ActiveCulture.Name == "ru-Hans") return Russian;
-            return English;
+            string text;
+            if (Language.ActiveCulture.Name == "zh-Hans") text = Chinese;
+            else if (Language.ActiveCulture.Name == "ja-Hans") text = Japanese;
+            else if (Language.ActiveCulture.Name == "ru-Hans") text = Russian;
+            else text = English;
+            if (text == null || text == default) text = "Invalid Character";
+            return text;
         }
 
         /// <summary>

@@ -129,8 +129,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
         public void StickToOwner()
         {
-            //Projectile.Center = Owner.RotatedRelativePoint(Owner.MountedCenter, reverseRotation: true) + SwordDirection * new Vector2(7f, 16f) * Projectile.scale;
-            //Projectile.Center -= Projectile.velocity.SafeNormalize(Vector2.UnitY) * new Vector2(66f, 54f + Projectile.scale * 8f);
             Projectile.Center = Owner.Center;
             Owner.heldProj = Projectile.whoAmI;
             Owner.SetDummyItemTime(2);

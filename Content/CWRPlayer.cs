@@ -5,6 +5,21 @@ namespace CalamityWeaponRemake.Content
 {
     public class CWRPlayer : ModPlayer
     {
+        public override void Initialize()
+        {
+            base.Initialize();
+        }
+
+        public override void OnEnterWorld()
+        {
+            base.OnEnterWorld();
+        }
+
+        public override void OnHurt(Player.HurtInfo info)
+        {
+            base.OnHurt(info);
+        }
+
         public override void ModifyHitByNPC(NPC npc, ref Player.HurtModifiers modifiers)
         {
             base.ModifyHitByNPC(npc, ref modifiers);

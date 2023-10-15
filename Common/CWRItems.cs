@@ -19,6 +19,8 @@ namespace CalamityWeaponRemake.Common
         public override bool InstancePerEntity => true;
 
         public bool remakeItem;
+        public bool closeCombat;
+        public float offsetItemScale;
         public Player HoldOwner = null;
         public float FrightEnergyCharge = 500;
         public int KevinCharge = 500;
