@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.Chat;
 using Terraria.DataStructures;
+using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -43,6 +44,19 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
             return text;
         }
 
+        /// <summary>
+        /// 检查指定玩家是否按下了鼠标键
+        /// </summary>
+        /// <param name="player">要检查的玩家</param>
+        /// <param name="leftCed">是否检查左鼠标键，否则检测右鼠标键</param>
+        /// <param name="netCed">是否进行网络同步检查</param>
+        /// <returns>如果按下了指定的鼠标键，则返回true，否则返回false</returns>
+        public static bool PressKey(this Player player, bool leftCed = true, bool netCed = true)
+        {
+            if (netCed && Main.myPlayer != player.whoAmI) return false;
+            return leftCed ? PlayerInput.Triggers.Current.MouseLeft : PlayerInput.Triggers.Current.MouseRight;
+        }
+             
         /// <summary>
         /// 判断是否重写该物品
         /// </summary>

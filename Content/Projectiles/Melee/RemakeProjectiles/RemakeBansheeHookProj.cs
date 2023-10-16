@@ -119,7 +119,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
                     if (Projectile.IsOwnedByLocalPlayer())
                     {
-                        bansheeHook.CWR().FrightEnergyCharge += 8.333f;
+                        bansheeHook.CWR().MeleeCharge += 8.333f;
                         if (Projectile.localAI[1] % 20 == 0)
                         {
                             SoundEngine.PlaySound(
@@ -174,7 +174,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                     }
                     if (Projectile.localAI[1] > 60)
                     {
-                        bansheeHook.CWR().FrightEnergyCharge = 500;
+                        bansheeHook.CWR().MeleeCharge = 500;
                         Projectile.ai[2] = 1;
                         Projectile.localAI[1] = 0;
                     }
@@ -189,7 +189,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                         Projectile.rotation = toMous.ToRotation();
                         Projectile.localAI[2]++;
 
-                        bansheeHook.CWR().FrightEnergyCharge--;
+                        bansheeHook.CWR().MeleeCharge--;
 
                         if (Projectile.localAI[1] > 10 && Projectile.localAI[1] % 20 == 0)
                         {
@@ -225,12 +225,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                             }
                         }
 
-                        if (bansheeHook.CWR().FrightEnergyCharge <= 0)
+                        if (bansheeHook.CWR().MeleeCharge <= 0)
                         {
                             Projectile.ai[2] = 0;
                             Projectile.localAI[1] = 0;
                             Projectile.netUpdate = true;
-                            bansheeHook.CWR().FrightEnergyCharge = 0;
+                            bansheeHook.CWR().MeleeCharge = 0;
                             SoundEngine.PlaySound(in CommonCalamitySounds.MeatySlashSound, Projectile.Center);
                             SoundEngine.PlaySound(in BloodflareHeadRanged.ActivationSound, Projectile.Center);
                         }
@@ -385,9 +385,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             Texture2D frightEnergyChargeBar = DrawUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeBar");
             Texture2D frightEnergyChargeTop = DrawUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeTop");
             float slp = 3;
+            int offsetwid = 4;
             Vector2 drawPos = DrawUtils.WDEpos(Owner.Center + new Vector2(frightEnergyChargeBar.Width / -2 * slp, 135));
             float alp = (drawUIalp / 255f);
-            Rectangle backRec = new Rectangle(0, 0, (int)(frightEnergyChargeBar.Width * (bansheeHook.CWR().FrightEnergyCharge / 500f)), frightEnergyChargeBar.Height);
+            Rectangle backRec = new Rectangle(offsetwid, 0, (int)((frightEnergyChargeBar.Width - offsetwid * 2) * (bansheeHook.CWR().MeleeCharge / 500f)), frightEnergyChargeBar.Height);
 
             Main.EntitySpriteDraw(
                 frightEnergyChargeBack,
@@ -403,7 +404,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
             Main.EntitySpriteDraw(
                 frightEnergyChargeBar,
-                drawPos,
+                drawPos + new Vector2(offsetwid, 0) * slp,
                 backRec,
                 Color.White * alp,
                 0,

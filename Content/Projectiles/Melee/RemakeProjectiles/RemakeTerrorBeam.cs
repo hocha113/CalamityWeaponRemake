@@ -164,7 +164,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 if (Projectile.tileCollide)
                 {
                     Projectile.tileCollide = false;
-                    Projectile.localNPCHitCooldown = -1;
+                }
+                if (Projectile.numHits > 2)
+                {
+                    Projectile.Kill();
                 }
                 
                 NPC target = Projectile.Center.InPosClosestNPC(600);

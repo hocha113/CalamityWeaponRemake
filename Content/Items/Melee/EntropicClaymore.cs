@@ -33,6 +33,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.useTime = 78;
             Item.knockBack = 5.25f;
             Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
             Item.useTurn = true;
             Item.autoReuse = true;
             Item.noUseGraphic = true;
@@ -55,7 +56,6 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.CWR().ai[0]++;
             if (Item.CWR().ai[0] > 2)
                 Item.CWR().ai[0] = 0;
-            Item.NetStateChanged
             Projectile proj = Projectile.NewProjectileDirect(
                 source,
                 position,

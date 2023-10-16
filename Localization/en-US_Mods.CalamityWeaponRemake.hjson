@@ -91,6 +91,7 @@ Projectiles: {
 
 	DimensionalRuptureProjectile.DisplayName: Dimensional Rupture Projectile
 	CosmicRay_0.DisplayName: Cosmic Ray_0
+	CosmicRay.DisplayName: Cosmic Ray
 	RemakeCosmicShivBall.DisplayName: Remake Cosmic Shiv Ball
 	MightyStar.DisplayName: Mighty Star
 	StarDust.DisplayName: Star Dust
@@ -125,6 +126,10 @@ Projectiles: {
 	SlaughterExplosion.DisplayName: Slaughter Explosion
 	DreadRendingNeedles.DisplayName: Dread Rending Needles
 	DreadStar.DisplayName: Dread Star
+	TerrorBlasts.DisplayName: Terror Blasts
+	SunlightBlades.DisplayName: Sunlight Blades
+	RemakeTerrorBeam.DisplayName: Remake Terror Beam
+	EntropicClaymoreHoldoutProj.DisplayName: Entropic Claymore Holdout Proj
 }
 
 Configs: {
@@ -151,5 +156,17 @@ Configs: {
 				Disabling this option will deactivate this feature.
 				'''
 		}
+	}
+}
+
+Buffs: {
+	SoulBurning: {
+		Description: Mods.CalamityWeaponRemake.Buffs.SoulBurning.Description
+		DisplayName: Soul Burning
+	}
+
+	HellfireExplosion: {
+		Description: Mods.CalamityWeaponRemake.Buffs.HellfireExplosion.Description
+		DisplayName: Hellfire Explosion
 	}
 }

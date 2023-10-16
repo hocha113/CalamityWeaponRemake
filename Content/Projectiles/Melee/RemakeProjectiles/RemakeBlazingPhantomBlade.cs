@@ -41,8 +41,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         }
 
         public override void AI()
-        {
-            
+        {            
             Lighting.AddLight(Projectile.Center, 0.6f, 0f, 0f);
             Projectile.rotation += 0.4f;
             NPC target = Projectile.Center.InPosClosestNPC(900);
@@ -51,15 +50,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 if (Projectile.ai[1] == 0)
                 { 
                     Projectile.velocity *= 0.98f;
-                    if (Projectile.timeLeft < 100)
+                    if (Projectile.timeLeft < 150)
                     {
-                        Projectile.velocity *= 5;
+                        Projectile.velocity = Projectile.velocity.UnitVector() * 7;
                         Projectile.ai[1] = 1;
                     }
                 }
                 if (Projectile.ai[1] == 1 && target != null)
                 {
-                    
                     Projectile.ChasingBehavior(target.Center, Projectile.velocity.Length());
                     Projectile.velocity *= 1.005f;
                 }
@@ -96,18 +94,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
-            //Texture2D texture = DrawUtils.GetT2DValue(Texture);
-            //Main.EntitySpriteDraw(
-            //    texture,
-            //    Projectile.Center - Main.screenPosition,
-            //    null,
-            //    lightColor,
-            //    Projectile.rotation,
-            //    DrawUtils.GetOrig(texture),
-            //    Projectile.scale,
-            //    SpriteEffects.None,
-            //    0
-            //    );
             CalamityUtils.DrawAfterimagesCentered(base.Projectile, ProjectileID.Sets.TrailingMode[base.Projectile.type], lightColor);
             return false;
         }

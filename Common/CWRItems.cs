@@ -6,17 +6,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
+using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace CalamityWeaponRemake.Common
 {
     public class CWRItems : GlobalItem
     {
-        //这个的创建是一种妥协，因为替换原模组内容的手段无非是Global类与反射等机制代码，
-        //但这些方法都无法很好且高效的解决物品类中的特有成员值的适配问题，
-        //比如，重制物品A类的相对于原物品类新增加了成员a，但如何让原模组的物品A在应用重制修改后也能正常使用成员a?
-        //我无法找到更好的解决方法，于是只能创建并即将大量应用这个CWRItems类
         public override bool InstancePerEntity => true;
 
         /// <summary>
@@ -37,10 +35,10 @@ namespace CalamityWeaponRemake.Common
         /// 正在手持这个物品的玩家实例
         /// </summary>
         public Player HoldOwner = null;
-
-        public float FrightEnergyCharge = 500;
-        public int KevinCharge = 500;
-        public float RageEnergy;
+        /// <summary>
+        /// 一般用于近战类武器的充能值
+        /// </summary>
+        public float MeleeCharge;
 
         public override void NetSend(Item item, BinaryWriter writer)
         {
@@ -50,6 +48,16 @@ namespace CalamityWeaponRemake.Common
         public override void NetReceive(Item item, BinaryReader reader)
         {
             base.NetReceive(item, reader);
+        }
+
+        public override void SaveData(Item item, TagCompound tag)
+        {
+            tag.Add("_MeleeCharge", MeleeCharge);
+        }
+
+        public override void LoadData(Item item, TagCompound tag)
+        {
+            MeleeCharge = tag.GetFloat("_MeleeCharge");
         }
 
         public override void HoldItem(Item item, Player player)
@@ -73,8 +81,7 @@ namespace CalamityWeaponRemake.Common
 
         private void OwnerByDir(Item item, Player player)
         {
-            if (item.useStyle == ItemUseStyleID.Swing 
-                || player.whoAmI == Main.myPlayer)
+            if (item.useStyle == ItemUseStyleID.Swing && player.whoAmI == Main.myPlayer && player.PressKey())
             {
                 player.direction = Math.Sign(player.position.To(Main.MouseWorld).X);
             }

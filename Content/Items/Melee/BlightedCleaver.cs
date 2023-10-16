@@ -25,8 +25,8 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         private float rageEnergy
         {
-            get => Item.CWR().RageEnergy;
-            set => Item.CWR().RageEnergy = value;
+            get => Item.CWR().MeleeCharge;
+            set => Item.CWR().MeleeCharge = value;
         }
 
         public override void SetDefaults()
@@ -43,7 +43,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.autoReuse = true;
             Item.height = 88;
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            Item.rare = 8;
+            Item.rare = ItemRarityID.Yellow;
             Item.shoot = ModContent.ProjectileType<RemakeBlazingPhantomBlade>();
             Item.shootSpeed = 12f;
             Item.CWR().remakeItem = true;
@@ -52,8 +52,9 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position
             , Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            base.PostDrawInInventory(spriteBatch, position, frame, drawColor, itemColor, origin, scale);
-            if (Item.CWR().HoldOwner != null && rageEnergy > 0)
+            base.PostDrawInInventory(spriteBatch, position, frame, drawColor, itemColor, origin, scale);       
+            
+            if (Item.CWR().HoldOwner != null && Item.CWR().MeleeCharge > 0)
             {
                 DrawRageEnergyChargeBar(Item.CWR().HoldOwner);
             }
@@ -72,8 +73,18 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                 Item.CWR().HoldOwner = player;
             }
 
-            UpdateBar();
-            base.HoldItem(player);
+            if (rageEnergy > 0)
+            {
+                Item.useAnimation = 16;
+                Item.useTime = 16;
+            }
+            else
+            {
+                Item.useAnimation = 26;
+                Item.useTime = 26;
+            }
+
+            UpdateBar();            
         }
 
         private void UpdateBar()
@@ -85,11 +96,15 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source
             , Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (rageEnergy > 0)
+            if (!Item.CWR().closeCombat)
             {
-                rageEnergy -= damage / 2;
-                return true;
+                if (rageEnergy > 0)
+                {
+                    rageEnergy -= damage / 2;
+                    return true;
+                }
             }
+            Item.CWR().closeCombat = false;
             return false;
         }
 
@@ -102,11 +117,17 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         }
 
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
-        {           
+        {
+            Item.CWR().closeCombat = true;
             float addnum = hit.Damage;
+            if (addnum > target.lifeMax)
+                addnum = 0;
+            else
+            {
+                addnum *= 1.5f;
+            }
+
             rageEnergy += addnum;
-            CombatText.NewText(player.Hitbox, new Color(242, 24, 20)
-                , $"—— + {addnum} ——", dramatic: true);
 
             int type = ModContent.ProjectileType<HyperBlade>();
             for (int i = 0; i < 16; i++)
@@ -137,13 +158,14 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public void DrawRageEnergyChargeBar(Player player)
         {
-            if (player.HeldItem.type != Item.type) return;
+            if (player.HeldItem != Item) return;
             Texture2D rageEnergyTop = DrawUtils.GetT2DValue(CWRConstant.UI + "RageEnergyTop");
             Texture2D rageEnergyBar = DrawUtils.GetT2DValue(CWRConstant.UI + "RageEnergyBar");
             Texture2D rageEnergyBack = DrawUtils.GetT2DValue(CWRConstant.UI + "RageEnergyBack");
             float slp = 3;
+            int offsetwid = 4;
             Vector2 drawPos = DrawUtils.WDEpos(player.Center + new Vector2(rageEnergyBar.Width / -2 * slp, 135));
-            Rectangle backRec = new Rectangle(0, 0, (int)(rageEnergyBar.Width * (rageEnergy / BlightedCleaverMaxRageEnergy)), rageEnergyBar.Height);
+            Rectangle backRec = new Rectangle(offsetwid, 0, (int)((rageEnergyBar.Width - offsetwid * 2) * (rageEnergy / BlightedCleaverMaxRageEnergy)), rageEnergyBar.Height);
 
             Main.spriteBatch.ResetBlendState();
             Main.EntitySpriteDraw(
@@ -160,7 +182,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
             Main.EntitySpriteDraw(
                 rageEnergyBar,
-                drawPos,
+                drawPos + new Vector2(offsetwid, 0) * slp,
                 backRec,
                 Color.White,
                 0,

@@ -6,6 +6,7 @@ using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Common.DrawTools;
 using CalamityWeaponRemake.Content.Projectiles.Melee;
+using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -23,8 +24,8 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         private float rageEnergy
         {
-            get => Item.CWR().RageEnergy;
-            set => Item.CWR().RageEnergy = value;
+            get => Item.CWR().MeleeCharge;
+            set => Item.CWR().MeleeCharge = value;
         }
 
         public override void SetDefaults()
@@ -82,40 +83,44 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            rageEnergy -= damage;
-            if (rageEnergy < 0) rageEnergy = 0;
-
-            if (rageEnergy == 0)
+            if (!Item.CWR().closeCombat)
             {
-                Projectile.NewProjectile(
-                    source,
-                    position,
-                    velocity,
-                    type,
-                    damage,
-                    knockback,
-                    player.whoAmI,
-                    1
-                    );
-            }
-            else
-            {
+                rageEnergy -= damage;
+                if (rageEnergy < 0) rageEnergy = 0;
 
-                for (int i = 0; i < 3; i++)
+                if (rageEnergy == 0)
                 {
-                    float rot = MathHelper.ToRadians(-10 + i * 10);
                     Projectile.NewProjectile(
                         source,
                         position,
-                        velocity.RotatedBy(rot),
+                        velocity,
                         type,
                         damage,
                         knockback,
                         player.whoAmI,
                         1
-                    );
+                        );
+                }
+                else
+                {
+
+                    for (int i = 0; i < 3; i++)
+                    {
+                        float rot = MathHelper.ToRadians(-10 + i * 10);
+                        Projectile.NewProjectile(
+                            source,
+                            position,
+                            velocity.RotatedBy(rot),
+                            type,
+                            damage,
+                            knockback,
+                            player.whoAmI,
+                            1
+                        );
+                    }
                 }
             }
+            Item.CWR().closeCombat = false;
             return false;
         }
 
@@ -123,16 +128,18 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         {
             if (Main.rand.NextBool(5))
             {
-                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 106);
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.RuneWizard);
             }
         }
 
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
+            Item.CWR().closeCombat = true;
             float addnum = hit.Damage;
+            if (addnum > target.lifeMax)
+                addnum = 0;
+            else addnum *= 2;
             rageEnergy += addnum;
-            CombatText.NewText(player.Hitbox, new Color(242, 24, 20)
-                , $"—— + {addnum} ——", dramatic: true);
 
             int type = ModContent.ProjectileType<SunlightBlades>();
             int randomLengs = Main.rand.Next(150);
@@ -145,7 +152,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                     spanPos,
                     offsetvr.UnitVector() * -13,
                     type,
-                    Item.damage / 3,
+                    Item.damage - 50,
                     0,
                     player.whoAmI
                     );
@@ -156,7 +163,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                     spanPos2,
                     offsetvr2.UnitVector() * -13,
                     type,
-                    Item.damage / 3,
+                    Item.damage - 50,
                     0,
                     player.whoAmI
                     );
@@ -168,6 +175,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
+            Item.CWR().closeCombat = true;
             int type = ModContent.ProjectileType<SunlightBlades>();
             int offsety = 180;
             for (int i = 0; i < 16; i++)
@@ -203,13 +211,14 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public void DrawRageEnergyChargeBar(Player player)
         {
-            if (player.HeldItem.type != Item.type) return;
+            if (player.HeldItem != Item) return;
             Texture2D rageEnergyTop = DrawUtils.GetT2DValue(CWRConstant.UI + "RageEnergyTop");
             Texture2D rageEnergyBar = DrawUtils.GetT2DValue(CWRConstant.UI + "RageEnergyBar");
             Texture2D rageEnergyBack = DrawUtils.GetT2DValue(CWRConstant.UI + "RageEnergyBack");
             float slp = 3;
+            int offsetwid = 4;
             Vector2 drawPos = DrawUtils.WDEpos(player.Center + new Vector2(rageEnergyBar.Width / -2 * slp, 135));
-            Rectangle backRec = new Rectangle(0, 0, (int)(rageEnergyBar.Width * (rageEnergy / DefiledGreatswordMaxRageEnergy)), rageEnergyBar.Height);
+            Rectangle backRec = new Rectangle(offsetwid, 0, (int)((rageEnergyBar.Width - offsetwid * 2) * (rageEnergy / DefiledGreatswordMaxRageEnergy)), rageEnergyBar.Height);
 
             Main.spriteBatch.ResetBlendState();
             Main.EntitySpriteDraw(
@@ -226,7 +235,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
             Main.EntitySpriteDraw(
                 rageEnergyBar,
-                drawPos,
+                drawPos + new Vector2(offsetwid, 0) * slp,
                 backRec,
                 Color.White,
                 0,

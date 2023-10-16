@@ -138,10 +138,10 @@ Projectiles: {
 	// SlaughterExplosion.DisplayName: Slaughter Explosion
 	// DreadRendingNeedles.DisplayName: Dread Rending Needles
 	// DreadStar.DisplayName: Dread Star
-	// EntropicClaymoreHoldoutProj.DisplayName: Entropic Claymore Holdout Proj
-	// RemakeTerrorBeam.DisplayName: Remake Terror Beam
-	// SunlightBlades.DisplayName: Sunlight Blades
 	// TerrorBlasts.DisplayName: Terror Blasts
+	// SunlightBlades.DisplayName: Sunlight Blades
+	// RemakeTerrorBeam.DisplayName: Remake Terror Beam
+	// EntropicClaymoreHoldoutProj.DisplayName: Entropic Claymore Holdout Proj
 }
 
 Configs: {
@@ -172,13 +172,13 @@ Configs: {
 }
 
 Buffs: {
-	HellfireExplosion: {
-		// DisplayName: Hellfire Explosion
-		// Description: Mods.CalamityWeaponRemake.Buffs.HellfireExplosion.Description
+	SoulBurning: {
+		// Description: Mods.CalamityWeaponRemake.Buffs.SoulBurning.Description
+		// DisplayName: Soul Burning
 	}
 
-	SoulBurning: {
-		// DisplayName: Soul Burning
-		// Description: Mods.CalamityWeaponRemake.Buffs.SoulBurning.Description
+	HellfireExplosion: {
+		// Description: Mods.CalamityWeaponRemake.Buffs.HellfireExplosion.Description
+		// DisplayName: Hellfire Explosion
 	}
 }

@@ -29,8 +29,8 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         private float rageEnergy
         {
-            get => Item.CWR().RageEnergy;
-            set => Item.CWR().RageEnergy = value;
+            get => Item.CWR().MeleeCharge;
+            set => Item.CWR().MeleeCharge = value;
         }
 
         public override void SetDefaults()
@@ -109,7 +109,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             bool shootBool = false;
-            if (Item.CWR().closeCombat)
+            if (!Item.CWR().closeCombat)
             {                
                 bool olduseup = rageEnergy > 0;//这里使用到了效差的流程思想，用于判断能量耗尽的那一刻            
                 if (rageEnergy > 0)
@@ -138,13 +138,13 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                 }
             }
             
-            Item.CWR().closeCombat = true;
+            Item.CWR().closeCombat = false;
             return shootBool;
         }
 
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            Item.CWR().closeCombat = false;
+            Item.CWR().closeCombat = true;
             target.AddBuff(ModContent.BuffType<SoulBurning>(), 600);
 
             bool oldcharge = rageEnergy > 0;//与OnHitPvp一致，用于判断能量出现的那一刻
@@ -158,7 +158,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
-            Item.CWR().closeCombat = false;
+            Item.CWR().closeCombat = true;
             target.AddBuff(ModContent.BuffType<SoulBurning>(), 160);
 
             bool oldcharge = rageEnergy > 0;
@@ -180,23 +180,24 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public override void SaveData(TagCompound tag)
         {
-            tag.Add("TerrorBlades_rageEnergy", Item.CWR().RageEnergy);
+            //tag.Add("TerrorBlades_rageEnergy", Item.CWR().MeleeCharge);
         }
 
         public override void LoadData(TagCompound tag)
         {
-            Item.CWR().RageEnergy = tag.GetFloat("TerrorBlades_rageEnergy");
+            //Item.CWR().MeleeCharge = tag.GetFloat("TerrorBlades_rageEnergy");
         }
 
         public void DrawRageEnergyChargeBar(Player player)
         {
-            if (player.HeldItem.type != Item.type) return;
-            Texture2D rageEnergyTop = DrawUtils.GetT2DValue(CWRConstant.UI + "RageEnergyTop");
-            Texture2D rageEnergyBar = DrawUtils.GetT2DValue(CWRConstant.UI + "RageEnergyBar");
-            Texture2D rageEnergyBack = DrawUtils.GetT2DValue(CWRConstant.UI + "RageEnergyBack");
+            if (player.HeldItem != Item) return;
+            Texture2D rageEnergyTop = DrawUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeTop");
+            Texture2D rageEnergyBar = DrawUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeBar");
+            Texture2D rageEnergyBack = DrawUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeBack");
             float slp = 3;
+            int offsetwid = 4;
             Vector2 drawPos = DrawUtils.WDEpos(player.Center + new Vector2(rageEnergyBar.Width / -2 * slp, 135));
-            Rectangle backRec = new Rectangle(0, 0, (int)(rageEnergyBar.Width * (rageEnergy / TerrorBladeMaxRageEnergy)), rageEnergyBar.Height);
+            Rectangle backRec = new Rectangle(offsetwid, 0, (int)((rageEnergyBar.Width - offsetwid * 2) * (rageEnergy / TerrorBladeMaxRageEnergy)), rageEnergyBar.Height);
 
             Main.spriteBatch.ResetBlendState();
             Main.EntitySpriteDraw(
@@ -213,7 +214,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
             Main.EntitySpriteDraw(
                 rageEnergyBar,
-                drawPos,
+                drawPos + new Vector2(offsetwid, 0) * slp,
                 backRec,
                 Color.White,
                 0,
