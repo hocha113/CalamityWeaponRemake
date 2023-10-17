@@ -131,6 +131,8 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
+            if (player.whoAmI != Main.myPlayer) return false;
+
             if (player.altFunctionUse == 2)
             {
                 if (Charge > 0f && player.controlUp)

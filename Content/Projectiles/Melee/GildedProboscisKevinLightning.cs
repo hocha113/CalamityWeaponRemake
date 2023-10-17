@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Utilities;
 using System;
+using System.IO;
+using System.Security.Policy;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -102,11 +104,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 return;
             }
             //按键判定，当主玩家释放右键时立刻杀死弹幕
-            if (Projectile.IsOwnedByLocalPlayer())
-            {
-                if (PlayerInput.Triggers.Current.MouseRight) Projectile.timeLeft = 2;
-                else Projectile.Kill();
-            }
+            if (Projectile.IsOwnedByLocalPlayer() && PlayerInput.Triggers.Current.MouseRight)
+                Projectile.timeLeft = 2;
+            else Projectile.Kill();
 
             //寻找目标
             TargetIndex = -1;
@@ -248,8 +248,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
+            if (LightningTarget == null || LightningTarget == default)
+                return false;
             if (LightningTarget.IsDisposed)
-                return true;
+                return false;
             Texture2D mainValue = DrawUtils.GetT2DValue(CWRConstant.Masking + "Hexagram2_White");
             int slp = (int)Time * 5;
             if (slp > 255) slp = 255;

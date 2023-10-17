@@ -130,7 +130,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 Vector2 spanPos = Owner.Center + (Owner.Center.To(target.Center).ToRotation() + MathHelper.ToRadians(HcMath.HcRandom.Next(-45, 45))).ToRotationVector2() * mode;
                 int proj = Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(Projectile), spanPos, Vector2.Zero, ModContent.ProjectileType<CosmicRay>(), Projectile.damage * 2, Projectile.knockBack, Owner.whoAmI);
                 Main.projectile[proj].rotation = Main.projectile[proj].Center.To(target.Center).ToRotation();
-                int dust = Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(Projectile), Owner.Center, Vector2.Zero, ModContent.ProjectileType<StarDust>(), 0, Projectile.knockBack, Owner.whoAmI, ai1: proj);
+                Main.projectile[proj].netUpdate = true;
+                Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(Projectile), Owner.Center, Vector2.Zero, ModContent.ProjectileType<StarDust>(), 0, Projectile.knockBack, Owner.whoAmI, ai1: proj);
             }
 
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 60);
@@ -161,10 +162,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                     int num = (int)(Projectile.damage * 1.8f);
                     bool flag = Main.rand.Next(100) <= player.GetCritChance<MeleeDamageClass>() + 4f;
                     nPC.StrikeNPC(nPC.CalculateHitInfo(num, 0, flag));
-                    if (Main.netMode != 0)
-                    {
-                        NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, i, num, 0f, 0f, flag ? 1 : 0);
-                    }
                 }
             }
         }

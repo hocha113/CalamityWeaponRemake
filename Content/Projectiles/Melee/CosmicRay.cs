@@ -5,6 +5,7 @@ using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -48,60 +49,31 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             get => (int)Projectile.ai[1];
         }
 
-        public int TargetIndex
-        {
-            set => Projectile.ai[2] = value;
-            get => (int)Projectile.ai[2];
-        }
-
         public int Leng { set; get; } = 5000;
 
         public bool SterDust { set; get; } = true;
-
-        public override void OnSpawn(IEntitySource source)
-        {
-            NPC target = null;
-            if (TargetIndex >= 0 && TargetIndex < Main.npc.Length)
-            {
-                target = Main.npc[TargetIndex];
-            }
-
-            if (Status == 0)
-            {
-                if (AiBehavior.NPCAlive(target) == false)
-                {
-                    Projectile.rotation = MathHelper.PiOver2;
-                }
-                else
-                {
-                    Vector2 toTarget = target.Center - Projectile.Center;
-                    Projectile.rotation = toTarget.ToRotation();
-                }
-
-                Status = 1;
-            }
-        }
-
-        public override void OnKill(int timeLeft)
-        {
-
-        }
 
         public override bool ShouldUpdatePosition()
         {
             return false;
         }
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(Projectile.rotation);
+            writer.Write(ThisTimeValue);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Projectile.rotation = reader.ReadSingle();
+            ThisTimeValue = reader.ReadInt32();
+        }
+
         public override void AI()
         {
             ThisTimeValue++;
             if (ThisTimeValue > 30) SterDust = true;
-
-            NPC target = Projectile.Center.InPosClosestNPC(9900);
-
-            if (AiBehavior.NPCAlive(target) == false) return;
-
-            Vector2 toTarget = Projectile.Center.To(target.Center);
 
             if (ThisTimeValue % 10 == 0 && Projectile.timeLeft <= 60 && Projectile.IsOwnedByLocalPlayer())
             {
@@ -158,7 +130,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 SterDust = false;
                 ThisTimeValue = 0;
             }
-            base.OnHitNPC(target, hit, damageDone);
+            Projectile.netUpdate = true;
         }
 
         int Rot = 0;

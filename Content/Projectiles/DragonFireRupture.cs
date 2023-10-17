@@ -56,18 +56,21 @@ namespace CalamityWeaponRemake.Content.Projectiles
         public override void OnSpawn(IEntitySource source)
         {
             Behavior++;
-            Projectile.frameCounter += Main.rand.Next(6);
             Projectile.rotation = Projectile.velocity.ToRotation();
             Projectile.localAI[2] = Projectile.velocity.Length();
 
-            for (int i = 0; i < 6; i++)
+            if (!Main.dedServ)
             {
-                randomOffsetVr.Add(HcMath.GetRandomVevtor(0, 360, Main.rand.NextFloat(16, 80)));
-            }
-            for (int i = 0; i < 6; i++)
-            {
-                Vector2 spanPos = randomOffsetVr[i] + Projectile.Center;
-                ncbs.Add(new ncb(spanPos, Main.rand.Next(6)));
+                Projectile.frameCounter += Main.rand.Next(6);
+                for (int i = 0; i < 6; i++)
+                {
+                    randomOffsetVr.Add(HcMath.GetRandomVevtor(0, 360, Main.rand.NextFloat(16, 80)));
+                }
+                for (int i = 0; i < 6; i++)
+                {
+                    Vector2 spanPos = randomOffsetVr[i] + Projectile.Center;
+                    ncbs.Add(new ncb(spanPos, Main.rand.Next(6)));
+                }
             }
         }
 
@@ -86,7 +89,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
             {
                 if (ThisTimeValue > 5)
                 {
-                    if (Behavior < 12)
+                    if (Behavior < 12 && Projectile.IsOwnedByLocalPlayer())
                     {
                         Vector2 spanPos = Projectile.Center + Projectile.rotation.ToRotationVector2() * 160;
                         Projectile.NewProjectile(
@@ -155,17 +158,16 @@ namespace CalamityWeaponRemake.Content.Projectiles
         public override void PostDraw(Color lightColor)
         {
             DrawUtils.ClockFrame(ref Projectile.frameCounter, 4, 6);
+
             for (int i = 0; i < 6; i++)
             {
-                ncb _ncb = ncbs[i];
-                DrawUtils.ClockFrame(ref _ncb.frame, 4, 6);
-                ncbs[i] = _ncb;
-            }
-            for (int i = 0; i < 6; i++)
-            {
-                ncb _ncb = ncbs[i];
-                _ncb.pos = Projectile.Center + randomOffsetVr[i];
-                ncbs[i] = _ncb;
+                if (i >= 0 && i < ncbs.Count)
+                {
+                    ncb _ncb = ncbs[i];
+                    DrawUtils.ClockFrame(ref _ncb.frame, 4, 6);
+                    _ncb.pos = Projectile.Center + randomOffsetVr[i];
+                    ncbs[i] = _ncb;
+                }
             }
         }
 
@@ -189,19 +191,21 @@ namespace CalamityWeaponRemake.Content.Projectiles
 
             for (int j = 0; j < 6; j++)
             {
-                ncb _ncb = ncbs[j];
-
-                Main.EntitySpriteDraw(
-                mainValue,
-                DrawUtils.WDEpos(_ncb.pos),
-                DrawUtils.GetRec(mainValue, _ncb.frame, 7),
-                Color.White,
-                Projectile.rotation,
-                DrawUtils.GetOrig(mainValue, 7),
-                Projectile.scale * slp,
-                SpriteEffects.None,
-                0
-                );
+                if (j >= 0 && j < ncbs.Count)
+                {
+                    ncb _ncb = ncbs[j];
+                    Main.EntitySpriteDraw(
+                    mainValue,
+                    DrawUtils.WDEpos(_ncb.pos),
+                    DrawUtils.GetRec(mainValue, _ncb.frame, 7),
+                    Color.White,
+                    Projectile.rotation,
+                    DrawUtils.GetOrig(mainValue, 7),
+                    Projectile.scale * slp,
+                    SpriteEffects.None,
+                    0
+                    );
+                } 
             }
 
             return false;
