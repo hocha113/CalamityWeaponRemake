@@ -90,6 +90,16 @@ Items: {
 		// DisplayName: Arkofthe Cosmos
 		// Tooltip: ""
 	}
+
+	StreamGouge: {
+		// DisplayName: Stream Gouge
+		// Tooltip: ""
+	}
+
+	ElementalLance: {
+		// DisplayName: Elemental Lance
+		// Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -99,6 +109,7 @@ Projectiles: {
 		// CosmicShivProjectile.DisplayName: Cosmic Shiv Projectile
 		// DimensionalRuptureProjectile.DisplayName: Dimensional Rupture Projectile
 		// RemakeCosmicShivProjectile.DisplayName: Remake Cosmic Shiv Projectile
+		// RemakeStreamGougeProj.DisplayName: Remake Stream Gouge Proj
 	}
 
 	// DimensionalRuptureProjectile.DisplayName: Dimensional Rupture Projectile
@@ -142,6 +153,10 @@ Projectiles: {
 	// SunlightBlades.DisplayName: Sunlight Blades
 	// RemakeTerrorBeam.DisplayName: Remake Terror Beam
 	// EntropicClaymoreHoldoutProj.DisplayName: Entropic Claymore Holdout Proj
+	// StarnightBeams.DisplayName: Starnight Beams
+	// ElementalRay.DisplayName: Elemental Ray
+	// GodKillers.DisplayName: God Killers
+	// SpatialSpears.DisplayName: Spatial Spears
 }
 
 Configs: {

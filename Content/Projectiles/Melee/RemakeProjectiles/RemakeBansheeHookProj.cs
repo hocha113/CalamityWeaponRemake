@@ -22,8 +22,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 {
     internal class RemakeBansheeHookProj : BaseSpearProjectile
     {
-        private bool remakeMode => ModContent.GetInstance<ContentConfig>().ForceReplaceResetContent;
-
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<BansheeHook>();
 
         public override SpearType SpearAiType => SpearType.GhastlyGlaiveSpear;

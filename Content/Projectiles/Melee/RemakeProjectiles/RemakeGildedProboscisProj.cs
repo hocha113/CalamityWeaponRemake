@@ -52,6 +52,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 gildedProboscis.CWR().MeleeCharge = 0;
         }
 
+        public override void OnKill(int timeLeft)
+        {
+            Projectile projectile = AiBehavior.GetProjectileInstance(projIndex);
+            projectile?.Kill();
+        }
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(projIndex);

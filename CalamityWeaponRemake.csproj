@@ -92,10 +92,22 @@
     <None Remove="Assets\Projectiles\Melee\BansheeHookScythe.png" />
     <None Remove="Assets\Projectiles\Melee\BlazingPhantomBlade.png" />
     <None Remove="Assets\Projectiles\Melee\DrataliornusFlame.png" />
+    <None Remove="Assets\Projectiles\Melee\ElementalLanceProjectile.png" />
     <None Remove="Assets\Projectiles\Melee\GildedProboscisProj.png" />
+    <None Remove="Assets\Projectiles\Melee\GodKiller.png" />
+    <None Remove="Assets\Projectiles\Melee\GodKillerGlow.png" />
+    <None Remove="Assets\Projectiles\Melee\HellionSpike.png" />
     <None Remove="Assets\Projectiles\Melee\RedLightningFeather.png" />
     <None Remove="Assets\Projectiles\Melee\RendingNeedle.png" />
+    <None Remove="Assets\Projectiles\Melee\SpatialSpear0.png" />
+    <None Remove="Assets\Projectiles\Melee\SpatialSpear1.png" />
+    <None Remove="Assets\Projectiles\Melee\SpatialSpear2.png" />
+    <None Remove="Assets\Projectiles\Melee\SpatialSpear3.png" />
+    <None Remove="Assets\Projectiles\Melee\StarnightBeam.png" />
+    <None Remove="Assets\Projectiles\Melee\StreamGougeGlow.png" />
+    <None Remove="Assets\Projectiles\Melee\StreamGougeProj.png" />
     <None Remove="Assets\Projectiles\Melee\TerrorBeam.png" />
+    <None Remove="Assets\Projectiles\RayBeam.png" />
     <None Remove="Assets\Projectiles\TornadoProj.png" />
     <None Remove="Assets\UIs\GenericBarBack.png" />
     <None Remove="Assets\UIs\GenericBarFront.png" />
@@ -112,6 +124,7 @@
     <Folder Include="Content\Projectiles\Summon\" />
     <Folder Include="Content\RemakeItems\Magic\" />
     <Folder Include="Content\RemakeItems\Summon\" />
+    <Folder Include="Content\NPCs\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="CalamityMod">

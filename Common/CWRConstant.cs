@@ -22,6 +22,19 @@ namespace CalamityWeaponRemake.Common
         public const string Buff = Asset + "Buffs/";
         public const string Dust = Asset + "Dusts/";
 
+        public const string Cay_Wap = "CalamityMod/Items/Weapons/";
+        public const string Cay_Wap_Melee = Cay_Proj + "Melee/";
+        public const string Cay_Wap_Ranged = Cay_Proj + "Ranged/";
+        public const string Cay_Wap_Magic = Cay_Proj + "Magic/";
+        public const string Cay_Wap_Summon = Cay_Proj + "Summon/";
+        public const string Cay_Wap_Rogue = Cay_Proj + "Rogue/";
+        public const string Cay_Proj = "CalamityMod/Projectiles/";
+        public const string Cay_Proj_Melee = Cay_Proj + "Melee/";
+        public const string Cay_Proj_Ranged = Cay_Proj + "Ranged/";
+        public const string Cay_Proj_Magic = Cay_Proj + "Magic/";
+        public const string Cay_Proj_Summon = Cay_Proj + "Summon/";
+        public const string Cay_Proj_Rogue = Cay_Proj + "Rogue/";
+
         public const string noEffects = "Assets/Effects/";
         public const string noItem = "Assets/Items/";
         public const string noProjectile = "Assets/Projectiles/";

@@ -13,7 +13,21 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 {
     internal class AbominateSpirit : ModProjectile
     {
-        public override string Texture => CWRConstant.Projectile + "Mizu";
+        public override string Texture
+        {
+            get
+            {
+                switch (Status)
+                {
+                    case 0:
+                        return CWRConstant.Cay_Proj_Melee + "GhastlySoulLarge";
+                    case 1:
+                        return CWRConstant.Cay_Proj_Melee + "GhastlySoulMedium";
+                    default:
+                        return CWRConstant.Cay_Proj_Melee + "GhastlySoulSmall";
+                } 
+            }
+        }
 
         public override void SetStaticDefaults()
         {
@@ -25,7 +39,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
         {
             Projectile.width = 48;
             Projectile.height = 48;
-            Projectile.scale = 3f;
+            Projectile.scale = 2f;
             Projectile.alpha = 100;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Default;
@@ -52,7 +66,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation();
-            DrawUtils.ClockFrame(ref Projectile.frameCounter, 15, 2);
+            DrawUtils.ClockFrame(ref Projectile.frameCounter, 15, 3);
 
             if (Status == 3)
             {
@@ -156,10 +170,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             Main.EntitySpriteDraw(
                 mainValue,
                 DrawUtils.WDEpos(Projectile.Center),
-                DrawUtils.GetRec(mainValue, Projectile.frameCounter, 3),
+                DrawUtils.GetRec(mainValue, Projectile.frameCounter, 4),
                 color * alp,
                 Projectile.rotation - MathHelper.PiOver2,
-                DrawUtils.GetOrig(mainValue, 3),
+                DrawUtils.GetOrig(mainValue, 4),
                 Projectile.scale,
                 SpriteEffects.None,
                 0
