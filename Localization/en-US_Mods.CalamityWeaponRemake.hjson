@@ -88,6 +88,31 @@ Items: {
 		DisplayName: Elemental Lance
 		Tooltip: ""
 	}
+
+	AirSpinner: {
+		DisplayName: Air Spinner
+		Tooltip: ""
+	}
+
+	GoldplumeSpear: {
+		DisplayName: Goldplume Spear
+		Tooltip: ""
+	}
+
+	WindBlade: {
+		DisplayName: Wind Blade
+		Tooltip: ""
+	}
+
+	Arbalest: {
+		DisplayName: Arbalest
+		Tooltip: ""
+	}
+
+	Deathwind: {
+		DisplayName: Deathwind
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -146,6 +171,9 @@ Projectiles: {
 	GodKillers.DisplayName: God Killers
 	SpatialSpears.DisplayName: Spatial Spears
 	ElementalSpike.DisplayName: Elemental Spike
+	Feathers.DisplayName: Feathers
+	ArbalestHeldProj.DisplayName: Arbalest Held Proj
+	DeathwindHeldProj.DisplayName: Deathwind Held Proj
 }
 
 Configs: {

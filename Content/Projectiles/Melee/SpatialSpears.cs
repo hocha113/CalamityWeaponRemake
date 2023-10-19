@@ -27,10 +27,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.tileCollide = false;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 1;
             Projectile.timeLeft = 90;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 6;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public int Status { get => (int)Projectile.ai[0]; set => Projectile.ai[0] = value; }
@@ -38,18 +38,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
         public int Time { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
 
         public override void AI()
-        {
-            Lighting.AddLight(Projectile.Center, 0.05f, 1f, 0.05f);
+        {            
             Projectile.rotation = Projectile.velocity.ToRotation();
             
             if (Status == 0)
             {
-                if (Projectile.timeLeft >= 60)
-                {
-                    Projectile.alpha += 10;
-                    if (Projectile.alpha > 255) 
-                        Projectile.alpha = 255;
-                }
+                Lighting.AddLight(Projectile.Center, 0.05f, 1f, 0.05f);
 
                 Projectile.velocity *= 1.02f;
                 if (Projectile.timeLeft == 80 && Projectile.IsOwnedByLocalPlayer())
@@ -72,24 +66,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             }
             if (Status == 1)
             {
-                if (Projectile.timeLeft >= 80)
-                {
-                    Projectile.alpha += 25;
-                    if (Projectile.alpha > 255)
-                        Projectile.alpha = 255;
-                }
-
-                if (Projectile.timeLeft <= 60)
-                {
-                    NPC target = Projectile.Center.InPosClosestNPC(1300);
-                    if (target != null)
-                    {
-                        Vector2 toTarget = Projectile.Center.To(target.Center);
-                        Projectile.EntityToRot(toTarget.ToRotation(), 0.1f);
-                        Projectile.velocity = Projectile.rotation.ToRotationVector2() * 16;
-                    }
-                }
-
+                Lighting.AddLight(Projectile.Center, 0.85f, 0.05f, 0.05f);
                 if (Projectile.timeLeft == 60 && Projectile.IsOwnedByLocalPlayer())
                 {
                     for (int i = 0; i < 3; i++)
@@ -107,17 +84,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                             );
                     }
                 }
+                if (Projectile.timeLeft < 60)
+                {
+                    Projectile.velocity *= 0.99f;
+                }
             }
             if (Status == 2)
             {
-                if (Projectile.timeLeft >= 60)
-                {
-                    Projectile.alpha += 10;
-                    if (Projectile.alpha > 255)
-                        Projectile.alpha = 255;
-                }
+                Lighting.AddLight(Projectile.Center, 0.05f, 1f, 0.75f);
 
-                Projectile.velocity *= 1.02f;
+                
                 if (Projectile.timeLeft == 60 && Projectile.IsOwnedByLocalPlayer())
                 {
                     for (int i = 0; i < 3; i++)
@@ -135,17 +111,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                             );
                     }
                 }
+                if (Projectile.timeLeft < 60)
+                {
+                    Projectile.velocity *= 0.99f;
+                }
             }
             if (Status == 3)
             {
-                if (Projectile.timeLeft >= 60)
-                {
-                    Projectile.alpha += 10;
-                    if (Projectile.alpha > 255)
-                        Projectile.alpha = 255;
-                }
+                Lighting.AddLight(Projectile.Center, 0.55f, 1f, 0.05f);
 
-                Projectile.velocity *= 1.02f;
+                Projectile.velocity *= 0.98f;
             }
 
             if (Main.rand.NextBool(8))
@@ -204,7 +179,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 value, 
                 Projectile.Center - Main.screenPosition, 
                 null,
-                color * (Projectile.alpha / 255f), 
+                color, 
                 Projectile.rotation + MathHelper.PiOver4, 
                 DrawUtils.GetOrig(value), 
                 Projectile.scale, 

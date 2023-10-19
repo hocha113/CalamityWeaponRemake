@@ -119,7 +119,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Items\Summon\" />
-    <Folder Include="Content\Items\Summon\" />
     <Folder Include="Content\Projectiles\Magic\" />
     <Folder Include="Content\Projectiles\Summon\" />
     <Folder Include="Content\RemakeItems\Magic\" />

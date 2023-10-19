@@ -18,14 +18,9 @@ using static CalamityWeaponRemake.Common.DrawTools.DrawUtils;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Ranged
 {
-    internal class DragonsBreathProjectiles : CustomProjectiles
+    internal class DragonsBreathProjectiles : ModProjectile
     {
         public override string Texture => CWRConstant.Item_Ranged + "DragonsBreath";
-
-        public override void SetStaticDefaults()
-        {
-
-        }
 
         public override void SetDefaults()
         {
@@ -38,11 +33,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 150;
+            Projectile.hide = true;
         }
 
-        public override int Status { get => (int)Projectile.ai[0]; set => Projectile.ai[0] = value; }
-        public override int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
-        public override int ThisTimeValue { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
+        public int Status { get => (int)Projectile.ai[0]; set => Projectile.ai[0] = value; }
+        public int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
+        public int ThisTimeValue { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
 
         public override void OnKill(int timeLeft)
         {
@@ -127,6 +123,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
             Projectile.EntityToRot(toMou.ToRotation(), 0.2f);
             Vector2 rotOffset = Projectile.rotation.ToRotationVector2() * 6f;
             Projectile.Center = Owner.Center + rotOffset;
+            Owner.heldProj = Projectile.whoAmI;
 
             Vector2 speed = Projectile.rotation.ToRotationVector2() * 12f;
             Vector2 offset = rotOffset;
@@ -287,7 +284,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
 
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
         {
-            overPlayers.Add(index);
+            
         }
     }
 }

@@ -32,7 +32,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             Projectile.penetrate = -1;
             Projectile.timeLeft = 90;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 8;
+            Projectile.localNPCHitCooldown = 12;
         }
 
         public int Status { get => (int)Projectile.ai[0]; set => Projectile.ai[0] = value; }

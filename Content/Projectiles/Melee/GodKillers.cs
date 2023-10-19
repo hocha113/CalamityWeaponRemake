@@ -73,10 +73,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                     Main.dust[num3].scale *= 1f + Main.rand.Next(5) * 0.1f;
                     Main.dust[num3].velocity *= 0.2f;
                     Main.dust[num3].noGravity = true;
-                    num3 = Dust.NewDust(new Vector2(Projectile.position.X + 3f + num, Projectile.position.Y + 3f + num2) - Projectile.velocity * 0.5f
-                        , Projectile.width - 8, Projectile.height - 8, DustID.Butterfly, 0f, 0f, 100, default(Color), 0.1f);
-                    Main.dust[num3].fadeIn = 1f + Main.rand.Next(5) * 0.1f;
-                    Main.dust[num3].velocity *= 0.05f;
+                    //num3 = Dust.NewDust(new Vector2(Projectile.position.X + 3f + num, Projectile.position.Y + 3f + num2) - Projectile.velocity * 0.5f
+                    //    , Projectile.width - 8, Projectile.height - 8, DustID.Butterfly, 0f, 0f, 100, default(Color), 0.1f);
+                    //Main.dust[num3].fadeIn = 1f + Main.rand.Next(5) * 0.1f;
+                    //Main.dust[num3].velocity *= 0.05f;
                 }
             }
 

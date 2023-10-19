@@ -1,6 +1,6 @@
 ﻿using CalamityMod;
-using CalamityMod.Items.Armor.Bloodflare;
 using CalamityMod.Projectiles.BaseProjectiles;
+using CalamityMod.Projectiles.Melee;
 using CalamityMod.Sounds;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameInput;
@@ -37,7 +36,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         public override Action<Projectile> EffectBeforeReelback => delegate
         {
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Projectile.velocity, Projectile.velocity
-                , ModContent.ProjectileType<SpatialSpears>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                , ModContent.ProjectileType<SpatialSpear>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
         };
 
         public override void SetDefaults()
@@ -100,6 +99,30 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                     drawUIalp += 5;
                     if (drawUIalp > 255) drawUIalp = 255;
 
+                    if (Time % 15 == 0 && Projectile.IsOwnedByLocalPlayer() && Projectile.localAI[2] != 0)
+                    {
+                        List<NPC> targets = EnemyHunting();
+                        for (int i = 0; i < 4; i++)
+                        {
+                            int targetWhoAmI = -1;
+                            if (i < targets.Count)
+                            {
+                                targetWhoAmI = targets[i].whoAmI;
+                            }
+                            Projectile.NewProjectile(
+                                AiBehavior.GetEntitySource_Parent(Projectile),
+                                Projectile.Center,
+                                Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * 5,
+                                ModContent.ProjectileType<ElementalSpike>(),
+                                Projectile.damage * 2,
+                                5,
+                                Projectile.owner,
+                                i,
+                                targetWhoAmI
+                                );
+                        }
+                    }
+
                     if (Projectile.IsOwnedByLocalPlayer())
                     {
                         elementalLance.CWR().MeleeCharge += 8.333f;
@@ -129,7 +152,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                                 Projectile.Center,
                                 Vector2.Zero,
                                 ModContent.ProjectileType<ElementalRay>(),
-                                Projectile.damage,
+                                Projectile.damage / 3,
                                 0,
                                 Projectile.owner
                                 );
@@ -164,34 +187,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                             }
                         }
 
-                        if (Time % 30 == 0 && Projectile.IsOwnedByLocalPlayer())
-                        {
-                            List<NPC> targets = EnemyHunting();
-                            for (int i = 0; i < 4; i++)
-                            {
-                                int targetWhoAmI = -1;
-                                if (i < targets.Count)
-                                {
-                                    targetWhoAmI = targets[i].whoAmI;
-                                }
-                                Projectile.NewProjectile(
-                                    AiBehavior.GetEntitySource_Parent(Projectile),
-                                    Projectile.Center,
-                                    Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * 5,
-                                    ModContent.ProjectileType<ElementalSpike>(),
-                                    Projectile.damage * 2,
-                                    5,
-                                    Projectile.owner,
-                                    i,
-                                    targetWhoAmI
-                                    );
-                            }
-                        }
-
                         if (elementalLance.CWR().MeleeCharge <= 0)
                         {
                             Projectile.ai[2] = 0;
                             Projectile.localAI[1] = 0;
+                            Projectile.localAI[2] = 1;
                             Projectile.netUpdate = true;
                             elementalLance.CWR().MeleeCharge = 0;
                             ElementalRayList = new List<int>();

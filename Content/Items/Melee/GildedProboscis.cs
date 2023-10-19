@@ -43,7 +43,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.autoReuse = true;
             Item.height = 66;
             Item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            Item.rare = 11;
+            Item.rare = ItemRarityID.Purple;
             Item.shoot = ModContent.ProjectileType<RemakeGildedProboscisProj>();
             Item.shootSpeed = 13f;
             Item.CWR().remakeItem = true;
