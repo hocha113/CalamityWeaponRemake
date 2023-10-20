@@ -43,11 +43,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
             bool DirectionJudgment = targetPlayer.direction > npc.direction;
             bool FacingJudgment = (PositioningJudgment == true && DirectionJudgment == false || PositioningJudgment == false && DirectionJudgment == true) && targetPlayer.direction != npc.direction;
             bool PerspectiveJudgment = Perspective3.LengthSquared() <= Perspective2.LengthSquared() * 0.5f;
-            if (PerspectiveJudgment && FacingJudgment && DistanceJudgment)
-            {
-                return true;
-            }
-            return false;
+            return PerspectiveJudgment && FacingJudgment && DistanceJudgment;
         }
 
         /// <summary>
@@ -672,7 +668,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         {
             float MaxFindingDgSquared = maxFindingDg * maxFindingDg;
             NPC target = null;
-
+            
             for (int i = 0; i < Main.npc.Length; i++)
             {
                 NPC npc = Main.npc[i];
@@ -712,6 +708,23 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
             Vector2 ToTarget = TargetCenter - entity.Center;
             Vector2 ToTargetNormalize = ToTarget.SafeNormalize(Vector2.Zero);
             Vector2 speed = ToTargetNormalize * AsymptoticVelocity(entity.Center, TargetCenter, Speed, ShutdownDistance);
+            entity.velocity = speed;
+            return speed;
+        }
+
+        /// <summary>
+        /// 更加缓和的追逐行为
+        /// </summary>
+        /// <param name="entity">需要操纵的实体</param>
+        /// <param name="TargetCenter">目标地点</param>
+        /// <param name="SpeedUpdates">速度的更新系数</param>
+        /// <param name="HomingStrenght">追击力度</param>
+        /// <returns></returns>
+        public static Vector2 ChasingBehavior2(this Entity entity, Vector2 TargetCenter, float SpeedUpdates = 1, float HomingStrenght = 0.1f)
+        {
+            float targetAngle = entity.AngleTo(TargetCenter);
+            float f = entity.velocity.ToRotation().AngleTowards(targetAngle, HomingStrenght);
+            Vector2 speed = f.ToRotationVector2() * entity.velocity.Length() * SpeedUpdates;
             entity.velocity = speed;
             return speed;
         }
@@ -839,7 +852,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
             if (entity.Center.Y < TargetCenter.Y) entity.velocity.Y += acceleration;
         }
 
-        public static void EntityToRot(NPC entity, float ToRot, float rotSpeed)
+        public static void EntityToRot(this NPC entity, float ToRot, float rotSpeed)
         {
             //entity.rotation = MathHelper.SmoothStep(entity.rotation, ToRot, rotSpeed);
 

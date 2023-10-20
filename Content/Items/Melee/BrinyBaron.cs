@@ -134,10 +134,5 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                 Item.UseSound = SoundID.Item84;
             }
         }
-
-        public override void AddRecipes()
-        {
-            CreateRecipe().AddIngredient(ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>()).Register();
-        }
     }
 }

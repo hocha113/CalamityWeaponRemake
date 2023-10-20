@@ -113,6 +113,11 @@ Items: {
 		DisplayName: Deathwind
 		Tooltip: ""
 	}
+
+	DragonRage: {
+		DisplayName: Dragon Rage
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -177,6 +182,7 @@ Projectiles: {
 	DeathLaser.DisplayName: Death Laser
 	DeadArrow.DisplayName: Dead Arrow
 	DragonsBreathHeldProj.DisplayName: Dragons Breath Held Proj
+	Cyclones.DisplayName: Cyclones
 }
 
 Configs: {

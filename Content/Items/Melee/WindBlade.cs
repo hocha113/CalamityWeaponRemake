@@ -1,11 +1,13 @@
 ﻿using CalamityMod.Items;
-using CalamityMod.Projectiles.Melee;
+using CalamityMod.Sounds;
+using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Projectiles.Melee;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using CalamityWeaponRemake.Common;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {
@@ -17,6 +19,11 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         public new string LocalizationCategory => "Items.Weapons.Melee";
 
         public override string Texture => CWRConstant.Cay_Wap_Melee + "WindBlade";
+
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
+        }
 
         public override void SetDefaults()
         {
@@ -32,22 +39,66 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.autoReuse = true;
             Item.height = 58;
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            Item.rare = 3;
-            Item.shoot = ModContent.ProjectileType<Cyclone>();
+            Item.rare = ItemRarityID.Orange;
+            Item.shoot = ModContent.ProjectileType<Cyclones>();
             Item.shootSpeed = 3f;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage / 2, knockback, player.whoAmI);
+            int proj = Projectile.NewProjectile(source, position, velocity, type, damage / 2, knockback, player.whoAmI);
+            if (player.altFunctionUse == 2)
+            {
+                Main.projectile[proj].ai[0] = 1;
+                Main.projectile[proj].timeLeft = 360;
+                Main.projectile[proj].damage = damage / 3;
+
+                for (int i = 0; i <= 360; i += 3)
+                {
+                    Vector2 vr = new Vector2(3f, 3f).RotatedBy(MathHelper.ToRadians(i));
+                    int num = Dust.NewDust(player.Center, player.width, player.height, DustID.Smoke, vr.X, vr.Y, 200, new Color(232, 251, 250, 200), 1.4f);
+                    Main.dust[num].noGravity = true;
+                    Main.dust[num].position = player.Center;
+                    Main.dust[num].velocity = vr;
+                }
+            }
             return false;
+        }
+
+        public override bool AltFunctionUse(Player player)
+        {
+            return true;
+        }
+
+        public override bool? UseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                Item.noMelee = true;
+            }
+            else
+            {
+                Item.noMelee = false;
+            }
+            return null;
+        }
+
+        public override void UseAnimation(Player player)
+        {
+            Item.noUseGraphic = false;
+            Item.UseSound = SoundID.Item1;
+            if (player.altFunctionUse == 2)
+            {
+                Item.noUseGraphic = true;
+                Item.UseSound = SoundID.Item84;
+            }
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
             {
-                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 59);
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.BlueTorch);
             }
         }
     }
