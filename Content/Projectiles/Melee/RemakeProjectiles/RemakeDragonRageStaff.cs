@@ -15,6 +15,8 @@ using Terraria;
 using Terraria.Enums;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ID;
+using Terraria.Audio;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 {
@@ -41,93 +43,111 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
         public override void AI()
         {
+            Projectile.ai[2]++;
             if (Projectile.ai[1] == 0)
             {
-                Player player = Main.player[Projectile.owner];
-                float num = 50f;
-                if (!AiBehavior.PlayerAlive(player))
-                {
-                    Projectile.Kill();
-                    player.reuseDelay = 2;
-                    return;
-                }
-
-                if (player.PressKey(false))
-                {
-                    Projectile.timeLeft = 2;
-                }
-                else
-                {
-                    Projectile.Kill();
-                }
-
-                int num2 = Math.Sign(Projectile.velocity.X);
-                Projectile.velocity = new Vector2(num2, 0f);
-                if (Projectile.ai[0] == 0f)
-                {
-                    Projectile.rotation = new Vector2(num2, 0f - player.gravDir).ToRotation() + MathHelper.ToRadians(135f);
-                    if (Projectile.velocity.X < 0f)
-                    {
-                        Projectile.rotation -= MathF.PI / 2f;
-                    }
-                }
-
-                Projectile.ai[0] += 1f;
-                Projectile.rotation += MathF.PI * 4f / num * (float)num2;
-                int num3 = (player.SafeDirectionTo(Main.MouseWorld).X > 0f).ToDirectionInt();
-                if (Projectile.ai[0] % num > num * 0.5f && (float)num3 != Projectile.velocity.X)
-                {
-                    player.ChangeDir(num3);
-                    Projectile.velocity = Vector2.UnitX * num3;
-                    Projectile.rotation -= MathF.PI;
-                    Projectile.netUpdate = true;
-                }
-                SpawnDust(player, num2);
-                PositionAndRotation(player);
-                VisibilityAndLight();
+                SamsAI();
             }
             if (Projectile.ai[1] == 1)
             {
-                
+                SamsAI();
+                if (Projectile.ai[2] % 30 == 0)
+                {
+                    SoundEngine.PlaySound(SoundID.DD2_BetsyFlameBreath, Projectile.Center);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), 
+                        Projectile.Center, 
+                        Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * 25, 
+                        ModContent.ProjectileType<DragonRageFireball>(), 
+                        Projectile.damage, 
+                        Projectile.knockBack / 2f, 
+                        Projectile.owner
+                        );
+                }
             } 
+        }
+
+        public void SamsAI()
+        {
+            Player player = Main.player[Projectile.owner];
+            float num = 50f;
+            if (!AiBehavior.PlayerAlive(player))
+            {
+                Projectile.Kill();
+                player.reuseDelay = 2;
+                return;
+            }
+
+            if (player.PressKey(false) || player.PressKey())
+            {
+                Projectile.timeLeft = 2;
+            }
+            else
+            {
+                Projectile.Kill();
+            }
+
+            int num2 = Math.Sign(Projectile.velocity.X);
+            Projectile.velocity = new Vector2(num2, 0f);
+            if (Projectile.ai[0] == 0f)
+            {
+                Projectile.rotation = new Vector2(num2, 0f - player.gravDir).ToRotation() + MathHelper.ToRadians(135f);
+                if (Projectile.velocity.X < 0f)
+                {
+                    Projectile.rotation -= MathF.PI / 2f;
+                }
+            }
+
+            Projectile.ai[0] += 1f;
+            Projectile.rotation += MathF.PI * 4f / num * num2;
+            int toMous = (player.SafeDirectionTo(Main.MouseWorld).X > 0f).ToDirectionInt();
+            if (Projectile.ai[0] % num > num * 0.5f && toMous != Projectile.velocity.X)
+            {
+                player.ChangeDir(toMous);
+                Projectile.velocity = Vector2.UnitX * toMous;
+                Projectile.rotation -= MathF.PI;
+                Projectile.netUpdate = true;
+            }
+            SpawnDust(player, num2);
+            PositionAndRotation(player);
+            VisibilityAndLight();
         }
 
         private void SpawnDust(Player player, int direction)
         {
-            float num = Projectile.rotation - MathF.PI / 4f * (float)direction;
-            Vector2 vector = Projectile.Center + (num + ((direction == -1) ? MathF.PI : 0f)).ToRotationVector2() * 30f;
-            Vector2 vector2 = num.ToRotationVector2();
-            Vector2 vector3 = vector2.RotatedBy(MathF.PI / 2f * (float)Projectile.spriteDirection);
+            float rot = Projectile.rotation - MathF.PI / 4f * direction;
+            Vector2 vector = Projectile.Center + (rot + ((direction == -1) ? MathF.PI : 0f)).ToRotationVector2() * 200 * Projectile.scale;
+            Vector2 vector2 = rot.ToRotationVector2();
+            Vector2 vector3 = vector2.RotatedBy(MathF.PI / 2f * Projectile.spriteDirection);
             if (Main.rand.NextBool())
             {
-                Dust dust = Dust.NewDustDirect(vector - new Vector2(5f), 10, 10, 244, player.velocity.X, player.velocity.Y, 150);
+                Dust dust = Dust.NewDustDirect(vector - new Vector2(5f), 10, 10, DustID.CopperCoin, player.velocity.X, player.velocity.Y, 150);
                 dust.velocity = Projectile.SafeDirectionTo(dust.position) * 0.1f + dust.velocity * 0.1f;
             }
 
             for (int i = 0; i < 4; i++)
             {
-                float num2 = 1f;
-                float num3 = 1f;
+                float speedRands = 1f;
+                float modeRands = 1f;
                 switch (i)
                 {
                     case 1:
-                        num3 = -1f;
+                        modeRands = -1f;
                         break;
                     case 2:
-                        num3 = 1.25f;
-                        num2 = 0.5f;
+                        modeRands = 1.25f;
+                        speedRands = 0.5f;
                         break;
                     case 3:
-                        num3 = -1.25f;
-                        num2 = 0.5f;
+                        modeRands = -1.25f;
+                        speedRands = 0.5f;
                         break;
                 }
 
                 if (!Main.rand.NextBool(6))
                 {
-                    Dust dust2 = Dust.NewDustDirect(Projectile.position, 0, 0, 244, 0f, 0f, 100);
-                    dust2.position = Projectile.Center + vector2 * (60f + Main.rand.NextFloat() * 20f) * num3;
-                    dust2.velocity = vector3 * (4f + 4f * Main.rand.NextFloat()) * num3 * num2;
+                    Dust dust2 = Dust.NewDustDirect(Projectile.position, 0, 0, DustID.CopperCoin, 0f, 0f, 100);
+                    dust2.position = Projectile.Center + vector2 * (180 * Projectile.scale + Main.rand.NextFloat() * 20f) * modeRands;
+                    dust2.velocity = vector3 * (4f + 4f * Main.rand.NextFloat()) * modeRands * speedRands;
                     dust2.noGravity = true;
                     dust2.noLight = true;
                     dust2.scale = 0.5f;
@@ -175,7 +195,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
         private void OnHitEffects(Vector2 position)
         {
-            if (Projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer && Projectile.ai[1] == 0)
             {
                 CalamityPlayer calamityPlayer = Main.player[Projectile.owner].Calamity();
                 calamityPlayer.dragonRageHits++;
@@ -185,20 +205,20 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                     calamityPlayer.dragonRageHits = 0;
                 }
 
-                int num = Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), Projectile.damage / 4, Projectile.knockBack, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-                Main.projectile[num].DamageType = DamageClass.Melee;
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), Projectile.damage / 4, Projectile.knockBack, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                Main.projectile[proj].DamageType = DamageClass.Melee;
             }
         }
 
         private void SpawnFireballs()
         {
-            int num = Main.rand.Next(10, 16);
-            for (int i = 0; i < num; i++)
+            int maxShootNum = Main.rand.Next(10, 16);
+            for (int i = 0; i < maxShootNum; i++)
             {
-                float num2 = MathF.PI * 2f / (float)num;
+                float rots = MathF.PI * 2f / maxShootNum;
                 float y = 20f;
                 Vector2 spinningpoint = new Vector2(0f, y);
-                spinningpoint = spinningpoint.RotatedBy(num2 * (float)i * Main.rand.NextFloat(0.9f, 1.1f));
+                spinningpoint = spinningpoint.RotatedBy(rots * i * Main.rand.NextFloat(0.9f, 1.1f));
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, spinningpoint, ModContent.ProjectileType<DragonRageFireball>(), Projectile.damage / 8, Projectile.knockBack / 3f, Projectile.owner);
             }
 
@@ -249,9 +269,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         public override void CutTiles()
         {
             float num = 60f;
-            float f = Projectile.rotation - MathF.PI / 4f * (float)Math.Sign(Projectile.velocity.X);
+            float f = Projectile.rotation - MathF.PI / 4f * Math.Sign(Projectile.velocity.X);
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-            Utils.PlotTileLine(Projectile.Center + f.ToRotationVector2() * (0f - num), Projectile.Center + f.ToRotationVector2() * num, (float)Projectile.width * Projectile.scale, DelegateMethods.CutTiles);
+            Utils.PlotTileLine(Projectile.Center + f.ToRotationVector2() * (0f - num), Projectile.Center + f.ToRotationVector2() * num, Projectile.width * Projectile.scale, DelegateMethods.CutTiles);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -261,7 +281,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 return true;
             }
 
-            float f = Projectile.rotation - MathF.PI / 4f * (float)Math.Sign(Projectile.velocity.X);
+            float f = Projectile.rotation - MathF.PI / 4f * Math.Sign(Projectile.velocity.X);
             float collisionPoint = 0f;
             float num = 110f;
             if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center + f.ToRotationVector2() * (0f - num), Projectile.Center + f.ToRotationVector2() * num, 23f * Projectile.scale, ref collisionPoint))
@@ -275,29 +295,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D value = ModContent.Request<Texture2D>(Texture).Value;
-            if (Projectile.ai[1] == 1)
-            {
-                Vector2 position = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
-                Rectangle value2 = new Rectangle(0, 0, value.Width, value.Height);
-                Vector2 origin = value.Size() / 2f;
-                SpriteEffects effects = SpriteEffects.None;
-                if (Projectile.spriteDirection == -1) 
-                    effects = SpriteEffects.FlipHorizontally;
-                Main.EntitySpriteDraw(value, position, value2, lightColor, Projectile.rotation, origin, Projectile.scale, effects);
-            }
-            if (Projectile.ai[1] == 0)
-            {
-                Main.EntitySpriteDraw(
-                    value, 
-                    Projectile.Center - Main.screenPosition, 
-                    origin: DrawUtils.GetOrig(value), 
-                    sourceRectangle: null, 
-                    color: Color.White, 
-                    rotation: Projectile.rotation - MathHelper.PiOver2, 
-                    scale: Projectile.scale, 
-                    effects: SpriteEffects.None
-                    );
-            }
+            Vector2 position = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+            Rectangle value2 = new Rectangle(0, 0, value.Width, value.Height);
+            Vector2 origin = value.Size() / 2f;
+            SpriteEffects effects = SpriteEffects.None;
+            if (Projectile.spriteDirection == -1)
+                effects = SpriteEffects.FlipHorizontally;
+            Main.EntitySpriteDraw(value, position, value2, lightColor, Projectile.rotation, origin, Projectile.scale, effects);
             return false;
         }
     }

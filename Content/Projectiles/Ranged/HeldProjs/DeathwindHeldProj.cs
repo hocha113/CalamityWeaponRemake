@@ -77,10 +77,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
         public void SpanProj()
         {
             if (Time % deathwind.useTime == 0 && useArrow != -1000)
-            {
-                SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);
+            {               
                 if (CalamityUtils.CheckWoodenAmmo(useArrow, Owner))
                 {
+                    SoundEngine.PlaySound(SoundID.Item12, Projectile.Center);
                     for (int i = 0; i < 3; i++)
                     {
                         int ammo = Projectile.NewProjectile(
@@ -98,6 +98,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
                 }
                 else
                 {
+                    SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);
                     for (int i = 0; i < 3; i++)
                     {
                         int ammo = Projectile.NewProjectile(

@@ -90,7 +90,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             if (player.altFunctionUse == 2)
             {
                 Item.noUseGraphic = true;
-                Item.UseSound = SoundID.Item84;
+                Item.UseSound = SoundID.Item60;
             }
         }
 
