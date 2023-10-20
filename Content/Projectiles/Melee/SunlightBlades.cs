@@ -48,7 +48,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             if (Projectile.timeLeft < 85)
             {
                 byte b = (byte)(Projectile.timeLeft * 3);
-                byte alpha = (byte)(100f * ((float)(int)b / 255f));
+                byte alpha = (byte)(100f * (b / 255f));
                 return new Color(b, b, b, alpha);
             }
 

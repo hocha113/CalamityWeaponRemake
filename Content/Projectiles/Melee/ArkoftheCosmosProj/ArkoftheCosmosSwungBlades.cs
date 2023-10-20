@@ -386,7 +386,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
                         float num = MathF.PI * 2f * Main.rand.NextFloat();
                         for (int i = 0; i < 3; i++)
                         {
-                            Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center + (MathF.PI * 2f * (i / 3f) + num).ToRotationVector2() * 30f, (MathF.PI * 2f * (i / 3f) + num).ToRotationVector2() * 20f, ModContent.ProjectileType<EonBolt>(), (int)(ArkoftheCosmos.SnapBoltsDamageMultiplier * (float)Projectile.damage), 0f, Owner.whoAmI, 0.55f, MathF.PI / 20f).timeLeft = 100;
+                            Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center + (MathF.PI * 2f * (i / 3f) + num).ToRotationVector2() * 30f, (MathF.PI * 2f * (i / 3f) + num).ToRotationVector2() * 20f, ModContent.ProjectileType<EonBolt>(), (int)(ArkoftheCosmos.SnapBoltsDamageMultiplier * Projectile.damage), 0f, Owner.whoAmI, 0.55f, MathF.PI / 20f).timeLeft = 100;
                         }
 
                         for (int j = 0; j < Main.maxNPCs; j++)

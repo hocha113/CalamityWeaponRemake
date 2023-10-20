@@ -92,7 +92,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             CombatText.NewText(Projectile.Hitbox, new Color(111, 247, 200), GameUtils.Translation("PARRY!", "PARRY!"), dramatic: true);//CalamityUtils.GetTextValue("Misc.ArkParry")
             for (int i = 0; i < 5; i++)
             {
-                Vector2 vector = Main.rand.NextVector2Circular((float)Owner.Hitbox.Width * 2f, (float)Owner.Hitbox.Height * 1.2f);
+                Vector2 vector = Main.rand.NextVector2Circular(Owner.Hitbox.Width * 2f, Owner.Hitbox.Height * 1.2f);
                 float num = Main.rand.NextFloat(0.5f, 1.4f);
                 GeneralParticleHandler.SpawnParticle(new FlareShine(Owner.Center + vector, vector * 0.01f, Color.White, Color.Red, 0f, new Vector2(0.6f, 1f) * num, new Vector2(1.5f, 2.7f) * num, 20 + Main.rand.Next(6), 0f, 3f, 0f, Main.rand.Next(7) * 2));
             }
@@ -149,7 +149,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 Projectile projectile = Main.projectile[i];
-                if (!projectile.active || !projectile.hostile || projectile.damage <= 1 || !(projectile.velocity.Length() * (float)(projectile.extraUpdates + 1) > 1f) || !(projectile.Size.Length() < 300f) || !Collision.CheckAABBvLineCollision(projectile.Hitbox.TopLeft(), projectile.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + Projectile.velocity * num, 24f, ref collisionPoint))
+                if (!projectile.active || !projectile.hostile || projectile.damage <= 1 || !(projectile.velocity.Length() * (projectile.extraUpdates + 1) > 1f) || !(projectile.Size.Length() < 300f) || !Collision.CheckAABBvLineCollision(projectile.Hitbox.TopLeft(), projectile.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + Projectile.velocity * num, 24f, ref collisionPoint))
                 {
                     continue;
                 }
@@ -226,8 +226,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
                     Texture2D value = ModContent.Request<Texture2D>("CalamityMod/UI/MiscTextures/GenericBarBack").Value;
                     Texture2D value2 = ModContent.Request<Texture2D>("CalamityMod/UI/MiscTextures/GenericBarFront").Value;
                     Vector2 position = Owner.Center - Main.screenPosition + new Vector2(0f, -36f) - value.Size() / 2f;
-                    Rectangle value3 = new Rectangle(0, 0, (int)((Timer - ParryTime) / (340f - ParryTime) * (float)value2.Width), value2.Height);
-                    float num = ((Timer <= ParryTime + 25f) ? ((Timer - ParryTime) / 25f) : ((340f - Timer <= 8f) ? ((float)Projectile.timeLeft / 8f) : 1f));
+                    Rectangle value3 = new Rectangle(0, 0, (int)((Timer - ParryTime) / (340f - ParryTime) * value2.Width), value2.Height);
+                    float num = ((Timer <= ParryTime + 25f) ? ((Timer - ParryTime) / 25f) : ((340f - Timer <= 8f) ? (Projectile.timeLeft / 8f) : 1f));
                     Color color = Main.hslToRgb((float)Math.Sin(Main.GlobalTimeWrappedHourly * 1.2f) * 0.05f + 0.08f, 1f, 0.65f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 7f) * 0.1f);
                     Main.spriteBatch.Draw(value, position, color * num);
                     Main.spriteBatch.Draw(value2, position, value3, color * num * 0.8f);

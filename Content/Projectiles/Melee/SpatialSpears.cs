@@ -193,8 +193,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             SoundEngine.PlaySound(in SoundID.Item10, Projectile.position);
             for (int i = 4; i < 12; i++)
             {
-                float num = Projectile.oldVelocity.X * (30f / (float)i);
-                float num2 = Projectile.oldVelocity.Y * (30f / (float)i);
+                float num = Projectile.oldVelocity.X * (30f / i);
+                float num2 = Projectile.oldVelocity.Y * (30f / i);
                 int num3 = Dust.NewDust(new Vector2(Projectile.oldPosition.X - num, Projectile.oldPosition.Y - num2), 8, 8, 107, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default(Color), 1.8f);
                 Main.dust[num3].noGravity = true;
                 Main.dust[num3].velocity *= 0.5f;

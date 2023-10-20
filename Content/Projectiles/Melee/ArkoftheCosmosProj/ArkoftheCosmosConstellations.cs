@@ -166,7 +166,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             }
 
             Vector2 vector3 = Vector2.Zero;
-            if (Timer > (float)Projectile.oldPos.Length)
+            if (Timer > Projectile.oldPos.Length)
             {
                 vector3 = Projectile.position - Projectile.oldPos[0];
             }
