@@ -4,7 +4,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Content.Projectiles.Ranged;
+using CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -33,7 +33,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
                 item.noMelee = true;
                 item.noUseGraphic = true;
                 item.knockBack = 6.5f;
-                item.shoot = ModContent.ProjectileType<DragonsBreathProjectiles>();
+                item.shoot = ModContent.ProjectileType<DragonsBreathHeldProj>();
                 item.shootSpeed = 12f;
                 item.useAmmo = AmmoID.Bullet;
                 item.Calamity().canFirePointBlankShots = true;
@@ -47,9 +47,9 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
         {
             if (item.type == ModContent.ItemType<DragonsBreath>() && CWRConstant.ForceReplaceResetContent)
             {
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<DragonsBreathProjectiles>()] == 0)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<DragonsBreathHeldProj>()] == 0)
                 {
-                    heldProj = Projectile.NewProjectile(GetEntitySource_Parent(player), position, velocity, ModContent.ProjectileType<DragonsBreathProjectiles>(), damage, knockback, player.whoAmI);
+                    heldProj = Projectile.NewProjectile(GetEntitySource_Parent(player), position, velocity, ModContent.ProjectileType<DragonsBreathHeldProj>(), damage, knockback, player.whoAmI);
                     if (player.altFunctionUse == 2)
                     {
                         Main.projectile[heldProj].ai[0] = 1;

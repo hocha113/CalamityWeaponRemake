@@ -1,8 +1,8 @@
-﻿using CalamityWeaponRemake.Common;
+﻿using CalamityMod;
+using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using rail;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -11,11 +11,11 @@ using Terraria.ModLoader;
 using static CalamityWeaponRemake.Common.AuxiliaryMeans.AiBehavior;
 using static CalamityWeaponRemake.Common.DrawTools.DrawUtils;
 
-namespace CalamityWeaponRemake.Content.Projectiles.Ranged
+namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
 {
-    internal class ArbalestHeldProj : ModProjectile
+    internal class DeathwindHeldProj : ModProjectile
     {
-        public override string Texture => CWRConstant.Cay_Wap_Ranged + "Arbalest";
+        public override string Texture => CWRConstant.Cay_Wap_Ranged + "Deathwind";
 
         public override void SetDefaults()
         {
@@ -34,14 +34,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
         public int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
         public int Time { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
         public int Time2 { get => (int)Projectile.localAI[0]; set => Projectile.localAI[0] = value; }
+        public int useArrow { get => (int)Projectile.localAI[1]; set => Projectile.localAI[1] = value; }
 
         private Player Owner => Main.player[Projectile.owner];
         private Vector2 toMou = Vector2.Zero;
-        private Item arbalest => Owner.HeldItem;
+        private Item deathwind => Owner.HeldItem;
 
         public override void OnSpawn(IEntitySource source)
         {
-            base.OnSpawn(source);
+            Time2 = 10;
+            useArrow = -1000;
         }
 
         public override void OnKill(int timeLeft)
@@ -56,8 +58,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
 
         public override void AI()
         {
-            if (!PlayerAlive(Owner) || (arbalest.type != ModContent.ItemType<Items.Ranged.Arbalest>()
-                && arbalest.type != ModContent.ItemType<CalamityMod.Items.Weapons.Ranged.Arbalest>()))
+            if (!PlayerAlive(Owner) || deathwind.type != ModContent.ItemType<Items.Ranged.Deathwind>()
+                && deathwind.type != ModContent.ItemType<CalamityMod.Items.Weapons.Ranged.Deathwind>())
             {
                 Projectile.Kill();
                 return;
@@ -70,41 +72,69 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
                 SpanProj();
             }
             Time++;
-            Time2++;
         }
 
         public void SpanProj()
         {
-            if (Time > 20 && Time < 50 && Owner.PressKey())
+            if (Time % deathwind.useTime == 0 && useArrow != -1000)
             {
-                if (Time2 % 10 == 0)
+                SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);
+                if (CalamityUtils.CheckWoodenAmmo(useArrow, Owner))
                 {
-                    SoundEngine.PlaySound(in SoundID.Item5, Owner.Center);
-                    int randShootNum = Main.rand.Next(4, 6);
-                    Vector2 spanPos = Owner.Center + toMou.UnitVector() * 53;
-                    for (int i = 0; i < randShootNum; i++)
+                    for (int i = 0; i < 3; i++)
                     {
-                        Vector2 vr = (toMou.ToRotation() + MathHelper.ToRadians(Main.rand.NextFloat(-15, 15))).ToRotationVector2() * Main.rand.Next(17, 27);
                         int ammo = Projectile.NewProjectile(
+                                GetEntitySource_Parent(Owner),
+                                Projectile.Center,
+                                Vector2.Zero,
+                                ModContent.ProjectileType<DeathLaser>(),
+                                Projectile.damage,
+                                Projectile.knockBack,
+                                Projectile.owner
+                                );
+                        Main.projectile[ammo].ai[1] = Projectile.whoAmI;
+                        Main.projectile[ammo].rotation = Projectile.rotation + MathHelper.ToRadians(5 - 5 * i);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        int ammo = Projectile.NewProjectile(
+                                GetEntitySource_Parent(Owner),
+                                Projectile.Center,
+                                (Projectile.rotation + MathHelper.ToRadians(5 - 5 * i)).ToRotationVector2() * 17,
+                                useArrow,
+                                Projectile.damage,
+                                Projectile.knockBack,
+                                Projectile.owner
+                                );
+                        Main.projectile[ammo].MaxUpdates = 2;
+                    }
+                    Time2++;
+                }                
+            }
+
+            if (Time2 > 3 && Time % 5 == 0 && useArrow != -1000 && !CalamityUtils.CheckWoodenAmmo(useArrow, Owner))
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    Vector2 vr = (Projectile.rotation + MathHelper.ToRadians(5 - 5 * i)).ToRotationVector2();
+                    int ammo = Projectile.NewProjectile(
                             GetEntitySource_Parent(Owner),
-                            spanPos,
-                            vr,
-                            (int)Projectile.localAI[1],
+                            Projectile.Center + vr * 150,
+                            vr * 15,
+                            ModContent.ProjectileType<DeadArrow>(),
                             Projectile.damage,
                             Projectile.knockBack,
                             Projectile.owner
                             );
-                        Main.projectile[ammo].MaxUpdates = 2;
-                        Main.projectile[ammo].scale = 0.5f + Projectile.localAI[2] / 16;
-                    }
-                    Projectile.localAI[2]++;
-                    if (Projectile.localAI[2] > 16)
-                        Projectile.localAI[2] = 0;
+                    Main.projectile[ammo].scale = 1.5f;
                 }
-
+                Time2++;
+                if (Time2 > 8)
+                    Time2 = 0;
             }
-            if (Time > 60)
-                Time = 0;
         }
 
         public void StickToOwner()

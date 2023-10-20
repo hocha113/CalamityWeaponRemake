@@ -21,11 +21,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
         public override string Texture => CWRConstant.Cay_Proj_Melee + "Spears/" + "GoldplumeSpearProjectile";
 
-        public override float InitialSpeed => 3f;
+        public override float InitialSpeed => 2f;
 
         public override float ReelbackSpeed => 1.1f;
 
-        public override float ForwardSpeed => 0.95f;
+        public override float ForwardSpeed => 0.5f;
 
         public override void SetDefaults()
         {
@@ -64,14 +64,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                     Projectile.Kill();
                     return;
                 }
-                Projectile.Center = owners.Center + Rots.ToRotationVector2() * 32;
-                Projectile.rotation = Rots;
-
                 if (Projectile.IsOwnedByLocalPlayer())
                 {
                     StickToOwner();
                     SpanProj();
                 }
+                Projectile.rotation = Rots;
+                Projectile.Center = owners.Center + Rots.ToRotationVector2() * 32;
             }
 
             Time++;

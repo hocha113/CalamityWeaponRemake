@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
 using CalamityMod.Sounds;
 using Terraria.Audio;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {
@@ -51,8 +52,11 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
-            if (player.altFunctionUse == 2) 
+            if (player.altFunctionUse == 2)
+            {
                 Main.projectile[proj].ai[1] = 1;
+                Main.projectile[proj].rotation = player.Center.To(Main.MouseWorld).ToRotation();
+            }                
             return false;
         }
 

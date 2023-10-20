@@ -6,9 +6,9 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs;
 
 namespace CalamityWeaponRemake.Content.Items.Ranged
 {
@@ -24,6 +24,11 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
 
         public override string Texture => CWRConstant.Cay_Wap_Ranged + "Arbalest";
+
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
+        }
 
         public override void SetDefaults()
         {
@@ -52,11 +57,6 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
             crit += 20f;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return player.ownedProjectileCounts[ModContent.ProjectileType<ArbalestHeldProj>()] <= 0;
-        }
-
         public override void HoldItem(Player player)
         {
             Item.initialize();
@@ -71,10 +71,22 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
         {
             Item.initialize();            
             Item.CWR().ai[1] = type;
-            Item.CWR().ai[0] = Projectile.NewProjectile(source, position, Vector2.Zero
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<ArbalestHeldProj>()] <= 0)
+            {
+                Item.CWR().ai[0] = Projectile.NewProjectile(source, position, Vector2.Zero
                 , ModContent.ProjectileType<ArbalestHeldProj>()
                 , damage, knockback, player.whoAmI);
+                if (player.altFunctionUse == 2)
+                {
+                    Main.projectile[(int)Item.CWR().ai[0]].ai[0] = 1;
+                }
+            }
             return false;
+        }
+
+        public override bool AltFunctionUse(Player player)
+        {
+            return true;
         }
     }
 }

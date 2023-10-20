@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Content.Projectiles.Ranged;
+using CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs;
 
 namespace CalamityWeaponRemake.Content.Items.Ranged
 {
@@ -37,7 +37,6 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
             Item.knockBack = 5f;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.rare = ModContent.RarityType<DarkBlue>();
-            Item.UseSound = SoundID.Item5;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<DeathwindHeldProj>();
             Item.shootSpeed = 20f;
@@ -48,11 +47,6 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/DeathwindGlow").Value);
-        }
-
-        public override bool CanUseItem(Player player)
-        {
-            return player.ownedProjectileCounts[ModContent.ProjectileType<DeathwindHeldProj>()] <= 0;
         }
 
         public override void HoldItem(Player player)
@@ -69,9 +63,12 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
         {
             Item.initialize();
             Item.CWR().ai[1] = type;
-            Item.CWR().ai[0] = Projectile.NewProjectile(source, position, Vector2.Zero
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<DeathwindHeldProj>()] <= 0)
+            {
+                Item.CWR().ai[0] = Projectile.NewProjectile(source, position, Vector2.Zero
                 , ModContent.ProjectileType<DeathwindHeldProj>()
                 , damage, knockback, player.whoAmI);
+            }
             return false;
         }
     }

@@ -51,6 +51,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 5;
             Projectile.alpha = 255;
+            Projectile.hide = true;
         }
 
         Player Owner => AiBehavior.GetPlayerInstance(Projectile.owner);
@@ -99,6 +100,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 }//因为需要替换原模组的内容，所以这里放弃了直接访问类型来获取属性，作为补救，禁止其余物品发射该弹幕，即使这种情况不应该出现
                 Projectile.localAI[1]++;
 
+                Owner.heldProj = Projectile.whoAmI;
                 if (Projectile.IsOwnedByLocalPlayer())
                 {
                     float frontArmRotation = (MathHelper.PiOver2 - 0.31f) * -Owner.direction;
@@ -427,7 +429,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
         {
-            overPlayers.Add(index);
+            //overPlayers.Add(index);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

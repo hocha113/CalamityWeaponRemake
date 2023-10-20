@@ -4,7 +4,7 @@ using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Common.Interfaces;
-using CalamityWeaponRemake.Content.Projectiles.Ranged;
+using CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -38,7 +38,7 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.knockBack = 6.5f;
-            Item.shoot = ModContent.ProjectileType<DragonsBreathProjectiles>();
+            Item.shoot = ModContent.ProjectileType<DragonsBreathHeldProj>();
             Item.shootSpeed = 12f;
             Item.useAmmo = AmmoID.Bullet;
             Item.Calamity().canFirePointBlankShots = true;
@@ -51,7 +51,7 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
             return true;
         }
 
-        int dbpType => ModContent.ProjectileType<DragonsBreathProjectiles>();
+        int dbpType => ModContent.ProjectileType<DragonsBreathHeldProj>();
         int heldProj = -1;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

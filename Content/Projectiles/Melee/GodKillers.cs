@@ -94,7 +94,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             SoundEngine.PlaySound(in SoundID.Item89, Projectile.position);
             for (int i = 0; i < 5; i++)
             {
-                int num = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 199, 0f, 0f, 100, default(Color), 1.5f);
+                int num = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Butterfly, 0f, 0f, 100, default(Color), 1.5f);
                 Main.dust[num].velocity *= 3f;
                 if (Main.rand.NextBool())
                 {
@@ -105,10 +105,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
             for (int j = 0; j < 10; j++)
             {
-                int num2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 100, default(Color), 2f);
+                int num2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.ShadowbeamStaff, 0f, 0f, 100, default(Color), 2f);
                 Main.dust[num2].noGravity = true;
                 Main.dust[num2].velocity *= 5f;
-                num2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 100, default(Color), 1.5f);
+                num2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.ShadowbeamStaff, 0f, 0f, 100, default(Color), 1.5f);
                 Main.dust[num2].velocity *= 2f;
             }
         }

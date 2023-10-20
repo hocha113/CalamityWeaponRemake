@@ -16,9 +16,9 @@ using Terraria.ModLoader;
 using static CalamityWeaponRemake.Common.AuxiliaryMeans.AiBehavior;
 using static CalamityWeaponRemake.Common.DrawTools.DrawUtils;
 
-namespace CalamityWeaponRemake.Content.Projectiles.Ranged
+namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
 {
-    internal class DragonsBreathProjectiles : ModProjectile
+    internal class DragonsBreathHeldProj : ModProjectile
     {
         public override string Texture => CWRConstant.Item_Ranged + "DragonsBreath";
 
@@ -280,11 +280,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
                 0
                 );
             return false;
-        }
-
-        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
-        {
-            
         }
     }
 }
