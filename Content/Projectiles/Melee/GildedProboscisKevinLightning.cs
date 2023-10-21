@@ -98,7 +98,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
         public override void AI()
         {
             //防御性代码，任何时候都不希望后续代码访问null值玩家或者非活跃的对象
-            if (AiBehavior.PlayerAlive(Owner) == false)
+            if (AiBehavior.Alives(Owner) == false)
             {
                 Projectile.Kill();
                 return;

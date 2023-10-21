@@ -121,7 +121,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player Owner = Main.player[Projectile.owner];
-            if (AiBehavior.PlayerAlive(Owner) == false) return;
+            if (AiBehavior.Alives(Owner) == false) return;
 
             if (Owner.ownedProjectileCounts[ModContent.ProjectileType<CosmicRay>()] <= 12)
             {

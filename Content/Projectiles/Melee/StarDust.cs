@@ -54,7 +54,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
         public override void AI()
         {
             Projectile target = AiBehavior.GetProjectileInstance(Behavior);
-            if (AiBehavior.ProjectileAlive(target) == false)
+            if (AiBehavior.Alives(target) == false)
             {
                 Projectile.Kill();
                 return;

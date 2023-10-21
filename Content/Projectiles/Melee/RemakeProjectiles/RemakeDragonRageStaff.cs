@@ -70,7 +70,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         {
             Player player = Main.player[Projectile.owner];
             float num = 50f;
-            if (!AiBehavior.PlayerAlive(player))
+            if (!AiBehavior.Alives(player))
             {
                 Projectile.Kill();
                 player.reuseDelay = 2;

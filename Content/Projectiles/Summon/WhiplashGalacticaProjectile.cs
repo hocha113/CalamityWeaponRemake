@@ -88,13 +88,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon
                         ModContent.ProjectileType<CosmicFire>(),
                         Projectile.damage + 500,
                         0,
-                        ai2: Projectile.whoAmI
+                        Projectile.owner,
+                        Projectile.whoAmI
                     );
                 }
             }
-            
-
-            //StarnightBeams.StarRT(Projectile, target);
         }
 
         private void DrawLine(List<Vector2> list)
@@ -197,13 +195,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon
                 Projectile.timeLeft = 150;
             }
 
-            public int Status { get => (int)Projectile.ai[0]; set => Projectile.ai[0] = value; }
-            public int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
-            public int Time { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
+            public int fowerIndex { get => (int)Projectile.ai[0]; set => Projectile.ai[0] = value; }
 
             public override void AI()
             {
-                Projectile ownProj = AiBehavior.GetProjectileInstance(Behavior);
+                Projectile ownProj = AiBehavior.GetProjectileInstance(fowerIndex);
                 if (ownProj != null)
                 {
                     List<Vector2> toPos = AiBehavior.GetWhipControlPoints(ownProj);

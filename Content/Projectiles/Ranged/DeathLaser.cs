@@ -43,7 +43,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
         public override void AI()
         {
             Projectile heldBow = AiBehavior.GetProjectileInstance(HeldProj);
-            if (!AiBehavior.PlayerAlive(Owner) || !(heldBow != null && heldBow.type == ModContent.ProjectileType<DeathwindHeldProj>()))
+            if (!AiBehavior.Alives(Owner) || !(heldBow != null && heldBow.type == ModContent.ProjectileType<DeathwindHeldProj>()))
             { 
                 Projectile.Kill();
                 return;

@@ -187,65 +187,6 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         }
 
         /// <summary>
-        /// 返回两个实体之间的距离平方 
-        /// </summary>
-        public static float GetEntityDgSquared(Entity entity1, Entity entity2)
-        {
-            if (entity1 != null && entity2 != null)
-            {
-                return (GetEntityCenter(entity1) - GetEntityCenter(entity2)).LengthSquared();
-            }
-            else
-            {
-                return -1;
-            }
-        }
-
-        /// <summary>
-        /// 检测方块碰撞
-        /// </summary>
-        public static bool CollTile(NPC entity, int xScope, int yScope)
-        {
-            Vector2 entTilePosL = WEPosToTilePos(entity.BottomLeft);
-            Vector2 entTilePosR = WEPosToTilePos(entity.BottomRight);
-
-            float entTileHeight = entity.height / 16f;
-            int entTileHeightInt = entity.height / 16;
-            if (entTileHeight - entTileHeightInt != 0) entTileHeightInt++;
-
-            for (int y = -yScope; y <= entTileHeightInt + yScope; y++)
-            {
-                if (entity.direction > 0)
-                {
-                    for (int x = 0; x < xScope; x++)
-                    {
-                        Vector2 ceingTilePos = entTilePosR + new Vector2(x, -y);
-                        Tile tile = TileHelper.GetTile(ceingTilePos);
-
-                        if (tile.HasSolidTile())
-                        {
-                            return true;
-                        }
-                    }
-                }
-                else
-                {
-                    for (int x = 0; x < xScope; x++)
-                    {
-                        Vector2 ceingTilePos = entTilePosL + new Vector2(-x, -y);
-                        Tile tile = TileHelper.GetTile(ceingTilePos);
-
-                        if (tile.HasSolidTile())
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
         /// 进行圆形的碰撞检测
         /// </summary>
         /// <param name="centerPosition">中心点</param>
@@ -307,20 +248,10 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         }
 
         /// <summary>
-        /// 检测实体是否有效
-        /// </summary>
-        /// <returns>返回 true 表示活跃，返回 false 表示为空或者已经死亡的非活跃状态</returns>
-        public static bool EntityAlive(Entity entity)
-        {
-            if (entity == null) return false;
-            return entity.active;
-        }
-
-        /// <summary>
         /// 检测玩家是否有效且正常存活
         /// </summary>
         /// <returns>返回 true 表示活跃，返回 false 表示为空或者已经死亡的非活跃状态</returns>
-        public static bool PlayerAlive(Player player)
+        public static bool Alives(this Player player)
         {
             if (player == null) return false;
             return player.active && !player.dead;
@@ -331,7 +262,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// 检测弹幕是否有效且正常存活
         /// </summary>
         /// <returns>返回 true 表示活跃，返回 false 表示为空或者已经死亡的非活跃状态</returns>
-        public static bool ProjectileAlive(Projectile projectile)
+        public static bool Alives(this Projectile projectile)
         {
             if (projectile == null) return false;
             return projectile.active && projectile.timeLeft > 0;
@@ -341,7 +272,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// 检测NPC是否有效且正常存活
         /// </summary>
         /// <returns>返回 true 表示活跃，返回 false 表示为空或者已经死亡的非活跃状态</returns>
-        public static bool NPCAlive(NPC npc)
+        public static bool Alives(this NPC npc)
         {
             if (npc == null) return false;
             return npc.active && npc.timeLeft > 0;
@@ -357,7 +288,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
             {
                 Player player = Main.player[playerIndex];
 
-                if (PlayerAlive(player)) return player;
+                if (Alives(player)) return player;
                 else return null;
             }
             else return null;
@@ -373,7 +304,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
             {
                 NPC npc = Main.npc[npcIndex];
 
-                if (NPCAlive(npc)) return npc;
+                if (Alives(npc)) return npc;
                 else return null;
             }
             else return null;
@@ -389,7 +320,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
             {
                 Projectile proj = Main.projectile[projectileIndex];
 
-                if (ProjectileAlive(proj)) return proj;
+                if (Alives(proj)) return proj;
                 else return null;
             }
             else return null;
@@ -684,7 +615,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
             {
                 NPC npc = Main.npc[i];
 
-                if (NPCAlive(npc) == false || npc.friendly == true || npc.dontTakeDamage == true)
+                if (Alives(npc) == false || npc.friendly == true || npc.dontTakeDamage == true)
                 {
                     continue;
                 }
