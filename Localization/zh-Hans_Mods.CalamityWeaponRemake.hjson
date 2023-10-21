@@ -130,6 +130,11 @@ Items: {
 		// DisplayName: Dragon Rage
 		// Tooltip: ""
 	}
+
+	WhiplashGalactica: {
+		// DisplayName: Whiplash Galactica
+		// Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -195,6 +200,8 @@ Projectiles: {
 	// DeadArrow.DisplayName: Dead Arrow
 	// DragonsBreathHeldProj.DisplayName: Dragons Breath Held Proj
 	// Cyclones.DisplayName: Cyclones
+	// DeadWave.DisplayName: Dead Wave
+	// WhiplashGalacticaProjectile.DisplayName: Whiplash Galactica Projectile
 }
 
 Configs: {

@@ -593,6 +593,17 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
                 return list.GetIntList();
             }
         }
+
+        /// <summary>
+        /// 获取鞭类弹幕的路径点集
+        /// </summary>
+        public static List<Vector2> GetWhipControlPoints(this Projectile projectile)
+        {
+            List<Vector2> list = new List<Vector2>();
+            Projectile.FillWhipControlPoints(projectile, list);
+            return list;
+        }
+
         #endregion
 
         #region 行为部分

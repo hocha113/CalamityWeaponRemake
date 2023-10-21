@@ -111,6 +111,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
                                 Projectile.owner
                                 );
                         Main.projectile[ammo].MaxUpdates = 2;
+                        Main.projectile[ammo].CWR().SpanTypes = (byte)SpanTypesEnum.DeadWing;
                     }
                     Time2++;
                 }                

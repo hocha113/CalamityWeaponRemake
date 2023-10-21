@@ -129,6 +129,9 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         public static CWRItems CWR(this Item item)
             => item.GetGlobalItem<CWRItems>();
 
+        public static CWRProjectile CWR(this Projectile projectile)
+            => projectile.GetGlobalProjectile<CWRProjectile>();
+
         public static void initialize(this Item item)
         {
             if (item.CWR().ai == null)

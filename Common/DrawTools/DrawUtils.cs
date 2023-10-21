@@ -179,6 +179,12 @@ namespace CalamityWeaponRemake.Common.DrawTools
         public static void ResetBlendState(this SpriteBatch spriteBatch) => spriteBatch.SetBlendState(BlendState.AlphaBlend);
 
         /// <summary>
+        /// 将 <see cref="SpriteBatch"/> 的 <see cref="BlendState"/> 设置为 <see cref="BlendState.Additive"/>。
+        /// </summary>
+        /// <param name="spriteBatch">绘制模式</param>
+        public static void SetAdditiveState(this SpriteBatch spriteBatch) => spriteBatch.SetBlendState(BlendState.Additive);
+
+        /// <summary>
         /// 将 <see cref="SpriteBatch"/> 重置为无效果的UI画布状态，在大多数情况下，这个适合结束一段在UI中的绘制
         /// </summary>
         /// <param name="spriteBatch">绘制模式</param>
