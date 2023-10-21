@@ -202,6 +202,8 @@ Projectiles: {
 	// Cyclones.DisplayName: Cyclones
 	// DeadWave.DisplayName: Dead Wave
 	// WhiplashGalacticaProjectile.DisplayName: Whiplash Galactica Projectile
+	// CosmicFire.DisplayName: Cosmic Fire
+	// Trail.DisplayName: Trail
 }
 
 Configs: {

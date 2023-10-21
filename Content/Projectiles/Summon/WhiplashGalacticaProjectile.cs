@@ -51,7 +51,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon
                 ModContent.ProjectileType<Trail>(),
                 0,
                 0,
-                ai2:Projectile.whoAmI
+                ai1:Projectile.whoAmI
                 );
         }
 
@@ -59,10 +59,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon
         {
             Vector2 topPos = whipPoints[whipPoints.Count - 2];
             float lengs = Main.player[Projectile.owner].Center.To(topPos).Length() / 14f;
-            if (lengs > 120)
-                lengs = 120;
-            if (lengs < 30)
-                lengs = 30;
+            if (lengs > 100)
+                lengs = 100;
+            if (lengs < 20)
+                lengs = 20;
             Projectile.WhipSettings.Segments = (int)lengs;
             return true;
         }
@@ -80,13 +80,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon
                     Projectile.NewProjectile(
                         AiBehavior.GetEntitySource_Parent(Projectile),
 
-                        target.Center + 
+                        target.Center - 
                         Main.player[Projectile.owner].Center.To(target.Center).UnitVector()
                         .RotatedBy(MathHelper.ToRadians(Main.rand.Next(-75, 75))) * 300,
 
                         Vector2.Zero,
                         ModContent.ProjectileType<CosmicFire>(),
-                        Projectile.damage / 2,
+                        Projectile.damage + 500,
                         0,
                         ai2: Projectile.whoAmI
                     );

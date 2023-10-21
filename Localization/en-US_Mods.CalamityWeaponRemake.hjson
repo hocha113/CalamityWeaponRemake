@@ -123,6 +123,11 @@ Items: {
 		DisplayName: Whiplash Galactica
 		Tooltip: ""
 	}
+
+	Tradewinds: {
+		DisplayName: Tradewinds
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
