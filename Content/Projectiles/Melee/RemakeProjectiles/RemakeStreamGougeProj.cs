@@ -39,7 +39,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         public override Action<Projectile> EffectBeforeReelback => delegate
         {
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0.8f
-                , ModContent.ProjectileType<StarnightBeams>(), Projectile.damage, Projectile.knockBack * 0.85f, Projectile.owner);
+                , ModContent.ProjectileType<StreamGouges>(), Projectile.damage, Projectile.knockBack * 0.85f, Projectile.owner);
         };
 
         public override void SetDefaults()
@@ -173,7 +173,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 Main.projectile[proj].timeLeft = 60;
             }
 
-            StarnightBeams.StarRT(Projectile, target);
+            StreamGouges.StarRT(Projectile, target);
         }
 
         public void DrawPortal(Vector2 drawPosition, float opacity)

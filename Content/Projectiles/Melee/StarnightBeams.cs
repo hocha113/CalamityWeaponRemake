@@ -15,9 +15,9 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee
 {
-    internal class StarnightBeams : ModProjectile
+    internal class StreamGouges : ModProjectile
     {
-        public override string Texture => CWRConstant.Projectile_Melee + "StarnightBeam";
+        public override string Texture => CWRConstant.Projectile_Melee + "StreamGouge";
 
         public override void SetStaticDefaults()
         {

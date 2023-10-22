@@ -9,10 +9,6 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\BrinyBaron.png" />
-    <None Remove="Assets\Buffs\红渊灵.png" />
-    <None Remove="Assets\Buffs\绿渊灵.png" />
-    <None Remove="Assets\Buffs\蓝渊灵.png" />
-    <None Remove="Assets\Buffs\金渊灵.png" />
     <None Remove="Assets\Effects\TerrorBlade.png" />
     <None Remove="Assets\Effects\TerrorBladeGlow.png" />
     <None Remove="Assets\Items\AethersWhisper.png" />
@@ -120,7 +116,7 @@
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\Projectiles\Magic\" />
+    <Folder Include="Assets\Projectiles\Magic\" />
     <Folder Include="Content\RemakeItems\Magic\" />
     <Folder Include="Content\RemakeItems\Summon\" />
     <Folder Include="Content\NPCs\" />

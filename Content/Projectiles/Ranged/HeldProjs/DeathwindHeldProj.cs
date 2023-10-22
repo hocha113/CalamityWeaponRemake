@@ -58,7 +58,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
 
         public override void AI()
         {
-            if (!PlayerAlive(Owner) || deathwind.type != ModContent.ItemType<Items.Ranged.Deathwind>()
+            if (!Owner.Alives() || deathwind.type != ModContent.ItemType<Items.Ranged.Deathwind>()
                 && deathwind.type != ModContent.ItemType<CalamityMod.Items.Weapons.Ranged.Deathwind>())
             {
                 Projectile.Kill();

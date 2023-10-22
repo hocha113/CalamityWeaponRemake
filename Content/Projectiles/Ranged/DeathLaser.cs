@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs;
+using CalamityMod;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Ranged
 {
@@ -90,7 +91,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
             Texture2D body = DrawUtils.GetT2DValue(Texture + "Body");
             Texture2D head = DrawUtils.GetT2DValue(Texture + "Head");
             Texture2D dons = DrawUtils.GetT2DValue(Texture + "Don");
-            Color color = new Color(92, 58, 156, Projectile.alpha);
+            Color color = CalamityUtils.ColorSwap(new Color(119, 210, 255), new Color(247, 119, 255), 0.9f); ;
 
             float rots = Projectile.rotation - MathHelper.PiOver2;
             Vector2 slp = new Vector2(wit, 1);

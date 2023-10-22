@@ -1,7 +1,7 @@
 ﻿namespace CalamityWeaponRemake.Content.Items.Ranged.TODOs
 {
     /// <summary>
-    /// 天蓝弓
+    /// 烈风
     /// </summary>
     internal class Galeforce
     {

@@ -202,7 +202,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
         /// </summary>
         public void ShootConstellations(int mode = 0)
         {  
-            if (shootBool && Projectile.IsOwnedByLocalPlayer())
+            if (shootBool)
             {
                 if (mode == 0)
                 {
@@ -316,7 +316,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
                 if (!SwirlSwing)
                 {
                     float offsetRot = MathHelper.Lerp(SwingWidth / 2f * SwingDirection, (0f - SwingWidth) / 2f * SwingDirection, SwingRatio());
-                    ShootConstellations(0);
+                    if(Projectile.IsOwnedByLocalPlayer()) 
+                        ShootConstellations(0);
                     Projectile.rotation = Projectile.velocity.ToRotation() + offsetRot;
                 }
                 else
@@ -325,14 +326,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
                     float value2 = -7.46128273f * SwingDirection;
                     Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.Lerp(value, value2, SwirlRatio());
                     DoParticleEffects(swirlSwing: true);
-                    ShootConstellations(1);
+                    if (Projectile.IsOwnedByLocalPlayer()) 
+                        ShootConstellations(1);
                 }
 
                 Projectile.scale = 1.2f + (float)Math.Sin(SwingRatio() * MathF.PI) * 0.6f + Charge / 10f * 0.2f;
             }
             else
             {
-                if (Math.Abs(ThrowCompletion - 0.2f + 0.1f) <= 0.005f && ChanceMissed == 0f && Main.myPlayer == Owner.whoAmI)
+                if (Math.Abs(ThrowCompletion - 0.2f + 0.1f) <= 0.005f && ChanceMissed == 0f && Projectile.IsOwnedByLocalPlayer())
                 {
                     GeneralParticleHandler.SpawnParticle(new PulseRing(Projectile.Center, Vector2.Zero, Color.OrangeRed, 0.05f, 1.8f, 8));
                     SoundEngine.PlaySound(in SoundID.Item4);

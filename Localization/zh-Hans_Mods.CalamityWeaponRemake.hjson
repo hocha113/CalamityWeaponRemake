@@ -135,6 +135,21 @@ Items: {
 		// DisplayName: Whiplash Galactica
 		// Tooltip: ""
 	}
+
+	Tradewinds: {
+		// DisplayName: Tradewinds
+		// Tooltip: ""
+	}
+
+	DeathhailStaff: {
+		// DisplayName: Deathhail Staff
+		// Tooltip: ""
+	}
+
+	Excelsus: {
+		// DisplayName: Excelsus
+		// Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -242,5 +257,10 @@ Buffs: {
 	HellfireExplosion: {
 		// Description: Mods.CalamityWeaponRemake.Buffs.HellfireExplosion.Description
 		// DisplayName: Hellfire Explosion
+	}
+
+	GodKillsFire: {
+		// DisplayName: God Kills Fire
+		// Description: Mods.CalamityWeaponRemake.Buffs.GodKillsFire.Description
 	}
 }

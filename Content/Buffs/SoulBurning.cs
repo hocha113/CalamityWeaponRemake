@@ -20,7 +20,7 @@ namespace CalamityWeaponRemake.Content.Buffs
         {
             time++;
             if (time % 10 == 0)
-                player.statLife -= 5;
+                player.statLife -= 35;
             if (time % 2 == 0)
             {
                 Vector2 pos = player.Center + Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * Main.rand.Next(32);
