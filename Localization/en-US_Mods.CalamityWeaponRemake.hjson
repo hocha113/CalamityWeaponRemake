@@ -128,6 +128,21 @@ Items: {
 		DisplayName: Tradewinds
 		Tooltip: ""
 	}
+
+	DeathhailStaff: {
+		DisplayName: Deathhail Staff
+		Tooltip: ""
+	}
+
+	Excelsus: {
+		DisplayName: Excelsus
+		Tooltip: ""
+	}
+
+	GhastlyVisage: {
+		DisplayName: Ghastly Visage
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -235,5 +250,10 @@ Buffs: {
 	HellfireExplosion: {
 		Description: Mods.CalamityWeaponRemake.Buffs.HellfireExplosion.Description
 		DisplayName: Hellfire Explosion
+	}
+
+	GodKillsFire: {
+		DisplayName: God Kills Fire
+		Description: Mods.CalamityWeaponRemake.Buffs.GodKillsFire.Description
 	}
 }

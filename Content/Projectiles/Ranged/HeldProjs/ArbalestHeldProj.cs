@@ -56,7 +56,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
 
         public override void AI()
         {
-            if (!PlayerAlive(Owner) || arbalest.type != ModContent.ItemType<Items.Ranged.Arbalest>()
+            if (!Owner.Alives() || arbalest.type != ModContent.ItemType<Items.Ranged.Arbalest>()
                 && arbalest.type != ModContent.ItemType<CalamityMod.Items.Weapons.Ranged.Arbalest>())
             {
                 Projectile.Kill();

@@ -14,6 +14,7 @@ using CalamityMod;
 using System;
 using Terraria.Graphics.Shaders;
 using Terraria.DataStructures;
+using CalamityWeaponRemake.Content.Buffs;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Summon
 {
@@ -69,7 +70,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 240);
+            target.AddBuff(ModContent.BuffType<GodKillsFire>(), 240);
             Main.player[Projectile.owner].MinionAttackTargetNPC = target.whoAmI;
             Projectile.damage -= 15;
 
