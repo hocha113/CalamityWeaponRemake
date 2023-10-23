@@ -75,8 +75,8 @@ namespace CalamityWeaponRemake.Content.Dusts
         {
             Vector2 dustSlp = new Vector2(0.5f, 1.6f) * dust.scale;
             Texture2D texture = DrawUtils.GetT2DValue(Texture);
-            Main.spriteBatch.Draw(texture, dust.position - Main.screenPosition, null, dust.color, dust.rotation, texture.Size() * 0.5f, dustSlp, (SpriteEffects)0, 0f);
-            Main.spriteBatch.Draw(texture, dust.position - Main.screenPosition, null, dust.color, dust.rotation, texture.Size() * 0.5f, dustSlp * new Vector2(0.45f, 1f), (SpriteEffects)0, 0f);
+            Main.spriteBatch.Draw(texture, dust.position - Main.screenPosition, null, dust.color, dust.rotation, texture.Size() * 0.5f, dustSlp, 0, 0f);
+            Main.spriteBatch.Draw(texture, dust.position - Main.screenPosition, null, dust.color, dust.rotation, texture.Size() * 0.5f, dustSlp * new Vector2(0.45f, 1f), 0, 0f);
             return false;
         }
     }

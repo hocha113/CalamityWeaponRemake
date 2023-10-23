@@ -150,6 +150,21 @@ Items: {
 		// DisplayName: Excelsus
 		// Tooltip: ""
 	}
+
+	GhastlyVisage: {
+		// DisplayName: Ghastly Visage
+		// Tooltip: ""
+	}
+
+	Galeforce: {
+		// DisplayName: Galeforce
+		// Tooltip: ""
+	}
+
+	ElementWhip: {
+		// DisplayName: Element Whip
+		// Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -219,6 +234,9 @@ Projectiles: {
 	// WhiplashGalacticaProjectile.DisplayName: Whiplash Galactica Projectile
 	// CosmicFire.DisplayName: Cosmic Fire
 	// Trail.DisplayName: Trail
+	// StreamGouges.DisplayName: Stream Gouges
+	// GaleforceHeldProj.DisplayName: Galeforce Held Proj
+	// ElementWhipProjectile.DisplayName: Element Whip Projectile
 }
 
 Configs: {

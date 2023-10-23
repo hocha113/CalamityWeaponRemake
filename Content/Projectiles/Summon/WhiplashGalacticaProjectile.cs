@@ -22,8 +22,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon
     {
         public override string Texture => CWRConstant.Projectile_Summon + "WhiplashGalacticaProjectile";
 
-        private List<Vector2> whipPoints => Projectile.GetWhipControlPoints();
-        private Vector2 whipTopPos => whipPoints[whipPoints.Count - 2];
+        private List<Vector2> whipPoints => Projectile.GetWhipControlPoints();//点集
 
         public override void SetStaticDefaults()
         {
@@ -58,13 +57,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon
 
         public override bool PreAI()
         {
-            Vector2 topPos = whipPoints[whipPoints.Count - 2];
-            float lengs = Main.player[Projectile.owner].Center.To(topPos).Length() / 14f;
-            if (lengs > 100)
-                lengs = 100;
-            if (lengs < 20)
-                lengs = 20;
-            Projectile.WhipSettings.Segments = (int)lengs;
+            int lengs = whipPoints.Count;
+            Projectile.WhipSettings.Segments = lengs;
             return true;
         }
 

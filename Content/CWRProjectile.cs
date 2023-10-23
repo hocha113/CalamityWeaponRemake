@@ -51,9 +51,12 @@ namespace CalamityWeaponRemake.Content
             {
                 int types = ModContent.ProjectileType<DeadWave>();
                 Player player = Main.player[projectile.owner];
-                if (player.Center.To(target.Center).LengthSquared() < 600 * 600 && projectile.type != types && projectile.numHits == 0)
+                if (player.Center.To(target.Center).LengthSquared() < 600 * 600
+                    && projectile.type != types
+                    && projectile.numHits == 0)
                 {
-                    Vector2 vr = player.Center.To(Main.MouseWorld).RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(-15, 15))).UnitVector() * Main.rand.Next(7, 9);
+                    Vector2 vr = player.Center.To(Main.MouseWorld)
+                        .RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(-15, 15))).UnitVector() * Main.rand.Next(7, 9);
                     Vector2 pos = player.Center + vr * 10;
                     Projectile.NewProjectileDirect(
                         AiBehavior.GetEntitySource_Parent(player),
