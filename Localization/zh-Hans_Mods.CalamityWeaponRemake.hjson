@@ -165,6 +165,29 @@ Items: {
 		// DisplayName: Element Whip
 		// Tooltip: ""
 	}
+
+	ElementalShiv: {
+		// DisplayName: Elemental Shiv
+		// Tooltip: ""
+	}
+
+	TheRelicLuxor: {
+		DisplayName: 卢克索的圣物
+		Tooltip:
+			'''
+			灼热的灵力将伴随你的每一次攻击，耀界之神与你同在
+			[tips]
+			'''
+	}
+
+	TheLuxirSoulArtifact: {
+		DisplayName: 卢克索的灵魂圣器
+		Tooltip:
+			'''
+			无论是神还是不朽，皆承认你的荣耀
+			[tips]
+			'''
+	}
 }
 
 Projectiles: {
@@ -237,6 +260,13 @@ Projectiles: {
 	// StreamGouges.DisplayName: Stream Gouges
 	// GaleforceHeldProj.DisplayName: Galeforce Held Proj
 	// ElementWhipProjectile.DisplayName: Element Whip Projectile
+	// ElementBallShivs.DisplayName: Element Ball Shivs
+	// GhostFires.DisplayName: Ghost Fires
+	// TheRelicLuxorMelee.DisplayName: The Relic Luxor Melee
+	// TheRelicLuxorMagic.DisplayName: The Relic Luxor Magic
+	// TheRelicLuxorRanged.DisplayName: The Relic Luxor Ranged
+	// TheRelicLuxorRogue.DisplayName: The Relic Luxor Rogue
+	// TheRelicLuxorSummon.DisplayName: The Relic Luxor Summon
 }
 
 Configs: {

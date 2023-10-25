@@ -5,9 +5,16 @@ namespace CalamityWeaponRemake.Content
 {
     public class CWRPlayer : ModPlayer
     {
+        public int theRelicLuxor = 0;
+
         public override void Initialize()
         {
-            base.Initialize();
+            theRelicLuxor = 0;
+        }
+
+        public override void ResetEffects()
+        {
+            theRelicLuxor = 0;
         }
 
         public override void OnEnterWorld()

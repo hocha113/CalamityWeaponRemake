@@ -13,9 +13,9 @@ using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityWeaponRemake.Content.Projectiles
+namespace CalamityWeaponRemake.Content.Projectiles.Melee
 {
-    public class SeaBlueBrinySpout : CustomProjectiles
+    public class SeaBlueBrinySpout : ModProjectile
     {
         public override string Texture => CWRConstant.Projectile + "BrinySpout";
 
@@ -47,22 +47,12 @@ namespace CalamityWeaponRemake.Content.Projectiles
             Projectile.penetrate = -1;
         }
 
-        public override int Status { get => (int)Projectile.ai[0]; set => Projectile.ai[0] = value; }
-        public override int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
-        public override int ThisTimeValue { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
+        public int Status { get => (int)Projectile.ai[0]; set => Projectile.ai[0] = value; }
+        public int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
+        public int ThisTimeValue { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
         public int OwnerProJindex
         {
             get => (int)Projectile.localAI[0]; set => Projectile.localAI[0] = value;
-        }
-
-        public override void OnKill(int timeLeft)
-        {
-
-        }
-
-        public override void OnSpawn(IEntitySource source)
-        {
-
         }
 
         public override bool ShouldUpdatePosition()
@@ -143,7 +133,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
             {
                 if (Behavior == 1)
                 {
-                    Player target = AiBehavior.NPCFindingPlayerTarget(Projectile, -1);
+                    Player target = Projectile.NPCFindingPlayerTarget(-1);
                     if (target != null)
                     {
                         //Vector2 toTarget = Projectile.Center.To(target.Center).SafeNormalize(Vector2.Zero);
@@ -206,11 +196,6 @@ namespace CalamityWeaponRemake.Content.Projectiles
                 0
                 );
             return false;
-        }
-
-        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
-        {
-
         }
     }
 }

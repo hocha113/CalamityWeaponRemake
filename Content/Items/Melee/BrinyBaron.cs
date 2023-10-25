@@ -2,7 +2,7 @@
 using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Content.Projectiles;
+using CalamityWeaponRemake.Content.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;

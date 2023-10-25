@@ -107,6 +107,7 @@
     <None Remove="Assets\Projectiles\TornadoProj.png" />
     <None Remove="Assets\UIs\GenericBarBack.png" />
     <None Remove="Assets\UIs\GenericBarFront.png" />
+    <None Remove="Content\NPCs\TODOs.txt" />
     <None Remove="Content\Projectiles\ModeProj.txt" />
     <None Remove="Common\ModeText\ModeItemText.txt" />
     <None Remove="description_workshop.txt" />
@@ -119,7 +120,6 @@
     <Folder Include="Assets\Projectiles\Magic\" />
     <Folder Include="Content\RemakeItems\Magic\" />
     <Folder Include="Content\RemakeItems\Summon\" />
-    <Folder Include="Content\NPCs\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="CalamityMod">

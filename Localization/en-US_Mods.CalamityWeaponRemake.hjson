@@ -158,6 +158,24 @@ Items: {
 		DisplayName: Elemental Shiv
 		Tooltip: ""
 	}
+
+	TheRelicLuxor: {
+		DisplayName: The Relic Luxor
+		Tooltip:
+			'''
+			Searing psychic power will accompany you in every attack, and the God of Glory is with you
+			[tips]
+			'''
+	}
+
+	TheLuxirSoulArtifact: {
+		DisplayName: The Luxir Soul Artifact
+		Tooltip:
+			'''
+			Both God and immortality acknowledge your glory
+			[tips]
+			'''
+	}
 }
 
 Projectiles: {
@@ -231,6 +249,12 @@ Projectiles: {
 	GaleforceHeldProj.DisplayName: Galeforce Held Proj
 	ElementWhipProjectile.DisplayName: Element Whip Projectile
 	ElementBallShivs.DisplayName: Element Ball Shivs
+	GhostFires.DisplayName: Ghost Fires
+	TheRelicLuxorMelee.DisplayName: The Relic Luxor Melee
+	TheRelicLuxorMagic.DisplayName: The Relic Luxor Magic
+	TheRelicLuxorRanged.DisplayName: The Relic Luxor Ranged
+	TheRelicLuxorRogue.DisplayName: The Relic Luxor Rogue
+	TheRelicLuxorSummon.DisplayName: The Relic Luxor Summon
 }
 
 Configs: {

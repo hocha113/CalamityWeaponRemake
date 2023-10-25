@@ -10,16 +10,11 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
-namespace CalamityWeaponRemake.Content.Projectiles
+namespace CalamityWeaponRemake.Content.Projectiles.Ranged
 {
-    internal class DragonFireRupture : CustomProjectiles
+    internal class DragonFireRupture : ModProjectile
     {
         public override string Texture => CWRConstant.Projectile + "FireCrossburst";
-
-        public override void SetStaticDefaults()
-        {
-
-        }
 
         public override void SetDefaults()
         {
@@ -37,19 +32,14 @@ namespace CalamityWeaponRemake.Content.Projectiles
             Projectile.localNPCHitCooldown = 15;
         }
 
-        public override int Status { get => (int)Projectile.ai[0]; set => Projectile.ai[0] = value; }
-        public override int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
-        public override int ThisTimeValue { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
+        public int Status { get => (int)Projectile.ai[0]; set => Projectile.ai[0] = value; }
+        public int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
+        public int ThisTimeValue { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
 
         bool upPos = false;
         public override bool ShouldUpdatePosition()
         {
             return upPos;
-        }
-
-        public override void OnKill(int timeLeft)
-        {
-
         }
 
         List<Vector2> randomOffsetVr = new List<Vector2>();
@@ -82,7 +72,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
             if (target != null)
             {
                 Vector2 toTarget = Projectile.Center.To(target.Center);
-                AiBehavior.EntityToRot(Projectile, toTarget.ToRotation(), 0.1f);
+                Projectile.EntityToRot(toTarget.ToRotation(), 0.1f);
             }
 
             if (Status == 0)
@@ -205,15 +195,10 @@ namespace CalamityWeaponRemake.Content.Projectiles
                     SpriteEffects.None,
                     0
                     );
-                } 
+                }
             }
 
             return false;
-        }
-
-        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
-        {
-
         }
     }
 }
