@@ -5,13 +5,13 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Items.Summon
 {
-    internal class ElementWhip : ModItem
+    internal class GhostFireWhip : ModItem
     {
-        public override string Texture => CWRConstant.Item_Summon + "ElementWhip";
+        public override string Texture => CWRConstant.Item_Summon + "GhostFireWhip";
 
         public override void SetDefaults()
         {
-            Item.DefaultToWhip(ModContent.ProjectileType<ElementWhipProjectile>(), 192, 2, 12, 30);
+            Item.DefaultToWhip(ModContent.ProjectileType<GhostFireWhipProjectile>(), 522, 1, 12, 30);
             Item.rare = ItemRarityID.Purple;
         }
 

@@ -1,8 +1,8 @@
 ﻿using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityWeaponRemake.Content.Projectiles.Summon;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Projectiles.Summon.Whips;
 
 namespace CalamityWeaponRemake.Content.Items.Summon
 {
@@ -12,7 +12,7 @@ namespace CalamityWeaponRemake.Content.Items.Summon
 
         public override void SetDefaults()
         {
-            Item.DefaultToWhip(ModContent.ProjectileType<WhiplashGalacticaProjectile>(), 202, 2, 12, 45);
+            Item.DefaultToWhip(ModContent.ProjectileType<WhiplashGalacticaProjectile>(), 702, 0, 12, 45);
             Item.rare = ItemRarityID.Green;
             Item.channel = true;
         }

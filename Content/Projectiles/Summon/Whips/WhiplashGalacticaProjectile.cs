@@ -1,22 +1,21 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using Terraria.GameContent;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Projectiles.Melee;
-using CalamityWeaponRemake.Common.DrawTools;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityMod;
-using System;
-using Terraria.Graphics.Shaders;
-using Terraria.DataStructures;
+using CalamityWeaponRemake.Common.DrawTools;
 using CalamityWeaponRemake.Content.Buffs;
+using CalamityWeaponRemake.Content.Dusts;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
+using Terraria.ModLoader;
 
-namespace CalamityWeaponRemake.Content.Projectiles.Summon
+namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
 {
     internal class WhiplashGalacticaProjectile : ModProjectile
     {
@@ -32,7 +31,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon
         public override void SetDefaults()
         {
             Projectile.DefaultToWhip();
-            Projectile.WhipSettings.Segments = 20;
+            Projectile.WhipSettings.Segments = 35;
             Projectile.WhipSettings.RangeMultiplier = 1f;
         }
 
@@ -57,8 +56,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon
 
         public override bool PreAI()
         {
-            int lengs = whipPoints.Count;
-            Projectile.WhipSettings.Segments = lengs;
             return true;
         }
 
@@ -66,7 +63,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon
         {
             target.AddBuff(ModContent.BuffType<GodKillsFire>(), 240);
             Main.player[Projectile.owner].MinionAttackTargetNPC = target.whoAmI;
-            Projectile.damage -= 15;
+            Projectile.damage = Projectile.damage / 2;
 
             if (Projectile.numHits == 0)
             {
@@ -126,19 +123,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon
 
             for (int i = 0; i < whipPoints.Count - 1; i++)
             {
-                Rectangle frame = new Rectangle(0, 0, 30, 34); // 手柄的大小（以像素为单位）
+                Rectangle frame = new Rectangle(0, 0, 30, 34);
 
-                Vector2 origin = new Vector2(15, 20); // 从图像左上角开始测量玩家手部起始位置的偏移量
+                Vector2 origin = new Vector2(15, 20);
                 float scale = 1;
 
-                // 这些语句确定当前段要绘制精灵图表中的哪个部分。
                 if (i == whipPoints.Count - 2)
                 {
-                    frame.Y = 65; // 距离帧开始处到精灵图顶部的距离
-
-                    frame.Height = 30; // 帧图高度
-
-                    // 为了获得更具影响力的外观，当完全伸展时，它会将鞭尖缩放，并在卷曲时向下缩放
+                    frame.Y = 65;
+                    frame.Height = 30;
+                    origin = new Vector2(16, 19);
                     Projectile.GetWhipSettings(Projectile, out float timeToFlyOut, out int _, out float _);
                     float t = Time / timeToFlyOut;
                     scale = MathHelper.Lerp(1.05f, 2f, Utils.GetLerpValue(0.1f, 0.7f, t, true) * Utils.GetLerpValue(0.9f, 0.7f, t, true));
@@ -147,6 +141,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon
                 {
                     frame.Y = 43;
                     frame.Height = 14;
+                    origin = new Vector2(15, 6);
                     scale = 1 + i / 120f;
                 }
 

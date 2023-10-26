@@ -139,9 +139,9 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         public static Vector2 GetRandomVevtor(float startAngle, float targetAngle, float ModeLength)
         {
             float angularSeparation = targetAngle - startAngle;
-            double randomPosx = (angularSeparation * HcRandom.NextDouble() + startAngle) * (MathHelper.Pi / 180);
-            float cosValue = (float)Math.Cos(randomPosx);
-            float sinValue = (float)Math.Sin(randomPosx);
+            float randomPosx = (angularSeparation * Main.rand.NextFloat() + startAngle) * (MathHelper.Pi / 180);
+            float cosValue = MathF.Cos(randomPosx);
+            float sinValue = MathF.Sin(randomPosx);
 
             return new Vector2(cosValue, sinValue) * ModeLength;
         }

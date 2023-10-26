@@ -188,6 +188,21 @@ Items: {
 			[tips]
 			'''
 	}
+
+	AzureDragonRage: {
+		// DisplayName: Azure Dragon Rage
+		// Tooltip: ""
+	}
+
+	BleedingScourge: {
+		// DisplayName: Bleeding Scourge
+		// Tooltip: ""
+	}
+
+	GhostFireWhip: {
+		// DisplayName: Ghost Fire Whip
+		// Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -267,6 +282,11 @@ Projectiles: {
 	// TheRelicLuxorRanged.DisplayName: The Relic Luxor Ranged
 	// TheRelicLuxorRogue.DisplayName: The Relic Luxor Rogue
 	// TheRelicLuxorSummon.DisplayName: The Relic Luxor Summon
+	// BloodBall.DisplayName: Blood Ball
+	// AzureDragonRageProjectile.DisplayName: Azure Dragon Rage Projectile
+	// BleedingScourgeProjectile.DisplayName: Bleeding Scourge Projectile
+	// GhostFireWhipProjectile.DisplayName: Ghost Fire Whip Projectile
+	// BloodflareSouls.DisplayName: Bloodflare Souls
 }
 
 Configs: {

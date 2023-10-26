@@ -105,7 +105,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
                 {
                     if (bevers == 0)
                     {
-                        Projectile.ChasingBehavior2(target.Center, 1.01f, 0.05f);
+                        Projectile.ChasingBehavior2(target.Center, 1.01f, 0.02f);
                         if (time > 30 || toTargetVr.LengthSquared() < 130 * 130)
                         {
                             bevers = 1;
@@ -122,13 +122,15 @@ namespace CalamityWeaponRemake.Content.Projectiles
                     {
                         Projectile.velocity = dashVr.UnitVector() * 32f;
                         Projectile.damage = Projectile.originalDamage * 3;
+                        if (Projectile.damage > 800)
+                            Projectile.damage = 800;
                         if (time > 15)
                         {
                             bevers = 0;
                             time = 0;
                             SpanDust();
                             Projectile.Center = player.Center;
-                            Projectile.velocity = Projectile.velocity.UnitVector().RotatedBy(Main.rand.NextFloat(-0.15f, 0.15f)) * 12;
+                            Projectile.velocity = Projectile.velocity.UnitVector().RotatedBy(Main.rand.NextFloat(-0.35f, 0.35f)) * 12;
                             SpanDust();
                         }
                     }
