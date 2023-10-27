@@ -10,7 +10,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
     /// </summary>
     public static class HcMath
     {
-        public static Random HcRandom = new Random();
+        public static Random rands = new Random();
 
         /// <summary>
         /// 角度插值
@@ -193,7 +193,7 @@ namespace CalamityWeaponRemake.Common.AuxiliaryMeans
         /// <returns></returns>
         public static bool RandomBooleanValue(int ProbabilityDenominator, int ProbabilityExpectation, bool DesiredObject)
         {
-            int randomInt = HcRandom.Next(0, ProbabilityDenominator);
+            int randomInt = rands.Next(0, ProbabilityDenominator);
             return randomInt == ProbabilityExpectation && DesiredObject;
         }
 

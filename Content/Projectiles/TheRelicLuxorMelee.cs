@@ -96,7 +96,6 @@ namespace CalamityWeaponRemake.Content.Projectiles
         {
             Texture2D texture = DrawUtils.GetT2DValue(Texture);
             Color color = Color.White;
-            if (Status == 1) color = new Color(198, 0, 0, 155);
             float alp = Projectile.alpha / 255f;
             float slp = (1 + MathF.Sin(MathHelper.ToRadians(Main.GlobalTimeWrappedHourly)) * 0.2f) * Projectile.scale;
 
@@ -111,21 +110,21 @@ namespace CalamityWeaponRemake.Content.Projectiles
                 SpriteEffects.None,
                 0
                 );
-            for (int i = 0; i < Projectile.oldPos.Length; i++)
-            {
-                Main.EntitySpriteDraw(
-                    texture,
-                    Projectile.oldPos[i] - Main.screenPosition
-                    + Projectile.position.To(Projectile.Center),
-                    null,
-                    Color.White * (alp - i * 0.1f) * 0.25f,
-                    Projectile.rotation,
-                    DrawUtils.GetOrig(texture),
-                    slp - i * 0.1f,
-                    SpriteEffects.None,
-                    0
-                );
-            }
+            //for (int i = 0; i < Projectile.oldPos.Length; i++)
+            //{
+            //    Main.EntitySpriteDraw(
+            //        texture,
+            //        Projectile.oldPos[i] - Main.screenPosition
+            //        + Projectile.position.To(Projectile.Center),
+            //        null,
+            //        Color.White * (alp - i * 0.1f) * 0.25f,
+            //        Projectile.rotation,
+            //        DrawUtils.GetOrig(texture),
+            //        slp - i * 0.1f,
+            //        SpriteEffects.None,
+            //        0
+            //    );
+            //}
             return false;
         }
 

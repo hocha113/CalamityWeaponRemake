@@ -22,6 +22,12 @@ namespace CalamityWeaponRemake.Content.Items.Magic.TODOs
 
         public override string Texture => CWRConstant.Cay_Wap_Magic + "GhastlyVisage";
 
+        public override void SetStaticDefaults()
+        {
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
+            ItemID.Sets.AnimatesAsSoul[Item.type] = true;
+        }
+
         public override void SetDefaults()
         {
             Item.damage = 120;

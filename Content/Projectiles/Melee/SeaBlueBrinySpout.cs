@@ -17,7 +17,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 {
     public class SeaBlueBrinySpout : ModProjectile
     {
-        public override string Texture => CWRConstant.Projectile + "BrinySpout";
+        public override string Texture => CWRConstant.Cay_Proj_Melee + "BrinySpout";
 
         public int MaxTierLimit
         {
@@ -94,7 +94,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 {
                     OwnerProJindex = Projectile.whoAmI;
                     if (Projectile.IsOwnedByLocalPlayer())
-                        Projectile.alpha = HcMath.HcRandom.Next(0, 10000);
+                        Projectile.alpha = HcMath.rands.Next(0, 10000);
                     Projectile.netUpdate = true;
                 }
 

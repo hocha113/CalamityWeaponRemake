@@ -40,16 +40,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
         public int HeldProj { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
         public int Time { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
         private ref float wit => ref Projectile.localAI[0];
+        public float Leng
+        {
+            get => Projectile.localAI[1];
+            set => Projectile.localAI[1] = value;           
+        }
 
         public override void AI()
-        {
-            Projectile heldBow = AiBehavior.GetProjectileInstance(HeldProj);
-            if (!AiBehavior.Alives(Owner) || !(heldBow != null && heldBow.type == ModContent.ProjectileType<DeathwindHeldProj>()))
-            { 
-                Projectile.Kill();
-                return;
-            }
-            Projectile.Center = heldBow.Center;
+        {           
+            if (Leng == 0)
+                Leng = 5000;
             Projectile.alpha += 15;
 
             Vector2 toRot = Projectile.rotation.ToRotationVector2();
@@ -57,17 +57,28 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
 
             wit = (10 - Projectile.timeLeft) / 15f;
 
-            for (int i = 0; i < 100; i++)
+            if (Status == 0)
             {
-                Vector2 offsetPos = toRot * i * 16;
-                Lighting.AddLight(ordPos + offsetPos, 0.4f, 0.2f, 0.4f);
-                Dust obj = Main.dust[Dust.NewDust(Projectile.position + offsetPos, 26, 26
-                        , Main.rand.NextBool(3) ? 56 : 242, Projectile.velocity.X, Projectile.velocity.Y, 100)];
-                obj.velocity = Vector2.Zero;
-                obj.position -= Projectile.velocity / 5f * i;
-                obj.noGravity = true;
-                obj.scale = 0.8f;
-                obj.noLight = true;
+                Projectile heldBow = AiBehavior.GetProjectileInstance(HeldProj);
+                if (!AiBehavior.Alives(Owner) || !(heldBow != null && heldBow.type == ModContent.ProjectileType<DeathwindHeldProj>()))
+                {
+                    Projectile.Kill();
+                    return;
+                }
+                Projectile.Center = heldBow.Center;
+
+                for (int i = 0; i < 100; i++)
+                {
+                    Vector2 offsetPos = toRot * i * 16;
+                    Lighting.AddLight(ordPos + offsetPos, 0.4f, 0.2f, 0.4f);
+                    Dust obj = Main.dust[Dust.NewDust(Projectile.position + offsetPos, 26, 26
+                            , Main.rand.NextBool(3) ? 56 : 242, Projectile.velocity.X, Projectile.velocity.Y, 100)];
+                    obj.velocity = Vector2.Zero;
+                    obj.position -= Projectile.velocity / 5f * i;
+                    obj.noGravity = true;
+                    obj.scale = 0.8f;
+                    obj.noLight = true;
+                }
             }
 
             Time++;
@@ -80,7 +91,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
                         targetHitbox.TopLeft(),
                         targetHitbox.Size(),
                         Projectile.Center,
-                        Projectile.rotation.ToRotationVector2() * 5000 + Projectile.Center,
+                        Projectile.rotation.ToRotationVector2() * Leng + Projectile.Center,
                         8,
                         ref point
                     );
@@ -116,7 +127,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
             Main.EntitySpriteDraw(
                 body,
                 Projectile.Center - Main.screenPosition + dir * dons.Height,
-                new Rectangle(0, Time * -5, body.Width, 5000 + 1),
+                new Rectangle(0, Time * -5, body.Width, (int)(Leng + 1)),
                 color,
                 rots,
                 new Vector2(body.Width * 0.5f, 0),
@@ -127,7 +138,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
 
             Main.EntitySpriteDraw(
                 head,
-                Projectile.Center + dir * 5000 - Main.screenPosition + dir * dons.Height,
+                Projectile.Center + dir * Leng - Main.screenPosition + dir * dons.Height,
                 null,
                 color,
                 rots,
