@@ -89,16 +89,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 
         public override void OnKill(int timeLeft)
         {
-            if (Projectile.IsOwnedByLocalPlayer())
-                Projectile.NewProjectileDirect(
-                    AiBehavior.GetEntitySource_Parent(Projectile),
-                    Projectile.Center,
-                    Vector2.Zero,
-                    ModContent.ProjectileType<SlaughterExplosion>(),
-                    Projectile.damage / 2,
-                    0,
-                    Projectile.owner
-                    );
+            //if (Projectile.IsOwnedByLocalPlayer())
+            //    Projectile.NewProjectileDirect(
+            //        AiBehavior.GetEntitySource_Parent(Projectile),
+            //        Projectile.Center,
+            //        Vector2.Zero,
+            //        ModContent.ProjectileType<SlaughterExplosion>(),
+            //        Projectile.damage / 2,
+            //        0,
+            //        Projectile.owner
+            //        );
         }
 
         internal Color ColorFunction(float completionRatio)

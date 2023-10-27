@@ -2,7 +2,6 @@
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Common.DrawTools;
-using CalamityWeaponRemake.Common.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -14,7 +13,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
 {
     internal class DragonFireRupture : ModProjectile
     {
-        public override string Texture => CWRConstant.Projectile + "FireCrossburst";
+        public override string Texture => CWRConstant.Projectile_Ranged + "FireCrossburst";
 
         public override void SetDefaults()
         {

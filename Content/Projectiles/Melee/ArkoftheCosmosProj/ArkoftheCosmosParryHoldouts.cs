@@ -257,7 +257,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
         public void DrawChain()
         {
             Texture2D mainValue = DrawUtils.GetT2DValue(CWRConstant.Masking + "Streak3");
-            Texture2D startValue = DrawUtils.GetT2DValue(CWRConstant.Projectile + "TornadoProj");
+            Texture2D startValue = DrawUtils.GetT2DValue(CWRConstant.Cay_Proj + "TornadoProj");
 
             Vector2 toOwner = Owner.Center.To(Projectile.Center);
             float lengs = toOwner.Length();

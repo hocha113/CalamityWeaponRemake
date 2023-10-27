@@ -29,7 +29,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
         public new string LocalizationCategory => "Projectiles.Melee";
 
-        public override string Texture => CWRConstant.Projectile + "CosmicShivBlade";
+        public override string Texture => CWRConstant.Projectile_Melee + "CosmicShivBlade";
 
         public override void SetDefaults()
         {
@@ -110,7 +110,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         {
             for (int i = 0; i < 6; i++)
             {
-                Vector2 spanPos = target.Center + HcMath.GetRandomVevtor(0, 360, HcMath.HcRandom.Next(220, 300));
+                Vector2 spanPos = target.Center + HcMath.GetRandomVevtor(0, 360, HcMath.rands.Next(220, 300));
                 Vector2 vr = spanPos.To(Main.MouseWorld).SafeNormalize(Vector2.Zero) * 38f;
                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spanPos, vr, ModContent.ProjectileType<CosmicShivBlade>(), Projectile.damage, Projectile.knockBack * 0.1f, Projectile.owner);
                 Main.projectile[proj].penetrate = 1;
@@ -127,7 +127,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             {
                 float mode = Owner.Center.To(target.Center).Length() * 0.5f;
                 if (mode > 260) mode = 260;
-                Vector2 spanPos = Owner.Center + (Owner.Center.To(target.Center).ToRotation() + MathHelper.ToRadians(HcMath.HcRandom.Next(-45, 45))).ToRotationVector2() * mode;
+                Vector2 spanPos = Owner.Center + (Owner.Center.To(target.Center).ToRotation() + MathHelper.ToRadians(HcMath.rands.Next(-45, 45))).ToRotationVector2() * mode;
                 int proj = Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(Projectile), spanPos, Vector2.Zero, ModContent.ProjectileType<CosmicRay>(), Projectile.damage * 2, Projectile.knockBack, Owner.whoAmI);
                 Main.projectile[proj].rotation = Main.projectile[proj].Center.To(target.Center).ToRotation();
                 Main.projectile[proj].netUpdate = true;

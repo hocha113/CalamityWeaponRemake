@@ -10,8 +10,9 @@ using Terraria.ModLoader.IO;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Projectiles.Magic.HeldProjs;
 
-namespace CalamityWeaponRemake.Content.Items.Magic.TODOs
+namespace CalamityWeaponRemake.Content.Items.Magic
 {
     /// <summary>
     /// 鬼之形
@@ -21,6 +22,10 @@ namespace CalamityWeaponRemake.Content.Items.Magic.TODOs
         public new string LocalizationCategory => "Items.Weapons.Magic";
 
         public override string Texture => CWRConstant.Cay_Wap_Magic + "GhastlyVisage";
+
+        public override void SetStaticDefaults()
+        {
+        }
 
         public override void SetDefaults()
         {
@@ -37,7 +42,7 @@ namespace CalamityWeaponRemake.Content.Items.Magic.TODOs
             Item.noMelee = true;
             Item.knockBack = 5f;
             Item.shootSpeed = 9f;
-            Item.shoot = ModContent.ProjectileType<GhastlyVisageProj>();
+            Item.shoot = ModContent.ProjectileType<RemakeGhastlyVisageProj>();
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.rare = ModContent.RarityType<PureGreen>();
         }
@@ -59,7 +64,7 @@ namespace CalamityWeaponRemake.Content.Items.Magic.TODOs
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<GhastlyVisageProj>(), damage, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<RemakeGhastlyVisageProj>(), damage, knockback, player.whoAmI);
             return false;
         }
     }

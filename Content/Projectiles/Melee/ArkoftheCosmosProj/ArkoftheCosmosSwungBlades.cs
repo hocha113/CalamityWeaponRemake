@@ -228,31 +228,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
                 }
                 if (mode == 1)
                 {
-                    if (arkoftheCosmos.Charge == 0)
-                    {
-                        float rot = Owner.Center.To(Main.MouseWorld).ToRotation();
-                        Vector2 vr1 = (rot + MathHelper.ToRadians(-15)).ToRotationVector2();
-                        Vector2 vr2 = (rot + MathHelper.ToRadians(15)).ToRotationVector2();
-                        Projectile.NewProjectile(
-                            AiBehavior.GetEntitySource_Parent(Projectile),
-                            Owner.Center + vr1 * 15,
-                            vr1 * 15,
-                            ModContent.ProjectileType<DreadStar>(),
-                            Projectile.damage / 2,
-                            0,
-                            Projectile.owner
-                            );
-                        Projectile.NewProjectile(
-                            AiBehavior.GetEntitySource_Parent(Projectile),
-                            Owner.Center + vr2 * 15,
-                            vr2 * 15,
-                            ModContent.ProjectileType<DreadStar>(),
-                            Projectile.damage / 2,
-                            0,
-                            Projectile.owner
-                            );
-                    }
-                    else
+                    if (arkoftheCosmos.Charge > 0)
                     {
                         float randomRotOffset = Main.rand.NextFloat(MathHelper.TwoPi);
                         for (int i = 0; i < 13; i++)
@@ -268,10 +244,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
                             Owner.whoAmI,
                             0.55f,
                             MathF.PI / 20f
-                            )
-                            .timeLeft = 100;
+                            );
                         }
-                    } 
+                    }
                 }
             }
             shootBool = false;

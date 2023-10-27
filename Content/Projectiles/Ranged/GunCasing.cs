@@ -11,14 +11,9 @@ using static CalamityWeaponRemake.Common.DrawTools.DrawUtils;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Ranged
 {
-    internal class GunCasing : CustomProjectiles
+    internal class GunCasing : ModProjectile
     {
-        public override string Texture => CWRConstant.Projectile + "GunCasing";
-
-        public override void SetStaticDefaults()
-        {
-
-        }
+        public override string Texture => CWRConstant.Projectile_Ranged + "GunCasing";
 
         public override void SetDefaults()
         {
@@ -36,37 +31,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
             Projectile.localNPCHitCooldown = 15;
         }
 
-        public override int Status { get => (int)Projectile.ai[0]; set => Projectile.ai[0] = value; }
-        public override int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
-        public override int ThisTimeValue { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
-
-        public override void OnKill(int timeLeft)
-        {
-
-        }
-
-        public override void OnSpawn(IEntitySource source)
-        {
-
-        }
-
-        public override bool ShouldUpdatePosition()
-        {
-            return true;
-        }
+        public int Time { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
 
         public override void AI()
         {
-            ThisTimeValue++;
+            Time++;
             Projectile.rotation += MathHelper.ToRadians(Projectile.velocity.X * 13);
             Projectile.velocity += new Vector2(0, 0.1f);
 
-            if (ThisTimeValue % 13 == 0) Dust.NewDust(Projectile.Center, 3, 3, DustID.Smoke, Projectile.velocity.X, Projectile.velocity.Y);
-        }
-
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
-            return null;
+            if (Time % 13 == 0) 
+                Dust.NewDust(Projectile.Center, 3, 3, DustID.Smoke, Projectile.velocity.X, Projectile.velocity.Y);
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -86,11 +60,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
                 );
 
             return false;
-        }
-
-        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
-        {
-
         }
     }
 }

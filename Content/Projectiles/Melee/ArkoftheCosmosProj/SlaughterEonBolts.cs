@@ -41,7 +41,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             Projectile.width = (Projectile.height = 30);
             Projectile.friendly = true;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 80;
+            Projectile.timeLeft = 130;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.tileCollide = false;
         }
@@ -61,9 +61,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
                 Head.Scale += (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f) * 0.02f * Projectile.scale;
             }
 
-            if (Projectile.timeLeft < 30)
+            if (Projectile.timeLeft < 90)
             {
-                NPC target = Projectile.Center.InPosClosestNPC(900);
+                NPC target = Projectile.Center.InPosClosestNPC(1900);
                 if (target != null)
                 {
                     Projectile.ChasingBehavior(target.Center, Projectile.velocity.Length());
@@ -84,17 +84,17 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 
         public override void OnKill(int timeLeft)
         {
-            if (Projectile.IsOwnedByLocalPlayer())
-                Projectile.NewProjectileDirect(
-                    AiBehavior.GetEntitySource_Parent(Projectile),
-                    Projectile.Center,
-                    Vector2.Zero,
-                    ModContent.ProjectileType<SlaughterExplosion>(),
-                    Projectile.damage / 2,
-                    0,
-                    Projectile.owner,
-                    1
-                    );
+            //if (Projectile.IsOwnedByLocalPlayer())
+            //    Projectile.NewProjectileDirect(
+            //        AiBehavior.GetEntitySource_Parent(Projectile),
+            //        Projectile.Center,
+            //        Vector2.Zero,
+            //        ModContent.ProjectileType<SlaughterExplosion>(),
+            //        Projectile.damage / 2,
+            //        0,
+            //        Projectile.owner,
+            //        1
+            //        );
         }
 
         internal Color ColorFunction(float completionRatio)

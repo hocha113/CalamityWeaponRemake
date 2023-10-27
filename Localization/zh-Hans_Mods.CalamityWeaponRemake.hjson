@@ -203,6 +203,11 @@ Items: {
 		// DisplayName: Ghost Fire Whip
 		// Tooltip: ""
 	}
+
+	TrueExcelsus: {
+		// DisplayName: True Excelsus
+		// Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -287,6 +292,9 @@ Projectiles: {
 	// BleedingScourgeProjectile.DisplayName: Bleeding Scourge Projectile
 	// GhostFireWhipProjectile.DisplayName: Ghost Fire Whip Projectile
 	// BloodflareSouls.DisplayName: Bloodflare Souls
+	// FantasyArrow.DisplayName: Fantasy Arrow
+	// ExcelsusBomb.DisplayName: Excelsus Bomb
+	// LaserFountains.DisplayName: Laser Fountains
 }
 
 Configs: {

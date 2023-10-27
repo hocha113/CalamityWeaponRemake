@@ -80,11 +80,7 @@
     <None Remove="Assets\Masking\StreakSolid.png" />
     <None Remove="Assets\Masking\WavyNoise.png" />
     <None Remove="Assets\placeholder.png" />
-    <None Remove="Assets\Projectiles\BrinySpout.png" />
-    <None Remove="Assets\Projectiles\BrinyTyphoonBubble.png" />
     <None Remove="Assets\Projectiles\CosmicShivBlade.png" />
-    <None Remove="Assets\Projectiles\DoGDeath.png" />
-    <None Remove="Assets\Projectiles\LaserWallTelegraphBeam.png" />
     <None Remove="Assets\Projectiles\Melee\BansheeHookScythe.png" />
     <None Remove="Assets\Projectiles\Melee\BlazingPhantomBlade.png" />
     <None Remove="Assets\Projectiles\Melee\DrataliornusFlame.png" />
@@ -104,7 +100,6 @@
     <None Remove="Assets\Projectiles\Melee\StreamGougeProj.png" />
     <None Remove="Assets\Projectiles\Melee\TerrorBeam.png" />
     <None Remove="Assets\Projectiles\RayBeam.png" />
-    <None Remove="Assets\Projectiles\TornadoProj.png" />
     <None Remove="Assets\UIs\GenericBarBack.png" />
     <None Remove="Assets\UIs\GenericBarFront.png" />
     <None Remove="Content\NPCs\TODOs.txt" />

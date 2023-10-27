@@ -1,6 +1,140 @@
-﻿namespace CalamityWeaponRemake.Content.Projectiles.Magic.HeldProjs
+﻿using CalamityMod;
+using CalamityMod.Projectiles.Magic;
+using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Common.DrawTools;
+using CalamityWeaponRemake.Content.Items.Magic;
+using CalamityWeaponRemake.Content.Projectiles.Melee;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
+
+namespace CalamityWeaponRemake.Content.Projectiles.Magic.HeldProjs
 {
-    internal class RemakeGhastlyVisageProj
+    internal class RemakeGhastlyVisageProj : ModProjectile
     {
+        private Player Owner => AiBehavior.GetPlayerInstance(Projectile.owner);
+
+        private Vector2 toMou => Owner.Center.To(Main.MouseWorld);
+
+        private ref float Time => ref Projectile.ai[0];
+
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<GhastlyVisage>();
+
+        public override string Texture => CWRConstant.Item_Magic + "GhastlyVisage";
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 26;
+            Projectile.height = 32;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.ignoreWater = true;
+            Projectile.hide = true;
+        }
+
+        public override void AI()
+        {
+            Lighting.AddLight(Projectile.Center, 0.65f, 0f, 0.1f);
+            DrawUtils.ClockFrame(ref Projectile.frameCounter, 6, 3);
+
+            if (!Owner.Alives())
+            {
+                Projectile.Kill();
+                return;
+            }
+
+            ObeyOwner();
+
+            if (Projectile.IsOwnedByLocalPlayer())
+            {
+                SpanProj();
+            }
+
+
+
+            Time++;
+        }
+
+        public void ObeyOwner()
+        {
+            Projectile.velocity = Vector2.Zero;
+            Owner.heldProj = Projectile.whoAmI;
+            Owner.direction = Projectile.direction = Math.Sign(toMou.X);
+            Owner.itemTime = 2;
+            Owner.itemAnimation = 2;
+            Projectile.Center = Owner.Center + new Vector2(Owner.direction * 16, 0);
+            if (Owner.PressKey())
+            {
+                Projectile.timeLeft = 2;
+            }
+            else
+            {
+                Projectile.Kill();
+            }
+        }
+
+        public void SpanProj()
+        {
+            int type = ModContent.ProjectileType<GhastlyBlasts>();
+            if (Time % 15 == 0)
+            {
+                SoundEngine.PlaySound(in SoundID.Item117, Projectile.position);
+                for (int i = 0; i < Main.rand.Next(2, 4); i++)
+                {
+                    Projectile.NewProjectile(
+                    AiBehavior.GetEntitySource_Parent(Owner),
+                    Projectile.Center,
+                    toMou.RotatedBy(MathHelper.ToRadians(Main.rand.Next(-20, 20))).UnitVector() * 13,
+                    type,
+                    Projectile.damage,
+                    2,
+                    Owner.whoAmI
+                    );
+                }
+            }
+            if (Time % 5 == 0)
+            {
+                Vector2 vr = HcMath.GetRandomVevtor(-120, -60, 3);
+                Projectile.NewProjectile(
+                    AiBehavior.GetEntitySource_Parent(Owner),
+                    Projectile.Center,
+                    vr,
+                    ModContent.ProjectileType<SpiritFlame>(),
+                    Projectile.damage / 4,
+                    0,
+                    Owner.whoAmI,
+                    3
+                    );
+            }
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D mainValue = DrawUtils.GetT2DValue(Texture);
+            Main.EntitySpriteDraw(
+                mainValue,
+                Projectile.Center - Main.screenPosition,
+                DrawUtils.GetRec(mainValue, Projectile.frameCounter, 4),
+                Color.White,
+                Projectile.rotation,
+                DrawUtils.GetOrig(mainValue, 4),
+                Projectile.scale,
+                Owner.direction < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None
+                );
+            return false;
+        }
+
+        public override bool? CanDamage()
+        {
+            return false;
+        }
     }
 }

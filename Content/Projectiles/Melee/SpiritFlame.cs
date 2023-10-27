@@ -3,6 +3,7 @@ using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -71,6 +72,19 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 Projectile.scale *= 1.015f;
                 Projectile.velocity = Projectile.velocity.RotatedBy(0.04f);
                 Projectile.velocity *= 0.995f;
+                Projectile.position += Main.player[Projectile.owner].velocity;
+            }
+            if (Projectile.ai[0] == 3)
+            {
+                if (Projectile.ai[1] == 0)
+                {
+                    Projectile.timeLeft = Main.rand.Next(32, 64);
+                    Projectile.scale = Main.rand.NextFloat(0.5f, 0.7f);
+                    Projectile.ai[1] = 1;
+                }
+                Projectile.scale *= 1.003f;
+                Projectile.velocity.Y = -3;
+                Projectile.velocity.X += MathF.Sin(Main.GameUpdateCount / 60 * MathHelper.Pi) * 3;
                 Projectile.position += Main.player[Projectile.owner].velocity;
             }
         }
