@@ -12,6 +12,8 @@ using CalamityMod.Rarities;
 using System.Linq;
 using System;
 using CalamityMod;
+using Microsoft.Xna.Framework.Input;
+using Terraria.Localization;
 
 namespace CalamityWeaponRemake.Content.Items
 {
@@ -62,9 +64,9 @@ namespace CalamityWeaponRemake.Content.Items
             {
                 cumstops.Text = GameUtils.Translation(
                     "刀刃的挥舞将发射出炽热的灵魂\n"
-                    + "忠！诚！",
+                    + "\"忠！诚！\"",
                     "The wave of the blade will emit a fiery soul\n"
-                    + "Loyal! !"
+                    + "\"Loyal! !\""
                     );
                 cumstops.OverrideColor = Color.Lerp(Color.Red, Color.Goldenrod, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f);
             }
@@ -107,6 +109,72 @@ namespace CalamityWeaponRemake.Content.Items
                     "The Gods of Glory will offer you many kinds of assistance"
                     );
                 cumstops.OverrideColor = Color.Lerp(Color.LavenderBlush, Color.Goldenrod, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f);
+            }
+
+            List<TooltipLine> newTooltips = new List<TooltipLine>(tooltips);
+
+            KeyboardState state = Keyboard.GetState();
+            if (state.IsKeyDown(Keys.LeftShift) || state.IsKeyDown(Keys.RightShift))
+            {
+                cumstops.Text = GameUtils.Translation(
+                    GameUtils.Translation(
+                    "耀界之神将对你提供多种援助：",
+                    "The Gods of Glory will offer you many kinds of assistance:"
+                    ));
+                cumstops.OverrideColor = Color.Lerp(Color.LavenderBlush, Color.Goldenrod, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f);
+
+
+                TooltipLine newLine1 = new TooltipLine(Mod, "Assmt", GameUtils.Translation(
+                    "投掷出高速弹跳的耀界之灵",
+                    "Hurl the Spirit of Glory with a high speed bounce"
+                    )
+                    );
+                newLine1.OverrideColor = Color.Lerp(Color.BlueViolet, Color.Goldenrod, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f);
+
+                TooltipLine newLine2 = new TooltipLine(Mod, "Assmt", GameUtils.Translation(
+                    "枪口将迸发出耀界闪电",
+                    "The muzzle of the gun will burst forth lightning"
+                    )
+                    );
+                newLine2.OverrideColor = Color.Lerp(Color.AliceBlue, Color.Goldenrod, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f);
+
+                TooltipLine newLine3 = new TooltipLine(Mod, "Assmt", GameUtils.Translation(
+                    "散落的魔力将凝聚为金源炸弹",
+                    "The scattered magic will condense into the gold source bomb"
+                    )
+                    );
+                newLine3.OverrideColor = Color.Lerp(Color.Gold, Color.Goldenrod, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f);
+
+                TooltipLine newLine4 = new TooltipLine(Mod, "Assmt", GameUtils.Translation(
+                    "召唤泛金能量体为你而战",
+                    "Summon Pangold Energies to fight for you"
+                    )
+                    );
+                newLine4.OverrideColor = Color.Lerp(Color.LightGoldenrodYellow, Color.Goldenrod, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f);
+
+                TooltipLine newLine5 = new TooltipLine(Mod, "Assmt", GameUtils.Translation(
+                    "刀刃的挥舞将发射出炽热的灵魂\n"
+                    + "\"忠！诚！\"",
+                    "The wave of the blade will emit a fiery soul\n"
+                    + "\"Loyal! !\""
+                    )
+                    );
+                newLine5.OverrideColor = Color.Lerp(Color.Red, Color.Goldenrod, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f);
+
+                tooltips.Add(newLine1);
+                tooltips.Add(newLine2);
+                tooltips.Add(newLine3);
+                tooltips.Add(newLine4);
+                tooltips.Add(newLine5);
+                //tooltips.Add(newTooltips);
+            }
+            else
+            {
+                foreach (TooltipLine line in tooltips.ToList()) //复制 tooltips 集合，以便在遍历时修改
+                {
+                    if (line.Name == "Assmt")
+                        line.Hide();
+                }
             }
         }
 

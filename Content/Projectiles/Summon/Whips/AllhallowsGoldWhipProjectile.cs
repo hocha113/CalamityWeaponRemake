@@ -10,6 +10,13 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod;
+using System;
+using Terraria.Graphics.Shaders;
+using CalamityMod.Particles.Metaballs;
+using CalamityMod.Particles;
+using Microsoft.CodeAnalysis;
+using CalamityWeaponRemake.Content.Particles;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
 {
@@ -39,6 +46,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
 
         public override void OnSpawn(IEntitySource source)
         {
+            Projectile.NewProjectile(
+                AiBehavior.GetEntitySource_Parent(Projectile),
+                Projectile.Center,
+                Vector2.Zero,
+                ModContent.ProjectileType<ATrail>(),
+                0,
+                0,
+                Projectile.owner,
+                ai0: Projectile.whoAmI
+                );
         }
 
         public override bool PreAI()
@@ -48,29 +65,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(ModContent.BuffType<GodKillsFire>(), 240);
             Main.player[Projectile.owner].MinionAttackTargetNPC = target.whoAmI;
             Projectile.damage = Projectile.damage / 2;
 
             if (Projectile.numHits == 0)
             {
-                for (int i = 0; i < 3; i++)
-                {
-                    Projectile.NewProjectile(
-                        AiBehavior.GetEntitySource_Parent(Projectile),
-
-                        target.Center -
-                        Main.player[Projectile.owner].Center.To(target.Center).UnitVector()
-                        .RotatedBy(MathHelper.ToRadians(Main.rand.Next(-75, 75))) * 300,
-
-                        Vector2.Zero,
-                        ModContent.ProjectileType<CosmicFire>(),
-                        Projectile.damage + 500,
-                        0,
-                        Projectile.owner,
-                        Projectile.whoAmI
-                    );
-                }
+                
             }
         }
 
@@ -141,10 +141,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
                     }
                     if (count == 2)
                     {
-                        frame.Y = 102;
-                        frame.Height = 30;
-                        origin = new Vector2(22, 18);
-                        offsetRots = MathHelper.Pi;
+                        frame.Y = 68;
+                        frame.Height = 32;
+                        origin = new Vector2(20, 18);
                     }
                     scale = 1 + i / 120f;
                 }
@@ -160,6 +159,110 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
                 pos += diff;
             }
             return false;
+        }
+
+        private class ATrail : ModProjectile
+        {
+            internal PrimitiveTrail TrailDrawer;
+
+            public override string Texture => CWRConstant.placeholder;
+
+            public override void SetStaticDefaults()
+            {
+                ProjectileID.Sets.TrailCacheLength[Projectile.type] = 15;
+                ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            }
+
+            public override void SetDefaults()
+            {
+                Projectile.width = 6;
+                Projectile.height = 6;
+                Projectile.scale = 1;
+                Projectile.alpha = 80;
+                Projectile.friendly = true;
+                Projectile.ignoreWater = true;
+                Projectile.tileCollide = false;
+                Projectile.penetrate = -1;
+                Projectile.timeLeft = 150;
+                Projectile.MaxUpdates = 5;
+            }
+
+            public int fowerIndex { get => (int)Projectile.ai[0]; set => Projectile.ai[0] = value; }
+
+            public override void AI()
+            {
+                Projectile ownProj = AiBehavior.GetProjectileInstance(fowerIndex);
+                if (ownProj != null)
+                {
+                    List<Vector2> toPos = AiBehavior.GetWhipControlPoints(ownProj);
+                    int index = toPos.Count - 2;
+                    if (index < toPos.Count && index >= 0)
+                    {
+                        float rot = toPos[toPos.Count - 3].To(toPos[toPos.Count - 2]).ToRotation();
+                        Projectile.velocity = Projectile.Center.To(toPos[toPos.Count - 2]) + rot.ToRotationVector2() * 62;
+
+                        if (Main.netMode != NetmodeID.Server)
+                        {
+                            //for (int i = 0; i < 10; i++)
+                            //{
+                            //    Vector2 center = Projectile.Center + Main.rand.NextVector2Circular(50f, 10f);
+                            //    FusableParticleManager.GetParticleSetByType<DivineSourceParticleSet>()?.SpawnParticle(center, 30f);
+                            //    float sizeStrength = MathHelper.Lerp(24f, 64f, CalamityUtils.Convert01To010(i / 19f));
+                            //    center = Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.UnitY) * MathHelper.Lerp(-40f, 90f, i / 19f);
+                            //    FusableParticleManager.GetParticleSetByType<DivineSourceParticleSet>()?.SpawnParticle(center, sizeStrength);
+                            //}
+                        }
+                    }
+
+                    Projectile.timeLeft = 2;
+                }
+                else Projectile.Kill();
+            }
+
+            public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+            {
+                return false;
+            }
+
+            internal Color ColorFunction(float completionRatio)
+            {
+                float amount = MathHelper.Lerp(0.65f, 1f, (float)Math.Cos((0f - Main.GlobalTimeWrappedHourly) * 3f) * 0.5f + 0.5f);
+                float num = Utils.GetLerpValue(1f, 0.64f, completionRatio, clamped: true) * Projectile.Opacity;
+
+                Color value = Color.Lerp(new Color(255, 223, 186), new Color(255, 218, 185), (float)Math.Sin(completionRatio * MathF.PI * 1.6f - Main.GlobalTimeWrappedHourly * 4f) * 0.5f + 0.5f);
+
+                return Color.Lerp(new Color(255, 248, 220), value, amount) * num;
+            }
+
+            internal float WidthFunction(float completionRatio)
+            {
+                float amount = (float)Math.Pow(1f - completionRatio, 3.0);
+                return MathHelper.Lerp(0f, 62f * Projectile.scale * Projectile.Opacity, amount);
+            }
+
+            public override bool PreDraw(ref Color lightColor)
+            {
+                if (TrailDrawer == null)
+                {
+                    TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, null, GameShaders.Misc["CalamityMod:TrailStreak"]);
+                }
+
+                GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak"));
+                TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 30);
+                Texture2D value = ModContent.Request<Texture2D>(Texture).Value;
+                Main.EntitySpriteDraw(
+                    value,
+                    Projectile.Center - Main.screenPosition,
+                    null,
+                    Color.Lerp(lightColor, Color.White, 0.5f),
+                    Projectile.rotation + MathHelper.PiOver2,
+                    value.Size() / 2f,
+                    Projectile.scale,
+                    SpriteEffects.None,
+                    0
+                    );
+                return false;
+            }
         }
     }
 }

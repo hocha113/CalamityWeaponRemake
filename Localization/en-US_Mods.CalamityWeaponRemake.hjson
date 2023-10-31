@@ -291,6 +291,8 @@ Projectiles: {
 	GhastlyBlasts.DisplayName: Ghastly Blasts
 	Ieaf.DisplayName: Ieaf
 	AllhallowsGoldWhipProjectile.DisplayName: Allhallows Gold Whip Projectile
+	ATrail.DisplayName: A Trail
+	WTrail.DisplayName: W Trail
 }
 
 Configs: {

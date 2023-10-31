@@ -3,7 +3,6 @@ using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Common.DrawTools;
 using CalamityWeaponRemake.Content.Buffs;
-using CalamityWeaponRemake.Content.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -47,10 +46,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
                 AiBehavior.GetEntitySource_Parent(Projectile),
                 Projectile.Center,
                 Vector2.Zero,
-                ModContent.ProjectileType<Trail>(),
+                ModContent.ProjectileType<WTrail>(),
                 0,
                 0,
-                ai1:Projectile.whoAmI
+                Projectile.owner,
+                ai0:Projectile.whoAmI
                 );
         }
 
@@ -61,12 +61,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(ModContent.BuffType<GodKillsFire>(), 240);
+            target.AddBuff(ModContent.BuffType<GodKillsFire>(), 240);            
+
             Main.player[Projectile.owner].MinionAttackTargetNPC = target.whoAmI;
             Projectile.damage = Projectile.damage / 2;
 
             if (Projectile.numHits == 0)
             {
+                target.CWR().WhipHitNum += 3;
+                target.CWR().WhipHitType = (byte)WhipHitType.WhiplashGalactica;
+
                 for (int i = 0; i < 3; i++)
                 {
                     Projectile.NewProjectile(
@@ -159,7 +163,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
             return false;
         }
 
-        private class Trail : ModProjectile
+        private class WTrail : ModProjectile
         {
             internal PrimitiveTrail TrailDrawer;
 

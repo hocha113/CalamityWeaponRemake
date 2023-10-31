@@ -117,8 +117,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Color doms = Color.Lerp(Color.Cyan, Color.White, Main.rand.NextFloat(0.3f, 0.64f));
-            GeneralParticleHandler.SpawnParticle(new ImpactParticle(Vector2.Lerp(Projectile.Center, Projectile.oldPos[1] + Projectile.position.To(Projectile.Center), 0.65f), 0.1f, 20, Main.rand.NextFloat(0.4f, 0.5f), doms));
             for (int i = 0; i < 10; i++)
             {
                 Vector2 center = Projectile.Center + Main.rand.NextVector2Circular(50f, 10f);

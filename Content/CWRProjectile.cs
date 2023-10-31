@@ -8,6 +8,9 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using CalamityWeaponRemake.Content.Projectiles;
+using CalamityWeaponRemake.Content.Projectiles.Melee;
+using CalamityWeaponRemake.Content.Buffs;
+using CalamityWeaponRemake.Content.Projectiles.Summon;
 
 namespace CalamityWeaponRemake.Content
 {
@@ -32,86 +35,86 @@ namespace CalamityWeaponRemake.Content
 
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
-            Player player = AiBehavior.GetPlayerInstance(projectile.owner);
-            if (player != null)
-            {
-                bool isPlayer = (source as Player) != null;
-                CWRPlayer modPlayer = player.CWR();
-                int theReLdamags = projectile.damage / 2;
+            //Player player = AiBehavior.GetPlayerInstance(projectile.owner);
+            //if (player != null)
+            //{
+            //    bool isPlayer = (source as Player) != null;
+            //    CWRPlayer modPlayer = player.CWR();
+            //    int theReLdamags = projectile.damage / 2;
 
-                if (modPlayer.theRelicLuxor == 1)
-                {
-                    if (player.whoAmI == Main.myPlayer
-                        && projectile.friendly == true
-                        && projectile.timeLeft >= 30
-                        && projectile.hide == false
-                        && isPlayer)
-                    {
-                        if (projectile.DamageType == ModContent.GetInstance<MeleeDamageClass>()
-                            && projectile.type != ModContent.ProjectileType<TheRelicLuxorMelee>()
-                            && player.ownedProjectileCounts[ModContent.ProjectileType<TheRelicLuxorMelee>()] < 35)
-                        {
-                            int proj = Projectile.NewProjectile(source, projectile.Center, projectile.velocity * 0.75f
-                                , ModContent.ProjectileType<TheRelicLuxorMelee>(), theReLdamags, 0f, player.whoAmI);
-                            Main.projectile[proj].ai[1] = projectile.whoAmI;
-                            Main.projectile[proj].scale = projectile.scale;
-                        }
-                        else if (projectile.DamageType == ModContent.GetInstance<ThrowingDamageClass>())
-                        {
+            //    if (modPlayer.theRelicLuxor == 1)
+            //    {
+            //        if (player.whoAmI == Main.myPlayer
+            //            && projectile.friendly == true
+            //            && projectile.timeLeft >= 30
+            //            && projectile.hide == false
+            //            && isPlayer)
+            //        {
+            //            if (projectile.DamageType == ModContent.GetInstance<MeleeDamageClass>()
+            //                && projectile.type != ModContent.ProjectileType<TheRelicLuxorMelee>()
+            //                && player.ownedProjectileCounts[ModContent.ProjectileType<TheRelicLuxorMelee>()] < 35)
+            //            {
+            //                int proj = Projectile.NewProjectile(source, projectile.Center, projectile.velocity * 0.75f
+            //                    , ModContent.ProjectileType<TheRelicLuxorMelee>(), theReLdamags, 0f, player.whoAmI);
+            //                Main.projectile[proj].ai[1] = projectile.whoAmI;
+            //                Main.projectile[proj].scale = projectile.scale;
+            //            }
+            //            else if (projectile.DamageType == ModContent.GetInstance<ThrowingDamageClass>())
+            //            {
 
-                        }
-                        else if (projectile.DamageType == ModContent.GetInstance<RangedDamageClass>())
-                        {
+            //            }
+            //            else if (projectile.DamageType == ModContent.GetInstance<RangedDamageClass>())
+            //            {
 
-                        }
-                        else if (projectile.DamageType == ModContent.GetInstance<MagicDamageClass>())
-                        {
+            //            }
+            //            else if (projectile.DamageType == ModContent.GetInstance<MagicDamageClass>())
+            //            {
 
-                        }
-                        else if (projectile.DamageType == ModContent.GetInstance<SummonDamageClass>()
-                            && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 3)
-                        {
+            //            }
+            //            else if (projectile.DamageType == ModContent.GetInstance<SummonDamageClass>()
+            //                && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 3)
+            //            {
 
-                        }
-                    }
-                }
-                if (modPlayer.theRelicLuxor == 2)
-                {
-                    if (player.whoAmI == Main.myPlayer
-                        && projectile.friendly == true
-                        && projectile.timeLeft >= 30
-                        && projectile.hide == false
-                        && isPlayer)
-                    {
-                        if (projectile.DamageType == ModContent.GetInstance<MeleeDamageClass>()
-                            && projectile.type != ModContent.ProjectileType<TheRelicLuxorMelee>()
-                            && player.ownedProjectileCounts[ModContent.ProjectileType<TheRelicLuxorMelee>()] < 35)
-                        {
-                            int proj = Projectile.NewProjectile(source, projectile.Center, projectile.velocity * 0.75f
-                                , ModContent.ProjectileType<TheRelicLuxorMelee>(), theReLdamags, 0f, player.whoAmI);
-                            Main.projectile[proj].ai[1] = projectile.whoAmI;
-                            Main.projectile[proj].scale = projectile.scale;
-                        }
-                        else if (projectile.DamageType == ModContent.GetInstance<ThrowingDamageClass>())
-                        {
+            //            }
+            //        }
+            //    }
+            //    if (modPlayer.theRelicLuxor == 2)
+            //    {
+            //        if (player.whoAmI == Main.myPlayer
+            //            && projectile.friendly == true
+            //            && projectile.timeLeft >= 30
+            //            && projectile.hide == false
+            //            && isPlayer)
+            //        {
+            //            if (projectile.DamageType == ModContent.GetInstance<MeleeDamageClass>()
+            //                && projectile.type != ModContent.ProjectileType<TheRelicLuxorMelee>()
+            //                && player.ownedProjectileCounts[ModContent.ProjectileType<TheRelicLuxorMelee>()] < 35)
+            //            {
+            //                int proj = Projectile.NewProjectile(source, projectile.Center, projectile.velocity * 0.75f
+            //                    , ModContent.ProjectileType<TheRelicLuxorMelee>(), theReLdamags, 0f, player.whoAmI);
+            //                Main.projectile[proj].ai[1] = projectile.whoAmI;
+            //                Main.projectile[proj].scale = projectile.scale;
+            //            }
+            //            else if (projectile.DamageType == ModContent.GetInstance<ThrowingDamageClass>())
+            //            {
 
-                        }
-                        else if (projectile.DamageType == ModContent.GetInstance<RangedDamageClass>())
-                        {
+            //            }
+            //            else if (projectile.DamageType == ModContent.GetInstance<RangedDamageClass>())
+            //            {
 
-                        }
-                        else if (projectile.DamageType == ModContent.GetInstance<MagicDamageClass>())
-                        {
+            //            }
+            //            else if (projectile.DamageType == ModContent.GetInstance<MagicDamageClass>())
+            //            {
 
-                        }
-                        else if (projectile.DamageType == ModContent.GetInstance<SummonDamageClass>()
-                            && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 3)
-                        {
+            //            }
+            //            else if (projectile.DamageType == ModContent.GetInstance<SummonDamageClass>()
+            //                && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 3)
+            //            {
 
-                        }
-                    }
-                }
-            }
+            //            }
+            //        }
+            //    }
+            //}
         }
 
         public override void AI(Projectile projectile)
@@ -156,6 +159,54 @@ namespace CalamityWeaponRemake.Content
                         projectile.knockBack,
                         projectile.owner
                         ).rotation = vr.ToRotation(); ;
+                }
+            }
+
+            if (projectile.DamageType == DamageClass.Summon && target.CWR().WhipHitNum > 0)
+            {
+                CWRNpc npc = target.CWR();
+                WhipHitType wTypes = (WhipHitType)npc.WhipHitType;
+                switch (wTypes)
+                {
+                    case WhipHitType.WhiplashGalactica:
+                        if ( ( 
+                            (projectile.numHits % 3 == 0 && projectile.minion == true)
+                            || (projectile.numHits == 0 && projectile.minion == false)
+                            ) 
+                            && projectile.type != ModContent.ProjectileType<CosmicFire>()
+                            )
+                        {
+                            if (npc.WhipHitNum > 0)
+                                npc.WhipHitNum--;
+
+                            float randRot = Main.rand.NextFloat(MathHelper.TwoPi);
+                            
+                            for (int i = 0; i < 3; i++)
+                            {
+                                Vector2 vr = (MathHelper.TwoPi / 3 * i + randRot).ToRotationVector2() * 10;
+                                int proj = Projectile.NewProjectile(
+                                    AiBehavior.GetEntitySource_Parent(projectile),
+                                    target.Center,
+                                    vr,
+                                    ModContent.ProjectileType<GodKillers>(),
+                                    projectile.damage / 2,
+                                    0,
+                                    projectile.owner
+                                    );
+                                Main.projectile[proj].timeLeft = 65;
+                                Main.projectile[proj].penetrate = -1;
+                            }
+                        }
+                        
+                        break;
+                    case WhipHitType.AzureDragonRage:
+                        break;
+                    case WhipHitType.GhostFireWhip:
+                        break;
+                    case WhipHitType.AllhallowsGoldWhip:
+                        break;
+                    case WhipHitType.ElementWhip:
+                        break;
                 }
             }
         }        
