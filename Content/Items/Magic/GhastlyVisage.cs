@@ -23,10 +23,6 @@ namespace CalamityWeaponRemake.Content.Items.Magic
 
         public override string Texture => CWRConstant.Cay_Wap_Magic + "GhastlyVisage";
 
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 120;

@@ -31,40 +31,82 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation();
+            SpanDust();
             if (Main.rand.NextBool(8))
             {
-                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height
-                    , Main.rand.NextBool(3) ? 56 : 242, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
-                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height
-                    , DustID.BlueFairy, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+                SpanDust();
+                //Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height
+                //    , Main.rand.NextBool(3) ? 56 : 242, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+                //Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height
+                //    , DustID.BlueFairy, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+            }
+        }
+
+        public void SpanDust()
+        {
+            for (int i = 0; i < 1; i++)
+            {
+                int dustType = Main.rand.NextBool(3) ? 56 : 242;
+                if (Main.rand.NextBool())
+                {
+                    Vector2 vector3 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
+                    Dust obj3 = Main.dust[Dust.NewDust(Projectile.Center - vector3 * 30f, 0, 0, dustType)];
+                    obj3.noGravity = true;
+                    obj3.position = Projectile.Center - vector3 * Main.rand.Next(10, 21);
+                    obj3.velocity = vector3.RotatedBy(1.5707963705062866) * 6f;
+                    obj3.scale = 0.9f + Main.rand.NextFloat();
+                    obj3.fadeIn = 0.5f;
+                    obj3.customData = Projectile;
+                    vector3 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
+                    obj3.noGravity = true;
+                    obj3.position = Projectile.Center - vector3 * Main.rand.Next(10, 21);
+                    obj3.velocity = vector3.RotatedBy(1.5707963705062866) * 6f;
+                    obj3.scale = 0.9f + Main.rand.NextFloat();
+                    obj3.fadeIn = 0.5f;
+                    obj3.customData = Projectile;
+                    obj3.color = Color.Crimson;
+                }
+                else
+                {
+                    Vector2 vector4 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
+                    Dust obj4 = Main.dust[Dust.NewDust(Projectile.Center - vector4 * 30f, 0, 0, dustType)];
+                    obj4.noGravity = true;
+                    obj4.position = Projectile.Center - vector4 * Main.rand.Next(20, 31);
+                    obj4.velocity = vector4.RotatedBy(-1.5707963705062866) * 5f;
+                    obj4.scale = 0.9f + Main.rand.NextFloat();
+                    obj4.fadeIn = 0.5f;
+                    obj4.customData = Projectile;
+                }
             }
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            Lighting.AddLight(Projectile.position, Color.Blue.ToVector3());
             base.OnHitNPC(target, hit, damageDone);
         }
 
         public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+            Lighting.AddLight(Projectile.position, Color.Blue.ToVector3() * 3);
             Projectile.width = 600;
             Projectile.height = 600;
             Projectile.Center = Projectile.position;
             Projectile.Damage();
             for (int j = 0; j < 3; j++)
             {
-                float angle = Main.rand.NextFloat(MathHelper.TwoPi);
-                int numSpikes = 5;
-                float spikeAmplitude = 22f;
+                int dustType = Main.rand.NextBool(3) ? 56 : 242;
                 float scale = Main.rand.NextFloat(1f, 1.35f);
-
                 for (float spikeAngle = 0f; spikeAngle < MathHelper.TwoPi; spikeAngle += 0.15f)
                 {
-                    Vector2 offset = spikeAngle.ToRotationVector2() * (2f + (MathF.Sin(angle + spikeAngle * numSpikes) + 1) * spikeAmplitude)
-                                     * Main.rand.NextFloat(0.95f, 1.05f);
+                    Vector2 offset = spikeAngle.ToRotationVector2() * Main.rand.NextFloat(3.95f, 7.05f);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center 
+                        + HcMath.GetRandomVevtor(0, 360, Main.rand.Next(16, 220))
+                        , dustType, offset, 0, default, scale);
 
-                    Dust.NewDustPerfect(Projectile.Center + HcMath.GetRandomVevtor(0, 360, Main.rand.Next(16, 220)), 173, offset, 0, default, scale).customData = 0.025f;
+                    dust.customData = 0.025f;
+                    dust.scale *= dustType == 56 ? 0.5f : 1;
                 }
             }
         }

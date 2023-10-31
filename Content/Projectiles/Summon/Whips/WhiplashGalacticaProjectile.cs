@@ -31,7 +31,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
         public override void SetDefaults()
         {
             Projectile.DefaultToWhip();
-            Projectile.WhipSettings.Segments = 35;
+            Projectile.WhipSettings.Segments = 30;
             Projectile.WhipSettings.RangeMultiplier = 1f;
         }
 
@@ -123,25 +123,25 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
 
             for (int i = 0; i < whipPoints.Count - 1; i++)
             {
-                Rectangle frame = new Rectangle(0, 0, 30, 34);
+                Rectangle frame = new Rectangle(0, 0, 40, 88);
 
-                Vector2 origin = new Vector2(15, 20);
+                Vector2 origin = new Vector2(20, 40);
                 float scale = 1;
 
                 if (i == whipPoints.Count - 2)
                 {
-                    frame.Y = 65;
-                    frame.Height = 30;
-                    origin = new Vector2(16, 19);
+                    frame.Y = 130;
+                    frame.Height = 84;
+                    origin = new Vector2(22, 20);
                     Projectile.GetWhipSettings(Projectile, out float timeToFlyOut, out int _, out float _);
                     float t = Time / timeToFlyOut;
                     scale = MathHelper.Lerp(1.05f, 2f, Utils.GetLerpValue(0.1f, 0.7f, t, true) * Utils.GetLerpValue(0.9f, 0.7f, t, true));
                 }
                 else if (i > 0)
                 {
-                    frame.Y = 43;
-                    frame.Height = 14;
-                    origin = new Vector2(15, 6);
+                    frame.Y = 90;
+                    frame.Height = 38;
+                    origin = new Vector2(19, 19);
                     scale = 1 + i / 120f;
                 }
 
@@ -150,7 +150,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
 
                 float rotation = diff.ToRotation() - MathHelper.PiOver2; // 此投射物的精灵图朝下，因此使用PiOver2进行旋转修正
                 Color color = Lighting.GetColor(element.ToTileCoordinates());
-
+                scale *= 0.75f;
                 Main.EntitySpriteDraw(texture, pos - Main.screenPosition, frame, color, rotation, origin, scale, flip, 0);
                 Main.EntitySpriteDraw(_men, pos - Main.screenPosition, frame, Color.White, rotation, origin, scale, flip, 0);
 
@@ -181,7 +181,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
                 Projectile.ignoreWater = true;
                 Projectile.tileCollide = false;
                 Projectile.penetrate = -1;
-                Projectile.MaxUpdates = 5;
                 Projectile.timeLeft = 150;
             }
 
@@ -195,7 +194,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
                     List<Vector2> toPos = AiBehavior.GetWhipControlPoints(ownProj);
                     int index = toPos.Count - 2;
                     if (index < toPos.Count && index >= 0)
-                        Projectile.velocity = Projectile.Center.To(toPos[toPos.Count - 2]);
+                    {
+                        float rot = toPos[toPos.Count - 3].To(toPos[toPos.Count - 2]).ToRotation();
+                        Projectile.velocity = Projectile.Center.To(toPos[toPos.Count - 2]) + rot.ToRotationVector2() * 32;
+                    }
+                        
                     Projectile.timeLeft = 2;
                 }
                 else Projectile.Kill();
@@ -217,7 +220,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
             internal float WidthFunction(float completionRatio)
             {
                 float amount = (float)Math.Pow(1f - completionRatio, 3.0);
-                return MathHelper.Lerp(0f, 32f * Projectile.scale * Projectile.Opacity, amount);
+                return MathHelper.Lerp(0f, 62f * Projectile.scale * Projectile.Opacity, amount);
             }
 
             public override bool PreDraw(ref Color lightColor)

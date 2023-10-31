@@ -295,6 +295,8 @@ Projectiles: {
 	// FantasyArrow.DisplayName: Fantasy Arrow
 	// ExcelsusBomb.DisplayName: Excelsus Bomb
 	// LaserFountains.DisplayName: Laser Fountains
+	// GhastlyBlasts.DisplayName: Ghastly Blasts
+	// Ieaf.DisplayName: Ieaf
 }
 
 Configs: {
@@ -340,3 +342,5 @@ Buffs: {
 		// Description: Mods.CalamityWeaponRemake.Buffs.GodKillsFire.Description
 	}
 }
+
+// NPCs.Creeper.DisplayName: Creeper

@@ -73,7 +73,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                     Vector2 vr = (MathHelper.TwoPi / 6 * i + randRot).ToRotationVector2() * 15;
                     Projectile.NewProjectile(
                         AiBehavior.GetEntitySource_Parent(Projectile),
-                        target.Center + vr.UnitVector() * 164,
+                        target.Center,// + vr.UnitVector() * 164
                         vr,
                         ModContent.ProjectileType<GodKillers>(),
                         Projectile.damage / 2,

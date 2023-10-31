@@ -196,6 +196,11 @@ Items: {
 		DisplayName: True Excelsus
 		Tooltip: ""
 	}
+
+	AllhallowsGoldWhip: {
+		DisplayName: Allhallows Gold Whip
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -285,6 +290,7 @@ Projectiles: {
 	LaserFountains.DisplayName: Laser Fountains
 	GhastlyBlasts.DisplayName: Ghastly Blasts
 	Ieaf.DisplayName: Ieaf
+	AllhallowsGoldWhipProjectile.DisplayName: Allhallows Gold Whip Projectile
 }
 
 Configs: {
@@ -330,3 +336,5 @@ Buffs: {
 		Description: Mods.CalamityWeaponRemake.Buffs.GodKillsFire.Description
 	}
 }
+
+NPCs.Creeper.DisplayName: Creeper

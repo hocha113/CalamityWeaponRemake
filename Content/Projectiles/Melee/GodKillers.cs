@@ -32,7 +32,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             Projectile.tileCollide = false;
             Projectile.alpha = 255;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 180;
+            Projectile.timeLeft = 90;
+            Projectile.MaxUpdates = 3;
         }
 
         public override void AI()
@@ -42,7 +43,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 Projectile.alpha -= 5;
             }
 
-            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + 1.57f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             if (Projectile.owner == Main.myPlayer && Projectile.timeLeft <= 3)
             {
                 Projectile.tileCollide = false;
@@ -73,14 +74,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                     Main.dust[num3].scale *= 1f + Main.rand.Next(5) * 0.1f;
                     Main.dust[num3].velocity *= 0.2f;
                     Main.dust[num3].noGravity = true;
-                    //num3 = Dust.NewDust(new Vector2(Projectile.position.X + 3f + num, Projectile.position.Y + 3f + num2) - Projectile.velocity * 0.5f
-                    //    , Projectile.width - 8, Projectile.height - 8, DustID.Butterfly, 0f, 0f, 100, default(Color), 0.1f);
-                    //Main.dust[num3].fadeIn = 1f + Main.rand.Next(5) * 0.1f;
-                    //Main.dust[num3].velocity *= 0.05f;
                 }
             }
 
-            CalamityUtils.HomeInOnNPC(Projectile, ignoreTiles: true, 1300f, 12f, 25);
+            //CalamityUtils.HomeInOnNPC(Projectile, ignoreTiles: true, 1300f, 12f, 25);
         }
 
         public override void PostDraw(Color lightColor)
@@ -115,7 +112,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            if (Projectile.timeLeft > 150) return false;
+            if (Projectile.timeLeft > 80) return false;
             return null;
         }
 
