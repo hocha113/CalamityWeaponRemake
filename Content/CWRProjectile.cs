@@ -165,10 +165,10 @@ namespace CalamityWeaponRemake.Content
             if (projectile.DamageType == DamageClass.Summon && target.CWR().WhipHitNum > 0)
             {
                 CWRNpc npc = target.CWR();
-                WhipHitType wTypes = (WhipHitType)npc.WhipHitType;
+                WhipHitTypeEnum wTypes = (WhipHitTypeEnum)npc.WhipHitType;
                 switch (wTypes)
                 {
-                    case WhipHitType.WhiplashGalactica:
+                    case WhipHitTypeEnum.WhiplashGalactica:
                         if ( ( 
                             (projectile.numHits % 3 == 0 && projectile.minion == true)
                             || (projectile.numHits == 0 && projectile.minion == false)
@@ -176,9 +176,6 @@ namespace CalamityWeaponRemake.Content
                             && projectile.type != ModContent.ProjectileType<CosmicFire>()
                             )
                         {
-                            if (npc.WhipHitNum > 0)
-                                npc.WhipHitNum--;
-
                             float randRot = Main.rand.NextFloat(MathHelper.TwoPi);
                             
                             for (int i = 0; i < 3; i++)
@@ -197,17 +194,30 @@ namespace CalamityWeaponRemake.Content
                                 Main.projectile[proj].penetrate = -1;
                             }
                         }
-                        
                         break;
-                    case WhipHitType.AzureDragonRage:
+                    case WhipHitTypeEnum.BleedingScourge:
+                        Projectile.NewProjectile(
+                                    AiBehavior.GetEntitySource_Parent(projectile),
+                                    target.Center,
+                                    Vector2.Zero,
+                                    ModContent.ProjectileType<BloodBlast>(),
+                                    projectile.damage / 2,
+                                    0,
+                                    projectile.owner
+                                    );
                         break;
-                    case WhipHitType.GhostFireWhip:
+                    case WhipHitTypeEnum.AzureDragonRage:
                         break;
-                    case WhipHitType.AllhallowsGoldWhip:
+                    case WhipHitTypeEnum.GhostFireWhip:
                         break;
-                    case WhipHitType.ElementWhip:
+                    case WhipHitTypeEnum.AllhallowsGoldWhip:
+                        break;
+                    case WhipHitTypeEnum.ElementWhip:
                         break;
                 }
+
+                if (npc.WhipHitNum > 0)
+                    npc.WhipHitNum--;
             }
         }        
     }

@@ -201,6 +201,11 @@ Items: {
 		DisplayName: Allhallows Gold Whip
 		Tooltip: ""
 	}
+
+	DivineSourceBlade: {
+		DisplayName: Divine Source Blade
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -293,6 +298,9 @@ Projectiles: {
 	AllhallowsGoldWhipProjectile.DisplayName: Allhallows Gold Whip Projectile
 	ATrail.DisplayName: A Trail
 	WTrail.DisplayName: W Trail
+	DivineSourceBladeProjectile.DisplayName: Divine Source Blade Projectile
+	BloodBlast.DisplayName: Blood Blast
+	DivineSourceKnifelight.DisplayName: Divine Source Knifelight
 }
 
 Configs: {

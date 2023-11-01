@@ -69,7 +69,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
             if (Projectile.numHits == 0)
             {
                 target.CWR().WhipHitNum += 3;
-                target.CWR().WhipHitType = (byte)WhipHitType.WhiplashGalactica;
+                target.CWR().WhipHitType = (byte)WhipHitTypeEnum.WhiplashGalactica;
 
                 for (int i = 0; i < 3; i++)
                 {
@@ -136,7 +136,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
                 {
                     frame.Y = 130;
                     frame.Height = 84;
-                    origin = new Vector2(22, 20);
+                    origin = Projectile.spriteDirection < 0 ? new Vector2(15, 16) : new Vector2(25, 16);
                     Projectile.GetWhipSettings(Projectile, out float timeToFlyOut, out int _, out float _);
                     float t = Time / timeToFlyOut;
                     scale = MathHelper.Lerp(1.05f, 2f, Utils.GetLerpValue(0.1f, 0.7f, t, true) * Utils.GetLerpValue(0.9f, 0.7f, t, true));

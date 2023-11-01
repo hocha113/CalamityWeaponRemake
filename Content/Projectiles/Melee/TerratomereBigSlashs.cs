@@ -81,8 +81,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
         {
             if (Main.myPlayer == Projectile.owner && TargetIndex >= 0)
             {
-                if (Main.npc[TargetIndex].CWR().TerratomereBoltOnHitNum > 5)
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Main.npc[TargetIndex].Center, Vector2.Zero, ModContent.ProjectileType<TerratomereSlashCreator>(), Projectile.damage, Projectile.knockBack, Projectile.owner, TargetIndex, Main.rand.NextFloat(MathF.PI * 2f));
+                int types = ModContent.ProjectileType<TerratomereSlashCreator>();
+                if (Main.npc[TargetIndex].CWR().TerratomereBoltOnHitNum > 5 && Main.player[Projectile.owner].ownedProjectileCounts[types] < 3)
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Main.npc[TargetIndex].Center, Vector2.Zero
+                        , types, Projectile.damage, Projectile.knockBack, Projectile.owner, TargetIndex, Main.rand.NextFloat(MathF.PI * 2f));
             }
         }
 

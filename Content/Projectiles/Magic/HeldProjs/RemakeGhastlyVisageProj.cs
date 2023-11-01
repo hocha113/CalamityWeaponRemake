@@ -40,6 +40,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Magic.HeldProjs
             Projectile.hide = true;
         }
 
+        public override bool ShouldUpdatePosition()
+        {
+            return false;
+        }
+
         public override void AI()
         {
             Lighting.AddLight(Projectile.Center, 0.65f, 0f, 0.1f);

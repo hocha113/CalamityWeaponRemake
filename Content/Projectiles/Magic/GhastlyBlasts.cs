@@ -48,8 +48,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Magic
         public override void AI()
         {
             Projectile.ai[0] += 1f;
-            bool num = Projectile.velocity.Length() <= 10f;
-            bool flag = Projectile.ai[1] > 0f;
+            //bool num = Projectile.velocity.Length() <= 10f;
+            //bool flag = Projectile.ai[1] > 0f;
             Projectile.alpha -= 15;
             if (Projectile.alpha < 0)
             {

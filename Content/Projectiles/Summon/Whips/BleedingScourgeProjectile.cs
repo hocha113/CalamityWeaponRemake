@@ -69,19 +69,24 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
         {
             Projectile.damage -= 35;
             if (Projectile.numHits == 0)
-            for (int i = 0; i < 3; i++)
             {
-                Vector2 pos = target.Center + HcMath.GetRandomVevtor(-120, -60, Main.rand.Next(760, 820));
-                Projectile.NewProjectile(
-                    AiBehavior.GetEntitySource_Parent(Projectile),
-                    pos,
-                    pos.To(target.Center).UnitVector() * 13,
-                    ModContent.ProjectileType<BloodBall>(),
-                    Projectile.damage / 2,
-                    0,
-                    Projectile.owner
-                    );
-            }            
+                target.CWR().WhipHitNum += 2;
+                target.CWR().WhipHitType = (byte)WhipHitTypeEnum.BleedingScourge;
+
+                for (int i = 0; i < 3; i++)
+                {
+                    Vector2 pos = target.Center + HcMath.GetRandomVevtor(-120, -60, Main.rand.Next(760, 820));
+                    Projectile.NewProjectile(
+                        AiBehavior.GetEntitySource_Parent(Projectile),
+                        pos,
+                        pos.To(target.Center).UnitVector() * 13,
+                        ModContent.ProjectileType<BloodBall>(),
+                        Projectile.damage / 2,
+                        0,
+                        Projectile.owner
+                        );
+                }
+            }           
         }
 
         private void DrawLine(List<Vector2> list)
