@@ -301,6 +301,7 @@ Projectiles: {
 	DivineSourceBladeProjectile.DisplayName: Divine Source Blade Projectile
 	BloodBlast.DisplayName: Blood Blast
 	DivineSourceKnifelight.DisplayName: Divine Source Knifelight
+	DivineSourceBeam.DisplayName: Divine Source Beam
 }
 
 Configs: {

@@ -5,10 +5,10 @@ using System;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityMod.Particles.Metaballs;
 using CalamityMod.Particles;
 using Microsoft.CodeAnalysis;
+using CalamityWeaponRemake.Common;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Summon
 {

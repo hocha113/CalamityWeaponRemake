@@ -1,6 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -30,7 +28,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon
 
         public override void AI()
         {
-            DrawUtils.ClockFrame(ref Projectile.frameCounter, 5, 3);
+            CWRUtils.ClockFrame(ref Projectile.frameCounter, 5, 3);
             Projectile.alpha += 15;
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             if (Projectile.timeLeft < 60)
@@ -57,14 +55,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D mainValue = DrawUtils.GetT2DValue(Texture);
+            Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Main.EntitySpriteDraw(
                 mainValue,
                 Projectile.Center - Main.screenPosition,
-                DrawUtils.GetRec(mainValue, Projectile.frameCounter, 4),
+                CWRUtils.GetRec(mainValue, Projectile.frameCounter, 4),
                 Color.White * (Projectile.alpha / 255f),
                 Projectile.rotation,
-                DrawUtils.GetOrig(mainValue, 4),
+                CWRUtils.GetOrig(mainValue, 4),
                 Projectile.scale,
                 SpriteEffects.None,
                 0

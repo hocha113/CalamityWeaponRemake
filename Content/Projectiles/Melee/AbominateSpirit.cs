@@ -1,6 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -66,13 +64,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation();
-            DrawUtils.ClockFrame(ref Projectile.frameCounter, 15, 3);
+            CWRUtils.ClockFrame(ref Projectile.frameCounter, 15, 3);
 
             if (Status == 3)
             {
                 Projectile.timeLeft = 2;
                 Projectile.scale *= 1.001f;
-                Player target = AiBehavior.GetPlayerInstance(Projectile.owner);
+                Player target = Common.CWRUtils.GetPlayerInstance(Projectile.owner);
                 if (target != null)
                 {
                     float leng = Projectile.Center.To(target.Center).Length();
@@ -88,7 +86,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                             target.Heal(Main.rand.Next(1, 3));
                         for (int i = 0; i < 13; i++)
                         {
-                            Vector2 vr = HcMath.GetRandomVevtor(0, 360, Main.rand.Next(4, 7));
+                            Vector2 vr = Common.CWRUtils.GetRandomVevtor(0, 360, Main.rand.Next(4, 7));
                             Dust.NewDust(target.Center, 13, 13, DustID.HealingPlus, vr.X, vr.Y);
                         }
                         Projectile.Kill();
@@ -98,7 +96,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 {
                     for (int i = 0; i < 13; i++)
                     {
-                        Vector2 vr = HcMath.GetRandomVevtor(0, 360, Main.rand.Next(4, 7));
+                        Vector2 vr = Common.CWRUtils.GetRandomVevtor(0, 360, Main.rand.Next(4, 7));
                         Dust.NewDust(target.Center, 13, 13, DustID.HealingPlus, vr.X, vr.Y);
                         Projectile.Kill();
                     }
@@ -126,7 +124,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                     break;
                 case 1:
                     int types = Main.rand.Next(0, 5);
-                    Player owner = AiBehavior.GetPlayerInstance(Projectile.owner);
+                    Player owner = Common.CWRUtils.GetPlayerInstance(Projectile.owner);
                     if (owner == null) return;
                     switch (types)
                     {
@@ -157,7 +155,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D mainValue = DrawUtils.GetT2DValue(Texture);
+            Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Color color = Color.White;
             if (Status == 0) color = Color.DarkRed;
             else if (Status == 1) color = Color.DarkGreen;
@@ -165,15 +163,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             else color = Color.Gold;
 
             float alp = Projectile.alpha / 255f;
-            color = HcMath.RecombinationColor((color, 0.5f), (new Color(255, 255, 255), 0.5f));
+            color = Common.CWRUtils.RecombinationColor((color, 0.5f), (new Color(255, 255, 255), 0.5f));
 
             Main.EntitySpriteDraw(
                 mainValue,
-                DrawUtils.WDEpos(Projectile.Center),
-                DrawUtils.GetRec(mainValue, Projectile.frameCounter, 4),
+                CWRUtils.WDEpos(Projectile.Center),
+                CWRUtils.GetRec(mainValue, Projectile.frameCounter, 4),
                 color * alp,
                 Projectile.rotation - MathHelper.PiOver2,
-                DrawUtils.GetOrig(mainValue, 4),
+                CWRUtils.GetOrig(mainValue, 4),
                 Projectile.scale,
                 SpriteEffects.None,
                 0

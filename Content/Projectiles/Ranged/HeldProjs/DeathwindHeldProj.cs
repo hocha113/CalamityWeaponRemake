@@ -1,6 +1,5 @@
 ﻿using CalamityMod;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -8,8 +7,8 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static CalamityWeaponRemake.Common.AuxiliaryMeans.AiBehavior;
-using static CalamityWeaponRemake.Common.DrawTools.DrawUtils;
+using static CalamityWeaponRemake.Common.CWRUtils;
+using static CalamityWeaponRemake.Common.CWRUtils;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
 {
@@ -84,7 +83,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
                     for (int i = 0; i < 3; i++)
                     {
                         int ammo = Projectile.NewProjectile(
-                                GetEntitySource_Parent(Owner),
+                                CWRUtils.parent(Owner),
                                 Projectile.Center,
                                 Vector2.Zero,
                                 ModContent.ProjectileType<DeathLaser>(),
@@ -102,7 +101,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
                     for (int i = 0; i < 3; i++)
                     {
                         int ammo = Projectile.NewProjectile(
-                                GetEntitySource_Parent(Owner),
+                                CWRUtils.parent(Owner),
                                 Projectile.Center,
                                 (Projectile.rotation + MathHelper.ToRadians(5 - 5 * i)).ToRotationVector2() * 17,
                                 useArrow,
@@ -123,7 +122,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
                 {
                     Vector2 vr = (Projectile.rotation + MathHelper.ToRadians(5 - 5 * i)).ToRotationVector2();
                     int ammo = Projectile.NewProjectile(
-                            GetEntitySource_Parent(Owner),
+                            CWRUtils.parent(Owner),
                             Projectile.Center + vr * 150,
                             vr * 15,
                             ModContent.ProjectileType<DeadArrow>(),

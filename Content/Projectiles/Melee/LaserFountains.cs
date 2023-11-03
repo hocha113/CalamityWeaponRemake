@@ -1,5 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Content.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -34,11 +33,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             if (Time > 0 && Time % 12 == 0 && Main.player[Projectile.owner].ownedProjectileCounts[types] <= 13)
             {
                 SoundEngine.PlaySound(in SoundID.Item12, Projectile.position);
-                Vector2 vr = HcMath.GetRandomVevtor(0, 360, Main.rand.Next(760, 920));
+                Vector2 vr = CWRUtils.GetRandomVevtor(0, 360, Main.rand.Next(760, 920));
                 int proj = Projectile.NewProjectile(
-                    AiBehavior.GetEntitySource_Parent(Projectile),
+                    Common.CWRUtils.parent(Projectile),
                     Projectile.Center + vr,
-                    vr.UnitVector() * -1,
+                    (Vector2)(CWRUtils.UnitVector(vr) * -1),
                     types,
                     Projectile.damage / 2,
                     0,

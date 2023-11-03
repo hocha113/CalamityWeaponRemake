@@ -3,8 +3,6 @@ using CalamityMod.Items;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using CalamityWeaponRemake.Common.SoundEffects;
 using CalamityWeaponRemake.Content.Buffs;
 using CalamityWeaponRemake.Content.Projectiles.Melee;
@@ -191,12 +189,12 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         public void DrawRageEnergyChargeBar(Player player)
         {
             if (player.HeldItem != Item) return;
-            Texture2D rageEnergyTop = DrawUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeTop");
-            Texture2D rageEnergyBar = DrawUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeBar");
-            Texture2D rageEnergyBack = DrawUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeBack");
+            Texture2D rageEnergyTop = CWRUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeTop");
+            Texture2D rageEnergyBar = CWRUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeBar");
+            Texture2D rageEnergyBack = CWRUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeBack");
             float slp = 3;
             int offsetwid = 4;
-            Vector2 drawPos = DrawUtils.WDEpos(player.Center + new Vector2(rageEnergyBar.Width / -2 * slp, 135));
+            Vector2 drawPos = CWRUtils.WDEpos(player.Center + new Vector2(rageEnergyBar.Width / -2 * slp, 135));
             Rectangle backRec = new Rectangle(offsetwid, 0, (int)((rageEnergyBar.Width - offsetwid * 2) * (rageEnergy / TerrorBladeMaxRageEnergy)), rageEnergyBar.Height);
 
             Main.spriteBatch.ResetBlendState();

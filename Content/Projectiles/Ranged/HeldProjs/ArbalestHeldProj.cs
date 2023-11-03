@@ -1,5 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using rail;
@@ -8,8 +7,8 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static CalamityWeaponRemake.Common.AuxiliaryMeans.AiBehavior;
-using static CalamityWeaponRemake.Common.DrawTools.DrawUtils;
+using static CalamityWeaponRemake.Common.CWRUtils;
+using static CalamityWeaponRemake.Common.CWRUtils;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
 {
@@ -89,7 +88,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
                     {
                         Vector2 vr = (toMou.ToRotation() + MathHelper.ToRadians(Main.rand.NextFloat(-5, 5))).ToRotationVector2() * Main.rand.Next(17, 27);
                         int ammo = Projectile.NewProjectile(
-                            GetEntitySource_Parent(Owner),
+                            CWRUtils.parent(Owner),
                             spanPos,
                             vr,
                             (int)Projectile.localAI[1],
@@ -118,7 +117,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
                 {
                     Vector2 spanPos = Owner.Center + toMou.UnitVector() * 53;
                     int ammo = Projectile.NewProjectile(
-                            GetEntitySource_Parent(Owner),
+                            CWRUtils.parent(Owner),
                             spanPos,
                             Projectile.rotation.ToRotationVector2() * 18,
                             (int)Projectile.localAI[1],

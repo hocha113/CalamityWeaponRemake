@@ -3,7 +3,6 @@ using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Sounds;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -162,7 +161,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 Vector2 spanPos = (tomousRot + MathHelper.ToRadians(120 + Main.rand.Next(6) * 20)).ToRotationVector2() * 280 + Owner.Center;
                 Vector2 vr = spanPos.To(target.Center).UnitVector() * 16;
                 int proj = Projectile.NewProjectile(
-                        AiBehavior.GetEntitySource_Parent(Projectile),
+                        CWRUtils.parent(Projectile),
                         spanPos,
                         vr,
                         ModContent.ProjectileType<GodKillers>(),
@@ -185,12 +184,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             Color color = Color.Lerp(white, Color.Black, 0.55f).MultiplyRGB(Color.DarkGray) * opacity;
             Main.EntitySpriteDraw(value, drawPosition, null, color, num, origin, Projectile.scale * 1.2f, SpriteEffects.None);
             Main.EntitySpriteDraw(value, drawPosition, null, color, 0f - num, origin, Projectile.scale * 1.2f, SpriteEffects.None);
-            Main.spriteBatch.SetBlendState(BlendState.Additive);
+            CWRUtils.ModifyBlendState(Main.spriteBatch, BlendState.Additive);
             color = Color.Lerp(white, Color.Cyan, 0.55f) * opacity * 1.6f;
             Main.EntitySpriteDraw(value, drawPosition, null, color, num * 0.6f, origin, Projectile.scale * 1.2f, SpriteEffects.None);
             color = Color.Lerp(white, Color.Fuchsia, 0.55f) * opacity * 1.6f;
             Main.EntitySpriteDraw(value, drawPosition, null, color, num * -0.6f, origin, Projectile.scale * 1.2f, SpriteEffects.None);
-            Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
+            CWRUtils.ModifyBlendState(Main.spriteBatch, BlendState.AlphaBlend);
         }
 
         public override void PostDraw(Color lightColor)

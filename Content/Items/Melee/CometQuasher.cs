@@ -2,7 +2,6 @@
 using CalamityMod.Items;
 using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -95,10 +94,10 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         {
             for (int i = 0; i < 3; i++)
             {
-                Vector2 offsetVr = HcMath.GetRandomVevtor(-75, -105, Main.rand.Next(500, 600));
+                Vector2 offsetVr = CWRUtils.GetRandomVevtor(-75, -105, Main.rand.Next(500, 600));
                 Vector2 spanPos = target.Center + offsetVr;
                 Vector2 vr = offsetVr.UnitVector() * -17;
-                int proj = Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(player), spanPos, vr, ModContent.ProjectileType<CometQuasherMeteor>(), (int)((float)base.Item.damage), base.Item.knockBack, player.whoAmI, 0f, 0.5f + (float)Main.rand.NextDouble() * 0.3f);
+                int proj = Projectile.NewProjectile(Common.CWRUtils.parent(player), spanPos, vr, ModContent.ProjectileType<CometQuasherMeteor>(), (int)((float)base.Item.damage), base.Item.knockBack, player.whoAmI, 0f, 0.5f + (float)Main.rand.NextDouble() * 0.3f);
                 Main.projectile[proj].Calamity().lineColor = Main.rand.Next(3);
             }
         }

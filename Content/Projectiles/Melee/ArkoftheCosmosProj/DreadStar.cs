@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Particles;
 using CalamityMod;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System;
@@ -9,7 +8,6 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.DrawTools;
 using Terraria.DataStructures;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
@@ -80,7 +78,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
                 for (int i = 0; i < 3; i++)
                 {
                     Projectile projectile = Projectile.NewProjectileDirect(
-                        AiBehavior.GetEntitySource_Parent(Projectile),
+                        Common.CWRUtils.parent(Projectile),
                         Projectile.position,
                         Vector2.Zero,
                         Type,
@@ -112,7 +110,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             
             if (Status == 2)
             {
-                Projectile ownerProj = AiBehavior.GetProjectileInstance(Behavior);
+                Projectile ownerProj = Common.CWRUtils.GetProjectileInstance(Behavior);
                 if (ownerProj != null)
                 {
                     Vector2 toPos = ownerProj.Center + (MathHelper.ToRadians(Main.GameUpdateCount * 5) + Projectile.localAI[0]).ToRotationVector2() * 16;
@@ -136,7 +134,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
         {
             if (Projectile.IsOwnedByLocalPlayer())
                 Projectile.NewProjectileDirect(
-                    AiBehavior.GetEntitySource_Parent(Projectile),
+                    Common.CWRUtils.parent(Projectile),
                     Projectile.Center,
                     Vector2.Zero,
                     ModContent.ProjectileType<SlaughterExplosion>(),
@@ -166,7 +164,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             {
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.AnisotropicWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-                Texture2D texture = DrawUtils.GetT2DValue(CWRConstant.Masking + "StarTexture_White");
+                Texture2D texture = CWRUtils.GetT2DValue(CWRConstant.Masking + "StarTexture_White");
 
                 for (int i = 0; i < 6; i++)
                 {
@@ -176,7 +174,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
                         null,
                         Color.Red,
                         Projectile.rotation + MathHelper.ToRadians(ThisTimeValue),
-                        DrawUtils.GetOrig(texture),
+                        CWRUtils.GetOrig(texture),
                         Projectile.scale,
                         SpriteEffects.None,
                         0
@@ -197,7 +195,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.AnisotropicWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-                Texture2D texture = DrawUtils.GetT2DValue(CWRConstant.Masking + "StarTexture_White");
+                Texture2D texture = CWRUtils.GetT2DValue(CWRConstant.Masking + "StarTexture_White");
 
                 for (int i = 0; i < 6; i++)
                 {
@@ -207,7 +205,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
                         null,
                         Color.DarkRed,
                         Projectile.rotation,
-                        DrawUtils.GetOrig(texture),
+                        CWRUtils.GetOrig(texture),
                         Projectile.scale,
                         SpriteEffects.None,
                         0

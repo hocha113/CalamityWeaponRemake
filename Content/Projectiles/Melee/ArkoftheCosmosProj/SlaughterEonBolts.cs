@@ -8,7 +8,6 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 {

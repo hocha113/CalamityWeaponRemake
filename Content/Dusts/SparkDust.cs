@@ -1,5 +1,4 @@
-﻿using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
+﻿using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -46,7 +45,7 @@ namespace CalamityWeaponRemake.Content.Dusts
 
         public override bool Update(Dust dust)
         {
-            NPC formes = AiBehavior.GetNPCInstance(dust.alpha);
+            NPC formes = Common.CWRUtils.GetNPCInstance(dust.alpha);
             if (formes == null)
             {
                 dust.active = false;
@@ -74,7 +73,7 @@ namespace CalamityWeaponRemake.Content.Dusts
         public override bool PreDraw(Dust dust)
         {
             Vector2 dustSlp = new Vector2(0.5f, 1.6f) * dust.scale;
-            Texture2D texture = DrawUtils.GetT2DValue(Texture);
+            Texture2D texture = CWRUtils.GetT2DValue(Texture);
             Main.spriteBatch.Draw(texture, dust.position - Main.screenPosition, null, dust.color, dust.rotation, texture.Size() * 0.5f, dustSlp, 0, 0f);
             Main.spriteBatch.Draw(texture, dust.position - Main.screenPosition, null, dust.color, dust.rotation, texture.Size() * 0.5f, dustSlp * new Vector2(0.45f, 1f), 0, 0f);
             return false;

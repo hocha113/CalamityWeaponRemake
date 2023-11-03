@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework;
 using System.IO;
 using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 {
@@ -64,7 +63,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
             NPC target = Projectile.Center.InPosClosestNPC(600);
             int types = ModContent.ProjectileType<Feathers>();
-            if (target != null && Time % 30 == 0 && Projectile.IsOwnedByLocalPlayer() && AiBehavior.GetPlayerInstance(Projectile.owner)?.ownedProjectileCounts[types] < 12)
+            if (target != null && Time % 30 == 0 && Projectile.IsOwnedByLocalPlayer() && CWRUtils.GetPlayerInstance(Projectile.owner)?.ownedProjectileCounts[types] < 12)
             {
                 Time2++;
                 if (Time2 > 5)
@@ -72,7 +71,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                     for (int i = 0; i < 6; i++)
                     {
                         int proj = Projectile.NewProjectile(
-                            AiBehavior.GetEntitySource_Parent(Projectile),
+                            CWRUtils.parent(Projectile),
                             Projectile.Center,
                             (MathHelper.TwoPi / 6f * i).ToRotationVector2() * 13,
                             types,
@@ -89,7 +88,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 else
                 {
                     Projectile.NewProjectile(
-                            AiBehavior.GetEntitySource_Parent(Projectile),
+                            CWRUtils.parent(Projectile),
                             Projectile.Center,
                             Projectile.Center.To(target.Center).UnitVector() * 15,
                             types,

@@ -1,11 +1,9 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using System;
 using Terraria.Audio;
 
@@ -102,7 +100,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 {
                     Vector2 offset = spikeAngle.ToRotationVector2() * Main.rand.NextFloat(3.95f, 7.05f);
                     Dust dust = Dust.NewDustPerfect(Projectile.Center 
-                        + HcMath.GetRandomVevtor(0, 360, Main.rand.Next(16, 220))
+                        + Common.CWRUtils.GetRandomVevtor(0, 360, Main.rand.Next(16, 220))
                         , dustType, offset, 0, default, scale);
 
                     dust.customData = 0.025f;
@@ -113,14 +111,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D mainValue = DrawUtils.GetT2DValue(Texture);
+            Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Main.EntitySpriteDraw(
                 mainValue,
                 Projectile.Center - Main.screenPosition,
                 null,
                 Color.White,
                 Projectile.rotation + MathHelper.PiOver4,
-                DrawUtils.GetOrig(mainValue),
+                CWRUtils.GetOrig(mainValue),
                 Projectile.scale,
                 SpriteEffects.None,
                 0

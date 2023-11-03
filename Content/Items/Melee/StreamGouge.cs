@@ -14,7 +14,7 @@ using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
 using Terraria.DataStructures;
 using CalamityMod.Items.Armor.Bloodflare;
 using CalamityMod.Sounds;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Common;
 using Terraria.Audio;
 
 namespace CalamityWeaponRemake.Content.Items.Melee

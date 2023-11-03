@@ -1,6 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -70,7 +68,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation();
-            DrawUtils.ClockFrame(ref Projectile.frameCounter, 5, 3);
+            CWRUtils.ClockFrame(ref Projectile.frameCounter, 5, 3);
 
             if (Status == 0)
             {
@@ -101,14 +99,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D mainValue = DrawUtils.GetT2DValue(Texture);
+            Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Main.EntitySpriteDraw(
                 mainValue,
-                DrawUtils.WDEpos(Projectile.Center),
-                DrawUtils.GetRec(mainValue, Projectile.frameCounter, 4),
+                CWRUtils.WDEpos(Projectile.Center),
+                CWRUtils.GetRec(mainValue, Projectile.frameCounter, 4),
                 Color.White,
                 Projectile.rotation,
-                DrawUtils.GetOrig(mainValue, 4),
+                CWRUtils.GetOrig(mainValue, 4),
                 Projectile.scale,
                 SpriteEffects.None,
                 0

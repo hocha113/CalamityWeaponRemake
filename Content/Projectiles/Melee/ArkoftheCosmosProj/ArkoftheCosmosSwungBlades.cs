@@ -2,7 +2,7 @@
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Sounds;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Items.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -62,7 +62,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 
         public ref float Charge => ref Projectile.ai[1];
 
-        public Player Owner => AiBehavior.GetPlayerInstance(Projectile.owner);
+        public Player Owner => CWRUtils.GetPlayerInstance(Projectile.owner);
 
         public float MaxSwingTime => SwirlSwing ? 55 : 35;
 

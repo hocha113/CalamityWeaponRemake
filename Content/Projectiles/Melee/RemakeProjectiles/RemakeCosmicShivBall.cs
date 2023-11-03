@@ -2,8 +2,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -110,7 +108,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         {
             for (int i = 0; i < 6; i++)
             {
-                Vector2 spanPos = target.Center + HcMath.GetRandomVevtor(0, 360, HcMath.rands.Next(220, 300));
+                Vector2 spanPos = target.Center + Common.CWRUtils.GetRandomVevtor(0, 360, Common.CWRUtils.rands.Next(220, 300));
                 Vector2 vr = spanPos.To(Main.MouseWorld).SafeNormalize(Vector2.Zero) * 38f;
                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spanPos, vr, ModContent.ProjectileType<CosmicShivBlade>(), Projectile.damage, Projectile.knockBack * 0.1f, Projectile.owner);
                 Main.projectile[proj].penetrate = 1;
@@ -121,17 +119,17 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Player Owner = Main.player[Projectile.owner];
-            if (AiBehavior.Alives(Owner) == false) return;
+            if (Common.CWRUtils.Alives(Owner) == false) return;
 
             if (Owner.ownedProjectileCounts[ModContent.ProjectileType<CosmicRay>()] <= 12)
             {
                 float mode = Owner.Center.To(target.Center).Length() * 0.5f;
                 if (mode > 260) mode = 260;
-                Vector2 spanPos = Owner.Center + (Owner.Center.To(target.Center).ToRotation() + MathHelper.ToRadians(HcMath.rands.Next(-45, 45))).ToRotationVector2() * mode;
-                int proj = Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(Projectile), spanPos, Vector2.Zero, ModContent.ProjectileType<CosmicRay>(), Projectile.damage * 2, Projectile.knockBack, Owner.whoAmI);
+                Vector2 spanPos = Owner.Center + (Owner.Center.To(target.Center).ToRotation() + MathHelper.ToRadians(Common.CWRUtils.rands.Next(-45, 45))).ToRotationVector2() * mode;
+                int proj = Projectile.NewProjectile(Common.CWRUtils.parent(Projectile), spanPos, Vector2.Zero, ModContent.ProjectileType<CosmicRay>(), Projectile.damage * 2, Projectile.knockBack, Owner.whoAmI);
                 Main.projectile[proj].rotation = Main.projectile[proj].Center.To(target.Center).ToRotation();
                 Main.projectile[proj].netUpdate = true;
-                Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(Projectile), Owner.Center, Vector2.Zero, ModContent.ProjectileType<StarDust>(), 0, Projectile.knockBack, Owner.whoAmI, ai1: proj);
+                Projectile.NewProjectile(Common.CWRUtils.parent(Projectile), Owner.Center, Vector2.Zero, ModContent.ProjectileType<StarDust>(), 0, Projectile.knockBack, Owner.whoAmI, ai1: proj);
             }
 
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 60);
@@ -184,12 +182,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         public override bool PreDraw(ref Color lightColor)
         {
             Main.EntitySpriteDraw(
-                DrawUtils.GetT2DValue(Texture),
-                DrawUtils.WDEpos(Projectile.Center),
-                DrawUtils.GetRec(DrawUtils.GetT2DValue(Texture)),
+                CWRUtils.GetT2DValue(Texture),
+                CWRUtils.WDEpos(Projectile.Center),
+                CWRUtils.GetRec(CWRUtils.GetT2DValue(Texture)),
                 Color.White,
                 Projectile.rotation + MathHelper.PiOver4,
-                DrawUtils.GetOrig(DrawUtils.GetT2DValue(Texture)),
+                CWRUtils.GetOrig(CWRUtils.GetT2DValue(Texture)),
                 Projectile.scale,
                 SpriteEffects.None,
                 0

@@ -1,8 +1,6 @@
 ﻿using CalamityMod;
 using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -41,7 +39,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public override void AI()
         {
-            Player owners = AiBehavior.GetPlayerInstance(Projectile.owner);
+            Player owners = CWRUtils.GetPlayerInstance(Projectile.owner);
             if (owners == null)
             {
                 Projectile.Kill();

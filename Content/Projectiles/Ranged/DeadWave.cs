@@ -6,8 +6,6 @@ using Microsoft.Xna.Framework;
 using CalamityMod;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.Graphics.Shaders;
-using CalamityWeaponRemake.Common.DrawTools;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using System;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Ranged

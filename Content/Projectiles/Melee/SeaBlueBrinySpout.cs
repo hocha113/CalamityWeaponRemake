@@ -1,6 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using CalamityWeaponRemake.Common.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -94,14 +92,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 {
                     OwnerProJindex = Projectile.whoAmI;
                     if (Projectile.IsOwnedByLocalPlayer())
-                        Projectile.alpha = HcMath.rands.Next(0, 10000);
+                        Projectile.alpha = Common.CWRUtils.rands.Next(0, 10000);
                     Projectile.netUpdate = true;
                 }
 
                 if (Behavior <= MaxTierLimit && ThisTimeValue > 5 && Projectile.IsOwnedByLocalPlayer())
                 {
                     int proj = Projectile.NewProjectile(
-                        AiBehavior.GetEntitySource_Parent(Projectile),
+                        Common.CWRUtils.parent(Projectile),
                         Projectile.Center + new Vector2(0, -Projectile.height * Projectile.scale),
                         Vector2.Zero,
                         Projectile.type,
@@ -110,7 +108,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                         Projectile.owner
                         );
 
-                    Projectile newProj = AiBehavior.GetProjectileInstance(proj);
+                    Projectile newProj = Common.CWRUtils.GetProjectileInstance(proj);
                     if (newProj != null)
                     {
                         newProj.ai[1] = Behavior;
@@ -149,7 +147,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
             if (Behavior != 1 && Status != 3)
             {
-                Projectile OwnerProj = AiBehavior.GetProjectileInstance(OwnerProJindex);
+                Projectile OwnerProj = Common.CWRUtils.GetProjectileInstance(OwnerProJindex);
                 if (OwnerProj != null && Projectile.alpha == OwnerProj.alpha)
                 {
                     Projectile.timeLeft = Behavior * 6;
@@ -181,16 +179,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D mainValue = DrawUtils.GetT2DValue(Texture);
-            DrawUtils.ClockFrame(ref Projectile.frameCounter, 3, 5);
+            Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
+            CWRUtils.ClockFrame(ref Projectile.frameCounter, 3, 5);
 
             Main.EntitySpriteDraw(
                 mainValue,
-                DrawUtils.WDEpos(Projectile.Center),
-                DrawUtils.GetRec(mainValue, Projectile.frameCounter, 6),
+                CWRUtils.WDEpos(Projectile.Center),
+                CWRUtils.GetRec(mainValue, Projectile.frameCounter, 6),
                 Color.White,
                 Projectile.rotation,
-                DrawUtils.GetOrig(mainValue, 6),
+                CWRUtils.GetOrig(mainValue, 6),
                 Projectile.scale,
                 SpriteEffects.None,
                 0

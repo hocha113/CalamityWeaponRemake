@@ -1,6 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -56,7 +54,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public override void AI()
         {
-            if (!AiBehavior.Alives(Owner))
+            if (!Common.CWRUtils.Alives(Owner))
             {
                 Projectile.Kill();
                 return;
@@ -97,9 +95,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D body = DrawUtils.GetT2DValue(Texture + "Body");
-            Texture2D head = DrawUtils.GetT2DValue(Texture + "Head");
-            Texture2D dons = DrawUtils.GetT2DValue(Texture + "Don");
+            Texture2D body = CWRUtils.GetT2DValue(Texture + "Body");
+            Texture2D head = CWRUtils.GetT2DValue(Texture + "Head");
+            Texture2D dons = CWRUtils.GetT2DValue(Texture + "Don");
             Color color = Color.White;
             float lerps = MathF.Sin(MathHelper.ToRadians(Time * Status));
             switch (Status)

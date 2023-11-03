@@ -1,6 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -42,7 +40,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
         {
             if (Status == 0)
             {
-                Projectile ownerProj = AiBehavior.GetProjectileInstance(OwnerIndex);
+                Projectile ownerProj = Common.CWRUtils.GetProjectileInstance(OwnerIndex);
                 if (ownerProj != null && Projectile.timeLeft >= 270)
                 {
                     Projectile.velocity = Projectile.Center.To(ownerProj.Center);
@@ -80,7 +78,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
             for (int i = 0; i < 12; i++)
             {
                 Vector2 vr = Vector2.UnitX * (0f - Projectile.width) / 2f;
-                vr += -Vector2.UnitY.RotatedBy(i * HcMath.PiOver6) * new Vector2(8f, 16f);
+                vr += -Vector2.UnitY.RotatedBy(i * Common.CWRUtils.PiOver6) * new Vector2(8f, 16f);
                 vr = vr.RotatedBy(Projectile.rotation - MathHelper.PiOver2);
                 int dust = Dust.NewDust(Projectile.Center, 0, 0, DustID.LifeDrain, 0f, 0f, 160);
                 Main.dust[dust].scale = 1.1f;
@@ -94,7 +92,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = DrawUtils.GetT2DValue(Texture);
+            Texture2D texture = CWRUtils.GetT2DValue(Texture);
             Color color = Color.White;
             float alp = Projectile.alpha / 255f;
             float slp = (1 + MathF.Sin(MathHelper.ToRadians(Main.GlobalTimeWrappedHourly)) * 0.2f) * Projectile.scale;
@@ -105,7 +103,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
                 null,
                 color * alp,
                 Projectile.rotation,
-                DrawUtils.GetOrig(texture),
+                CWRUtils.GetOrig(texture),
                 slp,
                 SpriteEffects.None,
                 0

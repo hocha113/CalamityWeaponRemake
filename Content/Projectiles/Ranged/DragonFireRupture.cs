@@ -1,7 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -53,7 +51,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
                 Projectile.frameCounter += Main.rand.Next(6);
                 for (int i = 0; i < 6; i++)
                 {
-                    randomOffsetVr.Add(HcMath.GetRandomVevtor(0, 360, Main.rand.NextFloat(16, 80)));
+                    randomOffsetVr.Add(Common.CWRUtils.GetRandomVevtor(0, 360, Main.rand.NextFloat(16, 80)));
                 }
                 for (int i = 0; i < 6; i++)
                 {
@@ -82,7 +80,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
                     {
                         Vector2 spanPos = Projectile.Center + Projectile.rotation.ToRotationVector2() * 160;
                         Projectile.NewProjectile(
-                            AiBehavior.GetEntitySource_Parent(Projectile),
+                            Common.CWRUtils.parent(Projectile),
                             spanPos,
                             Projectile.velocity,
                             Type,
@@ -108,7 +106,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            return AiBehavior.CircularHitboxCollision(Projectile.Center, 72, targetHitbox);
+            return Common.CWRUtils.CircularHitboxCollision(Projectile.Center, 72, targetHitbox);
         }
 
         int dorFireType => ModContent.BuffType<Dragonfire>();
@@ -146,14 +144,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
 
         public override void PostDraw(Color lightColor)
         {
-            DrawUtils.ClockFrame(ref Projectile.frameCounter, 4, 6);
+            CWRUtils.ClockFrame(ref Projectile.frameCounter, 4, 6);
 
             for (int i = 0; i < 6; i++)
             {
                 if (i >= 0 && i < ncbs.Count)
                 {
                     ncb _ncb = ncbs[i];
-                    DrawUtils.ClockFrame(ref _ncb.frame, 4, 6);
+                    CWRUtils.ClockFrame(ref _ncb.frame, 4, 6);
                     _ncb.pos = Projectile.Center + randomOffsetVr[i];
                     ncbs[i] = _ncb;
                 }
@@ -162,17 +160,17 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D mainValue = DrawUtils.GetT2DValue(Texture);
+            Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             float slp = Projectile.timeLeft / 60f;
             if (slp > 1) slp = 1;
 
             Main.EntitySpriteDraw(
                 mainValue,
-                DrawUtils.WDEpos(Projectile.Center),
-                DrawUtils.GetRec(mainValue, Projectile.frameCounter, 7),
+                CWRUtils.WDEpos(Projectile.Center),
+                CWRUtils.GetRec(mainValue, Projectile.frameCounter, 7),
                 Color.White,
                 Projectile.rotation,
-                DrawUtils.GetOrig(mainValue, 7),
+                CWRUtils.GetOrig(mainValue, 7),
                 Projectile.scale * slp,
                 SpriteEffects.None,
                 0
@@ -185,11 +183,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
                     ncb _ncb = ncbs[j];
                     Main.EntitySpriteDraw(
                     mainValue,
-                    DrawUtils.WDEpos(_ncb.pos),
-                    DrawUtils.GetRec(mainValue, _ncb.frame, 7),
+                    CWRUtils.WDEpos(_ncb.pos),
+                    CWRUtils.GetRec(mainValue, _ncb.frame, 7),
                     Color.White,
                     Projectile.rotation,
-                    DrawUtils.GetOrig(mainValue, 7),
+                    CWRUtils.GetOrig(mainValue, 7),
                     Projectile.scale * slp,
                     SpriteEffects.None,
                     0

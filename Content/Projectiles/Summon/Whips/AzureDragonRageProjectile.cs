@@ -1,5 +1,4 @@
-﻿using CalamityWeaponRemake.Common.DrawTools;
-using CalamityWeaponRemake.Common;
+﻿using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -7,7 +6,6 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
 {
@@ -72,7 +70,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
         {
             DrawLine(whipPoints);
             SpriteEffects flip = Projectile.spriteDirection < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            Texture2D texture = DrawUtils.GetT2DValue(Texture);
+            Texture2D texture = CWRUtils.GetT2DValue(Texture);
 
             Vector2 pos = whipPoints[0];
 

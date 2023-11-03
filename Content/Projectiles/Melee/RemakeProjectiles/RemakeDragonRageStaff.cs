@@ -5,8 +5,6 @@ using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Typeless;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using CalamityWeaponRemake.Content.Items.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -70,7 +68,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         {
             Player player = Main.player[Projectile.owner];
             float num = 50f;
-            if (!AiBehavior.Alives(player))
+            if (!CWRUtils.Alives(player))
             {
                 Projectile.Kill();
                 player.reuseDelay = 2;

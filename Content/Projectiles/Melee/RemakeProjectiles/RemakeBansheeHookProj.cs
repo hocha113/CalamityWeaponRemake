@@ -4,8 +4,6 @@ using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Sounds;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using CalamityWeaponRemake.Content.Items.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -54,7 +52,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             Projectile.hide = true;
         }
 
-        Player Owner => AiBehavior.GetPlayerInstance(Projectile.owner);
+        Player Owner => Common.CWRUtils.GetPlayerInstance(Projectile.owner);
         Item bansheeHook => Owner.HeldItem;//oh，这个物品实例的转化访问语法是从鸿蒙方舟的项目中学习到的，
                                            //这提供了不同实例之间互相访问的手段，尤其是当下的使用情景中尤为有用
         int drawUIalp = 0;
@@ -72,7 +70,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                         {
                             Vector2 vr = Projectile.velocity.UnitVector().RotatedBy(MathHelper.ToRadians(-20 + 10 * i)) * 10f;
                             Projectile.NewProjectile(
-                                AiBehavior.GetEntitySource_Parent(Projectile),
+                                Common.CWRUtils.parent(Projectile),
                                 Projectile.Center,
                                 vr,
                                 ModContent.ProjectileType<BansheeHookScythe>(),
@@ -128,9 +126,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                                 );
                             for (int i = 0; i < 9; i++)
                             {
-                                Vector2 vr = HcMath.GetRandomVevtor(0, 360, 25);
+                                Vector2 vr = Common.CWRUtils.GetRandomVevtor(0, 360, 25);
                                 Projectile.NewProjectile(
-                                    AiBehavior.GetEntitySource_Parent(Owner),
+                                    Common.CWRUtils.parent(Owner),
                                     Owner.Center,
                                     vr,
                                     ModContent.ProjectileType<BansheeHookScythe>(),
@@ -146,7 +144,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                             {
                                 Vector2 vr = (MathHelper.TwoPi / 9 * i).ToRotationVector2() * 10;
                                 Projectile.NewProjectile(
-                                    AiBehavior.GetEntitySource_Parent(Owner),
+                                    Common.CWRUtils.parent(Owner),
                                     Owner.Center,
                                     vr,
                                     ModContent.ProjectileType<SpiritFlame>(),
@@ -160,7 +158,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                             {
                                 Vector2 vr = (MathHelper.TwoPi / 9 * i).ToRotationVector2() * 20;
                                 Projectile.NewProjectile(
-                                    AiBehavior.GetEntitySource_Parent(Owner),
+                                    Common.CWRUtils.parent(Owner),
                                     Owner.Center,
                                     vr,
                                     ModContent.ProjectileType<SpiritFlame>(),
@@ -196,11 +194,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                             int damages = (int)(Projectile.damage * 0.75f);
                             for (int i = 0; i < 3; i++)
                             {
-                                Vector2 spanPos = Main.MouseWorld + HcMath.GetRandomVevtor(0, 360, 160);
+                                Vector2 spanPos = Main.MouseWorld + Common.CWRUtils.GetRandomVevtor(0, 360, 160);
                                 Projectile.NewProjectile(
-                                    AiBehavior.GetEntitySource_Parent(Owner),
+                                    Common.CWRUtils.parent(Owner),
                                     spanPos,
-                                    spanPos.To(Main.MouseWorld).UnitVector() * 15f,
+                                    (Vector2)(Common.CWRUtils.UnitVector(Common.CWRUtils.To(spanPos, Main.MouseWorld)) * 15f),
                                     ModContent.ProjectileType<AbominateHookScythe>(),
                                     damages,
                                     0,
@@ -212,9 +210,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                         {
                             for (int i = 0; i < 3; i++)
                             {
-                                Vector2 pos = Projectile.Center + Projectile.rotation.ToRotationVector2() * 45 * Projectile.scale + HcMath.GetRandomVevtor(0, 360, Main.rand.Next(2, 16));
+                                Vector2 pos = Projectile.Center + Projectile.rotation.ToRotationVector2() * 45 * Projectile.scale + Common.CWRUtils.GetRandomVevtor(0, 360, Main.rand.Next(2, 16));
                                 Projectile.NewProjectile(
-                                        AiBehavior.GetEntitySource_Parent(Owner),
+                                        Common.CWRUtils.parent(Owner),
                                         pos,
                                         Vector2.Zero,
                                         ModContent.ProjectileType<SpiritFlame>(),
@@ -288,8 +286,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             if (Projectile.ai[1] == 1)
             {
                 Main.EntitySpriteDraw(
-                    texture2D, DrawUtils.WDEpos(Projectile.Center), null, lightColor,
-                    Projectile.rotation + MathHelper.PiOver4, DrawUtils.GetOrig(texture2D),
+                    texture2D, CWRUtils.WDEpos(Projectile.Center), null, lightColor,
+                    Projectile.rotation + MathHelper.PiOver4, CWRUtils.GetOrig(texture2D),
                     Projectile.scale, SpriteEffects.None);
             }
 
@@ -311,8 +309,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             if (Projectile.ai[1] == 1)
             {
                 Main.EntitySpriteDraw(
-                    texture2D, DrawUtils.WDEpos(Projectile.Center), null, lightColor,
-                    Projectile.rotation + MathHelper.PiOver4, DrawUtils.GetOrig(texture2D),
+                    texture2D, CWRUtils.WDEpos(Projectile.Center), null, lightColor,
+                    Projectile.rotation + MathHelper.PiOver4, CWRUtils.GetOrig(texture2D),
                     Projectile.scale, SpriteEffects.None);
             }
             DrawKevinChargeBar();
@@ -324,8 +322,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         {
             if (Projectile.localAI[2] != 0)
             {
-                Texture2D mainValue = DrawUtils.GetT2DValue(CWRConstant.Masking + "StarTexture_White");
-                Vector2 pos = DrawUtils.WDEpos(Projectile.Center + Projectile.rotation.ToRotationVector2() * 45 * Projectile.scale);
+                Texture2D mainValue = CWRUtils.GetT2DValue(CWRConstant.Masking + "StarTexture_White");
+                Vector2 pos = CWRUtils.WDEpos(Projectile.Center + Projectile.rotation.ToRotationVector2() * 45 * Projectile.scale);
                 int Time = (int)Projectile.localAI[2];
                 int slp = Time * 5;
                 if (slp > 255) { slp = 255; }
@@ -340,7 +338,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                         null,
                         Color.Red,
                         MathHelper.ToRadians(Time * 5 + i * 17),
-                        DrawUtils.GetOrig(mainValue),
+                        CWRUtils.GetOrig(mainValue),
                         (slp / 1755f),
                         SpriteEffects.None,
                         0
@@ -354,7 +352,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                         null,
                         Color.White,
                         MathHelper.ToRadians(Time * 6 + i * 17),
-                        DrawUtils.GetOrig(mainValue),
+                        CWRUtils.GetOrig(mainValue),
                         (slp / 2055f),
                         SpriteEffects.None,
                         0
@@ -368,7 +366,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                         null,
                         Color.Gold,
                         MathHelper.ToRadians(Time * 9 + i * 17),
-                        DrawUtils.GetOrig(mainValue),
+                        CWRUtils.GetOrig(mainValue),
                         (slp / 2355f),
                         SpriteEffects.None,
                         0
@@ -381,12 +379,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         public void DrawKevinChargeBar()
         {
             if (Owner == null || Projectile.ai[1] != 1) return;
-            Texture2D frightEnergyChargeBack = DrawUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeBack");
-            Texture2D frightEnergyChargeBar = DrawUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeBar");
-            Texture2D frightEnergyChargeTop = DrawUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeTop");
+            Texture2D frightEnergyChargeBack = CWRUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeBack");
+            Texture2D frightEnergyChargeBar = CWRUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeBar");
+            Texture2D frightEnergyChargeTop = CWRUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeTop");
             float slp = 3;
             int offsetwid = 4;
-            Vector2 drawPos = DrawUtils.WDEpos(Owner.Center + new Vector2(frightEnergyChargeBar.Width / -2 * slp, 135));
+            Vector2 drawPos = CWRUtils.WDEpos(Owner.Center + new Vector2(frightEnergyChargeBar.Width / -2 * slp, 135));
             float alp = (drawUIalp / 255f);
             Rectangle backRec = new Rectangle(offsetwid, 0, (int)((frightEnergyChargeBar.Width - offsetwid * 2) * (bansheeHook.CWR().MeleeCharge / 500f)), frightEnergyChargeBar.Height);
 

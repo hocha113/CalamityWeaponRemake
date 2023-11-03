@@ -3,8 +3,6 @@ using CalamityMod.Items;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -132,12 +130,12 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             int type = ModContent.ProjectileType<HyperBlade>();
             for (int i = 0; i < 16; i++)
             {
-                Vector2 offsetvr = HcMath.GetRandomVevtor(-127.5f, -52.5f, 360);
+                Vector2 offsetvr = Common.CWRUtils.GetRandomVevtor(-127.5f, -52.5f, 360);
                 Vector2 spanPos = target.Center + offsetvr;
                 int proj = Projectile.NewProjectile(
-                    AiBehavior.GetEntitySource_Parent(player),
+                    Common.CWRUtils.parent(player),
                     spanPos,
-                    -offsetvr.UnitVector() * 12,
+                    (Vector2)(-Common.CWRUtils.UnitVector(offsetvr) * 12),
                     type,
                     Item.damage / 4,
                     0,
@@ -159,12 +157,12 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         public void DrawRageEnergyChargeBar(Player player)
         {
             if (player.HeldItem != Item) return;
-            Texture2D rageEnergyTop = DrawUtils.GetT2DValue(CWRConstant.UI + "RageEnergyTop");
-            Texture2D rageEnergyBar = DrawUtils.GetT2DValue(CWRConstant.UI + "RageEnergyBar");
-            Texture2D rageEnergyBack = DrawUtils.GetT2DValue(CWRConstant.UI + "RageEnergyBack");
+            Texture2D rageEnergyTop = CWRUtils.GetT2DValue(CWRConstant.UI + "RageEnergyTop");
+            Texture2D rageEnergyBar = CWRUtils.GetT2DValue(CWRConstant.UI + "RageEnergyBar");
+            Texture2D rageEnergyBack = CWRUtils.GetT2DValue(CWRConstant.UI + "RageEnergyBack");
             float slp = 3;
             int offsetwid = 4;
-            Vector2 drawPos = DrawUtils.WDEpos(player.Center + new Vector2(rageEnergyBar.Width / -2 * slp, 135));
+            Vector2 drawPos = CWRUtils.WDEpos(player.Center + new Vector2(rageEnergyBar.Width / -2 * slp, 135));
             Rectangle backRec = new Rectangle(offsetwid, 0, (int)((rageEnergyBar.Width - offsetwid * 2) * (rageEnergy / BlightedCleaverMaxRageEnergy)), rageEnergyBar.Height);
 
             Main.spriteBatch.ResetBlendState();

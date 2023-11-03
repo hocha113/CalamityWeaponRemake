@@ -8,8 +8,6 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityWeaponRemake.Common;
 using System.Collections.Generic;
-using CalamityWeaponRemake.Common.DrawTools;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee
 {
@@ -52,7 +50,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                     {
                         Vector2 vr = Projectile.velocity.RotatedBy(MathHelper.ToRadians(10 - 10 * i)) * 0.75f;
                         Projectile.NewProjectile(
-                            AiBehavior.GetEntitySource_Parent(Projectile),
+                            Common.CWRUtils.parent(Projectile),
                             Projectile.Center,
                             vr,
                             Type,
@@ -73,7 +71,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                     {
                         Vector2 vr = Projectile.velocity.RotatedBy(MathHelper.ToRadians(10 - 10 * i)) * 0.75f;
                         Projectile.NewProjectile(
-                            AiBehavior.GetEntitySource_Parent(Projectile),
+                            Common.CWRUtils.parent(Projectile),
                             Projectile.Center,
                             vr,
                             Type,
@@ -100,7 +98,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                     {
                         Vector2 vr = Projectile.velocity.RotatedBy(MathHelper.ToRadians(10 - 10 * i)) * 0.75f;
                         Projectile.NewProjectile(
-                            AiBehavior.GetEntitySource_Parent(Projectile),
+                            Common.CWRUtils.parent(Projectile),
                             Projectile.Center,
                             vr,
                             Type,
@@ -149,10 +147,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         private static List<Texture2D> textures => new List<Texture2D>()
         {
-            DrawUtils.GetT2DValue(CWRConstant.Projectile_Melee + "SpatialSpear0"),
-            DrawUtils.GetT2DValue(CWRConstant.Projectile_Melee + "SpatialSpear1"),
-            DrawUtils.GetT2DValue(CWRConstant.Projectile_Melee + "SpatialSpear2"),
-            DrawUtils.GetT2DValue(CWRConstant.Projectile_Melee + "SpatialSpear3")
+            CWRUtils.GetT2DValue(CWRConstant.Projectile_Melee + "SpatialSpear0"),
+            CWRUtils.GetT2DValue(CWRConstant.Projectile_Melee + "SpatialSpear1"),
+            CWRUtils.GetT2DValue(CWRConstant.Projectile_Melee + "SpatialSpear2"),
+            CWRUtils.GetT2DValue(CWRConstant.Projectile_Melee + "SpatialSpear3")
         };
 
         public override bool PreDraw(ref Color lightColor)
@@ -174,15 +172,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                     color = Color.Purple;
                     break;
             }
-            color = HcMath.RecombinationColor((color, 0.3f), (lightColor, 0.7f));
+            color = Common.CWRUtils.RecombinationColor((color, 0.3f), (lightColor, 0.7f));
             Main.EntitySpriteDraw(
-                value, 
+                value,
                 Projectile.Center - Main.screenPosition, 
                 null,
-                color, 
-                Projectile.rotation + MathHelper.PiOver4, 
-                DrawUtils.GetOrig(value), 
-                Projectile.scale, 
+                color,
+                Projectile.rotation + MathHelper.PiOver4,
+                CWRUtils.GetOrig(value),
+                Projectile.scale,
                 SpriteEffects.None
                 );
             return false;

@@ -1,5 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Common.Interfaces;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -53,8 +52,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public override void AI()
         {
-            Projectile target = AiBehavior.GetProjectileInstance(Behavior);
-            if (AiBehavior.Alives(target) == false)
+            Projectile target = CWRUtils.GetProjectileInstance(Behavior);
+            if (CWRUtils.Alives(target) == false)
             {
                 Projectile.Kill();
                 return;

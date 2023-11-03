@@ -1,6 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -26,7 +24,7 @@ namespace CalamityWeaponRemake.Content.NPCs
 
         public override void AI()
         {
-            Player target = AiBehavior.NPCFindingPlayerTarget(NPC, 600);
+            Player target = Common.CWRUtils.NPCFindingPlayerTarget(NPC, 600);
             if (target.Alives())
             {
                 NPC.ai[0] = 1;
@@ -81,21 +79,21 @@ namespace CalamityWeaponRemake.Content.NPCs
                     Vector2 offset = spikeAngle.ToRotationVector2() * (2f + (MathF.Sin(angle + spikeAngle * numSpikes) + 1) * spikeAmplitude)
                                      * Main.rand.NextFloat(0.95f, 1.05f);
 
-                    Dust.NewDustPerfect(NPC.Center + HcMath.GetRandomVevtor(0, 360, Main.rand.Next(16, 220)), 262, offset, 0, default, scale).customData = 0.025f;
+                    Dust.NewDustPerfect(NPC.Center + Common.CWRUtils.GetRandomVevtor(0, 360, Main.rand.Next(16, 220)), 262, offset, 0, default, scale).customData = 0.025f;
                 }
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D mainValue = DrawUtils.GetT2DValue(Texture);
+            Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Main.EntitySpriteDraw(
                 mainValue,
                 NPC.Center - Main.screenPosition + new Vector2(0, 6),
-                DrawUtils.GetRec(mainValue, (int)NPC.frameCounter, 20),
+                CWRUtils.GetRec(mainValue, (int)NPC.frameCounter, 20),
                 Color.White,
                 NPC.rotation,
-                DrawUtils.GetOrig(mainValue, 20),
+                CWRUtils.GetOrig(mainValue, 20),
                 NPC.scale,
                 NPC.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally
                 );

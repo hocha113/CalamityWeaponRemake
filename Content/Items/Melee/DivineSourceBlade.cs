@@ -1,16 +1,18 @@
 ﻿using CalamityMod.Items;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using CalamityWeaponRemake.Content.Projectiles.Melee;
+using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Humanizer.In;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {
@@ -18,7 +20,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
     {
         public override string Texture => CWRConstant.Item_Melee + "DivineSourceBlade2";
 
-        public Texture2D Value => DrawUtils.GetT2DValue(Texture);
+        public Texture2D Value => CWRUtils.GetT2DValue(Texture);
 
         public override void SetDefaults()
         {
@@ -30,7 +32,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.useTurn = true;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 5.5f;
-            Item.UseSound = SoundID.Item1;
+            Item.UseSound = SoundID.Item60;
             Item.autoReuse = true;            
             Item.value = CalamityGlobalItem.Rarity1BuyPrice;
             Item.rare = ModContent.RarityType<Violet>();
@@ -50,35 +52,54 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             player.SetCompositeArmFront(Math.Abs(rots) > 0.01f, Player.CompositeArmStretchAmount.Full, rots);
         }
 
-        private int[] projs;
         public override void UseAnimation(Player player)
         {
-            if (projs == null)
-                projs = new int[6];
+            Item.initialize();
 
-            int types = ModContent.ProjectileType<DivineSourceKnifelight>();
+            if (Item.CWR().ai[1] == 0)
+                Item.CWR().ai[1] = 1;
 
-            for (int n = 0; n < 6; n++)
+            int types = ModContent.ProjectileType<DivineSourceBeam>();
+
+            Vector2 vector2 = player.Center.To(Main.MouseWorld).UnitVector() * 3;
+            Vector2 position = player.Center;
+            int proj = Projectile.NewProjectile(
+                player.parent(), position, vector2
+                , types
+                , (int)(Item.damage * 0.75f)
+                , Item.knockBack
+                , player.whoAmI);
+           
+            //if (Main.projectile.IndexInRange(proj))
+            //{
+            //    TerratomereBeams terratomereBeams = Main.projectile[proj].ModProjectile as TerratomereBeams;
+            //    if (terratomereBeams != null)
+            //    {
+            //        terratomereBeams.Projectile.ai[0] = (player.direction == 1f).ToInt();
+            //        terratomereBeams.Projectile.ai[1] = 1;
+            //        terratomereBeams.ControlPoints = GenerateSlashPoints(vector2.X < 0).ToArray();
+            //    }
+            //}
+
+            Item.CWR().ai[0] = proj;
+            Item.CWR().ai[1] *= -1;
+        }
+
+        public IEnumerable<Vector2> GenerateSlashPoints(bool dir)
+        {
+            float starRot = MathHelper.ToRadians(-170);
+            float endRot = MathHelper.ToRadians(60);
+            if (dir)
             {
-                Projectile projectile = AiBehavior.GetProjectileInstance(projs[n]);
-                if (projectile != null && projectile.type == types)
-                    projectile.Kill();
+                starRot = MathHelper.ToRadians(-10);
+                endRot = MathHelper.ToRadians(-240);
             }
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 30; i++)
             {
-                int proj = Projectile.NewProjectile(
-                    AiBehavior.GetEntitySource_Parent(player),
-                    player.Center,
-                    player.Center.To(Main.MouseWorld).UnitVector() * 8,
-                    types,
-                    Item.damage,
-                    Item.knockBack,
-                    player.whoAmI,
-                    ai0: 80 + i * 20
-                );
-                projs[i] = proj;
-            }
+                float completion = MathHelper.Lerp(endRot, starRot, i / 30f);
+                yield return completion.ToRotationVector2() * 84f;
+            }            
         }
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
@@ -105,7 +126,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                 null,
                 lightColor,
                 MathHelper.PiOver4,
-                DrawUtils.GetOrig(Value),
+                CWRUtils.GetOrig(Value),
                 scale,
                 SpriteEffects.None,
                 0

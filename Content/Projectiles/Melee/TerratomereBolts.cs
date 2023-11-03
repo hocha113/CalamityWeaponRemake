@@ -1,7 +1,6 @@
 ﻿using CalamityMod;
 using CalamityMod.Particles;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -73,7 +72,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 int maxNum = Main.rand.Next(3, 5);
                 for (int i = 0; i < maxNum; i++)
                 {
-                    Vector2 offsetVr = HcMath.GetRandomVevtor(0, 360, Main.rand.Next(660, 720));
+                    Vector2 offsetVr = CWRUtils.GetRandomVevtor(0, 360, Main.rand.Next(660, 720));
                     Vector2 spanPos = target.Center + offsetVr;
                     Vector2 vr = offsetVr.UnitVector() * -50;
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), spanPos, vr,

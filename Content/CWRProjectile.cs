@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Projectiles.Melee;
 using CalamityMod;
 using CalamityMod.Projectiles.Summon;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Content.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -11,6 +10,10 @@ using CalamityWeaponRemake.Content.Projectiles;
 using CalamityWeaponRemake.Content.Projectiles.Melee;
 using CalamityWeaponRemake.Content.Buffs;
 using CalamityWeaponRemake.Content.Projectiles.Summon;
+using CalamityWeaponRemake.Common;
+using CalamityMod.Projectiles.Boss;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.ID;
 
 namespace CalamityWeaponRemake.Content
 {
@@ -151,7 +154,7 @@ namespace CalamityWeaponRemake.Content
                         .RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(-15, 15))).UnitVector() * Main.rand.Next(7, 9);
                     Vector2 pos = player.Center + vr * 10;
                     Projectile.NewProjectileDirect(
-                        AiBehavior.GetEntitySource_Parent(player),
+                        CWRUtils.parent(player),
                         pos,
                         vr,
                         ModContent.ProjectileType<DeadWave>(),
@@ -182,7 +185,7 @@ namespace CalamityWeaponRemake.Content
                             {
                                 Vector2 vr = (MathHelper.TwoPi / 3 * i + randRot).ToRotationVector2() * 10;
                                 int proj = Projectile.NewProjectile(
-                                    AiBehavior.GetEntitySource_Parent(projectile),
+                                    CWRUtils.parent(projectile),
                                     target.Center,
                                     vr,
                                     ModContent.ProjectileType<GodKillers>(),
@@ -197,7 +200,7 @@ namespace CalamityWeaponRemake.Content
                         break;
                     case WhipHitTypeEnum.BleedingScourge:
                         Projectile.NewProjectile(
-                                    AiBehavior.GetEntitySource_Parent(projectile),
+                                    CWRUtils.parent(projectile),
                                     target.Center,
                                     Vector2.Zero,
                                     ModContent.ProjectileType<BloodBlast>(),
@@ -219,6 +222,53 @@ namespace CalamityWeaponRemake.Content
                 if (npc.WhipHitNum > 0)
                     npc.WhipHitNum--;
             }
-        }        
+        }
+
+        public override bool PreDraw(Projectile projectile, ref Color lightColor)
+        {
+            if (projectile.type == ModContent.ProjectileType<ThanatosLaser>())
+            {
+                ThanatosLaserDrawDeBug(projectile, ref lightColor);
+            }
+            return base.PreDraw(projectile, ref lightColor);
+        }
+
+        private bool ThanatosLaserDrawDeBug(Projectile projectile, ref Color lightColor)
+        {
+            ThanatosLaser thanatosLaser = projectile.ModProjectile as ThanatosLaser;
+            if (thanatosLaser.TelegraphDelay >= ThanatosLaser.TelegraphTotalTime)
+            {
+                lightColor.R = (byte)(255 * projectile.Opacity);
+                lightColor.G = (byte)(255 * projectile.Opacity);
+                lightColor.B = (byte)(255 * projectile.Opacity);
+                Vector2 drawOffset = projectile.velocity.SafeNormalize(Vector2.Zero) * -30f;
+                projectile.Center += drawOffset;
+                CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+                projectile.Center -= drawOffset;
+                return false;
+            }
+
+            Texture2D laserTelegraph = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/LaserWallTelegraphBeam").Value;
+
+            float yScale = 2f;
+            if (thanatosLaser.TelegraphDelay < ThanatosLaser.TelegraphFadeTime)
+                yScale = MathHelper.Lerp(0f, 2f, thanatosLaser.TelegraphDelay / 15f);
+            if (thanatosLaser.TelegraphDelay > ThanatosLaser.TelegraphTotalTime - ThanatosLaser.TelegraphFadeTime)
+                yScale = MathHelper.Lerp(2f, 0f, (thanatosLaser.TelegraphDelay - (ThanatosLaser.TelegraphTotalTime - ThanatosLaser.TelegraphFadeTime)) / 15f);
+
+            Vector2 scaleInner = new Vector2(ThanatosLaser.TelegraphWidth / laserTelegraph.Width, yScale);
+            Vector2 origin = laserTelegraph.Size() * new Vector2(0f, 0.5f);
+            Vector2 scaleOuter = scaleInner * new Vector2(1f, 2.2f);
+
+            Color colorOuter = Color.Lerp(Color.Red, Color.Crimson, thanatosLaser.TelegraphDelay / ThanatosLaser.TelegraphTotalTime * 2f % 1f); // Iterate through crimson and red once and then flash.
+            Color colorInner = Color.Lerp(colorOuter, Color.White, 0.75f);
+
+            colorOuter *= 0.6f;
+            colorInner *= 0.6f;
+
+            Main.EntitySpriteDraw(laserTelegraph, projectile.Center - Main.screenPosition, null, colorInner, thanatosLaser.Velocity.ToRotation(), origin, scaleInner, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(laserTelegraph, projectile.Center - Main.screenPosition, null, colorOuter, thanatosLaser.Velocity.ToRotation(), origin, scaleOuter, SpriteEffects.None, 0);
+            return false;
+        }
     }
 }

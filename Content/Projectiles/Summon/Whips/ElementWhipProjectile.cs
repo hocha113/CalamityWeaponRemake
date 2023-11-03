@@ -1,6 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -72,8 +70,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
         {
             DrawLine(whipPoints);
             SpriteEffects flip = Projectile.spriteDirection < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            Texture2D texture = DrawUtils.GetT2DValue(Texture);
-            Texture2D _men = DrawUtils.GetT2DValue(Texture + "Glow");
+            Texture2D texture = CWRUtils.GetT2DValue(Texture);
+            Texture2D _men = CWRUtils.GetT2DValue(Texture + "Glow");
 
             Vector2 pos = whipPoints[0];
 

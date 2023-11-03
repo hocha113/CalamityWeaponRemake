@@ -1,5 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -39,7 +38,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            return AiBehavior.CircularHitboxCollision(Projectile.Center, 100, targetHitbox);
+            return CWRUtils.CircularHitboxCollision(Projectile.Center, 100, targetHitbox);
         }
     }
 }

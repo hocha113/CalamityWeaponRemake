@@ -10,7 +10,6 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityWeaponRemake.Common;
 using Terraria.DataStructures;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 {
@@ -60,7 +59,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             {
                 int types = ModContent.ProjectileType<ProximaCentauri>();
                 Projectile.NewProjectileDirect(
-                    AiBehavior.GetEntitySource_Parent(Projectile),
+                    CWRUtils.parent(Projectile),
                     Projectile.Center,
                     Vector2.Zero,
                     types,
@@ -71,7 +70,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
                     Projectile.whoAmI
                     ).netUpdate = true;
                 Projectile.NewProjectileDirect(
-                    AiBehavior.GetEntitySource_Parent(Projectile),
+                    CWRUtils.parent(Projectile),
                     Projectile.Center,
                     Vector2.Zero,
                     types,

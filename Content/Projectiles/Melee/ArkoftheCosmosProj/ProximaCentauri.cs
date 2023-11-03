@@ -8,8 +8,6 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 {
@@ -57,7 +55,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
         public override void AI()
         {
             ThisTimeValue++;
-            Projectile OwnerProj = AiBehavior.GetProjectileInstance(Behavior);
+            Projectile OwnerProj = CWRUtils.GetProjectileInstance(Behavior);
             if (OwnerProj == null)
             {
                 Projectile.Kill();

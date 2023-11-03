@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Projectiles.Ranged;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Common.Interfaces;
 using CalamityWeaponRemake.Common.SoundEffects;
 using Microsoft.Xna.Framework;
@@ -13,8 +12,8 @@ using Terraria.DataStructures;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static CalamityWeaponRemake.Common.AuxiliaryMeans.AiBehavior;
-using static CalamityWeaponRemake.Common.DrawTools.DrawUtils;
+using static CalamityWeaponRemake.Common.CWRUtils;
+using static CalamityWeaponRemake.Common.CWRUtils;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
 {
@@ -148,7 +147,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
                         if (Projectile.IsOwnedByLocalPlayer())
                         {
                             Vector2 vr = (Projectile.rotation - MathHelper.ToRadians(Main.rand.NextFloat(80, 100)) * Owner.direction).ToRotationVector2() * Main.rand.NextFloat(3, 7) + Owner.velocity;
-                            Projectile.NewProjectile(GetEntitySource_Parent(Projectile), Projectile.Center, vr, ModContent.ProjectileType<GunCasing>(), 10, Projectile.knockBack, Owner.whoAmI);
+                            Projectile.NewProjectile(CWRUtils.parent(Projectile), Projectile.Center, vr, ModContent.ProjectileType<GunCasing>(), 10, Projectile.knockBack, Owner.whoAmI);
                         }
                     }
                     spanSmogsBool = true;
@@ -186,8 +185,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
             {
                 float angleOffset = MathHelper.ToRadians(-3 + i);
                 Vector2 rotatedVel = (Projectile.rotation + angleOffset).ToRotationVector2() * 13f;
-                Projectile.NewProjectile(GetEntitySource_Parent(Owner), shootPos, rotatedVel, (int)Projectile.localAI[1], Projectile.damage, Projectile.knockBack, Owner.whoAmI);
-                Projectile.NewProjectile(GetEntitySource_Parent(Projectile), shootPos, rotatedVel, fireType, (int)(Projectile.damage * 1.2f), Projectile.knockBack, Owner.whoAmI);
+                Projectile.NewProjectile(CWRUtils.parent(Owner), shootPos, rotatedVel, (int)Projectile.localAI[1], Projectile.damage, Projectile.knockBack, Owner.whoAmI);
+                Projectile.NewProjectile(CWRUtils.parent(Projectile), shootPos, rotatedVel, fireType, (int)(Projectile.damage * 1.2f), Projectile.knockBack, Owner.whoAmI);
             }
         }
 
@@ -199,7 +198,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
             {
                 float angleOffset = MathHelper.ToRadians(-6 + i * 6);
                 Vector2 rotatedVel = (Projectile.rotation + angleOffset).ToRotationVector2() * 13f;
-                Projectile.NewProjectile(GetEntitySource_Parent(Projectile), shootPos, rotatedVel, fireCross, (int)(Projectile.damage * 0.75f), Projectile.knockBack, Owner.whoAmI);
+                Projectile.NewProjectile(CWRUtils.parent(Projectile), shootPos, rotatedVel, fireCross, (int)(Projectile.damage * 0.75f), Projectile.knockBack, Owner.whoAmI);
             }
         }
 

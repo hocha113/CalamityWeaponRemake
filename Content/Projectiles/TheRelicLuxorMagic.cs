@@ -1,7 +1,5 @@
 ﻿using CalamityMod;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -70,7 +68,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
             GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak"));
             TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 30);
 
-            Texture2D texture = DrawUtils.GetT2DValue(Texture);
+            Texture2D texture = CWRUtils.GetT2DValue(Texture);
             Color color = Color.White;
             float alp = Projectile.alpha / 255f;
             Main.EntitySpriteDraw(
@@ -79,7 +77,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
                 null,
                 color * alp,
                 Projectile.rotation + MathHelper.PiOver2,
-                DrawUtils.GetOrig(texture),
+                CWRUtils.GetOrig(texture),
                 Projectile.scale,
                 SpriteEffects.None,
                 0

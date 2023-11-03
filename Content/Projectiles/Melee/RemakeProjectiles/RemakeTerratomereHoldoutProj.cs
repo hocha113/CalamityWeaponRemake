@@ -2,7 +2,6 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Content.Items.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -213,14 +212,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             for (int i = 0; i < 20; i++)
             {
                 float completion = MathHelper.Lerp(SwingCompletion, SwingCompletionAtStartOfTrail, i / 20f);
-                float num = Math.Abs(Projectile.oldRot[0] - Projectile.oldRot[1]) * 0.8f;
+                float offsetRot = Math.Abs(Projectile.oldRot[0] - Projectile.oldRot[1]) * 0.8f;
                 if (SwingCompletion > RecoveryCompletionRatio)
                 {
-                    num = 0.21f;
+                    offsetRot = 0.21f;
                 }
 
-                float f = (GetSwingOffsetAngle(completion) - num) * Direction + InitialRotation;
-                yield return f.ToRotationVector2() * Projectile.scale * 54f;
+                float rots = (GetSwingOffsetAngle(completion) - offsetRot) * Direction + InitialRotation;
+                yield return rots.ToRotationVector2() * Projectile.scale * 54f;
             }
         }
 
@@ -291,7 +290,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 int maxNum = Main.rand.Next(3, 5);
                 for (int i = 0; i < maxNum; i++)
                 {
-                    Vector2 offsetVr = HcMath.GetRandomVevtor(0, 360, Main.rand.Next(360, 420));
+                    Vector2 offsetVr = CWRUtils.GetRandomVevtor(0, 360, Main.rand.Next(360, 420));
                     Vector2 spanPos = target.Center + offsetVr;
                     Vector2 vr = offsetVr.UnitVector() * -30;
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), spanPos, vr,

@@ -5,7 +5,6 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 
 namespace CalamityWeaponRemake.Content.Projectiles
 {
@@ -47,7 +46,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
             }
             if (Projectile.ai[0] == 1)
             {
-                Player owners = AiBehavior.GetPlayerInstance(Projectile.owner);
+                Player owners = Common.CWRUtils.GetPlayerInstance(Projectile.owner);
                 if (owners != null)
                 {
                     Projectile.ChasingBehavior2(owners.Center, 0.999f, 0.2f);
@@ -100,7 +99,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
             for (int i = 0; i < maxfores; i++)
             {
                 Vector2 modeVrs = Vector2.UnitX * (0f - Projectile.width) / 2f;
-                modeVrs -= Vector2.UnitY.RotatedBy(i * HcMath.PiOver6) * new Vector2(8f, 16f);
+                modeVrs -= Vector2.UnitY.RotatedBy(i * CWRUtils.PiOver6) * new Vector2(8f, 16f);
                 modeVrs = modeVrs.RotatedBy(Projectile.rotation - MathHelper.PiOver2);
                 int dust = Dust.NewDust(Projectile.Center, 0, 0, DustID.ShadowbeamStaff, 0f, 0f, 160);
                 Main.dust[dust].scale = 1.1f;

@@ -1,6 +1,4 @@
-﻿using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using Terraria;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {

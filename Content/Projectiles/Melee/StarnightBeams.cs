@@ -3,8 +3,6 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Particles;
 using CalamityMod.Particles.Metaballs;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -72,7 +70,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 {
                     Vector2 vr = (MathHelper.TwoPi / 6 * i + randRot).ToRotationVector2() * 15;
                     Projectile.NewProjectile(
-                        AiBehavior.GetEntitySource_Parent(Projectile),
+                        Common.CWRUtils.parent(Projectile),
                         target.Center,// + vr.UnitVector() * 164
                         vr,
                         ModContent.ProjectileType<GodKillers>(),
@@ -105,7 +103,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = DrawUtils.GetT2DValue(Texture);
+            Texture2D texture = CWRUtils.GetT2DValue(Texture);
             float alp = Projectile.alpha / 255f;
 
             if (Projectile.alpha > 225)
@@ -114,11 +112,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 {
                     Main.EntitySpriteDraw(
                         texture,
-                        DrawUtils.WDEpos(Projectile.oldPos[i] + Projectile.Center - Projectile.position),
+                        CWRUtils.WDEpos(Projectile.oldPos[i] + Projectile.Center - Projectile.position),
                         null,
                         Color.White * alp * 0.5f,
                         Projectile.rotation + MathHelper.PiOver4,
-                        DrawUtils.GetOrig(texture),
+                        CWRUtils.GetOrig(texture),
                         Projectile.scale - 0.05f * i,
                         SpriteEffects.None,
                         0
@@ -128,11 +126,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
             Main.EntitySpriteDraw(
                 texture,
-                DrawUtils.WDEpos(Projectile.Center),
+                CWRUtils.WDEpos(Projectile.Center),
                 null,
                 Color.White * alp,
                 Projectile.rotation + MathHelper.PiOver4,
-                DrawUtils.GetOrig(texture),
+                CWRUtils.GetOrig(texture),
                 Projectile.scale,
                 SpriteEffects.None,
                 0

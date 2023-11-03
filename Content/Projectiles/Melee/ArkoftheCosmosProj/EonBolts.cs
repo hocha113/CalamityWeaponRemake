@@ -7,7 +7,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Common;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 {

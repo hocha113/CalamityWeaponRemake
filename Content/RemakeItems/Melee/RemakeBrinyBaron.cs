@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Items;
 using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Content.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System.Linq;
@@ -81,10 +80,10 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         {
             if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>() && CWRConstant.ForceReplaceResetContent)
             {
-                Vector2 speed = HcMath.RandomBooleanValue(2, 1, true) ? new Vector2(16, 0) : new Vector2(-16, 0);
+                Vector2 speed = CWRUtils.RandomBooleanValue(2, 1, true) ? new Vector2(16, 0) : new Vector2(-16, 0);
                 if (Main.projectile.Count(n => n.active && n.type == ModContent.ProjectileType<SeaBlueBrinySpout>() && n.ai[1] == 1) <= 2)
                 {
-                    int proj = Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(player), target.Center, speed, ModContent.ProjectileType<SeaBlueBrinySpout>(), item.damage, item.knockBack, player.whoAmI);
+                    int proj = Projectile.NewProjectile(Common.CWRUtils.parent(player), target.Center, speed, ModContent.ProjectileType<SeaBlueBrinySpout>(), item.damage, item.knockBack, player.whoAmI);
                     Main.projectile[proj].timeLeft = 60;
                     Main.projectile[proj].localAI[1] = 30;
                 }

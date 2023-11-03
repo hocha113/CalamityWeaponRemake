@@ -7,7 +7,6 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 {
@@ -112,7 +111,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                                 Vector2 pos = Main.rand.NextFloat(rot - offsetrot, rot + offsetrot)
                                     .ToRotationVector2() * lengs + Main.player[Projectile.owner].Center;
                                 Projectile.NewProjectileDirect(
-                                    AiBehavior.GetEntitySource_Parent(Projectile),
+                                    CWRUtils.parent(Projectile),
                                     pos,
                                     pos.To(target.Center).UnitVector() * 17,
                                     Type,

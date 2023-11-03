@@ -1,4 +1,4 @@
-﻿using CalamityWeaponRemake.Common.AuxiliaryMeans;
+﻿using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -56,7 +56,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 }
                 if (Behavior == 1)
                 {
-                    NPC hitTarget = AiBehavior.GetNPCInstance((int)Projectile.localAI[0]);
+                    NPC hitTarget = CWRUtils.GetNPCInstance((int)Projectile.localAI[0]);
                     if (hitTarget != null)
                     {
                         Projectile.velocity = Vector2.Zero;

@@ -3,8 +3,6 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Sounds;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using CalamityWeaponRemake.Content.Items.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -54,7 +52,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
         public override void OnKill(int timeLeft)
         {
-            Projectile projectile = AiBehavior.GetProjectileInstance(projIndex);
+            Projectile projectile = Common.CWRUtils.GetProjectileInstance(projIndex);
             projectile?.Kill();
         }
 
@@ -68,7 +66,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             projIndex = reader.ReadInt32();
         }
 
-        Player Owner => AiBehavior.GetPlayerInstance(Projectile.owner);
+        Player Owner => Common.CWRUtils.GetPlayerInstance(Projectile.owner);
         Item gildedProboscis => Owner.HeldItem;
         int projIndex = -1;
         int drawUIalp = 0;
@@ -85,7 +83,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                         {
                             Vector2 vr = Projectile.velocity.UnitVector().RotatedBy(MathHelper.ToRadians(-10 + 10 * i)) * 25f;
                             Projectile.NewProjectile(
-                                AiBehavior.GetEntitySource_Parent(Projectile),
+                                Common.CWRUtils.parent(Projectile),
                                 Projectile.Center,
                                 vr,
                                 ModContent.ProjectileType<RedLightningFeather>(),
@@ -138,9 +136,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                             SoundEngine.PlaySound(SoundID.Item102, Projectile.Center);
                             for (int i = 0; i < 6; i++)
                             {
-                                Vector2 vr = HcMath.GetRandomVevtor(0, 360, 15);
+                                Vector2 vr = Common.CWRUtils.GetRandomVevtor(0, 360, 15);
                                 Projectile.NewProjectile(
-                                    AiBehavior.GetEntitySource_Parent(Owner),
+                                    Common.CWRUtils.parent(Owner),
                                     Owner.Center,
                                     vr,
                                     ModContent.ProjectileType<RedLightningFeather>(),
@@ -174,9 +172,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                         if (Projectile.ai[0] > 10 && Owner.ownedProjectileCounts[ModContent.ProjectileType<GildedProboscisKevinLightning>()] == 0)
                         {
                             projIndex = Projectile.NewProjectile(
-                                    AiBehavior.GetEntitySource_Parent(Owner),
+                                    Common.CWRUtils.parent(Owner),
                                     Owner.Center,
-                                    Owner.Center.To(Main.MouseWorld).UnitVector() * 15f,
+                                    (Vector2)(Common.CWRUtils.UnitVector(Common.CWRUtils.To(Owner.Center, Main.MouseWorld)) * 15f),
                                     ModContent.ProjectileType<GildedProboscisKevinLightning>(),
                                     Projectile.damage / 3,
                                     0,
@@ -184,7 +182,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                                     );
                             Projectile.netUpdate = true;
                         }
-                        Projectile kevin = AiBehavior.GetProjectileInstance(projIndex);
+                        Projectile kevin = Common.CWRUtils.GetProjectileInstance(projIndex);
                         if (kevin != null)
                         {
                             Vector2 pos = Projectile.Center + toMous.UnitVector() * 85;
@@ -227,7 +225,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture2D = DrawUtils.GetT2DValue(Texture);
+            Texture2D texture2D = CWRUtils.GetT2DValue(Texture);
 
             if (Projectile.ai[1] == 0)
             {
@@ -236,8 +234,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             else
             {
                 Main.EntitySpriteDraw(
-                    texture2D, DrawUtils.WDEpos(Projectile.Center), null, lightColor,
-                    Projectile.rotation + MathHelper.PiOver2, DrawUtils.GetOrig(texture2D),
+                    texture2D, CWRUtils.WDEpos(Projectile.Center), null, lightColor,
+                    Projectile.rotation + MathHelper.PiOver2, CWRUtils.GetOrig(texture2D),
                     Projectile.scale, SpriteEffects.None);
                 return false;
             }
@@ -252,14 +250,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         public void DrawKevinChargeBar()
         {
             if (Owner == null || Projectile.ai[1] != 1) return;
-            Texture2D kevinChargeBack = DrawUtils.GetT2DValue(CWRConstant.UI + "KevinChargeBack");
-            Texture2D kevinChargeBars = DrawUtils.GetT2DValue(CWRConstant.UI + "KevinChargeBars");
-            Texture2D kevinChargeTop = DrawUtils.GetT2DValue(CWRConstant.UI + "KevinChargeTop");
+            Texture2D kevinChargeBack = CWRUtils.GetT2DValue(CWRConstant.UI + "KevinChargeBack");
+            Texture2D kevinChargeBars = CWRUtils.GetT2DValue(CWRConstant.UI + "KevinChargeBars");
+            Texture2D kevinChargeTop = CWRUtils.GetT2DValue(CWRConstant.UI + "KevinChargeTop");
             float slp = 3;
             int offsetwid = 4;
-            Vector2 drawPos = DrawUtils.WDEpos(Owner.Center + new Vector2(kevinChargeBack.Width / -2 * slp, 135));
+            Vector2 drawPos = CWRUtils.WDEpos(Owner.Center + new Vector2(kevinChargeBack.Width / -2 * slp, 135));
             float alp = (drawUIalp / 255f);
-            DrawUtils.ClockFrame(ref barsFrame, 5, 3);
+            CWRUtils.ClockFrame(ref barsFrame, 5, 3);
             Rectangle backRec = new Rectangle(offsetwid, barsFrame * kevinChargeBack.Height, (int)((kevinChargeBack.Width - offsetwid * 2) * (gildedProboscis.CWR().MeleeCharge / 500f)), kevinChargeBack.Height);           
 
             Main.EntitySpriteDraw(

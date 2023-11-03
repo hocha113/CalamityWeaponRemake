@@ -11,7 +11,7 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityWeaponRemake.Content.Items.Melee;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Common;
 using System.Security.Policy;
 using System.Runtime.InteropServices;
 

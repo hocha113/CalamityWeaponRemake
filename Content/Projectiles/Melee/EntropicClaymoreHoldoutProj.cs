@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
@@ -160,7 +159,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                     {
                         float rot = toMou.ToRotation() + MathHelper.ToRadians(-70 + 140 / 9f * i);
                         pos = Projectile.Center + rot.ToRotationVector2() * 130;
-                        Projectile.NewProjectile(AiBehavior.GetEntitySource_Parent(Projectile), pos, Projectile.velocity.UnitVector() * 13
+                        Projectile.NewProjectile(CWRUtils.parent(Projectile), pos, Projectile.velocity.UnitVector() * 13
                             , type0, (int)(Projectile.damage * damageOffset), Projectile.knockBack, Projectile.owner);
                     }               
                 }

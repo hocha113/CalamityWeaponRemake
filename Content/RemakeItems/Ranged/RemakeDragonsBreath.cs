@@ -3,14 +3,13 @@ using CalamityMod.Items;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static CalamityWeaponRemake.Common.AuxiliaryMeans.AiBehavior;
+using static CalamityWeaponRemake.Common.CWRUtils;
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
 {
@@ -45,11 +44,12 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
         static int heldProj = -1;
         public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
+            
             if (item.type == ModContent.ItemType<DragonsBreath>() && CWRConstant.ForceReplaceResetContent)
             {
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<DragonsBreathHeldProj>()] == 0)
                 {
-                    heldProj = Projectile.NewProjectile(GetEntitySource_Parent(player), position, velocity, ModContent.ProjectileType<DragonsBreathHeldProj>(), damage, knockback, player.whoAmI);
+                    heldProj = Projectile.NewProjectile(player.parent(), position, velocity, ModContent.ProjectileType<DragonsBreathHeldProj>(), damage, knockback, player.whoAmI);
                     if (player.altFunctionUse == 2)
                     {
                         Main.projectile[heldProj].ai[0] = 1;

@@ -1,7 +1,5 @@
 ﻿using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -136,16 +134,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
         int Rot = 0;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D mainValue = DrawUtils.GetT2DValue(CWRConstant.Masking + "Streak3");
-            Texture2D startValue = DrawUtils.GetT2DValue(CWRConstant.Projectile + "TornadoProj");
+            Texture2D mainValue = CWRUtils.GetT2DValue(CWRConstant.Masking + "Streak3");
+            Texture2D startValue = CWRUtils.GetT2DValue(CWRConstant.Projectile + "TornadoProj");
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.AnisotropicWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
             Main.EntitySpriteDraw(
                 mainValue,
-                DrawUtils.WDEpos(Projectile.Center),
-                DrawUtils.GetRec(mainValue, 0, 0, Leng, mainValue.Height),
+                CWRUtils.WDEpos(Projectile.Center),
+                CWRUtils.GetRec(mainValue, 0, 0, Leng, mainValue.Height),
                 new Color(92, 58, 156),
                 Projectile.rotation,
                 new Vector2(0, mainValue.Height * 0.5f),
@@ -164,11 +162,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             {
                 Main.EntitySpriteDraw(
                 startValue,
-                DrawUtils.WDEpos(Projectile.Center),
-                DrawUtils.GetRec(startValue),
+                CWRUtils.WDEpos(Projectile.Center),
+                CWRUtils.GetRec(startValue),
                 new Color(92, 58, 156),
                 Projectile.rotation + MathHelper.ToRadians(Rot * (i / 5f) + 30 * i),
-                DrawUtils.GetOrig(startValue),
+                CWRUtils.GetOrig(startValue),
                 (1 + i * 0.5f) * 0.5f,
                 SpriteEffects.None,
                 0
@@ -179,11 +177,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             {
                 Main.EntitySpriteDraw(
                 startValue,
-                DrawUtils.WDEpos(Projectile.Center),
-                DrawUtils.GetRec(startValue),
+                CWRUtils.WDEpos(Projectile.Center),
+                CWRUtils.GetRec(startValue),
                 new Color(92, 58, 156),
                 Projectile.rotation + MathHelper.ToRadians(Rot * (i / 5f) + 30 * i),
-                DrawUtils.GetOrig(startValue),
+                CWRUtils.GetOrig(startValue),
                 1,
                 SpriteEffects.None,
                 0

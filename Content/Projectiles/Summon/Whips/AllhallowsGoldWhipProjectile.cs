@@ -1,6 +1,4 @@
-﻿using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
-using CalamityWeaponRemake.Common;
+﻿using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Buffs;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
@@ -47,7 +45,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
         public override void OnSpawn(IEntitySource source)
         {
             Projectile.NewProjectile(
-                AiBehavior.GetEntitySource_Parent(Projectile),
+                CWRUtils.parent(Projectile),
                 Projectile.Center,
                 Vector2.Zero,
                 ModContent.ProjectileType<ATrail>(),
@@ -191,10 +189,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
 
             public override void AI()
             {
-                Projectile ownProj = AiBehavior.GetProjectileInstance(fowerIndex);
+                Projectile ownProj = CWRUtils.GetProjectileInstance(fowerIndex);
                 if (ownProj != null)
                 {
-                    List<Vector2> toPos = AiBehavior.GetWhipControlPoints(ownProj);
+                    List<Vector2> toPos = CWRUtils.GetWhipControlPoints(ownProj);
                     int index = toPos.Count - 2;
                     if (index < toPos.Count && index >= 0)
                     {

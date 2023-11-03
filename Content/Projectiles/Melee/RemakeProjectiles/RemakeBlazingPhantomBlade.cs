@@ -1,11 +1,7 @@
 ﻿using CalamityMod;
 using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
-using CalamityWeaponRemake.Content.Items.Melee;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -105,12 +101,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 int type = ModContent.ProjectileType<HyperBlade>();
                 for (int i = 0; i < 3; i++)
                 {
-                    Vector2 offsetvr = HcMath.GetRandomVevtor(-97.5f, -82.5f, 360);
+                    Vector2 offsetvr = CWRUtils.GetRandomVevtor(-97.5f, -82.5f, 360);
                     Vector2 spanPos = target.Center + offsetvr;
                     Projectile.NewProjectile(
-                        AiBehavior.GetEntitySource_Parent(Projectile),
+                        Common.CWRUtils.parent(Projectile),
                         spanPos,
-                        -offsetvr.UnitVector() * 12,
+                        (Vector2)(-CWRUtils.UnitVector(offsetvr) * 12),
                         type,
                         Projectile.damage / 2,
                         0,

@@ -1,6 +1,6 @@
 ﻿using CalamityMod;
 using CalamityMod.Projectiles.Melee;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Items.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

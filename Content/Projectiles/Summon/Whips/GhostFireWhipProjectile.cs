@@ -1,6 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using CalamityWeaponRemake.Content.Buffs;
 using CalamityWeaponRemake.Content.Dusts;
 using Microsoft.Xna.Framework;
@@ -37,7 +35,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
             if (whipPoints.Count - 2 >= 0 && whipPoints.Count - 2 < whipPoints.Count)
             {
                 Vector2 pos = whipPoints[whipPoints.Count - 2];
-                Player owners = AiBehavior.GetPlayerInstance(Projectile.owner);
+                Player owners = Common.CWRUtils.GetPlayerInstance(Projectile.owner);
                 if (owners != null)
                 {
                     float lengs = owners.Center.To(pos).Length();
@@ -86,8 +84,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
         {
             DrawLine(whipPoints);
             SpriteEffects flip = Projectile.spriteDirection < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            Texture2D texture = DrawUtils.GetT2DValue(Texture);
-            Texture2D _men = DrawUtils.GetT2DValue(Texture + "Glow");
+            Texture2D texture = CWRUtils.GetT2DValue(Texture);
+            Texture2D _men = CWRUtils.GetT2DValue(Texture + "Glow");
 
             Vector2 pos = whipPoints[0];
 

@@ -1,6 +1,4 @@
-﻿using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
-using CalamityWeaponRemake.Common;
+﻿using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
@@ -75,11 +73,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
 
                 for (int i = 0; i < 3; i++)
                 {
-                    Vector2 pos = target.Center + HcMath.GetRandomVevtor(-120, -60, Main.rand.Next(760, 820));
+                    Vector2 pos = target.Center + Common.CWRUtils.GetRandomVevtor(-120, -60, Main.rand.Next(760, 820));
                     Projectile.NewProjectile(
-                        AiBehavior.GetEntitySource_Parent(Projectile),
+                        Common.CWRUtils.parent(Projectile),
                         pos,
-                        pos.To(target.Center).UnitVector() * 13,
+                        (Vector2)(Common.CWRUtils.UnitVector(Common.CWRUtils.To(pos, target.Center)) * 13),
                         ModContent.ProjectileType<BloodBall>(),
                         Projectile.damage / 2,
                         0,
@@ -115,7 +113,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
         {
             DrawLine(whipPoints);
             SpriteEffects flip = Projectile.spriteDirection < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            Texture2D texture = DrawUtils.GetT2DValue(Texture);
+            Texture2D texture = CWRUtils.GetT2DValue(Texture);
 
             Vector2 pos = whipPoints[0];
 

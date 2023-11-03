@@ -7,10 +7,13 @@ namespace CalamityWeaponRemake
     {
         internal static CalamityWeaponRemake Instance;
 
+        internal Mod musicMod = null;
+
         public override void Load()
         {
             Instance = this;
 
+            FindMod();
             EffectsRegistry.LoadEffects();
 
             base.Load();
@@ -19,6 +22,12 @@ namespace CalamityWeaponRemake
         public override void Unload()
         {
             base.Unload();
+        }
+
+        public void FindMod()
+        {
+            musicMod = null;
+            ModLoader.TryGetMod("CalamityModMusic", out musicMod);
         }
     }
 }

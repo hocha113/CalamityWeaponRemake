@@ -1,6 +1,4 @@
-﻿using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
-using CalamityWeaponRemake.Common;
+﻿using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
@@ -59,8 +57,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
 
             if (Status == 0)
             {
-                Projectile heldBow = AiBehavior.GetProjectileInstance(HeldProj);
-                if (!AiBehavior.Alives(Owner) || !(heldBow != null && heldBow.type == ModContent.ProjectileType<DeathwindHeldProj>()))
+                Projectile heldBow = Common.CWRUtils.GetProjectileInstance(HeldProj);
+                if (!Common.CWRUtils.Alives(Owner) || !(heldBow != null && heldBow.type == ModContent.ProjectileType<DeathwindHeldProj>()))
                 {
                     Projectile.Kill();
                     return;
@@ -99,9 +97,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D body = DrawUtils.GetT2DValue(Texture + "Body");
-            Texture2D head = DrawUtils.GetT2DValue(Texture + "Head");
-            Texture2D dons = DrawUtils.GetT2DValue(Texture + "Don");
+            Texture2D body = CWRUtils.GetT2DValue(Texture + "Body");
+            Texture2D head = CWRUtils.GetT2DValue(Texture + "Head");
+            Texture2D dons = CWRUtils.GetT2DValue(Texture + "Don");
             Color color = CalamityUtils.ColorSwap(new Color(119, 210, 255), new Color(247, 119, 255), 0.9f); ;
 
             float rots = Projectile.rotation - MathHelper.PiOver2;

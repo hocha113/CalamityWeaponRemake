@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee
 {
@@ -40,7 +39,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            return AiBehavior.CircularHitboxCollision(Projectile.Center, 150, targetHitbox);
+            return CWRUtils.CircularHitboxCollision(Projectile.Center, 150, targetHitbox);
         }
 
         public override void OnKill(int timeLeft)

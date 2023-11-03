@@ -1,20 +1,30 @@
-﻿using CalamityMod;
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
+using CalamityMod;
 using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
-using Terraria;
+using System;
 using Terraria.Graphics.Shaders;
+using Terraria;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
+using System.Linq;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee
 {
-    internal class TerratomereBeams : ModProjectile
+    internal class DivineSourceBeam : ModProjectile
     {
         public Vector2[] ControlPoints;
 
         public PrimitiveTrail SlashDrawer;
+
+        Player owner => CWRUtils.GetPlayerInstance(Projectile.owner);
+
+        public const float EndRot = 60 * CWRUtils.atoR;
+        public const float StarRot = -170 * CWRUtils.atoR;
+
+        public const float LEndRot = -240 * CWRUtils.atoR;
+        public const float LStarRot = -10 * CWRUtils.atoR;
 
         public new string LocalizationCategory => "Projectiles.Melee";
 
@@ -37,13 +47,35 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             Projectile.localNPCHitCooldown = 10;
         }
 
+        public override void OnSpawn(IEntitySource source) 
+            => Projectile.rotation = Projectile.velocity.X > 0 ? -160 : 90;
+
+        public IEnumerable<Vector2> GenerateSlashPoints(bool dir)
+        {
+            float starRot = StarRot;
+            float endRot = EndRot;
+            if (dir)
+            {                
+                starRot = LStarRot;
+                endRot = LEndRot + 30 * CWRUtils.atoR;
+            }
+
+            for (int i = 0; i < 30; i++)
+            {
+                float completion = MathHelper.Lerp(endRot + Projectile.rotation.AtoR(), starRot + Projectile.rotation.AtoR(), i / 30f);
+                completion *= Math.Sign(Projectile.velocity.X) * -1;
+                yield return completion.ToRotationVector2() * 84f;
+            }
+        }
+
         public override void AI()
         {
-            Player owner = CWRUtils.GetPlayerInstance(Projectile.owner);
-            if (owner != null) Projectile.position += owner.velocity;
+            if (owner != null) 
+                Projectile.position += owner.velocity;
             Projectile.Opacity = Utils.GetLerpValue(Projectile.localAI[0], 26f, Projectile.timeLeft, clamped: true);
             Projectile.velocity *= 0.91f;
             Projectile.scale *= 1.03f;
+            Projectile.rotation -= 5f;
         }
 
         public float SlashWidthFunction(float completionRatio)
@@ -54,7 +86,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
         public Color SlashColorFunction(float completionRatio)
         {
             if (Projectile.ai[1] == 0)
-            return Color.Lime * Utils.GetLerpValue(0.07f, 0.57f, completionRatio, clamped: true) * Projectile.Opacity;
+                return Color.Lime * Utils.GetLerpValue(0.07f, 0.57f, completionRatio, clamped: true) * Projectile.Opacity;
 
             else
             {
@@ -78,8 +110,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             TerratomereHoldoutProj.PrepareSlashShader(Flipped);
             List<Vector2> list = new List<Vector2>();
 
-            if (ControlPoints == null) 
-                return false;
+            ControlPoints = GenerateSlashPoints(Projectile.velocity.X < 0).ToArray();
 
             for (int i = 0; i < ControlPoints.Length; i++)
             {

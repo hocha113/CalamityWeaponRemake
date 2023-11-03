@@ -2,8 +2,6 @@
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -59,7 +57,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             if (Projectile.numHits == 0)
             {
                 Projectile.NewProjectile(
-                AiBehavior.GetEntitySource_Parent(Projectile),
+                Common.CWRUtils.parent(Projectile),
                 Projectile.Center,
                 Vector2.Zero,
                 ModContent.ProjectileType<TerratomereSlashCreator>(),
@@ -106,14 +104,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak"));
             TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 30);
 
-            Texture2D mainValue = DrawUtils.GetT2DValue(Texture);
+            Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Main.EntitySpriteDraw(
                 mainValue,
                 Projectile.Center - Main.screenPosition,
                 null,
                 Color.White,
                 Projectile.rotation + MathHelper.PiOver2,
-                DrawUtils.GetOrig(mainValue),
+                CWRUtils.GetOrig(mainValue),
                 Projectile.scale,
                 Projectile.velocity.X > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                 0

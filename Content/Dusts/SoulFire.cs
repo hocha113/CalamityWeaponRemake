@@ -1,5 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -37,7 +36,7 @@ namespace CalamityWeaponRemake.Content.Dusts
         int dustFrameCount = 0;
         public override bool PreDraw(Dust dust)
         {
-            Texture2D texture = DrawUtils.GetT2DValue(Texture);
+            Texture2D texture = CWRUtils.GetT2DValue(Texture);
             if (time % 10 == 0)
             {
                 dustFrameCount++;
@@ -46,10 +45,10 @@ namespace CalamityWeaponRemake.Content.Dusts
             Main.EntitySpriteDraw(
                 texture,
                 dust.position - Main.screenPosition,
-                DrawUtils.GetRec(texture, dustFrameCount, 4),
+                CWRUtils.GetRec(texture, dustFrameCount, 4),
                 Color.White * (dust.alpha / 255f),
                 dust.rotation,
-                DrawUtils.GetOrig(texture, 4),
+                CWRUtils.GetOrig(texture, 4),
                 dust.scale,
                 SpriteEffects.None,
                 0

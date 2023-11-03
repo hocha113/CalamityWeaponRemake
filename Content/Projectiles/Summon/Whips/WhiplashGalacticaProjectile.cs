@@ -1,7 +1,5 @@
 ﻿using CalamityMod;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using CalamityWeaponRemake.Content.Buffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -43,14 +41,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
         public override void OnSpawn(IEntitySource source)
         {
             Projectile.NewProjectile(
-                AiBehavior.GetEntitySource_Parent(Projectile),
+                Common.CWRUtils.parent(Projectile),
                 Projectile.Center,
                 Vector2.Zero,
                 ModContent.ProjectileType<WTrail>(),
                 0,
                 0,
                 Projectile.owner,
-                ai0:Projectile.whoAmI
+                ai0: Projectile.whoAmI
                 );
         }
 
@@ -74,9 +72,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
                 for (int i = 0; i < 3; i++)
                 {
                     Projectile.NewProjectile(
-                        AiBehavior.GetEntitySource_Parent(Projectile),
+                        Common.CWRUtils.parent(Projectile),
 
-                        target.Center - 
+                        target.Center -
                         Main.player[Projectile.owner].Center.To(target.Center).UnitVector()
                         .RotatedBy(MathHelper.ToRadians(Main.rand.Next(-75, 75))) * 300,
 
@@ -121,7 +119,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
 
             Main.instance.LoadProjectile(Type);
             Texture2D texture = TextureAssets.Projectile[Type].Value;
-            Texture2D _men = DrawUtils.GetT2DValue(CWRConstant.Projectile_Summon + "WhiplashGalacticaProjectileGlows");
+            Texture2D _men = CWRUtils.GetT2DValue(CWRConstant.Projectile_Summon + "WhiplashGalacticaProjectileGlows");
 
             Vector2 pos = whipPoints[0];
 
@@ -192,10 +190,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
 
             public override void AI()
             {
-                Projectile ownProj = AiBehavior.GetProjectileInstance(fowerIndex);
+                Projectile ownProj = Common.CWRUtils.GetProjectileInstance(fowerIndex);
                 if (ownProj != null)
                 {
-                    List<Vector2> toPos = AiBehavior.GetWhipControlPoints(ownProj);
+                    List<Vector2> toPos = Common.CWRUtils.GetWhipControlPoints(ownProj);
                     int index = toPos.Count - 2;
                     if (index < toPos.Count && index >= 0)
                     {

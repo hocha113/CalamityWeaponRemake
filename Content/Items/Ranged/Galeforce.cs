@@ -8,7 +8,6 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 
 namespace CalamityWeaponRemake.Content.Items.Ranged
 {
@@ -51,7 +50,7 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
         public override void HoldItem(Player player)
         {
             Item.initialize();
-            Projectile heldProj = AiBehavior.GetProjectileInstance((int)Item.CWR().ai[0]);
+            Projectile heldProj = CWRUtils.GetProjectileInstance((int)Item.CWR().ai[0]);
             if (heldProj != null && heldProj.type == ModContent.ProjectileType<GaleforceHeldProj>())
             {
                 heldProj.localAI[1] = Item.CWR().ai[1];

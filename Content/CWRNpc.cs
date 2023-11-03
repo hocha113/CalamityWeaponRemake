@@ -1,6 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -16,6 +14,7 @@ namespace CalamityWeaponRemake.Content
         public ushort colldHitTime = 0;
         public byte WhipHitNum = 0;
         public byte WhipHitType = 0;
+        public bool SprBoss;
 
         public override bool CanBeHitByNPC(NPC npc, NPC attacker)
         {
@@ -24,7 +23,7 @@ namespace CalamityWeaponRemake.Content
 
         public override void PostAI(NPC npc)
         {
-            if (!GameUtils.isClient)
+            if (!CWRUtils.isClient)
             {
                 if (WhipHitNum > 10)
                 {
@@ -45,19 +44,22 @@ namespace CalamityWeaponRemake.Content
 
         public void DrawTameBar(SpriteBatch spriteBatch, NPC npc)
         {
-            Texture2D top = DrawUtils.GetT2DValue(CWRConstant.UI + "TameBarTop");
-            Texture2D bar = DrawUtils.GetT2DValue(CWRConstant.UI + "TameBar");
+            Texture2D top = CWRUtils.GetT2DValue(CWRConstant.UI + "TameBarTop");
+            Texture2D bar = CWRUtils.GetT2DValue(CWRConstant.UI + "TameBar");
             Texture2D whi = WhipHitDate.Tex((WhipHitTypeEnum)WhipHitType);
 
             float slp = 0.75f;
-            float alp = 1 - npc.velocity.Length() / 15f;
-            if (alp < 0.3f) 
+            float alp = 1 - (npc.velocity.Length() / 15f);
+            if (alp < 0.3f)
+            {
                 alp = 0.3f;
-            int sengs = (int)((1 - WhipHitNum / 10f) * bar.Height);
-            Rectangle barRec = new Rectangle(sengs, 0, bar.Width, bar.Height - sengs);
+            }
+
+            int sengs = (int)((1 - (WhipHitNum / 10f)) * bar.Height);
+            Rectangle barRec = new(sengs, 0, bar.Width, bar.Height - sengs);
             Color color = Color.White * alp;
 
-            Vector2 drawPos = new Vector2(npc.position.X + npc.width / 2, npc.Bottom.Y + top.Height) - Main.screenPosition;
+            Vector2 drawPos = new Vector2(npc.position.X + (npc.width / 2), npc.Bottom.Y + top.Height) - Main.screenPosition;
 
             spriteBatch.Draw(
                 top,
@@ -73,7 +75,7 @@ namespace CalamityWeaponRemake.Content
 
             spriteBatch.Draw(
                 bar,
-                drawPos + new Vector2(14, sengs + 18) * slp,
+                drawPos + (new Vector2(14, sengs + 18) * slp),
                 barRec,
                 color,
                 0,
@@ -85,7 +87,7 @@ namespace CalamityWeaponRemake.Content
 
             spriteBatch.Draw(
                 whi,
-                drawPos + new Vector2(0, whi.Height) * slp,
+                drawPos + (new Vector2(0, whi.Height) * slp),
                 null,
                 color,
                 0,

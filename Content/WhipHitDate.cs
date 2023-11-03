@@ -1,5 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.DrawTools;
 using CalamityWeaponRemake.Content.Items.Summon;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -24,19 +23,19 @@ namespace CalamityWeaponRemake.Content
             switch (hitType)
             {
                 case WhipHitTypeEnum.ElementWhip:
-                    return DrawUtils.GetT2DValue(ModContent.GetInstance<ElementWhip>().Texture);
+                    return CWRUtils.GetT2DValue(ModContent.GetInstance<ElementWhip>().Texture);
                 case WhipHitTypeEnum.BleedingScourge:
-                    return DrawUtils.GetT2DValue(ModContent.GetInstance<BleedingScourge>().Texture);
+                    return CWRUtils.GetT2DValue(ModContent.GetInstance<BleedingScourge>().Texture);
                 case WhipHitTypeEnum.AzureDragonRage:
-                    return DrawUtils.GetT2DValue(ModContent.GetInstance<AzureDragonRage>().Texture);
+                    return CWRUtils.GetT2DValue(ModContent.GetInstance<AzureDragonRage>().Texture);
                 case WhipHitTypeEnum.GhostFireWhip:
-                    return DrawUtils.GetT2DValue(ModContent.GetInstance<GhostFireWhip>().Texture);
+                    return CWRUtils.GetT2DValue(ModContent.GetInstance<GhostFireWhip>().Texture);
                 case WhipHitTypeEnum.WhiplashGalactica:
-                    return DrawUtils.GetT2DValue(ModContent.GetInstance<WhiplashGalactica>().Texture);
+                    return CWRUtils.GetT2DValue(ModContent.GetInstance<WhiplashGalactica>().Texture);
                 case WhipHitTypeEnum.AllhallowsGoldWhip:
-                    return DrawUtils.GetT2DValue(ModContent.GetInstance<AllhallowsGoldWhip>().Texture);
+                    return CWRUtils.GetT2DValue(ModContent.GetInstance<AllhallowsGoldWhip>().Texture);
                 default:
-                    return DrawUtils.GetT2DValue(CWRConstant.placeholder);
+                    return CWRUtils.GetT2DValue(CWRConstant.placeholder);
             }
         }
     }

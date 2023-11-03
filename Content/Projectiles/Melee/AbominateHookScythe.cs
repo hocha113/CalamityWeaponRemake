@@ -1,6 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -48,7 +46,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             }
             if (Projectile.ai[0] == 1)
             {
-                NPC target = AiBehavior.GetNPCInstance((int)Projectile.ai[2]);
+                NPC target = Common.CWRUtils.GetNPCInstance((int)Projectile.ai[2]);
                 if (target != null)
                 {
                     if (Projectile.ai[1] == 0)
@@ -74,9 +72,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                     {
                         Vector2 spanPos = Projectile.Center;
                         Projectile.NewProjectile(
-                            AiBehavior.GetEntitySource_Parent(Projectile),
+                            Common.CWRUtils.parent(Projectile),
                             spanPos,
-                            HcMath.GetRandomVevtor(0, 360, 3),
+                            Common.CWRUtils.GetRandomVevtor(0, 360, 3),
                             ModContent.ProjectileType<AbominateSpirit>(),
                             Projectile.damage,
                             Projectile.knockBack,
@@ -95,13 +93,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
         {
             if (Main.rand.NextBool(5) && Projectile.numHits < 5)
             {
-                Vector2 offset = HcMath.GetRandomVevtor(70, 110, Main.rand.Next(500, 600));
+                Vector2 offset = Common.CWRUtils.GetRandomVevtor(70, 110, Main.rand.Next(500, 600));
                 Vector2 spanPos = target.Center + offset;
                 int status = Main.rand.Next(3);
                 Projectile.NewProjectile(
-                    AiBehavior.GetEntitySource_Parent(Projectile),
+                    Common.CWRUtils.parent(Projectile),
                     spanPos,
-                    offset.UnitVector() * -13,
+                    (Vector2)(Common.CWRUtils.UnitVector(offset) * -13),
                     ModContent.ProjectileType<AbominateSpirit>(),
                     Projectile.damage / 2,
                     0,
@@ -129,14 +127,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D mainValue = DrawUtils.GetT2DValue(Texture);
+            Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Main.EntitySpriteDraw(
                 mainValue,
-                DrawUtils.WDEpos(Projectile.Center),
+                CWRUtils.WDEpos(Projectile.Center),
                 null,
-                HcMath.RecombinationColor((Color.Red, 0.3f), (Projectile.GetAlpha(Color.Gold), 0.7f)),
+                Common.CWRUtils.RecombinationColor((Color.Red, 0.3f), (Projectile.GetAlpha(Color.Gold), 0.7f)),
                 Projectile.localAI[0],
-                DrawUtils.GetOrig(mainValue),
+                CWRUtils.GetOrig(mainValue),
                 Projectile.scale,
                 SpriteEffects.None,
                 0

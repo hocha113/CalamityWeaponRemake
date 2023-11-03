@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Items;
 using CalamityMod;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
 using Terraria;
 using Terraria.ID;
@@ -9,6 +8,7 @@ using Terraria.DataStructures;
 using CalamityMod.Sounds;
 using Terraria.Audio;
 using Microsoft.Xna.Framework;
+using CalamityWeaponRemake.Common;
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
@@ -23,7 +23,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 
         public override void SetDefaults(Item item)
         {
-            if (GameUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.GildedProboscis>(item))
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.GildedProboscis>(item))
             {
                 item.width = 66;
                 item.damage = 315;
@@ -47,14 +47,14 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 
         public override bool AltFunctionUse(Item item, Player player)
         {
-            if (GameUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.GildedProboscis>(item))
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.GildedProboscis>(item))
                 return true;
             return base.AltFunctionUse(item, player);
         }
 
         public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (GameUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.GildedProboscis>(item))
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.GildedProboscis>(item))
             {
                 int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
                 if (player.altFunctionUse == 2)

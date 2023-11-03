@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Items;
 using CalamityMod.Projectiles.Magic;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Content.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;

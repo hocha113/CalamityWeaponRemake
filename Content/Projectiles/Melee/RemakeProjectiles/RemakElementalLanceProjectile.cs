@@ -3,8 +3,6 @@ using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Sounds;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -110,7 +108,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                                 targetWhoAmI = targets[i].whoAmI;
                             }
                             Projectile.NewProjectile(
-                                AiBehavior.GetEntitySource_Parent(Projectile),
+                                Common.CWRUtils.parent(Projectile),
                                 Projectile.Center,
                                 Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * 5,
                                 ModContent.ProjectileType<ElementalSpike>(),
@@ -148,7 +146,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                         if (Owner.ownedProjectileCounts[ModContent.ProjectileType<ElementalRay>()] < 5)
                         {
                             int proj = Projectile.NewProjectile(
-                                AiBehavior.GetEntitySource_Parent(Projectile),
+                                Common.CWRUtils.parent(Projectile),
                                 Projectile.Center,
                                 Vector2.Zero,
                                 ModContent.ProjectileType<ElementalRay>(),
@@ -160,7 +158,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
                             for (int i = 0; i < ElementalRayList.Count; i++)
                             {
-                                Projectile projectile = AiBehavior.GetProjectileInstance(ElementalRayList[i]);
+                                Projectile projectile = Common.CWRUtils.GetProjectileInstance(ElementalRayList[i]);
                                 if (projectile == null)
                                 {
                                     ElementalRayList[i] = -1;
@@ -172,12 +170,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                                 }
                             }
 
-                            HcMath.SweepLoadLists(ref ElementalRayList);
+                            Common.CWRUtils.SweepLoadLists(ref ElementalRayList);
                         }
 
                         for (int i = 0; i < ElementalRayList.Count; i++)
                         {
-                            Projectile ray = AiBehavior.GetProjectileInstance(ElementalRayList[i]);
+                            Projectile ray = Common.CWRUtils.GetProjectileInstance(ElementalRayList[i]);
                             if (ray != null)
                             {
                                 ray.Center = Owner.Center + Projectile.rotation.ToRotationVector2() * 132;
@@ -249,8 +247,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
             if (Projectile.ai[1] == 1)
             {
                 Main.EntitySpriteDraw(
-                    texture2D, DrawUtils.WDEpos(Projectile.Center), null, lightColor,
-                    Projectile.rotation + MathHelper.PiOver2 + MathHelper.PiOver4, DrawUtils.GetOrig(texture2D),
+                    texture2D, CWRUtils.WDEpos(Projectile.Center), null, lightColor,
+                    Projectile.rotation + MathHelper.PiOver2 + MathHelper.PiOver4, CWRUtils.GetOrig(texture2D),
                     Projectile.scale, SpriteEffects.None);
             }
             return false;
@@ -264,11 +262,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
         public void DrawElementalChargeBar()
         {
             if (Owner == null || Projectile.ai[1] != 1) return;
-            Texture2D elementBar = DrawUtils.GetT2DValue(CWRConstant.UI + "ElementBar");
-            Texture2D elementTop = DrawUtils.GetT2DValue(CWRConstant.UI + "ElementTop");
+            Texture2D elementBar = CWRUtils.GetT2DValue(CWRConstant.UI + "ElementBar");
+            Texture2D elementTop = CWRUtils.GetT2DValue(CWRConstant.UI + "ElementTop");
             float slp = 3;
             int offsetwid = 4;
-            Vector2 drawPos = DrawUtils.WDEpos(Owner.Center + new Vector2(elementBar.Width / -2 * slp, 135));
+            Vector2 drawPos = CWRUtils.WDEpos(Owner.Center + new Vector2(elementBar.Width / -2 * slp, 135));
             float alp = (drawUIalp / 255f);
             Rectangle backRec = new Rectangle(offsetwid, 0, (int)((elementBar.Width - offsetwid * 2) * (elementalLance.CWR().MeleeCharge / 500f)), elementBar.Height);
 

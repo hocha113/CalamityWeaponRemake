@@ -1,5 +1,7 @@
 ﻿using CalamityMod;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityMod.Items.TreasureBags.MiscGrabBags;
+using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles;
 using Microsoft.Xna.Framework;
 using System;
@@ -8,7 +10,6 @@ using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -95,7 +96,7 @@ namespace CalamityWeaponRemake.Content
         {
             TooltipLine line = new TooltipLine(CalamityWeaponRemake.Instance, "CalamityWeaponRemake",
                     CalamityUtils.ColorMessage(
-                        GameUtils.Translation("- 觉醒 -", "- Awakening -")
+                        CWRUtils.Translation("- 觉醒 -", "- Awakening -")
                         , new Color(196, 35, 44))
                     );
             tooltips.Add(line);
@@ -162,6 +163,12 @@ namespace CalamityWeaponRemake.Content
                 }
             }
             return base.Shoot(item, player, source, position, velocity, type, damage, knockback);
+        }
+
+        public override void OnConsumeItem(Item item, Player player)
+        {
+            base.OnConsumeItem(item, player);
+
         }
     }
 }

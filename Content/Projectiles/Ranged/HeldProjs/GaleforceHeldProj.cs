@@ -1,6 +1,5 @@
 ﻿using CalamityMod;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Terraria.Audio;
@@ -8,8 +7,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
-using static CalamityWeaponRemake.Common.AuxiliaryMeans.AiBehavior;
-using static CalamityWeaponRemake.Common.DrawTools.DrawUtils;
+using static CalamityWeaponRemake.Common.CWRUtils;
 using CalamityMod.Projectiles.Ranged;
 using Mono.Cecil;
 using System;
@@ -94,7 +92,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
                     SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);
                     vr *= 0.5f;
                     int ammo = Projectile.NewProjectile(
-                                GetEntitySource_Parent(Owner),
+                                CWRUtils.parent(Owner),
                                 Projectile.Center,
                                 vr,
                                 ModContent.ProjectileType<FeatherLarge>(),
@@ -110,7 +108,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
                 {
                     SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);
                     int ammo = Projectile.NewProjectile(
-                                GetEntitySource_Parent(Owner),
+                                CWRUtils.parent(Owner),
                                 Projectile.Center,
                                 vr,
                                 useArrow,
@@ -122,7 +120,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
                     for (int i = -8; i <= 8; i += 8)
                     {
                         Vector2 velocity2 = vr.RotatedBy(MathHelper.ToRadians(i));
-                        Projectile.NewProjectile(GetEntitySource_Parent(Owner)
+                        Projectile.NewProjectile(CWRUtils.parent(Owner)
                             , Projectile.Center, velocity2, ModContent.ProjectileType<FeatherLarge>()
                             , (galeforce.damage + offsetDamages) / 4, 0f, Owner.whoAmI);
                     }                   

@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Particles;
 using CalamityMod;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
@@ -11,7 +10,6 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityWeaponRemake.Common.DrawTools;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 {
@@ -130,7 +128,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             Main.EntitySpriteDraw(value3, position, null, color * 0.5f, 0f, value3.Size() / 2f, 4f * num, SpriteEffects.None);
             Main.EntitySpriteDraw(value2, position, null, color * 0.5f, num2 + MathF.PI / 4f, value2.Size() / 2f, 1.5f, SpriteEffects.None);
 
-            Texture2D texture = DrawUtils.GetT2DValue(CWRConstant.Masking + "StarTexture_White");
+            Texture2D texture = CWRUtils.GetT2DValue(CWRConstant.Masking + "StarTexture_White");
 
             for (int i = 0; i < 6; i++)
             {
@@ -140,7 +138,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
                     null,
                     Color.Red,
                     Projectile.rotation + MathHelper.ToRadians(Projectile.timeLeft * 5),
-                    DrawUtils.GetOrig(texture),
+                    CWRUtils.GetOrig(texture),
                     Projectile.scale * 0.2f,
                     SpriteEffects.None,
                     0

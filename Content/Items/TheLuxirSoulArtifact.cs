@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Common;
 using CalamityMod.Rarities;
 using System.Linq;
 using System;
@@ -62,7 +62,7 @@ namespace CalamityWeaponRemake.Content.Items
 
             if (item.CountsAsClass<MeleeDamageClass>() || item.CountsAsClass<TrueMeleeNoSpeedDamageClass>())
             {
-                cumstops.Text = GameUtils.Translation(
+                cumstops.Text = CWRUtils.Translation(
                     "刀刃的挥舞将发射出炽热的灵魂\n"
                     + "\"忠！诚！\"",
                     "The wave of the blade will emit a fiery soul\n"
@@ -72,7 +72,7 @@ namespace CalamityWeaponRemake.Content.Items
             }
             else if (item.CountsAsClass<ThrowingDamageClass>())
             {
-                cumstops.Text = GameUtils.Translation(
+                cumstops.Text = CWRUtils.Translation(
                     "投掷出高速弹跳的耀界之灵",
                     "Hurl the Spirit of Glory with a high speed bounce"
                     );
@@ -80,7 +80,7 @@ namespace CalamityWeaponRemake.Content.Items
             }
             else if (item.CountsAsClass<RangedDamageClass>())
             {
-                cumstops.Text = GameUtils.Translation(
+                cumstops.Text = CWRUtils.Translation(
                     "枪口将迸发出耀界闪电",
                     "The muzzle of the gun will burst forth lightning"
                     );
@@ -88,7 +88,7 @@ namespace CalamityWeaponRemake.Content.Items
             }
             else if (item.CountsAsClass<MagicDamageClass>())
             {
-                cumstops.Text = GameUtils.Translation(
+                cumstops.Text = CWRUtils.Translation(
                     "散落的魔力将凝聚为金源炸弹",
                     "The scattered magic will condense into the gold source bomb"
                     );
@@ -96,7 +96,7 @@ namespace CalamityWeaponRemake.Content.Items
             }
             else if (item.CountsAsClass<SummonDamageClass>())
             {
-                cumstops.Text = GameUtils.Translation(
+                cumstops.Text = CWRUtils.Translation(
                     "召唤泛金能量体为你而战",
                     "Summon Pangold Energies to fight for you"
                     );
@@ -104,7 +104,7 @@ namespace CalamityWeaponRemake.Content.Items
             }
             else
             {
-                cumstops.Text = GameUtils.Translation(
+                cumstops.Text = CWRUtils.Translation(
                     "耀界之神将对你提供多种援助",
                     "The Gods of Glory will offer you many kinds of assistance"
                     );
@@ -116,43 +116,43 @@ namespace CalamityWeaponRemake.Content.Items
             KeyboardState state = Keyboard.GetState();
             if (state.IsKeyDown(Keys.LeftShift) || state.IsKeyDown(Keys.RightShift))
             {
-                cumstops.Text = GameUtils.Translation(
-                    GameUtils.Translation(
+                cumstops.Text = CWRUtils.Translation(
+                    CWRUtils.Translation(
                     "耀界之神将对你提供多种援助：",
                     "The Gods of Glory will offer you many kinds of assistance:"
                     ));
                 cumstops.OverrideColor = Color.Lerp(Color.LavenderBlush, Color.Goldenrod, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f);
 
 
-                TooltipLine newLine1 = new TooltipLine(Mod, "Assmt", GameUtils.Translation(
+                TooltipLine newLine1 = new TooltipLine(Mod, "Assmt", CWRUtils.Translation(
                     "投掷出高速弹跳的耀界之灵",
                     "Hurl the Spirit of Glory with a high speed bounce"
                     )
                     );
                 newLine1.OverrideColor = Color.Lerp(Color.BlueViolet, Color.Goldenrod, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f);
 
-                TooltipLine newLine2 = new TooltipLine(Mod, "Assmt", GameUtils.Translation(
+                TooltipLine newLine2 = new TooltipLine(Mod, "Assmt", CWRUtils.Translation(
                     "枪口将迸发出耀界闪电",
                     "The muzzle of the gun will burst forth lightning"
                     )
                     );
                 newLine2.OverrideColor = Color.Lerp(Color.AliceBlue, Color.Goldenrod, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f);
 
-                TooltipLine newLine3 = new TooltipLine(Mod, "Assmt", GameUtils.Translation(
+                TooltipLine newLine3 = new TooltipLine(Mod, "Assmt", CWRUtils.Translation(
                     "散落的魔力将凝聚为金源炸弹",
                     "The scattered magic will condense into the gold source bomb"
                     )
                     );
                 newLine3.OverrideColor = Color.Lerp(Color.Gold, Color.Goldenrod, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f);
 
-                TooltipLine newLine4 = new TooltipLine(Mod, "Assmt", GameUtils.Translation(
+                TooltipLine newLine4 = new TooltipLine(Mod, "Assmt", CWRUtils.Translation(
                     "召唤泛金能量体为你而战",
                     "Summon Pangold Energies to fight for you"
                     )
                     );
                 newLine4.OverrideColor = Color.Lerp(Color.LightGoldenrodYellow, Color.Goldenrod, 0.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f);
 
-                TooltipLine newLine5 = new TooltipLine(Mod, "Assmt", GameUtils.Translation(
+                TooltipLine newLine5 = new TooltipLine(Mod, "Assmt", CWRUtils.Translation(
                     "刀刃的挥舞将发射出炽热的灵魂\n"
                     + "\"忠！诚！\"",
                     "The wave of the blade will emit a fiery soul\n"

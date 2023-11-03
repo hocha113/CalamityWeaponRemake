@@ -1,6 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -56,7 +54,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public override void AI()
         {
-            NPC target = AiBehavior.GetNPCInstance((int)Projectile.ai[1]);
+            NPC target = Common.CWRUtils.GetNPCInstance((int)Projectile.ai[1]);
             Projectile.rotation = Projectile.velocity.ToRotation();
 
             if (target != null && Projectile.timeLeft < 220)
@@ -87,14 +85,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D mainValue = DrawUtils.GetT2DValue(Texture);
+            Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Main.EntitySpriteDraw(
                 mainValue,
-                DrawUtils.WDEpos(Projectile.Center),
+                CWRUtils.WDEpos(Projectile.Center),
                 null,
                 Projectile.GetAlpha(lightColor),
                 Projectile.rotation + MathHelper.PiOver4,
-                DrawUtils.GetOrig(mainValue),
+                CWRUtils.GetOrig(mainValue),
                 Projectile.scale,
                 SpriteEffects.None,
                 0
@@ -107,11 +105,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             {
                 Main.EntitySpriteDraw(
                 mainValue,
-                DrawUtils.WDEpos(Projectile.oldPos[i] + Projectile.Center - Projectile.position),
+                CWRUtils.WDEpos(Projectile.oldPos[i] + Projectile.Center - Projectile.position),
                 null,
                 Projectile.GetAlpha(lightColor),
                 Projectile.rotation + MathHelper.PiOver4,
-                DrawUtils.GetOrig(mainValue),
+                CWRUtils.GetOrig(mainValue),
                 Projectile.scale - i * 0.1f,
                 SpriteEffects.None,
                 0

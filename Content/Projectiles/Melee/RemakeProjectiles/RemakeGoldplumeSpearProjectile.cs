@@ -8,9 +8,7 @@ using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Common;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using Microsoft.Xna.Framework.Graphics;
-using CalamityWeaponRemake.Common.DrawTools;
 using static Humanizer.In;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
@@ -49,7 +47,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
 
         private ref float Time => ref Projectile.localAI[2];
 
-        Player owners => AiBehavior.GetPlayerInstance(Projectile.owner);
+        Player owners => Common.CWRUtils.GetPlayerInstance(Projectile.owner);
 
         public override void AI()
         {
@@ -85,7 +83,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                     Vector2 spanPos = Main.MouseWorld
                         + MathHelper.ToRadians(Main.rand.NextFloat(-110, -70)).ToRotationVector2() * Main.rand.Next(670, 780);
                     Projectile proj = Projectile.NewProjectileDirect(
-                        AiBehavior.GetEntitySource_Parent(owners),
+                        Common.CWRUtils.parent(owners),
                         spanPos,
                         spanPos.To(Main.MouseWorld).UnitVector() * 15,
                         ModContent.ProjectileType<Feathers>(),
@@ -120,7 +118,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 Vector2 spanPos = target.Center
                     + MathHelper.ToRadians(Main.rand.NextFloat(-110, -70)).ToRotationVector2() * Main.rand.Next(300, 320);
                 Projectile proj = Projectile.NewProjectileDirect(
-                    AiBehavior.GetEntitySource_Parent(owners),
+                    Common.CWRUtils.parent(owners),
                     spanPos,
                     spanPos.To(target.Center).UnitVector() * 25,
                     ModContent.ProjectileType<Feathers>(),
@@ -161,14 +159,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                 base.PreDraw(ref lightColor);
             if (Status == 1)
             {
-                Texture2D value = DrawUtils.GetT2DValue(Texture);
+                Texture2D value = CWRUtils.GetT2DValue(Texture);
                 Main.EntitySpriteDraw(
                     value,
                     Projectile.Center - Main.screenPosition,
                     null,
                     Color.White,
                     Projectile.rotation + MathHelper.PiOver2 + MathHelper.PiOver4,
-                    DrawUtils.GetOrig(value),
+                    CWRUtils.GetOrig(value),
                     Projectile.scale,
                     SpriteEffects.None,
                     0

@@ -2,7 +2,6 @@
 using CalamityMod.Items;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Common.Interfaces;
 using CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs;
 using Microsoft.Xna.Framework;
@@ -10,7 +9,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static CalamityWeaponRemake.Common.AuxiliaryMeans.AiBehavior;
+using static CalamityWeaponRemake.Common.CWRUtils;
 
 namespace CalamityWeaponRemake.Content.Items.Ranged
 {
@@ -57,7 +56,7 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
         {
             if (player.ownedProjectileCounts[dbpType] == 0)
             {
-                heldProj = Projectile.NewProjectile(GetEntitySource_Parent(player), position, velocity, dbpType, damage, knockback, player.whoAmI);
+                heldProj = Projectile.NewProjectile(CWRUtils.parent(player), position, velocity, dbpType, damage, knockback, player.whoAmI);
                 if (player.altFunctionUse == 2)
                 {
                     Main.projectile[heldProj].ai[0] = 1;

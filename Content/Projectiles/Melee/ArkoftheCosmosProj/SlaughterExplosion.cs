@@ -1,5 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -29,21 +28,21 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 
         public override void AI()
         {
-            DrawUtils.ClockFrame(ref Projectile.frameCounter, 10, 5);
+            CWRUtils.ClockFrame(ref Projectile.frameCounter, 10, 5);
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D mainValue = DrawUtils.GetT2DValue(Texture);
+            Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Color color = Color.White;
             if (Projectile.ai[0] == 1) color = Color.Red;
             Main.EntitySpriteDraw(
                 mainValue,
-                DrawUtils.WDEpos(Projectile.Center),
-                DrawUtils.GetRec(mainValue, Projectile.frameCounter, 6),
+                CWRUtils.WDEpos(Projectile.Center),
+                CWRUtils.GetRec(mainValue, Projectile.frameCounter, 6),
                 color,
                 Projectile.rotation,
-                DrawUtils.GetOrig(mainValue, 6),
+                CWRUtils.GetOrig(mainValue, 6),
                 Projectile.scale,
                 SpriteEffects.None,
                 0

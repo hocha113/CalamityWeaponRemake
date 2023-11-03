@@ -7,7 +7,6 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityWeaponRemake.Common.WorldGeneration;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee
@@ -117,7 +116,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 {
                     Projectile.ChasingBehavior2(target.Center, 1, 0.1f);
                 }
-                if (TileHelper.GetTile(AiBehavior.WEPosToTilePos(Projectile.position)).HasSolidTile())
+                if (TileHelper.GetTile(CWRUtils.WEPosToTilePos(Projectile.position)).HasSolidTile())
                 {
                     Projectile.velocity *= 0.99f;
                     if (Projectile.velocity.LengthSquared() < 2)

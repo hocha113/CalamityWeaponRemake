@@ -10,9 +10,7 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityWeaponRemake.Content.Items.Melee;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 using CalamityMod.Projectiles.Boss;
-using CalamityWeaponRemake.Common.DrawTools;
 using CalamityWeaponRemake.Common;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
@@ -89,7 +87,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             SoundStyle style = CommonCalamitySounds.ScissorGuillotineSnapSound;
             style.Volume = CommonCalamitySounds.ScissorGuillotineSnapSound.Volume * 1.3f;
             SoundEngine.PlaySound(in style, Projectile.Center);
-            CombatText.NewText(Projectile.Hitbox, new Color(111, 247, 200), GameUtils.Translation("PARRY!", "PARRY!"), dramatic: true);//CalamityUtils.GetTextValue("Misc.ArkParry")
+            CombatText.NewText(Projectile.Hitbox, new Color(111, 247, 200), Common.CWRUtils.Translation("PARRY!", "PARRY!"), dramatic: true);//CalamityUtils.GetTextValue("Misc.ArkParry")
             for (int i = 0; i < 5; i++)
             {
                 Vector2 vector = Main.rand.NextVector2Circular(Owner.Hitbox.Width * 2f, Owner.Hitbox.Height * 1.2f);
@@ -256,8 +254,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 
         public void DrawChain()
         {
-            Texture2D mainValue = DrawUtils.GetT2DValue(CWRConstant.Masking + "Streak3");
-            Texture2D startValue = DrawUtils.GetT2DValue(CWRConstant.Cay_Proj + "TornadoProj");
+            Texture2D mainValue = CWRUtils.GetT2DValue(CWRConstant.Masking + "Streak3");
+            Texture2D startValue = CWRUtils.GetT2DValue(CWRConstant.Cay_Proj + "TornadoProj");
 
             Vector2 toOwner = Owner.Center.To(Projectile.Center);
             float lengs = toOwner.Length();
@@ -267,8 +265,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
 
             Main.EntitySpriteDraw(
                 mainValue,
-                DrawUtils.WDEpos(Owner.Center),
-                DrawUtils.GetRec(mainValue, 0, 0, (int)lengs, mainValue.Height),
+                CWRUtils.WDEpos(Owner.Center),
+                CWRUtils.GetRec(mainValue, 0, 0, (int)lengs, mainValue.Height),
                 new Color(92, 58, 156),
                 Projectile.rotation,
                 new Vector2(0, mainValue.Height * 0.5f),
@@ -287,11 +285,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             {
                 Main.EntitySpriteDraw(
                 startValue,
-                DrawUtils.WDEpos(Owner.Center),
-                DrawUtils.GetRec(startValue),
+                CWRUtils.WDEpos(Owner.Center),
+                CWRUtils.GetRec(startValue),
                 new Color(92, 58, 156),
                 Projectile.rotation + MathHelper.ToRadians(Projectile.localAI[0] * (i / 5f) + 30 * i),
-                DrawUtils.GetOrig(startValue),
+                CWRUtils.GetOrig(startValue),
                 (1 + i * 0.5f) * 0.5f,
                 SpriteEffects.None,
                 0
@@ -302,11 +300,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj
             {
                 Main.EntitySpriteDraw(
                 startValue,
-                DrawUtils.WDEpos(Projectile.Center),
-                DrawUtils.GetRec(startValue),
+                CWRUtils.WDEpos(Projectile.Center),
+                CWRUtils.GetRec(startValue),
                 new Color(92, 58, 156),
                 Projectile.rotation + MathHelper.ToRadians(Projectile.localAI[0] * (i / 5f) + 30 * i),
-                DrawUtils.GetOrig(startValue),
+                CWRUtils.GetOrig(startValue),
                 1,
                 SpriteEffects.None,
                 0

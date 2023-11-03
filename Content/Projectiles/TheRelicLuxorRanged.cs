@@ -6,7 +6,6 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
 
 namespace CalamityWeaponRemake.Content.Projectiles
 {
@@ -80,7 +79,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
             for (int i = 0; i < 12; i++)
             {
                 Vector2 offset = Vector2.UnitX * (0f - Projectile.width) / 2f;
-                offset += -Vector2.UnitY.RotatedBy(i * HcMath.PiOver6) * new Vector2(8f, 16f);
+                offset += -Vector2.UnitY.RotatedBy(i * CWRUtils.PiOver6) * new Vector2(8f, 16f);
                 offset = offset.RotatedBy(Projectile.rotation - MathHelper.PiOver2);
                 int electric = Dust.NewDust(Projectile.Center, 0, 0, DustID.IceTorch, 0f, 0f, 160);
                 Main.dust[electric].scale = 1.1f;

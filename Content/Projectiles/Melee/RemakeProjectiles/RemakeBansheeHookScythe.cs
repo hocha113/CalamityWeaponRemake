@@ -1,6 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -68,17 +66,17 @@ public class RemakeBansheeHookScythe : ModProjectile
 
     public override bool PreDraw(ref Color lightColor)
     {
-        Texture2D mainValue = DrawUtils.GetT2DValue(Texture);
+        Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
         float alp = Projectile.timeLeft / 30f;
         if (alp > 1) alp = 1;
-        Color color = HcMath.RecombinationColor((Color.Red, 0.3f), (Projectile.GetAlpha(Color.Gold), 0.7f));
+        Color color = Common.CWRUtils.RecombinationColor((Color.Red, 0.3f), (Projectile.GetAlpha(Color.Gold), 0.7f));
         Main.EntitySpriteDraw(
             mainValue,
-            DrawUtils.WDEpos(Projectile.Center),
+            CWRUtils.WDEpos(Projectile.Center),
             null,
             color * alp,
             Projectile.ai[0],
-            DrawUtils.GetOrig(mainValue),
+            CWRUtils.GetOrig(mainValue),
             Projectile.scale,
             SpriteEffects.None,
             0
@@ -90,11 +88,11 @@ public class RemakeBansheeHookScythe : ModProjectile
             float slp = 1 - (i / (float)Projectile.oldPos.Length) * 0.5f;
             Main.EntitySpriteDraw(
                 mainValue,
-                DrawUtils.WDEpos(Projectile.oldPos[i] + Projectile.Center - Projectile.position),
+                CWRUtils.WDEpos(Projectile.oldPos[i] + Projectile.Center - Projectile.position),
                 null,
                 color * alp * alp2 * 0.5f,
                 Projectile.ai[0],
-                DrawUtils.GetOrig(mainValue),
+                CWRUtils.GetOrig(mainValue),
                 Projectile.scale * slp,
                 SpriteEffects.None,
                 0

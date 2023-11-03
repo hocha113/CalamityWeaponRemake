@@ -1,8 +1,6 @@
 ﻿using CalamityMod;
 using CalamityMod.Projectiles.Magic;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using CalamityWeaponRemake.Content.Items.Magic;
 using CalamityWeaponRemake.Content.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -18,7 +16,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Magic.HeldProjs
 {
     internal class RemakeGhastlyVisageProj : ModProjectile
     {
-        private Player Owner => AiBehavior.GetPlayerInstance(Projectile.owner);
+        private Player Owner => Common.CWRUtils.GetPlayerInstance(Projectile.owner);
 
         private Vector2 toMou => Owner.Center.To(Main.MouseWorld);
 
@@ -48,7 +46,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Magic.HeldProjs
         public override void AI()
         {
             Lighting.AddLight(Projectile.Center, 0.65f, 0f, 0.1f);
-            DrawUtils.ClockFrame(ref Projectile.frameCounter, 6, 3);
+            CWRUtils.ClockFrame(ref Projectile.frameCounter, 6, 3);
 
             if (!Owner.Alives())
             {
@@ -95,9 +93,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Magic.HeldProjs
                 for (int i = 0; i < Main.rand.Next(2, 4); i++)
                 {
                     Projectile.NewProjectile(
-                    AiBehavior.GetEntitySource_Parent(Owner),
+                    Common.CWRUtils.parent(Owner),
                     Projectile.Center,
-                    toMou.RotatedBy(MathHelper.ToRadians(Main.rand.Next(-20, 20))).UnitVector() * 13,
+                    (Vector2)(Common.CWRUtils.UnitVector(toMou.RotatedBy(MathHelper.ToRadians(Main.rand.Next(-20, 20)))) * 13),
                     type,
                     Projectile.damage,
                     2,
@@ -107,9 +105,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Magic.HeldProjs
             }
             if (Time % 5 == 0)
             {
-                Vector2 vr = HcMath.GetRandomVevtor(-120, -60, 3);
+                Vector2 vr = Common.CWRUtils.GetRandomVevtor(-120, -60, 3);
                 Projectile.NewProjectile(
-                    AiBehavior.GetEntitySource_Parent(Owner),
+                    Common.CWRUtils.parent(Owner),
                     Projectile.Center,
                     vr,
                     ModContent.ProjectileType<SpiritFlame>(),
@@ -123,14 +121,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Magic.HeldProjs
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D mainValue = DrawUtils.GetT2DValue(Texture);
+            Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Main.EntitySpriteDraw(
                 mainValue,
                 Projectile.Center - Main.screenPosition,
-                DrawUtils.GetRec(mainValue, Projectile.frameCounter, 4),
+                CWRUtils.GetRec(mainValue, Projectile.frameCounter, 4),
                 Color.White,
                 Projectile.rotation,
-                DrawUtils.GetOrig(mainValue, 4),
+                CWRUtils.GetOrig(mainValue, 4),
                 Projectile.scale,
                 Owner.direction < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None
                 );

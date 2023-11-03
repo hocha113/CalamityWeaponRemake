@@ -3,7 +3,7 @@ using CalamityMod.Items;
 using CalamityMod.Items.Armor.Bloodflare;
 using CalamityMod.Rarities;
 using CalamityMod.Sounds;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
+using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
 using System;
@@ -29,7 +29,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 
         public override void SetDefaults(Item item)
         {
-            if (GameUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.BansheeHook>(item))
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.BansheeHook>(item))
             {
                 item.width = 120;
                 item.damage = 250;
@@ -53,7 +53,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
-            if (GameUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.BansheeHook>(item))
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.BansheeHook>(item))
             {
                 List<TooltipLine> newTooltips = new List<TooltipLine>(tooltips);
 
@@ -75,7 +75,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 
         public override bool AltFunctionUse(Item item, Player player)
         {
-            if (GameUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.BansheeHook>(item))
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.BansheeHook>(item))
                 return true;
             return base.AltFunctionUse(item, player);
         }
@@ -83,7 +83,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source
             , Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (GameUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.BansheeHook>(item))
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.BansheeHook>(item))
             {
                 float num82 = Main.mouseX + Main.screenPosition.X - position.X;
                 float num83 = Main.mouseY + Main.screenPosition.Y - position.Y;

@@ -1,6 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.AuxiliaryMeans;
-using CalamityWeaponRemake.Common.DrawTools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -35,10 +33,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public override void AI()
         {
-            DrawUtils.ClockFrame(ref Projectile.frameCounter, 10, 3);
+            CWRUtils.ClockFrame(ref Projectile.frameCounter, 10, 3);
             if (Projectile.ai[0] == 0)
             {
-                Player owner = AiBehavior.GetPlayerInstance(Projectile.owner);
+                Player owner = Common.CWRUtils.GetPlayerInstance(Projectile.owner);
                 if (owner != null)
                 {
                     Projectile.velocity = owner.velocity * 0.9f + new Vector2(0, -2);
@@ -91,15 +89,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = DrawUtils.GetT2DValue(Texture);
+            Texture2D texture = CWRUtils.GetT2DValue(Texture);
             float alp = Projectile.timeLeft / 30f;
             Main.EntitySpriteDraw(
                 texture,
-                DrawUtils.WDEpos(Projectile.Center),
-                DrawUtils.GetRec(texture, Projectile.frameCounter, 4),
+                CWRUtils.WDEpos(Projectile.Center),
+                CWRUtils.GetRec(texture, Projectile.frameCounter, 4),
                 Color.White * alp,
                 Projectile.rotation,
-                DrawUtils.GetOrig(texture, 4),
+                CWRUtils.GetOrig(texture, 4),
                 Projectile.scale,
                 SpriteEffects.None,
                 0
