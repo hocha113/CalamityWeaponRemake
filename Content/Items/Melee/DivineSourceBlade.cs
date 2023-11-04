@@ -1,5 +1,9 @@
 ﻿using CalamityMod.Items;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Pets;
 using CalamityMod.Rarities;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Melee;
 using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
@@ -13,6 +17,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Humanizer.In;
+using static Humanizer.On;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {
@@ -31,6 +36,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.useAnimation = Item.useTime = 16;
             Item.useTurn = true;
             Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
             Item.knockBack = 5.5f;
             Item.UseSound = SoundID.Item60;
             Item.autoReuse = true;            
@@ -54,52 +60,16 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public override void UseAnimation(Player player)
         {
-            Item.initialize();
-
-            if (Item.CWR().ai[1] == 0)
-                Item.CWR().ai[1] = 1;
-
             int types = ModContent.ProjectileType<DivineSourceBeam>();
 
             Vector2 vector2 = player.Center.To(Main.MouseWorld).UnitVector() * 3;
             Vector2 position = player.Center;
-            int proj = Projectile.NewProjectile(
+            Projectile.NewProjectile(
                 player.parent(), position, vector2
                 , types
-                , (int)(Item.damage * 0.75f)
+                , (int)(Item.damage * 1.25f)
                 , Item.knockBack
                 , player.whoAmI);
-           
-            //if (Main.projectile.IndexInRange(proj))
-            //{
-            //    TerratomereBeams terratomereBeams = Main.projectile[proj].ModProjectile as TerratomereBeams;
-            //    if (terratomereBeams != null)
-            //    {
-            //        terratomereBeams.Projectile.ai[0] = (player.direction == 1f).ToInt();
-            //        terratomereBeams.Projectile.ai[1] = 1;
-            //        terratomereBeams.ControlPoints = GenerateSlashPoints(vector2.X < 0).ToArray();
-            //    }
-            //}
-
-            Item.CWR().ai[0] = proj;
-            Item.CWR().ai[1] *= -1;
-        }
-
-        public IEnumerable<Vector2> GenerateSlashPoints(bool dir)
-        {
-            float starRot = MathHelper.ToRadians(-170);
-            float endRot = MathHelper.ToRadians(60);
-            if (dir)
-            {
-                starRot = MathHelper.ToRadians(-10);
-                endRot = MathHelper.ToRadians(-240);
-            }
-
-            for (int i = 0; i < 30; i++)
-            {
-                float completion = MathHelper.Lerp(endRot, starRot, i / 30f);
-                yield return completion.ToRotationVector2() * 84f;
-            }            
         }
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
@@ -134,14 +104,14 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             return false;
         }
 
-        public override Vector2? HoldoutOffset()
+        public override void AddRecipes()
         {
-            return base.HoldoutOffset();
-        }
-
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            return base.Shoot(player, source, position, velocity, type, damage, knockback);
+            CreateRecipe().
+                AddIngredient<AuricBar>(5).
+                AddIngredient<CalamityMod.Items.Weapons.Melee.Terratomere>().
+                AddIngredient<CalamityMod.Items.Weapons.Melee.Excelsus>().
+                AddTile(ModContent.TileType<CosmicAnvil>()).
+                Register();
         }
     }
 }

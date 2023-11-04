@@ -44,7 +44,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             Projectile.timeLeft = 30;
             Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void OnSpawn(IEntitySource source) 
@@ -133,13 +133,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             Vector2 starPos = Projectile.Center;
             for (int i = 0; i < 20; i++)
             {
+                Vector2 endPos = Projectile.Center + MathHelper.ToRadians(-160 + 11 * i).ToRotationVector2() * Projectile.scale * 120;
+                if (Projectile.velocity.X < 0)
+                    endPos = Projectile.Center + MathHelper.ToRadians(20 - 11 * i).ToRotationVector2() * Projectile.scale * 120;
+
                 collBool = Collision.CheckAABBvLineCollision(
                 targetHitbox.TopLeft(),
                 targetHitbox.Size(),
                 starPos,
-                Projectile.Center +
-                (Projectile.velocity.UnitVector() * Projectile.scale * 130)
-                .RotatedBy(MathHelper.ToRadians(-90 + i * 9)),
+                endPos,
                 32,
                 ref point
                 );

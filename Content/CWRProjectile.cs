@@ -1,19 +1,15 @@
-﻿using CalamityMod.Projectiles.Melee;
-using CalamityMod;
-using CalamityMod.Projectiles.Summon;
+﻿using CalamityMod;
+using CalamityMod.Projectiles.Boss;
+using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Projectiles.Melee;
 using CalamityWeaponRemake.Content.Projectiles.Ranged;
+using CalamityWeaponRemake.Content.Projectiles.Summon;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ModLoader;
-using CalamityWeaponRemake.Content.Projectiles;
-using CalamityWeaponRemake.Content.Projectiles.Melee;
-using CalamityWeaponRemake.Content.Buffs;
-using CalamityWeaponRemake.Content.Projectiles.Summon;
-using CalamityWeaponRemake.Common;
-using CalamityMod.Projectiles.Boss;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content
 {
@@ -243,6 +239,7 @@ namespace CalamityWeaponRemake.Content
                 lightColor.B = (byte)(255 * projectile.Opacity);
                 Vector2 drawOffset = projectile.velocity.SafeNormalize(Vector2.Zero) * -30f;
                 projectile.Center += drawOffset;
+                if (projectile.type.ValidateIndex(Main.maxProjectiles))
                 CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
                 projectile.Center -= drawOffset;
                 return false;
@@ -260,7 +257,7 @@ namespace CalamityWeaponRemake.Content
             Vector2 origin = laserTelegraph.Size() * new Vector2(0f, 0.5f);
             Vector2 scaleOuter = scaleInner * new Vector2(1f, 2.2f);
 
-            Color colorOuter = Color.Lerp(Color.Red, Color.Crimson, thanatosLaser.TelegraphDelay / ThanatosLaser.TelegraphTotalTime * 2f % 1f); // Iterate through crimson and red once and then flash.
+            Color colorOuter = Color.Lerp(Color.Red, Color.Crimson, thanatosLaser.TelegraphDelay / ThanatosLaser.TelegraphTotalTime * 2f % 1f);
             Color colorInner = Color.Lerp(colorOuter, Color.White, 0.75f);
 
             colorOuter *= 0.6f;

@@ -1,11 +1,8 @@
 ﻿using CalamityMod;
 using CalamityMod.CalPlayer;
-using CalamityMod.Items.TreasureBags.MiscGrabBags;
-using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -13,11 +10,6 @@ namespace CalamityWeaponRemake.Content
 {
     internal class CWRTiles : GlobalTile
     {
-        public override void MouseOver(int i, int j, int type)
-        {
-            base.MouseOver(i, j, type);
-        }
-
         public override void RightClick(int i, int j, int type)
         {
             base.RightClick(i, j, type);
@@ -25,40 +17,38 @@ namespace CalamityWeaponRemake.Content
             Mod musicMod = CalamityWeaponRemake.Instance.musicMod;
             if (musicMod is not null)
             {
-                if (type == musicMod.Find<ModTile>("CalamityTitleMusicBox").Type)
+                if (type == musicMod.Find<ModTile>("CalamityTitleMusicBox").Type 
+                    && !NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()))
                 {
-                    if (!NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()))
+                    CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
+
+                    if (!CWRWorld.TitleMusicBoxEasterEgg)
                     {
-                        CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
-
-                        if (!CWRWorld.TitleMusicBoxEasterEgg)
+                        if (modPlayer.sCalKillCount <= 0)
                         {
-                            if (modPlayer.sCalKillCount <= 0)
-                            {
-                                return;
-                            }
+                            return;
                         }
+                    }
 
-                        CalamityUtils.DisplayLocalizedText(
-                            CWRUtils.Translation(
-                                "要来一场音乐的狂欢吗？",
-                                "Want to have a musical orgy?")
-                            , Color.Pink);
+                    CalamityUtils.DisplayLocalizedText(
+                        CWRUtils.Translation(
+                            "要来一场音乐的狂欢吗？",
+                            "Want to have a musical orgy?")
+                        , Color.Pink);
 
-                        if (!CWRUtils.isClient)
-                        {
-                            int npc = CWRUtils.NewNPCEasy(null, new Vector2(i, j) * 16 + new Vector2(0, -32)
-                            , ModContent.NPCType<SupremeCalamitas>());
+                    if (!CWRUtils.isClient)
+                    {
+                        int npc = CWRUtils.NewNPCEasy(null, new Vector2(i, j) * 16 + new Vector2(0, -32)
+                        , ModContent.NPCType<SupremeCalamitas>());
 
-                            Main.npc[npc].CWR().SprBoss = true;
-                            Main.npc[npc].life = Main.npc[npc].lifeMax = 66666666;
-                            Main.npc[npc].damage *= 2;
-                            Main.npc[npc].netUpdate = true;
-                            Main.npc[npc].netUpdate2 = true;
+                        Main.npc[npc].CWR().SprBoss = true;
+                        Main.npc[npc].life = Main.npc[npc].lifeMax = 66666666;
+                        Main.npc[npc].damage *= 2;
+                        Main.npc[npc].netUpdate = true;
+                        Main.npc[npc].netUpdate2 = true;
 
-                            CWRWorld.TitleMusicBoxEasterEgg = false;
-                            CalamityNetcode.SyncWorld();
-                        }   
+                        CWRWorld.TitleMusicBoxEasterEgg = false;
+                        CalamityNetcode.SyncWorld();
                     }
                 }
             }  

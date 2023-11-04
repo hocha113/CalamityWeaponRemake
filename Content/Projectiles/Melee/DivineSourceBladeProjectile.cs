@@ -33,7 +33,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.penetrate = 3;
+            Projectile.penetrate = 13;
             Projectile.timeLeft = 600;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
@@ -44,12 +44,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation();
-            //if (Projectile.numHits >= 1 && Projectile.timeLeft < 550)
-            //{
-            //    NPC target = Projectile.Center.InPosClosestNPC(1900);
-            //    if (target != null)
-            //        Projectile.ChasingBehavior2(target.Center, 1.001f, 0.3f);
-            //}
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -61,7 +55,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 Projectile.Center,
                 Vector2.Zero,
                 ModContent.ProjectileType<TerratomereSlashCreator>(),
-                Projectile.damage + 200,
+                Projectile.damage + 500,
                 0,
                 Projectile.owner,
                 target.whoAmI,

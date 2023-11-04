@@ -13,8 +13,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
 {
     internal class BleedingScourgeProjectile : ModProjectile
     {
-        int Time = 0;
-
         public override string Texture => CWRConstant.Projectile_Summon + "BleedingScourgeProjectile";
 
         private List<Vector2> whipPoints => Projectile.GetWhipControlPoints();
@@ -39,27 +37,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
                 int num = Dust.NewDust(pos, Projectile.width, Projectile.height, DustID.Blood, Projectile.direction * 2, 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.3f);
                 Main.dust[num].noGravity = true;
                 Main.dust[num].velocity = Vector2.Zero;
-
-                //Player owners = AiBehavior.GetPlayerInstance(Projectile.owner);
-                //if (owners != null)
-                //{
-                //    float lengs = owners.Center.To(pos).Length();
-                //    if (lengs > 160 && Time % 5 == 0)
-                //    {
-                //        Vector2 vr = owners.Center.To(pos).UnitVector() * 13;
-                //        Projectile.NewProjectileDirect(
-                //            AiBehavior.GetEntitySource_Parent(Projectile),
-                //            pos,
-                //            vr,
-                //            ModContent.ProjectileType<BloodflareSouls>(),
-                //            Projectile.damage / 2,
-                //            2,
-                //            owners.whoAmI
-                //            );
-                //    }
-                //}
             }
-            Time++;
             return true;
         }
 
@@ -117,14 +95,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
 
             Vector2 pos = whipPoints[0];
 
-            for (int i = 1; i < whipPoints.Count - 1; i++)
+            for (int i = 0; i < whipPoints.Count - 1; i++)
             {
                 Rectangle frame = new Rectangle(0, 0, 32, 38);
 
-                Vector2 origin = new Vector2(17, 23);
-                float scale = 1 + i / 30f;
+                Vector2 origin = new Vector2(16, 23);
+                float scale = 1;
 
-                if (i != 1)
+                if (i != 0)
                 {
                     frame.Y = 42;
                     frame.Height = 20;
@@ -135,14 +113,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
                 {
                     frame.Y = 66;
                     frame.Height = 24;
-                    origin = new Vector2(16, 10);
-                }
-
-                if (i == 1)
-                {
-                    frame = new Rectangle(0, 0, 32, 38);
-                    origin = new Vector2(17, 23);
-                    scale = 1.5f;
+                    origin = new Vector2(16, 11);
                 }
 
                 Vector2 element = whipPoints[i];
@@ -152,7 +123,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Summon.Whips
                 Color color = Lighting.GetColor(element.ToTileCoordinates());
 
                 Main.EntitySpriteDraw(texture, pos - Main.screenPosition, frame, color, rotation, origin, scale, flip, 0);
-                //Main.EntitySpriteDraw(_men, pos - Main.screenPosition, frame, Color.White, rotation, origin, scale, flip, 0);
 
                 pos += diff;
             }
