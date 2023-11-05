@@ -218,6 +218,16 @@ Items: {
 		// DisplayName: Divine Source Blade
 		// Tooltip: ""
 	}
+
+	FatesReveal: {
+		// DisplayName: Fates Reveal
+		// Tooltip: ""
+	}
+
+	FoodStallChair: {
+		// DisplayName: Food Stall Chair
+		// Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -314,6 +324,10 @@ Projectiles: {
 	// BloodBlast.DisplayName: Blood Blast
 	// DivineSourceKnifelight.DisplayName: Divine Source Knifelight
 	// DivineSourceBeam.DisplayName: Divine Source Beam
+	// FatesRevealFlames.DisplayName: Fates Reveal Flames
+	// FatesRevealHeldProj.DisplayName: Fates Reveal Held Proj
+	// FateCluster.DisplayName: Fate Cluster
+	// HatredFire.DisplayName: Hatred Fire
 }
 
 Configs: {

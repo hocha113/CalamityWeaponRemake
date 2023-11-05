@@ -1,30 +1,25 @@
-﻿using CalamityMod;
-using CalamityMod.Projectiles.Magic;
-using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Items.Magic;
+﻿using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Magic.HeldProjs
 {
-    internal class RemakeGhastlyVisageProj : ModProjectile
+    internal class FatesRevealHeldProj : ModProjectile
     {
+        public override string Texture => CWRConstant.Cay_Wap_Magic + "FatesReveal";
+
         private Player Owner => Common.CWRUtils.GetPlayerInstance(Projectile.owner);
 
         private Vector2 toMou => Owner.Center.To(Main.MouseWorld);
 
         private ref float Time => ref Projectile.ai[0];
-
-        public override LocalizedText DisplayName => CalamityUtils.GetItemName<GhastlyVisage>();
-
-        public override string Texture => CWRConstant.Item_Magic + "GhastlyVisage";
 
         public override void SetDefaults()
         {
@@ -40,15 +35,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Magic.HeldProjs
 
         public override bool ShouldUpdatePosition()
         {
-            return false;
+            return false;//同其他的手持弹幕一样，不希望该实体受到速度更新的影响，这往往会导致一些出乎意料的效果
         }
 
         public override void AI()
         {
-            Lighting.AddLight(Projectile.Center, 0.65f, 0f, 0.1f);
-            CWRUtils.ClockFrame(ref Projectile.frameCounter, 6, 3);
-
-            if (!Owner.Alives())
+            if (Owner == null)
             {
                 Projectile.Kill();
                 return;
@@ -57,9 +49,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Magic.HeldProjs
             ObeyOwner();
 
             if (Projectile.IsOwnedByLocalPlayer())
-            {
                 SpanProj();
-            }
 
             Time++;
         }
@@ -68,9 +58,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Magic.HeldProjs
         {
             Owner.heldProj = Projectile.whoAmI;
             Owner.direction = Projectile.direction = Math.Sign(toMou.X);
-            Owner.itemTime = 2;
-            Owner.itemAnimation = 2;
-            Projectile.Center = Owner.Center + new Vector2(Owner.direction * 16, 0);
+
+            Projectile.Center = Owner.Center + toMou.UnitVector() * 53;
+            Projectile.rotation = toMou.ToRotation();
+
             if (Owner.PressKey())
             {
                 Projectile.timeLeft = 2;
@@ -83,16 +74,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Magic.HeldProjs
 
         public void SpanProj()
         {
-            int type = ModContent.ProjectileType<GhastlyBlasts>();
-            if (Time % 15 == 0)
+            int type = ModContent.ProjectileType<HatredFire>();
+            if (Time % 35 == 0)
             {
                 SoundEngine.PlaySound(in SoundID.Item117, Projectile.position);
                 for (int i = 0; i < Main.rand.Next(2, 4); i++)
                 {
                     Projectile.NewProjectile(
-                    Common.CWRUtils.parent(Owner),
+                    CWRUtils.parent(Owner),
                     Projectile.Center,
-                    (Vector2)(Common.CWRUtils.UnitVector(toMou.RotatedBy(MathHelper.ToRadians(Main.rand.Next(-20, 20)))) * 13),
+                    CWRUtils.UnitVector(toMou.RotatedBy(MathHelper.ToRadians(Main.rand.Next(-20, 20)))) * 7,
                     type,
                     Projectile.damage,
                     2,
@@ -100,12 +91,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Magic.HeldProjs
                     );
                 }
             }
+
             if (Time % 5 == 0)
             {
                 Vector2 vr = Common.CWRUtils.GetRandomVevtor(-120, -60, 3);
                 Projectile.NewProjectile(
                     Common.CWRUtils.parent(Owner),
-                    Projectile.Center,
+                    Projectile.Center + Projectile.rotation.ToRotationVector2() * 36 + Main.rand.NextVector2Unit() * 16,
                     vr,
                     ModContent.ProjectileType<SpiritFlame>(),
                     Projectile.damage / 4,
@@ -122,12 +114,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Magic.HeldProjs
             Main.EntitySpriteDraw(
                 mainValue,
                 Projectile.Center - Main.screenPosition,
-                CWRUtils.GetRec(mainValue, Projectile.frameCounter, 4),
+                null,
                 Color.White,
-                Projectile.rotation,
-                CWRUtils.GetOrig(mainValue, 4),
+                Projectile.rotation + MathHelper.PiOver4,
+                CWRUtils.GetOrig(mainValue),
                 Projectile.scale,
-                Owner.direction < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None
+                SpriteEffects.None
                 );
             return false;
         }
@@ -135,6 +127,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Magic.HeldProjs
         public override bool? CanDamage()
         {
             return false;
+        }
+
+        public override void DrawBehind
+            (int index, List<int> behindNPCsAndTiles
+            , List<int> behindNPCs, List<int> behindProjectiles
+            , List<int> overPlayers, List<int> overWiresUI)
+        {
+            overPlayers.Add(index);
         }
     }
 }

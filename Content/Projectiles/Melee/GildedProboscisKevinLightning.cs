@@ -1,7 +1,6 @@
 ﻿using CalamityMod;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.Effects;
-using CalamityWeaponRemake.Common.WorldGeneration;
 using CalamityWeaponRemake.Content.Items.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -154,7 +153,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             {
                 Vector2 cedPos = Projectile.Center + rotVr * i * 16;
                 Vector2 tilePos = Common.CWRUtils.WEPosToTilePos(cedPos);
-                Tile tile = TileHelper.GetTile(tilePos);
+                Tile tile = CWRUtils.GetTile(tilePos);
                 if (tile.HasSolidTile())
                 {
                     LightningDistance = i * 16;
@@ -214,7 +213,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.AnisotropicClamp, DepthStencilState.Default, Main.Rasterizer);
 
             Main.instance.GraphicsDevice.Textures[0] = LightningTarget.Target;
-            Main.instance.GraphicsDevice.Textures[1] = CWRUtils.GetT2DValue(CWRConstant.Masking + "Extra_193");//WavyNoise
+            Main.instance.GraphicsDevice.Textures[1] = Common.CWRUtils.GetT2DValue(CWRConstant.Masking + "Extra_193");//WavyNoise
 
             float angularOffset = Projectile.oldRot[0] - Projectile.oldRot[1];
             Vector2 lightningDirection = Projectile.velocity.UnitVector();
@@ -250,7 +249,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 return false;
             if (LightningTarget.IsDisposed)
                 return false;
-            Texture2D mainValue = CWRUtils.GetT2DValue(CWRConstant.Masking + "Hexagram2_White");
+            Texture2D mainValue = Common.CWRUtils.GetT2DValue(CWRConstant.Masking + "Hexagram2_White");
             int slp = (int)Time * 5;
             if (slp > 255) slp = 255;
 
@@ -262,11 +261,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             {
                 Main.spriteBatch.Draw(
                     mainValue,
-                    CWRUtils.WDEpos(Projectile.Center),
+                    Common.CWRUtils.WDEpos(Projectile.Center),
                     null,
                     Color.Red,
                     MathHelper.ToRadians(Time * 5 + i * 15),
-                    CWRUtils.GetOrig(mainValue),
+                    Common.CWRUtils.GetOrig(mainValue),
                     (slp / 755f),
                     SpriteEffects.None,
                     0
@@ -276,11 +275,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             {
                 Main.spriteBatch.Draw(
                     mainValue,
-                    CWRUtils.WDEpos(Projectile.Center),
+                    Common.CWRUtils.WDEpos(Projectile.Center),
                     null,
                     Color.White,
                     MathHelper.ToRadians(Time * 6 + i * 15),
-                    CWRUtils.GetOrig(mainValue),
+                    Common.CWRUtils.GetOrig(mainValue),
                     (slp / 1055f),
                     SpriteEffects.None,
                     0
@@ -290,11 +289,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             {
                 Main.spriteBatch.Draw(
                     mainValue,
-                    CWRUtils.WDEpos(Projectile.Center),
+                    Common.CWRUtils.WDEpos(Projectile.Center),
                     null,
                     Color.Gold,
                     MathHelper.ToRadians(Time * 9 + i * 15),
-                    CWRUtils.GetOrig(mainValue),
+                    Common.CWRUtils.GetOrig(mainValue),
                     (slp / 1355f),
                     SpriteEffects.None,
                     0

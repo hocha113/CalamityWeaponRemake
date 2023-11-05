@@ -39,7 +39,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = ModContent.GetInstance<TrueMeleeDamageClass>();
             Projectile.penetrate = -1;
             Projectile.timeLeft = 30;
             Projectile.tileCollide = false;
@@ -145,7 +145,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee
                 32,
                 ref point
                 );
-                if (collBool) break;
+                if (collBool) 
+                    break;
             }
 
             return collBool;

@@ -1,5 +1,4 @@
-﻿using CalamityWeaponRemake.Common.WorldGeneration;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System;
 using Terraria.DataStructures;
@@ -17,6 +16,10 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using System.Reflection;
 using Terraria.Graphics.Shaders;
+using Terraria.ObjectData;
+using Terraria.WorldBuilding;
+using Terraria.UI;
+using ReLogic.Utilities;
 
 namespace CalamityWeaponRemake.Common
 {
@@ -160,7 +163,7 @@ namespace CalamityWeaponRemake.Common
             int tilePosX = (int)(wePos.X / 16f);
             int tilePosY = (int)(wePos.Y / 16f);
             Vector2 tilePos = new Vector2(tilePosX, tilePosY);
-            tilePos = TileHelper.PTransgressionTile(tilePos);
+            tilePos = CWRUtils.PTransgressionTile(tilePos);
             return tilePos;
         }
 
@@ -239,7 +242,7 @@ namespace CalamityWeaponRemake.Common
 
             return closestDistance <= radius;
         }
-       
+
         /// <summary>
         /// 检测玩家是否有效且正常存活
         /// </summary>
@@ -531,6 +534,26 @@ namespace CalamityWeaponRemake.Common
         #endregion
 
         #region 行为部分
+
+        /// <summary>
+        /// 让弹幕进行爆炸效果的操作
+        /// </summary>
+        /// <param name="projectile">要爆炸的投射物</param>
+        /// <param name="blastRadius">爆炸效果的半径（默认为 120 单位）</param>
+        /// <param name="explosionSound">爆炸声音的样式（默认为默认的爆炸声音）</param>
+        public static void Explode(this Projectile projectile, int blastRadius = 120, SoundStyle explosionSound = default)
+        {
+            SoundEngine.PlaySound(explosionSound == default ? SoundID.Item14 : explosionSound, projectile.Center);
+            projectile.position = projectile.Center;
+            projectile.width = projectile.height = blastRadius * 2;
+            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            projectile.maxPenetrate = -1;
+            projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = -1;
+            projectile.Damage();
+        }
 
         /// <summary>
         /// 用于NPC的寻敌判断，会试图遍历玩家列表寻找最近的有效玩家
@@ -1749,6 +1772,201 @@ namespace CalamityWeaponRemake.Common
         }
 
         #endregion
+
+        #endregion
+
+        #region TileUtils
+
+        /// <summary>
+        /// 检测是否为一个背景方块
+        /// </summary>
+        public static bool TopSlope(this Tile tile)
+        {
+            byte b = (byte)tile.Slope;
+            if (b != 1)
+                return b == 2;
+
+            return true;
+        }
+
+        /// <summary>
+        /// 将可能越界的方块坐标收值为非越界坐标
+        /// </summary>
+        public static Vector2 PTransgressionTile(Vector2 TileVr, int L = 0, int R = 0, int D = 0, int S = 0)
+        {
+            if (TileVr.X > Main.maxTilesX - R)
+            {
+                TileVr.X = Main.maxTilesX - R;
+            }
+            if (TileVr.X < 0 + L)
+            {
+                TileVr.X = 0 + L;
+            }
+            if (TileVr.Y > Main.maxTilesY - S)
+            {
+                TileVr.Y = Main.maxTilesY - S;
+            }
+            if (TileVr.Y < 0 + D)
+            {
+                TileVr.Y = 0 + D;
+            }
+            return new Vector2(TileVr.X, TileVr.Y);
+        }
+
+        /// <summary>
+        /// 检测该位置是否存在一个实心的固体方块
+        /// </summary>
+        public static bool HasSolidTile(this Tile tile)
+        {
+            return tile.HasTile && Main.tileSolid[tile.TileType] && !Main.tileSolidTop[tile.TileType];
+        }
+
+        public static Vector2 FindTopLeft(int x, int y)
+        {
+            Tile tile = Main.tile[x, y];
+            if (tile == null)
+                return new Vector2(x, y);
+            TileObjectData data = TileObjectData.GetTileData(tile.TileType, 0);
+            x -= tile.TileFrameX / 18 % data.Width;
+            y -= tile.TileFrameY / 18 % data.Height;
+            return new Vector2(x, y);
+        }
+
+        /// <summary>
+        /// 检测方块的一个矩形区域内是否有实心物块
+        /// </summary>
+        /// <param name="tileVr">方块坐标</param>
+        /// <param name="DetectionL">矩形左</param>
+        /// <param name="DetectionR">矩形右</param>
+        /// <param name="DetectionD">矩形上</param>
+        /// <param name="DetectionS">矩形下</param>
+        public static bool TileRectangleDetection(Vector2 tileVr, int DetectionL, int DetectionR, int DetectionD, int DetectionS)
+        {
+            Vector2 newTileVr;
+            for (int x = 0; x < DetectionR - DetectionL; x++)
+            {
+                for (int y = 0; y < DetectionS - DetectionD; y++)
+                {
+                    newTileVr = PTransgressionTile(new Vector2(tileVr.X + x, tileVr.Y + y));
+                    if (Main.tile[(int)newTileVr.X, (int)newTileVr.Y].HasSolidTile())
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 获取一个物块目标，输入世界物块坐标，自动考虑收界情况
+        /// </summary>
+        public static Tile GetTile(int i, int j)
+        {
+            return GetTile(new Vector2(i, j));
+        }
+
+        /// <summary>
+        /// 获取一个物块目标，输入世界物块坐标，自动考虑收界情况
+        /// </summary>
+        public static Tile GetTile(Vector2 pos)
+        {
+            pos = PTransgressionTile(pos);
+            return Main.tile[(int)pos.X, (int)pos.Y];
+        }
+
+        /// <summary>
+        /// 在世界中生成矿石
+        /// </summary>
+        /// <param name="tileID">矿石的瓦块ID</param>
+        /// <param name="veinSize">矿脉的大小</param>
+        /// <param name="chanceDenominator">生成机会的分母，值越小生成机会越大</param>
+        public static void CreateOre(int tileID, int veinSize, int chanceDenominator)
+        {
+            // 根据机会分母循环尝试生成矿脉
+            for (int i = 0; i < Main.maxTilesX * Main.maxTilesY / chanceDenominator; i++)
+            {
+                // 随机选择一个位置
+                int x = Main.rand.Next(1, Main.maxTilesX - 1);
+                int y = Main.rand.Next((int)GenVars.rockLayerLow, Main.maxTilesY - 1);
+
+                // 检查位置的瓦块类型是否是可以生成矿脉的类型
+                if (Main.tile[x, y].TileType == TileID.Stone ||
+                    Main.tile[x, y].TileType == TileID.Dirt ||
+                    Main.tile[x, y].TileType == TileID.Ebonstone ||
+                    Main.tile[x, y].TileType == TileID.Crimstone ||
+                    Main.tile[x, y].TileType == TileID.Pearlstone ||
+                    Main.tile[x, y].TileType == TileID.Sand ||
+                    Main.tile[x, y].TileType == TileID.Mud ||
+                    Main.tile[x, y].TileType == TileID.SnowBlock ||
+                    Main.tile[x, y].TileType == TileID.IceBlock)
+                {
+                    // 在符合条件的位置生成矿脉
+                    WorldGen.TileRunner(x, y, veinSize, 15, tileID);
+                }
+            }
+        }
+
+        #endregion
+
+        #region UIUtils
+
+        /// <summary>
+        /// 对UI版面的布局设置
+        /// </summary>
+        public static void SetRectangle(UIElement uiElement, float left, float top, float width, float height)
+        {
+            uiElement.Left.Set(left, 0f);
+            uiElement.Top.Set(top, 0f);
+            uiElement.Width.Set(width, 0f);
+            uiElement.Height.Set(height, 0f);
+        }
+
+        #endregion
+
+        #region SoundUtils
+
+        /// <summary>
+        /// 播放声音
+        /// </summary>
+        /// <param name="pos">声音播放的位置</param>
+        /// <param name="sound">要播放的声音样式（SoundStyle）</param>
+        /// <param name="volume">声音的音量</param>
+        /// <param name="pitch">声音的音调</param>
+        /// <param name="pitchVariance">音调的变化范围</param>
+        /// <param name="maxInstances">最大实例数，允许同时播放的声音实例数量</param>
+        /// <param name="soundLimitBehavior">声音限制行为，用于控制当达到最大实例数时的行为</param>
+        /// <returns>返回声音实例的索引</returns>
+        public static SlotId SoundPlayer(
+            Vector2 pos,
+            SoundStyle sound,
+            float volume = 1,
+            float pitch = 1,
+            float pitchVariance = 1,
+            int maxInstances = 1,
+            SoundLimitBehavior soundLimitBehavior = SoundLimitBehavior.ReplaceOldest
+            )
+        {
+            sound = sound with
+            {
+                Volume = volume,
+                Pitch = pitch,
+                PitchVariance = pitchVariance,
+                MaxInstances = maxInstances,
+                SoundLimitBehavior = soundLimitBehavior
+            };
+
+            SlotId sid = SoundEngine.PlaySound(sound, pos);
+            return sid;
+        }
+
+        /// <summary>
+        /// 更新声音位置
+        /// </summary>
+        public static void PanningSound(Vector2 pos, SlotId sid)
+        {
+            if (!SoundEngine.TryGetActiveSound(sid, out var activeSound)) return;
+            else activeSound.Position = pos;
+        }
 
         #endregion
     }

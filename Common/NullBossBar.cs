@@ -1,7 +1,7 @@
 ﻿using Terraria.GameContent.UI.BigProgressBar;
 using Terraria.ModLoader;
 
-namespace CalamityWeaponRemake.Common.UITools
+namespace CalamityWeaponRemake.Common
 {
     /// <summary>
     /// 空血条，当不希望原版血条有任何行为时将其设置给 NPC.BossBar

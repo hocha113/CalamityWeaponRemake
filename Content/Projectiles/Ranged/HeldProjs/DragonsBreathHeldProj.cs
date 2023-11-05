@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Projectiles.Ranged;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.Interfaces;
-using CalamityWeaponRemake.Common.SoundEffects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;

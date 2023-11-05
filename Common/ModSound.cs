@@ -1,6 +1,6 @@
 ﻿using Terraria.Audio;
 
-namespace CalamityWeaponRemake.Common.SoundEffects
+namespace CalamityWeaponRemake.Common
 {
     public static class ModSound
     {
