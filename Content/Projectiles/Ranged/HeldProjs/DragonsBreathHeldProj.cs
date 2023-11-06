@@ -12,7 +12,6 @@ using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static CalamityWeaponRemake.Common.CWRUtils;
-using static CalamityWeaponRemake.Common.CWRUtils;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs
 {

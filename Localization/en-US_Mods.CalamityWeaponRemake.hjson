@@ -216,6 +216,11 @@ Items: {
 		DisplayName: Food Stall Chair
 		Tooltip: ""
 	}
+
+	DaemonsFlame: {
+		DisplayName: Daemons Flame
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -316,6 +321,7 @@ Projectiles: {
 	FatesRevealHeldProj.DisplayName: Fates Reveal Held Proj
 	FateCluster.DisplayName: Fate Cluster
 	HatredFire.DisplayName: Hatred Fire
+	TheCurseArchdemon.DisplayName: The Curse Archdemon
 }
 
 Configs: {

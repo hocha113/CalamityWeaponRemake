@@ -228,6 +228,11 @@ Items: {
 		// DisplayName: Food Stall Chair
 		// Tooltip: ""
 	}
+
+	DaemonsFlame: {
+		// DisplayName: Daemons Flame
+		// Tooltip: ""
+	}
 }
 
 Projectiles: {

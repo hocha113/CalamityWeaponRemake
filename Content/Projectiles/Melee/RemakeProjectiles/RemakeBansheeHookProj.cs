@@ -154,20 +154,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles
                                     1
                                     );
                             }
-                            for (int i = 0; i < 9; i++)
-                            {
-                                Vector2 vr = (MathHelper.TwoPi / 9 * i).ToRotationVector2() * 20;
-                                Projectile.NewProjectile(
-                                    Common.CWRUtils.parent(Owner),
-                                    Owner.Center,
-                                    vr,
-                                    ModContent.ProjectileType<SpiritFlame>(),
-                                    Projectile.damage / 4,
-                                    0,
-                                    Owner.whoAmI,
-                                    1
-                                    );
-                            }
                         }
                     }
                     if (Projectile.localAI[1] > 60)

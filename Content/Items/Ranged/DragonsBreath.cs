@@ -13,7 +13,7 @@ using static CalamityWeaponRemake.Common.CWRUtils;
 
 namespace CalamityWeaponRemake.Content.Items.Ranged
 {
-    internal class DragonsBreath : CustomItems
+    internal class DragonsBreath : ModItem
     {
         public override string Texture => CWRConstant.Item + "Ranged/" + "DragonsBreath";
 
@@ -51,47 +51,23 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
         }
 
         int dbpType => ModContent.ProjectileType<DragonsBreathHeldProj>();
-        int heldProj = -1;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
+            Item.initialize();
             if (player.ownedProjectileCounts[dbpType] == 0)
             {
-                heldProj = Projectile.NewProjectile(CWRUtils.parent(player), position, velocity, dbpType, damage, knockback, player.whoAmI);
+                Item.CWR().ai[0] = Projectile.NewProjectile(CWRUtils.parent(player), position, velocity, dbpType, damage, knockback, player.whoAmI);
                 if (player.altFunctionUse == 2)
                 {
-                    Main.projectile[heldProj].ai[0] = 1;
+                    Main.projectile[(int)Item.CWR().ai[0]].ai[0] = 1;
                 }
             }
-            if (heldProj.ValidateIndex(Main.projectile))
+            Projectile projectile = GetProjectileInstance((int)Item.CWR().ai[0]);
+            if (projectile != null)
             {
-                Main.projectile[heldProj].localAI[1] = type;
+                projectile.localAI[1] = type;
             }
             return false;
-        }
-
-        public override bool CanUseItem(Player player)
-        {
-            return true;
-        }
-
-        public override void HoldItem(Player player)
-        {
-
-        }
-
-        public override void Update(ref float gravity, ref float maxFallSpeed)
-        {
-
-        }
-
-        public override void UpdateInventory(Player player)
-        {
-
-        }
-
-        public override bool? UseItem(Player player)
-        {
-            return true;
         }
     }
 }

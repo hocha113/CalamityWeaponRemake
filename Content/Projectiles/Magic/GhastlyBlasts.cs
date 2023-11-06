@@ -102,7 +102,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Magic
                 if (Main.rand.NextBool())
                 {
                     Vector2 vector3 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
-                    Dust dust = Main.dust[Dust.NewDust(Projectile.Center - vector3 * 30f, 0, 0, 60)];
+                    Dust dust = Main.dust[Dust.NewDust(Projectile.Center - vector3 * 30f, 0, 0, DustID.RedTorch)];
                     dust.noGravity = true;
                     dust.position = Projectile.Center - vector3 * Main.rand.Next(10, 21);
                     dust.velocity = vector3.RotatedBy(1.5707963705062866) * 6f;

@@ -37,12 +37,23 @@ namespace CalamityWeaponRemake.Content.Projectiles.Magic
         {
             CWRUtils.ClockFrame(ref Projectile.frameCounter, 5, 3);
             Projectile.rotation = Projectile.velocity.ToRotation();
-
-            NPC target = Projectile.Center.InPosClosestNPC(300);
-
-            if (target != null)
+            if (Projectile.ai[0] == 0)
             {
-                Projectile.ChasingBehavior2(target.Center, 1.01f, 0.25f);
+                NPC target = Projectile.Center.InPosClosestNPC(300);
+
+                if (target != null)
+                {
+                    Projectile.ChasingBehavior2(target.Center, 1.01f, 0.25f);
+                }
+            }
+            if (Projectile.ai[0] == 1)
+            {
+                NPC target = Projectile.Center.InPosClosestNPC(600);
+
+                if (target != null)
+                {
+                    Projectile.ChasingBehavior2(target.Center, 1, 0.05f);
+                }
             }
         }
 
