@@ -3,7 +3,7 @@ using CalamityMod.Items;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Projectiles.Melee.ArkoftheCosmosProj;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosProj;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;

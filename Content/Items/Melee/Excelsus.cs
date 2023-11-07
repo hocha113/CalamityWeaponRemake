@@ -9,7 +9,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Projectiles.Melee;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {

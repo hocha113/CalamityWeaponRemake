@@ -221,6 +221,16 @@ Items: {
 		DisplayName: Daemons Flame
 		Tooltip: ""
 	}
+
+	ClaretCannon: {
+		DisplayName: Claret Cannon
+		Tooltip: ""
+	}
+
+	CleansingBlaze: {
+		DisplayName: Cleansing Blaze
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -322,6 +332,11 @@ Projectiles: {
 	FateCluster.DisplayName: Fate Cluster
 	HatredFire.DisplayName: Hatred Fire
 	TheCurseArchdemon.DisplayName: The Curse Archdemon
+	BloodVerdict.DisplayName: Blood Verdict
+	ClaretCannonHeldProj.DisplayName: Claret Cannon Held Proj
+	EssenceSpark.DisplayName: Essence Spark
+	EssenceFlamethrower.DisplayName: Essence Flamethrower
+	ShockwaveBoom.DisplayName: Shockwave Boom
 }
 
 Configs: {
@@ -368,4 +383,13 @@ Buffs: {
 	}
 }
 
-NPCs.Creeper.DisplayName: Creeper
+NPCs: {
+	Creeper.DisplayName: Creeper
+	RavagerABody.DisplayName: Ravager A Body
+	RavagerAClawLeft.DisplayName: Ravager A Claw Left
+	RavagerAClawRight.DisplayName: Ravager A Claw Right
+	RavagerAHead2.DisplayName: Ravager A Head2
+	RavagerALegLeft.DisplayName: Ravager A Leg Left
+	RavagerALegRight.DisplayName: Ravager A Leg Right
+	EvilSoul.DisplayName: Evil Soul
+}

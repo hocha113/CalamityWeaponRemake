@@ -10,12 +10,12 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
 using Terraria.DataStructures;
 using CalamityMod.Items.Armor.Bloodflare;
 using CalamityMod.Sounds;
 using CalamityWeaponRemake.Common;
 using Terraria.Audio;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {

@@ -3,7 +3,7 @@ using CalamityMod.Items;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

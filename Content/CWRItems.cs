@@ -1,14 +1,19 @@
 ﻿using CalamityMod;
+using CalamityMod.Events;
+using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.TreasureBags.MiscGrabBags;
+using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Projectiles;
+using CalamityWeaponRemake.Content.NPCs.RavagerAs;
+using CalamityWeaponRemake.Content.Projectiles.Weapons;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -169,6 +174,39 @@ namespace CalamityWeaponRemake.Content
         {
             base.OnConsumeItem(item, player);
 
+        }
+
+        public override bool CanUseItem(Item item, Player player)
+        {
+            if (CWRUtils.RemakeByItem<DeathWhistle>(item))//不管如何，不希望任意两种Boss存在时可以再次使用该物品
+            {
+                return !NPC.AnyNPCs(ModContent.NPCType<RavagerBody>()) 
+                    && !NPC.AnyNPCs(ModContent.NPCType<RavagerABody>())
+                    && player.ZoneOverworldHeight 
+                    && !BossRushEvent.BossRushActive;
+            }
+            return base.CanUseItem(item, player);
+        }
+
+        public override bool? UseItem(Item item, Player player)
+        {
+            //if (CWRUtils.RemakeByItem<DeathWhistle>(item))//这种修改方法会不可避免的调用原行为，导致生成两个甚至多个Boss实体，因而注释
+            //{
+            //    SoundEngine.PlaySound(SoundID.ScaryScream, player.Center);
+            //    int types = ModContent.NPCType<RavagerBody>();
+            //    if (DownedBossSystem.downedProvidence) 
+            //        types = ModContent.NPCType<RavagerABody>();
+            //    if (Main.netMode != NetmodeID.MultiplayerClient)
+            //    {
+            //        int npc = NPC.NewNPC(new EntitySource_BossSpawn(player), (int)(player.position.X + Main.rand.Next(-250, 251)), (int)(player.position.Y - 500f), types, 1);
+            //        Main.npc[npc].timeLeft *= 20;
+            //        CalamityUtils.BossAwakenMessage(npc);
+            //    }
+            //    else
+            //        NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, types);
+            //    return true;
+            //}
+            return base.UseItem(item, player);
         }
     }
 }

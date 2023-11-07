@@ -1,23 +1,15 @@
 ﻿using CalamityMod.Items;
-using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Pets;
 using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Projectiles.Melee;
-using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Humanizer.In;
-using static Humanizer.On;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {

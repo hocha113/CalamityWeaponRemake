@@ -103,7 +103,6 @@
     <None Remove="Assets\Tiles\FoodStallChair.png" />
     <None Remove="Assets\UIs\GenericBarBack.png" />
     <None Remove="Assets\UIs\GenericBarFront.png" />
-    <None Remove="Content\NPCs\TODOs.txt" />
     <None Remove="Content\Projectiles\ModeProj.txt" />
     <None Remove="description_workshop.txt" />
     <None Remove="icon.png" />
@@ -112,6 +111,7 @@
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Assets\NPCs\RavagerAs\" />
     <Folder Include="Content\RemakeItems\Magic\" />
     <Folder Include="Content\RemakeItems\Summon\" />
   </ItemGroup>

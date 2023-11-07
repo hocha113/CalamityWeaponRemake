@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs;
 
 namespace CalamityWeaponRemake.Content.Items.Ranged
 {

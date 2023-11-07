@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Projectiles.Summon.Whips;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips;
 
 namespace CalamityWeaponRemake.Content.Items.Summon
 {

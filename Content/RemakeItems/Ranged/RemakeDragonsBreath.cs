@@ -3,7 +3,7 @@ using CalamityMod.Items;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Projectiles.Ranged.HeldProjs;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;

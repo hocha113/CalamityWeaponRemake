@@ -4,7 +4,7 @@ using CalamityMod.Items.Armor.Bloodflare;
 using CalamityMod.Rarities;
 using CalamityMod.Sounds;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Items;
 using CalamityMod;
-using CalamityWeaponRemake.Content.Projectiles.Melee.RemakeProjectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,6 +8,7 @@ using CalamityMod.Sounds;
 using Terraria.Audio;
 using Microsoft.Xna.Framework;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {

@@ -10,7 +10,7 @@ using Terraria.ModLoader.IO;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Projectiles.Magic.HeldProjs;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Magic.HeldProjs;
 
 namespace CalamityWeaponRemake.Content.Items.Magic
 {

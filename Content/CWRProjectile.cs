@@ -1,9 +1,9 @@
 ﻿using CalamityMod;
 using CalamityMod.Projectiles.Boss;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Projectiles.Melee;
-using CalamityWeaponRemake.Content.Projectiles.Ranged;
-using CalamityWeaponRemake.Content.Projectiles.Summon;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -18,7 +18,8 @@ namespace CalamityWeaponRemake.Content
     /// </summary>
     public enum SpanTypesEnum : byte
     {
-        DeadWing = 1
+        DeadWing = 1,
+        ClaretCannon
     }
 
     public class CWRProjectile : GlobalProjectile
@@ -138,10 +139,11 @@ namespace CalamityWeaponRemake.Content
 
         public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
         {
+            Player player = Main.player[projectile.owner];
             if (SpanTypes == (byte)SpanTypesEnum.DeadWing)
             {
                 int types = ModContent.ProjectileType<DeadWave>();
-                Player player = Main.player[projectile.owner];
+                
                 if (player.Center.To(target.Center).LengthSquared() < 600 * 600
                     && projectile.type != types
                     && projectile.numHits == 0)
@@ -157,7 +159,30 @@ namespace CalamityWeaponRemake.Content
                         projectile.damage,
                         projectile.knockBack,
                         projectile.owner
-                        ).rotation = vr.ToRotation(); ;
+                        ).rotation = vr.ToRotation();
+                }
+            }
+
+            if (SpanTypes == (byte)SpanTypesEnum.ClaretCannon)
+            {
+                Projectile projectile1 = Projectile.NewProjectileDirect(
+                        CWRUtils.parent(player),
+                        target.position,
+                        Vector2.Zero,
+                        ModContent.ProjectileType<BloodVerdict>(),
+                        projectile.damage,
+                        projectile.knockBack,
+                        projectile.owner
+                        );
+                BloodVerdict bloodVerdict = projectile1.ModProjectile as BloodVerdict;
+                if (bloodVerdict != null)
+                {
+                    bloodVerdict.offsetVr = new Vector2(Main.rand.Next(target.width), Main.rand.Next(target.height));
+                    bloodVerdict.Projectile.ai[1] = target.whoAmI;
+                    Vector2[] vrs = new Vector2[3];
+                    for (int i = 0; i < 3; i++)
+                        vrs[i] = Main.rand.NextVector2Unit() * Main.rand.Next(16, 19);
+                    bloodVerdict.effusionDirection = vrs;
                 }
             }
 
