@@ -85,9 +85,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic.HeldProjs
         public void SpanProj()
         {
             int type = ModContent.ProjectileType<GhastlyBlasts>();
-            if (Time % 15 == 0)
+            if (Time % 15 == 0 && Owner.statMana >= Owner.ActiveItem().mana)
             {
                 SoundEngine.PlaySound(in SoundID.Item117, Projectile.position);
+                Owner.statMana -= Owner.ActiveItem().mana;
+                if (Owner.statMana < 0)
+                    Owner.statMana = 0;
                 for (int i = 0; i < Main.rand.Next(2, 4); i++)
                 {
                     Projectile.NewProjectile(

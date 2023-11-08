@@ -25,7 +25,7 @@ namespace CalamityWeaponRemake.Content.Items.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 120;
+            Item.damage = 69;
             Item.DamageType = DamageClass.Magic;
             Item.noUseGraphic = true;
             Item.channel = true;

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content
 {
-    public class RemakeBuff : GlobalBuff
+    public class CWRBuff : GlobalBuff
     {
         public override void Update(int type, Player player, ref int buffIndex)
         {

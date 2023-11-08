@@ -274,6 +274,15 @@ namespace CalamityWeaponRemake.Common
             return npc.active && npc.timeLeft > 0;
         }
 
+        public static bool AlivesByNPC<T>(this ModNPC npc) where T : ModNPC
+        {
+            if (npc == null) 
+                return false;
+            if (!npc.NPC.Alives())
+                return false;
+            return npc.NPC.type == ModContent.NPCType<T>();
+        }
+
         /// <summary>
         /// 根据索引返回在player域中的player实例，同时考虑合法性校验
         /// </summary>

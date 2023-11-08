@@ -11,6 +11,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using CalamityWeaponRemake.Common;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
 {
@@ -33,6 +34,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             NPC.damage = 50;
             NPC.width = 80;
             NPC.height = 80;
+            NPC.scale = 2;
             NPC.defense = 40;
             NPC.DR_NERD(0.15f);
             NPC.lifeMax = 20000;
@@ -69,7 +71,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
                 NPC.checkDead();
                 return;
             }
-
+            CWRUtils.ClockFrame(ref NPC.frameCounter, 5, 3);
             bool provy = DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
@@ -139,6 +141,11 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             {
                 NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.position.Y + NPC.height, ModContent.NPCType<RavagerAHead2>(), NPC.whoAmI, ai2: body.whoAmI);
             }
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            return false;
         }
     }
 }

@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
 {
@@ -27,6 +28,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             NPC.damage = 55;
             NPC.width = 60;
             NPC.height = 60;
+            NPC.scale = 2;
             NPC.defense = 40;
             NPC.DR_NERD(0.15f);
             NPC.lifeMax = 62500;
@@ -72,7 +74,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
                 return;
             }
 
-            NPC.Center = body.Center + new Vector2(-70f, 88f);
+            NPC.Center = body.Center + new Vector2(-120f, 158f);
         }
 
         public override void HitEffect(NPC.HitInfo hit)
@@ -95,6 +97,11 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Torch, hit.HitDirection, -1f, 0, default, 1f);
                 }
             }
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            return false;
         }
     }
 }

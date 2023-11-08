@@ -41,14 +41,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Magic;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 12;
+            Projectile.localNPCHitCooldown = 18;
         }
 
         public override void AI()
         {
             Projectile.ai[0] += 1f;
-            //bool num = Projectile.velocity.Length() <= 10f;
-            //bool flag = Projectile.ai[1] > 0f;
             Projectile.alpha -= 15;
             if (Projectile.alpha < 0)
             {

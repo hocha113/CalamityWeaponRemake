@@ -1,5 +1,7 @@
 ﻿using CalamityMod;
+using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Magic;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged;
@@ -35,86 +37,7 @@ namespace CalamityWeaponRemake.Content
 
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
-            //Player player = AiBehavior.GetPlayerInstance(projectile.owner);
-            //if (player != null)
-            //{
-            //    bool isPlayer = (source as Player) != null;
-            //    CWRPlayer modPlayer = player.CWR();
-            //    int theReLdamags = projectile.damage / 2;
-
-            //    if (modPlayer.theRelicLuxor == 1)
-            //    {
-            //        if (player.whoAmI == Main.myPlayer
-            //            && projectile.friendly == true
-            //            && projectile.timeLeft >= 30
-            //            && projectile.hide == false
-            //            && isPlayer)
-            //        {
-            //            if (projectile.DamageType == ModContent.GetInstance<MeleeDamageClass>()
-            //                && projectile.type != ModContent.ProjectileType<TheRelicLuxorMelee>()
-            //                && player.ownedProjectileCounts[ModContent.ProjectileType<TheRelicLuxorMelee>()] < 35)
-            //            {
-            //                int proj = Projectile.NewProjectile(source, projectile.Center, projectile.velocity * 0.75f
-            //                    , ModContent.ProjectileType<TheRelicLuxorMelee>(), theReLdamags, 0f, player.whoAmI);
-            //                Main.projectile[proj].ai[1] = projectile.whoAmI;
-            //                Main.projectile[proj].scale = projectile.scale;
-            //            }
-            //            else if (projectile.DamageType == ModContent.GetInstance<ThrowingDamageClass>())
-            //            {
-
-            //            }
-            //            else if (projectile.DamageType == ModContent.GetInstance<RangedDamageClass>())
-            //            {
-
-            //            }
-            //            else if (projectile.DamageType == ModContent.GetInstance<MagicDamageClass>())
-            //            {
-
-            //            }
-            //            else if (projectile.DamageType == ModContent.GetInstance<SummonDamageClass>()
-            //                && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 3)
-            //            {
-
-            //            }
-            //        }
-            //    }
-            //    if (modPlayer.theRelicLuxor == 2)
-            //    {
-            //        if (player.whoAmI == Main.myPlayer
-            //            && projectile.friendly == true
-            //            && projectile.timeLeft >= 30
-            //            && projectile.hide == false
-            //            && isPlayer)
-            //        {
-            //            if (projectile.DamageType == ModContent.GetInstance<MeleeDamageClass>()
-            //                && projectile.type != ModContent.ProjectileType<TheRelicLuxorMelee>()
-            //                && player.ownedProjectileCounts[ModContent.ProjectileType<TheRelicLuxorMelee>()] < 35)
-            //            {
-            //                int proj = Projectile.NewProjectile(source, projectile.Center, projectile.velocity * 0.75f
-            //                    , ModContent.ProjectileType<TheRelicLuxorMelee>(), theReLdamags, 0f, player.whoAmI);
-            //                Main.projectile[proj].ai[1] = projectile.whoAmI;
-            //                Main.projectile[proj].scale = projectile.scale;
-            //            }
-            //            else if (projectile.DamageType == ModContent.GetInstance<ThrowingDamageClass>())
-            //            {
-
-            //            }
-            //            else if (projectile.DamageType == ModContent.GetInstance<RangedDamageClass>())
-            //            {
-
-            //            }
-            //            else if (projectile.DamageType == ModContent.GetInstance<MagicDamageClass>())
-            //            {
-
-            //            }
-            //            else if (projectile.DamageType == ModContent.GetInstance<SummonDamageClass>()
-            //                && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 3)
-            //            {
-
-            //            }
-            //        }
-            //    }
-            //}
+            
         }
 
         public override void AI(Projectile projectile)
@@ -224,7 +147,7 @@ namespace CalamityWeaponRemake.Content
                                     CWRUtils.parent(projectile),
                                     target.Center,
                                     Vector2.Zero,
-                                    ModContent.ProjectileType<BloodBlast>(),
+                                    ModContent.ProjectileType<Content.Projectiles.Weapons.Summon.BloodBlast>(),
                                     projectile.damage / 2,
                                     0,
                                     projectile.owner
@@ -243,6 +166,11 @@ namespace CalamityWeaponRemake.Content
                 if (npc.WhipHitNum > 0)
                     npc.WhipHitNum--;
             }
+
+            if (projectile.type == ModContent.ProjectileType<ExoVortex>())
+            {
+                ExoVortexOnHitDeBug(target);
+            }
         }
 
         public override bool PreDraw(Projectile projectile, ref Color lightColor)
@@ -252,6 +180,14 @@ namespace CalamityWeaponRemake.Content
                 ThanatosLaserDrawDeBug(projectile, ref lightColor);
             }
             return base.PreDraw(projectile, ref lightColor);
+        }
+
+        private void ExoVortexOnHitDeBug(NPC npc)
+        {
+            if (npc.type == ModContent.NPCType<BrimstoneHeart>())
+            {
+                return;
+            }
         }
 
         private bool ThanatosLaserDrawDeBug(Projectile projectile, ref Color lightColor)
