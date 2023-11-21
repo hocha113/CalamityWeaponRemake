@@ -173,16 +173,6 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             }
         }
 
-        public override void SaveData(TagCompound tag)
-        {
-            //tag.Add("TerrorBlades_rageEnergy", Item.CWR().MeleeCharge);
-        }
-
-        public override void LoadData(TagCompound tag)
-        {
-            //Item.CWR().MeleeCharge = tag.GetFloat("TerrorBlades_rageEnergy");
-        }
-
         public void DrawRageEnergyChargeBar(Player player)
         {
             if (player.HeldItem != Item) return;

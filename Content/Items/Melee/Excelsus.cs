@@ -88,11 +88,6 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             return true;
         }
 
-        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
-        {
-            
-        }
-
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.NewProjectile(player.GetSource_ItemUse(Item), target.Center, Vector2.Zero, ModContent.ProjectileType<LaserFountains>(), Item.damage, 0f, player.whoAmI, target.whoAmI);

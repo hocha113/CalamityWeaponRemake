@@ -38,10 +38,8 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
             Item.shoot = ModContent.ProjectileType<DaemonsFlameHeldProj>();
             Item.shootSpeed = 20f;
             Item.useAmmo = AmmoID.Arrow;
-
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.rare = ModContent.RarityType<PureGreen>();
-
             Item.CWR().remakeItem = true;
             Item.Calamity().canFirePointBlankShots = true;
         }

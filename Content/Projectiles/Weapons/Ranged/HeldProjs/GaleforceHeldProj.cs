@@ -1,4 +1,5 @@
-﻿using CalamityMod.Projectiles.Ranged;
+﻿using CalamityMod;
+using CalamityMod.Projectiles.Ranged;
 using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -78,50 +79,58 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
         public void SpanProj()
         {
             Vector2 vr = Projectile.rotation.ToRotationVector2() * galeforce.shootSpeed;
-            Projectile arrow = GetProjectileInstance(useArrow);
-            int offsetDamages = arrow == null ? 0 : arrow.damage;
-
-            if (Owner.altFunctionUse == 2)
+            bool fire = Time % galeforce.useTime == 0;
+            int ArrowTypes = ProjectileID.WoodenArrowFriendly;
+            float scaleFactor11 = 14f;
+            int weaponDamage2 = Owner.GetWeaponDamage(Owner.ActiveItem());
+            float weaponKnockback2 = Owner.ActiveItem().knockBack;
+            bool haveAmmo = Owner.PickAmmo(Owner.ActiveItem(), out ArrowTypes, out scaleFactor11, out weaponDamage2, out weaponKnockback2, out _, !fire);
+            weaponKnockback2 = Owner.GetWeaponKnockback(Owner.ActiveItem(), weaponKnockback2);
+            if (haveAmmo)
             {
-                if (Time % 5 == 0)
+                if (Owner.altFunctionUse == 2)
                 {
-                    SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);
-                    vr *= 0.5f;
-                    int ammo = Projectile.NewProjectile(
-                                Owner.parent(),
-                                Projectile.Center,
-                                vr,
-                                ModContent.ProjectileType<FeatherLarge>(),
-                                Projectile.damage / 2,
-                                Projectile.knockBack,
-                                Projectile.owner
-                                );
-                }
-            }
-            else
-            {
-                if (Time % galeforce.useTime == 0)
-                {
-                    SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);
-                    int ammo = Projectile.NewProjectile(
-                                Owner.parent(),
-                                Projectile.Center,
-                                vr,
-                                useArrow,
-                                galeforce.damage + offsetDamages,
-                                Projectile.knockBack,
-                                Projectile.owner
-                                );
-
-                    for (int i = -8; i <= 8; i += 8)
+                    if (Time % 5 == 0)
                     {
-                        Vector2 velocity2 = vr.RotatedBy(MathHelper.ToRadians(i));
-                        Projectile.NewProjectile(Owner.parent()
-                            , Projectile.Center, velocity2, ModContent.ProjectileType<FeatherLarge>()
-                            , (galeforce.damage + offsetDamages) / 4, 0f, Owner.whoAmI);
+                        SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);
+                        vr *= 0.5f;
+                        int ammo = Projectile.NewProjectile(
+                                    Owner.parent(),
+                                    Projectile.Center,
+                                    vr,
+                                    ModContent.ProjectileType<FeatherLarge>(),
+                                    weaponDamage2 / 2,
+                                    weaponKnockback2,
+                                    Projectile.owner
+                                    );
+                    }
+                }
+                else
+                {
+                    if (fire)
+                    {
+                        SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);
+                        int ammo = Projectile.NewProjectile(
+                                    Owner.parent(),
+                                    Projectile.Center,
+                                    vr,
+                                    useArrow,
+                                    weaponDamage2,
+                                    weaponKnockback2,
+                                    Projectile.owner
+                                    );
+
+                        for (int i = -8; i <= 8; i += 8)
+                        {
+                            Vector2 velocity2 = vr.RotatedBy(MathHelper.ToRadians(i));
+                            Projectile.NewProjectile(Owner.parent()
+                                , Projectile.Center, velocity2, ModContent.ProjectileType<FeatherLarge>()
+                                , weaponDamage2 / 4, 0f, Owner.whoAmI);
+                        }
                     }
                 }
             }
+            
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

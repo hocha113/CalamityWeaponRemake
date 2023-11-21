@@ -12,7 +12,7 @@ using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
-    internal class RemakeGildedProboscis : GlobalItem
+    internal class RGildedProboscis : GlobalItem
     {
         public override void SetStaticDefaults()
         {

@@ -41,7 +41,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             Projectile.tileCollide = false;
             Projectile.penetrate = 3;
             Projectile.MaxUpdates = 2;
-            Projectile.timeLeft = 150 * Projectile.MaxUpdates;
+            Projectile.timeLeft = 70 * Projectile.MaxUpdates;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 12 * Projectile.MaxUpdates;
         }

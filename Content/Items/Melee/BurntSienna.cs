@@ -32,11 +32,11 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.CWR().remakeItem = true;
         }
 
-        int sengs = 0;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            sengs++;
-            if (sengs > 3)
+            Item.initialize();
+            Item.CWR().ai[0]++;
+            if (Item.CWR().ai[0] > 3)
             {
                 for (int i = 0; i < 3; i++)
                 {
@@ -53,7 +53,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                     Main.projectile[proj].hostile = false;
                     Main.projectile[proj].friendly = true;
                 }
-                sengs = 0;
+                Item.CWR().ai[0] = 0;
             }
 
             return false;

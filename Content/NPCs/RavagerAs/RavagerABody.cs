@@ -58,6 +58,10 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
         public bool aLegLeftActive => newALegLeft == null ? false : newALegLeft.ModNPC.AlivesByNPC<RavagerALegLeft>();
         public bool aLegRightActive => newALegRight == null ? false : newALegRight.ModNPC.AlivesByNPC<RavagerALegRight>();
 
+        public int Status { get => (int)NPC.ai[0]; set => NPC.ai[0] = value; }
+        public int Behavior { get => (int)NPC.ai[1]; set => NPC.ai[1] = value; }
+        public int Time { get => (int)NPC.ai[2]; set => NPC.ai[2] = value; }
+
         public Player target = null;
 
         public override void SetStaticDefaults()

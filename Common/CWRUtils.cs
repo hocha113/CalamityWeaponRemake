@@ -20,6 +20,7 @@ using Terraria.ObjectData;
 using Terraria.WorldBuilding;
 using Terraria.UI;
 using ReLogic.Utilities;
+using System.Reflection.Metadata;
 
 namespace CalamityWeaponRemake.Common
 {
@@ -895,6 +896,12 @@ namespace CalamityWeaponRemake.Common
             else text = English;
             if (text == null || text == default) text = "Invalid Character";
             return text;
+        }
+
+        public static string GetPath(string baseTexPath)
+        {
+            string path1 = baseTexPath.Replace("CalamityWeaponRemake/", string.Empty);
+            return CWRConstant.Asset + path1;
         }
 
         /// <summary>

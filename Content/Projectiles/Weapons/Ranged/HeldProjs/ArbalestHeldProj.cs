@@ -1,13 +1,14 @@
-﻿using CalamityWeaponRemake.Common;
+﻿using CalamityMod;
+using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using rail;
+using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static CalamityWeaponRemake.Common.CWRUtils;
 using static CalamityWeaponRemake.Common.CWRUtils;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
@@ -77,64 +78,84 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
 
         public void SpanProj()
         {
-            if (Time > 20 && Time < 50 && Owner.PressKey())
+            bool fire = Time % arbalest.useTime == 0;
+            int ArrowTypes = ProjectileID.WoodenArrowFriendly;
+            float scaleFactor11 = 14f;
+            int weaponDamage2 = Owner.GetWeaponDamage(Owner.ActiveItem());
+            float weaponKnockback2 = Owner.ActiveItem().knockBack;
+            bool haveAmmo = Owner.PickAmmo(Owner.ActiveItem(), out ArrowTypes, out scaleFactor11, out weaponDamage2, out weaponKnockback2, out _, !fire);
+            weaponKnockback2 = Owner.GetWeaponKnockback(Owner.ActiveItem(), weaponKnockback2);
+            if (haveAmmo)
             {
-                if (Time2 % 10 == 0)
+                if (Time > 20 && Time < 50 && Owner.PressKey())
                 {
-                    SoundEngine.PlaySound(in SoundID.Item5, Owner.Center);
-                    int randShootNum = Main.rand.Next(4, 6);
-                    Vector2 spanPos = Owner.Center + toMou.UnitVector() * 53;
-                    for (int i = 0; i < randShootNum; i++)
+                    if (Time2 % 10 == 0)
                     {
-                        Vector2 vr = (toMou.ToRotation() + MathHelper.ToRadians(Main.rand.NextFloat(-5, 5))).ToRotationVector2() * Main.rand.Next(17, 27);
-                        int ammo = Projectile.NewProjectile(
-                            Owner.parent(),
-                            spanPos,
-                            vr,
-                            (int)Projectile.localAI[1],
-                            Projectile.damage,
-                            Projectile.knockBack,
-                            Projectile.owner
-                            );
-                        Main.projectile[ammo].MaxUpdates = 2;
-                        Main.projectile[ammo].scale = 0.5f + Projectile.localAI[2] / 16;
+                        SoundEngine.PlaySound(in SoundID.Item5, Owner.Center);
+                        int randShootNum = Main.rand.Next(4, 6);
+                        Vector2 spanPos = Owner.Center + toMou.UnitVector() * 53;
+                        for (int i = 0; i < randShootNum; i++)
+                        {
+                            Vector2 vr = (toMou.ToRotation() + MathHelper.ToRadians(Main.rand.NextFloat(-5, 5))).ToRotationVector2() * Main.rand.Next(17, 27);
+                            int ammo = Projectile.NewProjectile(
+                                Owner.parent(),
+                                spanPos,
+                                vr,
+                                ArrowTypes,
+                                weaponDamage2,
+                                weaponKnockback2,
+                                Projectile.owner
+                                );
+                            Main.projectile[ammo].MaxUpdates = 2;
+                            Main.projectile[ammo].scale = 0.5f + Projectile.localAI[2] / 16;
+                        }
+                        Projectile.localAI[2]++;
+                        if (Projectile.localAI[2] > 16)
+                            Projectile.localAI[2] = 0;
                     }
-                    Projectile.localAI[2]++;
-                    if (Projectile.localAI[2] > 16)
-                        Projectile.localAI[2] = 0;
-                }
 
+                }
+                if (Time > 60)
+                    Time = 0;
             }
-            if (Time > 60)
-                Time = 0;
         }
 
         public void SpanProj2()
         {
-            if (Time >= 30 && Time <= 60 && Owner.PressKey(false))
+            bool fire = Time % arbalest.useTime == 0;
+            int ArrowTypes = ProjectileID.WoodenArrowFriendly;
+            float scaleFactor11 = 14f;
+            int weaponDamage2 = Owner.GetWeaponDamage(Owner.ActiveItem());
+            float weaponKnockback2 = Owner.ActiveItem().knockBack;
+            bool haveAmmo = Owner.PickAmmo(Owner.ActiveItem(), out ArrowTypes, out scaleFactor11, out weaponDamage2, out weaponKnockback2, out _, !fire);
+            weaponKnockback2 = Owner.GetWeaponKnockback(Owner.ActiveItem(), weaponKnockback2);
+            if (haveAmmo)
             {
-                if (Time2 % 5 == 0)
+                if (Time >= 30 && Time <= 60 && Owner.PressKey(false))
                 {
-                    Vector2 spanPos = Owner.Center + toMou.UnitVector() * 53;
-                    int ammo = Projectile.NewProjectile(
-                            Owner.parent(),
-                            spanPos,
-                            Projectile.rotation.ToRotationVector2() * 18,
-                            (int)Projectile.localAI[1],
-                            Projectile.damage,
-                            Projectile.knockBack,
-                            Projectile.owner
-                            );
-                    Main.projectile[ammo].MaxUpdates = 3;
-                    Main.projectile[ammo].penetrate = 1;
-                    Main.projectile[ammo].usesLocalNPCImmunity = true;
-                    Main.projectile[ammo].localNPCHitCooldown = -1;
-                    Main.projectile[ammo].rotation = Projectile.rotation + MathHelper.PiOver2;
-                    Main.projectile[ammo].scale = 1.5f;
+                    if (Time2 % 5 == 0)
+                    {
+                        Vector2 spanPos = Owner.Center + toMou.UnitVector() * 53;
+                        int ammo = Projectile.NewProjectile(
+                                Owner.parent(),
+                                spanPos,
+                                Projectile.rotation.ToRotationVector2() * 18,
+                                ArrowTypes,
+                                weaponDamage2,
+                                weaponKnockback2,
+                                Projectile.owner
+                                );
+                        Main.projectile[ammo].MaxUpdates = 3;
+                        Main.projectile[ammo].penetrate = 1;
+                        Main.projectile[ammo].usesLocalNPCImmunity = true;
+                        Main.projectile[ammo].localNPCHitCooldown = -1;
+                        Main.projectile[ammo].rotation = Projectile.rotation + MathHelper.PiOver2;
+                        Main.projectile[ammo].scale = 1.5f;
+                    }
                 }
+                if (Time > 60)
+                    Time = 0;
             }
-            if (Time > 60)
-                Time = 0;
         }
 
         public void StickToOwner()

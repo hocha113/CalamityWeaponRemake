@@ -64,7 +64,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             if (target.CWR().TerratomereBoltOnHitNum > 6)
                 target.CWR().TerratomereBoltOnHitNum = 0;
             target.netUpdate = true;
-            if (target.CWR().TerratomereBoltOnHitNum > 5)
+            if (target.CWR().TerratomereBoltOnHitNum > 5 && Main.player[Projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<TerratomereExplosion>()] <= 3)
             {
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<TerratomereExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 if (Projectile.timeLeft > 30)

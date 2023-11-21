@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using System;
 using Terraria.Audio;
+using CalamityMod.Particles;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 {
@@ -105,6 +106,18 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
                     dust.customData = 0.025f;
                     dust.scale *= dustType == 56 ? 0.5f : 1;
+                }
+
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    for (int i = 0; i < 10; i++)//生成这种粒子不是好主意
+                    {
+                        Vector2 particleSpeed = CWRUtils.GetRandomVevtor(60, 120, -8 * (i / 20f));
+                        Vector2 pos = Projectile.Center + new Vector2(Main.rand.Next(-16, 6), Main.rand.Next(0, 76)) + new Vector2(Main.rand.Next(-166, 166), 0);
+                        Particle energyLeak = new SquishyLightParticle(pos, particleSpeed
+                            , Main.rand.NextFloat(0.6f, 1.1f), Color.Purple, 60, 1, 1.5f, hueShift: 0.0f);
+                        GeneralParticleHandler.SpawnParticle(energyLeak);
+                    }
                 }
             }
         }

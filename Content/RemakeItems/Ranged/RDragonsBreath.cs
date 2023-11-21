@@ -13,7 +13,7 @@ using static CalamityWeaponRemake.Common.CWRUtils;
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
 {
-    internal class RemakeDragonsBreath : GlobalItem
+    internal class RDragonsBreath : GlobalItem
     {
         public override void SetDefaults(Item item)
         {

@@ -18,7 +18,7 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
-    internal class RemakeBansheeHook : GlobalItem
+    internal class RBansheeHook : GlobalItem
     {
         public override void SetStaticDefaults()
         {

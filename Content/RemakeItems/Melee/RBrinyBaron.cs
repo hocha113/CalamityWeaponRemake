@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
-    public class RemakeBrinyBaron : GlobalItem
+    public class RBrinyBaron : GlobalItem
     {
         public override void SetDefaults(Item item)
         {

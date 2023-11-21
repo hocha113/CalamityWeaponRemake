@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
-    public class RemakeCosmicShiv : GlobalItem
+    public class RCosmicShiv : GlobalItem
     {
         public override void SetDefaults(Item item)
         {

@@ -2,7 +2,7 @@
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
-    internal class RemakeArkoftheCosmos : GlobalItem
+    internal class RArkoftheCosmos : GlobalItem
     {
         //public override void SetDefaults(Item entity)
         //{
