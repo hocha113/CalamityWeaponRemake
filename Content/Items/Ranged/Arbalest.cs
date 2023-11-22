@@ -1,13 +1,12 @@
-﻿using CalamityMod.Items;
-using CalamityMod;
-using Terraria.Audio;
+﻿using CalamityMod;
+using CalamityMod.Items;
+using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria;
 using Terraria.ModLoader;
-using CalamityWeaponRemake.Common;
-using Microsoft.Xna.Framework;
-using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs;
 
 namespace CalamityWeaponRemake.Content.Items.Ranged
 {
@@ -68,7 +67,7 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Item.initialize();            
+            Item.initialize();
             Item.CWR().ai[1] = type;
             if (player.ownedProjectileCounts[ModContent.ProjectileType<ArbalestHeldProj>()] <= 0)
             {

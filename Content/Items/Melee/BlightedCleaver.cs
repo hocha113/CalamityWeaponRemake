@@ -1,17 +1,14 @@
 ﻿using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Items;
-using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Humanizer.In;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {
@@ -50,8 +47,8 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position
             , Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            base.PostDrawInInventory(spriteBatch, position, frame, drawColor, itemColor, origin, scale);       
-            
+            base.PostDrawInInventory(spriteBatch, position, frame, drawColor, itemColor, origin, scale);
+
             if (Item.CWR().HoldOwner != null && Item.CWR().MeleeCharge > 0)
             {
                 DrawRageEnergyChargeBar(Item.CWR().HoldOwner);
@@ -82,12 +79,12 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                 Item.useTime = 26;
             }
 
-            UpdateBar();            
+            UpdateBar();
         }
 
         private void UpdateBar()
         {
-            if (rageEnergy > BlightedCleaverMaxRageEnergy) 
+            if (rageEnergy > BlightedCleaverMaxRageEnergy)
                 rageEnergy = BlightedCleaverMaxRageEnergy;
         }
 

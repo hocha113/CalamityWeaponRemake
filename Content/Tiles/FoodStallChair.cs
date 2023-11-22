@@ -5,7 +5,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -92,7 +91,7 @@ namespace CalamityWeaponRemake.Content.Tiles
                     }
                 }
             }
-            
+
             return true;
         }
 

@@ -1,13 +1,12 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod;
+﻿using CalamityMod;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityWeaponRemake.Common;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using CalamityWeaponRemake.Common;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 {

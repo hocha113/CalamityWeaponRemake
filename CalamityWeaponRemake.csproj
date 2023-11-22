@@ -38,6 +38,7 @@
     <None Remove="Assets\Items\VoidVortex.png" />
     <None Remove="Assets\Items\VoltaicClimax.png" />
     <None Remove="Assets\Masking\BigGreyscaleCircle.png" />
+    <None Remove="Assets\Masking\BloomCircle.png" />
     <None Remove="Assets\Masking\CosmicFlame.png" />
     <None Remove="Assets\Masking\EnergyTrail.png" />
     <None Remove="Assets\Masking\EnergyTrail_White.png" />
@@ -56,6 +57,7 @@
     <None Remove="Assets\Masking\Hexagram2_White.png" />
     <None Remove="Assets\Masking\HollowCircleSoftEdge.png" />
     <None Remove="Assets\Masking\HollowCircleSoftEdge_White.png" />
+    <None Remove="Assets\Masking\Light.png" />
     <None Remove="Assets\Masking\LightningTrail.png" />
     <None Remove="Assets\Masking\LightningTrail_White.png" />
     <None Remove="Assets\Masking\LiquidTrailAlt.png" />
@@ -112,6 +114,7 @@
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\Particles\" />
     <Folder Include="Content\RemakeItems\Summon\" />
   </ItemGroup>
   <ItemGroup>

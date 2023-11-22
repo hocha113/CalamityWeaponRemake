@@ -1,8 +1,6 @@
 ﻿using CalamityMod;
-using CalamityMod.Projectiles.Magic;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Items.Magic;
-using CalamityWeaponRemake.Content.Projectiles.Weapons.Magic;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

@@ -1,10 +1,10 @@
 ﻿using CalamityWeaponRemake.Common;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
-using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips

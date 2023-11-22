@@ -1,15 +1,15 @@
-﻿using CalamityMod.Particles;
+﻿using CalamityMod;
+using CalamityMod.Particles;
 using CalamityMod.Sounds;
-using CalamityMod;
-using Microsoft.Xna.Framework.Graphics;
+using CalamityWeaponRemake.Content.Items.Melee;
 using Microsoft.Xna.Framework;
-using System.IO;
+using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria;
 using Terraria.ModLoader;
-using CalamityWeaponRemake.Content.Items.Melee;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosProj
 {

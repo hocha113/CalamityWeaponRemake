@@ -37,7 +37,7 @@ namespace CalamityWeaponRemake.Content
 
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
-            
+
         }
 
         public override void AI(Projectile projectile)
@@ -66,7 +66,7 @@ namespace CalamityWeaponRemake.Content
             if (SpanTypes == (byte)SpanTypesEnum.DeadWing)
             {
                 int types = ModContent.ProjectileType<DeadWave>();
-                
+
                 if (player.Center.To(target.Center).LengthSquared() < 600 * 600
                     && projectile.type != types
                     && projectile.numHits == 0)
@@ -116,15 +116,15 @@ namespace CalamityWeaponRemake.Content
                 switch (wTypes)
                 {
                     case WhipHitTypeEnum.WhiplashGalactica:
-                        if ( ( 
+                        if ((
                             (projectile.numHits % 3 == 0 && projectile.minion == true)
                             || (projectile.numHits == 0 && projectile.minion == false)
-                            ) 
+                            )
                             && projectile.type != ModContent.ProjectileType<CosmicFire>()
                             )
                         {
                             float randRot = Main.rand.NextFloat(MathHelper.TwoPi);
-                            
+
                             for (int i = 0; i < 3; i++)
                             {
                                 Vector2 vr = (MathHelper.TwoPi / 3 * i + randRot).ToRotationVector2() * 10;
@@ -201,7 +201,7 @@ namespace CalamityWeaponRemake.Content
                 Vector2 drawOffset = projectile.velocity.SafeNormalize(Vector2.Zero) * -30f;
                 projectile.Center += drawOffset;
                 if (projectile.type.ValidateIndex(Main.maxProjectiles))
-                CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
+                    CalamityUtils.DrawAfterimagesCentered(projectile, ProjectileID.Sets.TrailingMode[projectile.type], lightColor, 1);
                 projectile.Center -= drawOffset;
                 return false;
             }

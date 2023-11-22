@@ -1,19 +1,17 @@
-﻿using CalamityMod.Items;
+﻿using CalamityMod;
+using CalamityMod.Items;
+using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using CalamityWeaponRemake.Common;
-using CalamityMod.Rarities;
-using System.Linq;
-using System;
-using CalamityMod;
-using Microsoft.Xna.Framework.Input;
-using Terraria.Localization;
 
 namespace CalamityWeaponRemake.Content.Items
 {

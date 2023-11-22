@@ -1,10 +1,7 @@
 ﻿using CalamityMod.Projectiles.Ranged;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.Interfaces;
-using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.Audio;

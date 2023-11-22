@@ -37,7 +37,7 @@ namespace CalamityWeaponRemake.Content.Buffs
             {
                 Vector2 pos = npc.Center + Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * Main.rand.Next(-npc.width, npc.width);
                 Dust.NewDust(pos, 1, 1, ModContent.DustType<SoulFire>());
-            }               
+            }
         }
     }
 }

@@ -1,20 +1,15 @@
-﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Buffs;
-using Microsoft.Xna.Framework.Graphics;
+﻿using CalamityMod;
+using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
-using CalamityMod;
-using System;
 using Terraria.Graphics.Shaders;
-using CalamityMod.Particles.Metaballs;
-using CalamityMod.Particles;
-using Microsoft.CodeAnalysis;
-using CalamityWeaponRemake.Content.Particles;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips
 {

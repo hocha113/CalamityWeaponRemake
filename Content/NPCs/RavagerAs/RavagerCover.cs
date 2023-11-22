@@ -1,13 +1,12 @@
-﻿using CalamityMod.Events;
-using CalamityMod;
+﻿using CalamityMod;
+using CalamityMod.Events;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.UI.VanillaBossBars;
 using Terraria;
-using Terraria.ModLoader;
-using CalamityWeaponRemake.Common;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
 {
@@ -61,7 +60,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
                 if (DownedBossSystem.downedProvidence && !NPC.AnyNPCs(types) && !NPC.AnyNPCs(types2))
                 {
                     SoundEngine.PlaySound(SoundID.ScaryScream, npc.Center);
-                    
+
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int soud = NPC.NewNPC(new EntitySource_BossSpawn(npc), (int)npc.position.X, (int)npc.position.Y, types, 1);

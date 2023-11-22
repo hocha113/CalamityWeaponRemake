@@ -1,26 +1,23 @@
-﻿using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using System;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria;
-using CalamityWeaponRemake.Content;
-using System.IO;
-using System.Linq;
-using Terraria.Audio;
-using Terraria.Chat;
-using Terraria.GameInput;
-using Terraria.Localization;
+﻿using CalamityWeaponRemake.Content;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using System.Reflection;
-using Terraria.Graphics.Shaders;
-using Terraria.ObjectData;
-using Terraria.WorldBuilding;
-using Terraria.UI;
 using ReLogic.Utilities;
-using System.Reflection.Metadata;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Terraria;
+using Terraria.Audio;
+using Terraria.Chat;
+using Terraria.DataStructures;
+using Terraria.GameInput;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
+using Terraria.ObjectData;
+using Terraria.UI;
+using Terraria.WorldBuilding;
 
 namespace CalamityWeaponRemake.Common
 {
@@ -277,7 +274,7 @@ namespace CalamityWeaponRemake.Common
 
         public static bool AlivesByNPC<T>(this ModNPC npc) where T : ModNPC
         {
-            if (npc == null) 
+            if (npc == null)
                 return false;
             if (!npc.NPC.Alives())
                 return false;
@@ -1295,7 +1292,7 @@ namespace CalamityWeaponRemake.Common
             // 将输入角度与零角度比较，以获得标准化的角度
             return CompareAngle(0, angleIn) + (float)Math.PI;
         }
-        
+
         /// <summary>
         /// 色彩混合
         /// </summary>

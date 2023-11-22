@@ -12,7 +12,7 @@ namespace CalamityWeaponRemake.Content
         public static int[] RemakItemType => new int[]
         {
             ItemType<BrinyBaron>(),
-            ItemType<CosmicShiv>(),            
+            ItemType<CosmicShiv>(),
             ItemType<AirSpinner>(),
             ItemType<BansheeHook>(),
             ItemType<BlightedCleaver>(),
@@ -40,7 +40,7 @@ namespace CalamityWeaponRemake.Content
         public static int[] VrsCalamityItemType => new int[]
         {
             ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>(),
-            ItemType<CalamityMod.Items.Weapons.Melee.CosmicShiv>(),           
+            ItemType<CalamityMod.Items.Weapons.Melee.CosmicShiv>(),
             ItemType<CalamityMod.Items.Weapons.Melee.AirSpinner>(),
             ItemType<CalamityMod.Items.Weapons.Melee.BansheeHook>(),
             ItemType<CalamityMod.Items.Weapons.Melee.BlightedCleaver>(),

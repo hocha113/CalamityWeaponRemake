@@ -1,10 +1,10 @@
 ﻿using CalamityWeaponRemake.Common;
-using Terraria.DataStructures;
-using Terraria;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic
 {

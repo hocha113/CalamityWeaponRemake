@@ -1,13 +1,12 @@
-﻿using CalamityMod.Events;
+﻿using CalamityMod;
+using CalamityMod.Events;
 using CalamityMod.NPCs.Ravager;
-using CalamityMod.NPCs;
-using CalamityMod;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 using CalamityWeaponRemake.Common;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
 {

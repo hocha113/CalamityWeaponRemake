@@ -1,13 +1,13 @@
-﻿using CalamityMod.Items;
+﻿using CalamityMod;
+using CalamityMod.Items;
+using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
-using CalamityMod.Rarities;
-using CalamityMod;
-using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
 {

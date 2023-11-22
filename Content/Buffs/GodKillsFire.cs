@@ -1,9 +1,8 @@
-﻿using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
+﻿using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Dusts;
-using Microsoft.Xna.Framework;
-using CalamityWeaponRemake.Common;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Buffs
 {

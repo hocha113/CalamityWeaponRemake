@@ -1,5 +1,4 @@
-﻿using CalamityMod;
-using CalamityMod.Items;
+﻿using CalamityMod.Items;
 using CalamityMod.Items.Armor.Bloodflare;
 using CalamityMod.Rarities;
 using CalamityMod.Sounds;
@@ -60,7 +59,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 foreach (TooltipLine line in tooltips.ToList()) //复制 tooltips 集合，以便在遍历时修改
                 {
                     if (line.Name == "Tooltip0")
-                    line.Hide();
+                        line.Hide();
                 }
 
                 TooltipLine newLine = new TooltipLine(Mod, "CWRText"

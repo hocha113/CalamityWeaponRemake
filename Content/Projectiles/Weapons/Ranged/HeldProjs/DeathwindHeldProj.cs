@@ -1,6 +1,5 @@
 ﻿using CalamityMod;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -154,7 +153,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
             {
                 toMou = Owner.Center.To(Main.MouseWorld);
                 if (Owner.ownedProjectileCounts[ModContent.ProjectileType<DeathLaser>()] == 0)
-                Projectile.rotation = toMou.ToRotation();
+                    Projectile.rotation = toMou.ToRotation();
                 Owner.SetDummyItemTime(2);
                 Projectile.timeLeft = 2;
             }

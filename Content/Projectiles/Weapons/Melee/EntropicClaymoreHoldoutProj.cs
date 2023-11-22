@@ -1,18 +1,15 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod;
 using CalamityMod.Projectiles.Melee;
-using CalamityMod;
 using CalamityWeaponRemake.Common;
-using Microsoft.Xna.Framework.Graphics;
+using CalamityWeaponRemake.Content.Items.Melee;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 using System;
-using Terraria.Audio;
+using System.Collections.Generic;
+using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria;
 using Terraria.ModLoader;
-using CalamityWeaponRemake.Content.Items.Melee;
-using System.Linq;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 {

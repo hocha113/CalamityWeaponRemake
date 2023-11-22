@@ -1,11 +1,10 @@
 ﻿using CalamityMod;
-using System;
+using CalamityWeaponRemake.Common;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using CalamityWeaponRemake.Common;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons
 {

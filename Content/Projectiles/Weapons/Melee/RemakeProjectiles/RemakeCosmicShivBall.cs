@@ -2,7 +2,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

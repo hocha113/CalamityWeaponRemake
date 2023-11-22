@@ -1,16 +1,15 @@
-﻿using CalamityMod.Events;
+﻿using CalamityMod;
+using CalamityMod.Events;
 using CalamityMod.NPCs.Ravager;
-using CalamityMod.NPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
-using CalamityMod;
+using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
 using System;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria;
 using Terraria.ModLoader;
-using CalamityWeaponRemake.Common;
 
 namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
 {

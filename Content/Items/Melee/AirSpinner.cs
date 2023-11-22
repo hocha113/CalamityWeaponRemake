@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Items;
-using CalamityMod.Projectiles.Melee.Yoyos;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
 using Terraria.ID;

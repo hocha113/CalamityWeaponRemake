@@ -1,16 +1,14 @@
-﻿using CalamityMod.Items;
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod;
+using CalamityMod.Items;
 using CalamityMod.Rarities;
-using CalamityMod;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.DataStructures;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using Microsoft.Xna.Framework;
-using Terraria.ID;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Magic.HeldProjs;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Items.Magic
 {

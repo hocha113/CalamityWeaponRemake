@@ -1,17 +1,14 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.NPCs.Ravager;
-using CalamityMod.NPCs;
 using CalamityMod.World;
-using CalamityMod;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using System;
-using Terraria.Audio;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
 using CalamityWeaponRemake.Common;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
 {

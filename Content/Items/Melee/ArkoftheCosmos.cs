@@ -138,7 +138,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                 {
                     float angle = velocity.ToRotation();
                     Projectile.NewProjectile(
-                        source, player.Center + angle.ToRotationVector2() * 90f, velocity, 
+                        source, player.Center + angle.ToRotationVector2() * 90f, velocity,
                         ModContent.ProjectileType<ArkoftheCosmosBlasts>(), (int)(damage * Charge * chargeDamageMultiplier * blastDamageMultiplier), 0f, player.whoAmI, Charge);
                     if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3f)
                     {
@@ -146,15 +146,15 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                     }
                     Charge = 0f;
                 }
-                else if 
+                else if
                     (!Main.projectile.Any(
-                    (Projectile n) => n.active && n.owner == player.whoAmI 
-                    && (n.type == ModContent.ProjectileType<ArkoftheAncientsParryHoldouts>() 
-                    || n.type == ModContent.ProjectileType<TrueArkoftheAncientsParryHoldout>() 
-                    || n.type == ModContent.ProjectileType<ArkoftheElementsParryHoldout>() 
+                    (Projectile n) => n.active && n.owner == player.whoAmI
+                    && (n.type == ModContent.ProjectileType<ArkoftheAncientsParryHoldouts>()
+                    || n.type == ModContent.ProjectileType<TrueArkoftheAncientsParryHoldout>()
+                    || n.type == ModContent.ProjectileType<ArkoftheElementsParryHoldout>()
                     || n.type == ModContent.ProjectileType<ArkoftheCosmosParryHoldouts>())))
                 {
-                    Projectile.NewProjectile(source, player.Center, velocity, 
+                    Projectile.NewProjectile(source, player.Center, velocity,
                         ModContent.ProjectileType<ArkoftheCosmosParryHoldouts>(), damage, 0f, player.whoAmI);
                 }
                 return false;

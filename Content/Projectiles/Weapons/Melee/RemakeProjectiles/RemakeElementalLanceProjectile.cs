@@ -3,7 +3,6 @@ using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Sounds;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

@@ -1,7 +1,6 @@
 ﻿using CalamityMod;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Typeless;
 using CalamityWeaponRemake.Common;
@@ -10,11 +9,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.Enums;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ID;
-using Terraria.Audio;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles
 {

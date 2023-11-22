@@ -2,9 +2,7 @@
 using CalamityWeaponRemake.Content.Projectiles.Bosses.RavagerAProjs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Reflection.Metadata;
 using Terraria;
-using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
@@ -81,7 +79,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
                 }
                 Projectile.NewProjectile(NPC.parent(), NPC.Center.X, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<ShockwaveBoom>(), 0, 1f, Main.myPlayer, 0f, 0f);
                 NPC.active = false;
-            }               
+            }
             Time++;
         }
 

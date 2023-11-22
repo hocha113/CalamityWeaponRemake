@@ -12,7 +12,6 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {
@@ -78,13 +77,13 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             }
 
             UpdateBar();
-            
+
             if (rageEnergy > 0)
             {
                 Item.damage = 360;
                 Item.shootSpeed = 20f;
                 Item.useAnimation = 10;
-                Item.useTime = 10;               
+                Item.useTime = 10;
             }
             else
             {
@@ -105,7 +104,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         {
             bool shootBool = false;
             if (!Item.CWR().closeCombat)
-            {                
+            {
                 bool olduseup = rageEnergy > 0;//这里使用到了效差的流程思想，用于判断能量耗尽的那一刻            
                 if (rageEnergy > 0)
                 {
@@ -132,7 +131,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                     SoundEngine.PlaySound(ModSound.Peuncharge, player.Center);
                 }
             }
-            
+
             Item.CWR().closeCombat = false;
             return shootBool;
         }

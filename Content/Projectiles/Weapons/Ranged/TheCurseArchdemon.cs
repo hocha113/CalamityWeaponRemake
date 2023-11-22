@@ -1,10 +1,7 @@
 ﻿using CalamityMod.Dusts;
-using CalamityMod.Particles;
 using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged

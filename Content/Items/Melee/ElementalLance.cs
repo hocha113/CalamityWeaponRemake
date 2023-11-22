@@ -1,12 +1,11 @@
 ﻿using CalamityMod.Items;
-using CalamityMod.Projectiles.Melee.Spears;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
 using CalamityWeaponRemake.Common;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {

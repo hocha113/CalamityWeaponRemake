@@ -1,15 +1,15 @@
-﻿using CalamityMod.Items;
-using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using CalamityWeaponRemake.Content.Items.Melee;
-using Terraria.DataStructures;
-using CalamityMod.Buffs.StatBuffs;
+﻿using CalamityMod.Buffs.StatBuffs;
+using CalamityMod.Items;
 using CalamityMod.Projectiles.Melee;
+using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Melee;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {

@@ -1,10 +1,7 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Common.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static CalamityWeaponRemake.Common.CWRUtils;

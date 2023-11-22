@@ -1,7 +1,6 @@
 ﻿using CalamityMod;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Buffs;
-using CalamityWeaponRemake.Content.Projectiles.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

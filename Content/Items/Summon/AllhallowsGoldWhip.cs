@@ -1,8 +1,8 @@
 ﻿using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips;
 
 namespace CalamityWeaponRemake.Content.Items.Summon
 {

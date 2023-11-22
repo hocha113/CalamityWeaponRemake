@@ -1,12 +1,10 @@
 ﻿using CalamityMod;
 using CalamityMod.Items;
-using CalamityMod.Projectiles.Magic;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Magic.HeldProjs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;

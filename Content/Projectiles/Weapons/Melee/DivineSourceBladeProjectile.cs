@@ -1,11 +1,8 @@
 ﻿using CalamityMod;
-using CalamityMod.Particles;
 using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
 using System;
 using Terraria;
 using Terraria.Graphics.Shaders;

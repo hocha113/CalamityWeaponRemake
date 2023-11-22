@@ -1,9 +1,7 @@
 ﻿using CalamityMod;
 using CalamityMod.Events;
 using CalamityMod.Items.SummonItems;
-using CalamityMod.Items.TreasureBags.MiscGrabBags;
 using CalamityMod.NPCs.Ravager;
-using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.NPCs.RavagerAs;
 using CalamityWeaponRemake.Content.Projectiles.Weapons;
@@ -13,7 +11,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
-using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -180,9 +177,9 @@ namespace CalamityWeaponRemake.Content
         {
             if (CWRUtils.RemakeByItem<DeathWhistle>(item))//不管如何，不希望任意两种Boss存在时可以再次使用该物品
             {
-                return !NPC.AnyNPCs(ModContent.NPCType<RavagerBody>()) 
+                return !NPC.AnyNPCs(ModContent.NPCType<RavagerBody>())
                     && !NPC.AnyNPCs(ModContent.NPCType<RavagerABody>())
-                    && player.ZoneOverworldHeight 
+                    && player.ZoneOverworldHeight
                     && !BossRushEvent.BossRushActive;
             }
             return base.CanUseItem(item, player);

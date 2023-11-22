@@ -1,15 +1,15 @@
-﻿using CalamityMod.Particles;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
-using CalamityMod;
-using CalamityWeaponRemake.Content.Items.Melee;
-using System.Reflection;
-using System;
+﻿using CalamityMod;
+using CalamityMod.Particles;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Melee;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosProj
 {

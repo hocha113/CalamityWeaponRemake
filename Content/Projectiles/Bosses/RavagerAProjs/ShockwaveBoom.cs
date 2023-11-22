@@ -1,8 +1,7 @@
-﻿using System.Reflection.Metadata;
-using Terraria.Graphics.Effects;
+﻿using CalamityWeaponRemake.Common;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
-using CalamityWeaponRemake.Common;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Bosses.RavagerAProjs
 {

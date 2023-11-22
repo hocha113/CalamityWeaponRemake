@@ -1,22 +1,15 @@
 ﻿using CalamityMod;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.NPCs;
-using CalamityMod.NPCs.Ravager;
 using CalamityMod.Particles;
-using CalamityMod.Projectiles.Boss;
-using CalamityMod.Projectiles.Enemy;
-using CalamityMod.UI.VanillaBossBars;
 using CalamityMod.World;
 using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.Audio;
-using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -205,7 +198,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
 
             if (!target.Alives())
             {
-                
+
             }
         }
 
@@ -333,7 +326,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
                 NPC heads = Main.npc[aHead];
                 Texture2D headValue = GetT2DValue(heads.ModNPC.Texture);
                 Texture2D headGlow = GetT2DValue(heads.ModNPC.Texture + "Glow");
-                
+
                 spriteBatch.Draw(
                     headValue,
                     heads.Center - Main.screenPosition,

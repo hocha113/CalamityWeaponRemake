@@ -1,13 +1,12 @@
-﻿using CalamityMod.Particles;
-using CalamityMod;
-using Microsoft.Xna.Framework.Graphics;
+﻿using CalamityMod;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
+using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria;
 using Terraria.ModLoader;
-using CalamityWeaponRemake.Common;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosProj
 {

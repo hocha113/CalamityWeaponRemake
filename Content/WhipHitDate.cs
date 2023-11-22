@@ -1,7 +1,6 @@
 ﻿using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Items.Summon;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content

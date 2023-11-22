@@ -1,11 +1,8 @@
-﻿using CalamityMod.Buffs.StatBuffs;
-using CalamityMod.Items;
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Items;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Buffs;
 using CalamityWeaponRemake.Content.Items.Melee;
-using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

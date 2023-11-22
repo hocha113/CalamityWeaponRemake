@@ -1,9 +1,6 @@
-﻿using Terraria;
-using Terraria.ModLoader;
-
-namespace CalamityWeaponRemake.Content
+﻿namespace CalamityWeaponRemake.Content
 {
-    internal class CWRDust 
+    internal class CWRDust
     {
     }
 }

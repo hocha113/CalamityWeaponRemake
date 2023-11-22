@@ -17,7 +17,7 @@ namespace CalamityWeaponRemake.Content
             Mod musicMod = CalamityWeaponRemake.Instance.musicMod;
             if (musicMod is not null)
             {
-                if (type == musicMod.Find<ModTile>("CalamityTitleMusicBox").Type 
+                if (type == musicMod.Find<ModTile>("CalamityTitleMusicBox").Type
                     && !NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()))
                 {
                     CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
@@ -51,7 +51,7 @@ namespace CalamityWeaponRemake.Content
                         CalamityNetcode.SyncWorld();
                     }
                 }
-            }  
+            }
         }
     }
 }

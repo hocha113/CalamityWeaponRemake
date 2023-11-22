@@ -1,21 +1,14 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod;
 using CalamityMod.Items;
-using CalamityMod.Projectiles.Melee.Spears;
 using CalamityMod.Rarities;
-using CalamityMod.Tiles.Furniture.CraftingStations;
-using CalamityMod;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 using CalamityWeaponRemake.Common;
-using Terraria.DataStructures;
-using CalamityMod.Items.Armor.Bloodflare;
-using CalamityMod.Sounds;
-using CalamityWeaponRemake.Common;
-using Terraria.Audio;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {

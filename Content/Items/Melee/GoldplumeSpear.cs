@@ -1,14 +1,11 @@
 ﻿using CalamityMod.Items;
-using CalamityMod.Projectiles.Melee.Spears;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
 using CalamityWeaponRemake.Common;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
-using CalamityMod.Sounds;
-using Terraria.Audio;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Items.Melee
 {
@@ -55,7 +52,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             {
                 Main.projectile[proj].ai[1] = 1;
                 Main.projectile[proj].rotation = player.Center.To(Main.MouseWorld).ToRotation();
-            }                
+            }
             return false;
         }
 

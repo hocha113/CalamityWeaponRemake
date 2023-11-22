@@ -1,12 +1,11 @@
 ﻿using CalamityMod;
 using CalamityMod.Projectiles.BaseProjectiles;
-using System;
-using Terraria.Localization;
-using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 using CalamityWeaponRemake.Content.Items.Melee;
-using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
+using Microsoft.Xna.Framework;
+using System;
+using Terraria;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles
 {

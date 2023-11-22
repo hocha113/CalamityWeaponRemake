@@ -1,11 +1,11 @@
-﻿using CalamityWeaponRemake.Common;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
-using CalamityMod;
+﻿using CalamityMod;
+using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
 {

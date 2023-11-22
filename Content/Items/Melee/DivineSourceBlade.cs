@@ -31,7 +31,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.noMelee = true;
             Item.knockBack = 5.5f;
             Item.UseSound = SoundID.Item60;
-            Item.autoReuse = true;            
+            Item.autoReuse = true;
             Item.value = CalamityGlobalItem.Rarity1BuyPrice;
             Item.rare = ModContent.RarityType<Violet>();
             Item.shoot = ModContent.ProjectileType<DivineSourceBladeProjectile>();

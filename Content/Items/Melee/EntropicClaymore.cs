@@ -37,7 +37,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.rare = ItemRarityID.Cyan;
             Item.shoot = ModContent.ProjectileType<EntropicClaymoreHoldoutProj>();
-            Item.shootSpeed = 12f;            
+            Item.shootSpeed = 12f;
             Item.CWR().remakeItem = true;
         }
 
@@ -60,7 +60,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                 damage,
                 knockback,
                 player.whoAmI,
-                ai2 : Item.useTime
+                ai2: Item.useTime
                 );
             proj.timeLeft = Item.useTime;
             proj.localAI[0] = Item.CWR().ai[0];

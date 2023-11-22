@@ -1,14 +1,10 @@
 ﻿using CalamityMod;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using System;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
 using CalamityMod.Particles.Metaballs;
-using CalamityMod.Particles;
-using Microsoft.CodeAnalysis;
 using CalamityWeaponRemake.Common;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon
 {

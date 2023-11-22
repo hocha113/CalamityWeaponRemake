@@ -44,7 +44,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
         static int heldProj = -1;
         public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            
+
             if (item.type == ModContent.ItemType<DragonsBreath>() && CWRConstant.ForceReplaceResetContent)
             {
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<DragonsBreathHeldProj>()] == 0)

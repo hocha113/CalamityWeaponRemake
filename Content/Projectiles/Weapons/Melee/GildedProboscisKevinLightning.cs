@@ -6,8 +6,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Utilities;
 using System;
-using System.IO;
-using System.Security.Policy;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;

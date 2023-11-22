@@ -130,7 +130,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
                     }
                 }
             }
-            
+
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

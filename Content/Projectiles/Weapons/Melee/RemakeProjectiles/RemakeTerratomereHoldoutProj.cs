@@ -3,7 +3,6 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Items.Melee;
-using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

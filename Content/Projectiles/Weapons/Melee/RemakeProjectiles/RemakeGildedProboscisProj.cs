@@ -1,10 +1,7 @@
 ﻿using CalamityMod;
-using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Sounds;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Items.Melee;
-using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
