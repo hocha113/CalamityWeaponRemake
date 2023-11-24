@@ -20,7 +20,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<DaemonsFlame>();
 
         private Player Owners => CWRUtils.GetPlayerInstance(Projectile.owner);
-        private Item daemonsFlame => Owners.ActiveItem();
         private Vector2 toMou = Vector2.Zero;
         private ref float Time => ref Projectile.ai[0];
 

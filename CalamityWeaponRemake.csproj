@@ -102,6 +102,13 @@
     <None Remove="Assets\Projectiles\Melee\StreamGougeGlow.png" />
     <None Remove="Assets\Projectiles\Melee\StreamGougeProj.png" />
     <None Remove="Assets\Projectiles\Melee\TerrorBeam.png" />
+    <None Remove="Assets\Projectiles\Ranged\AnnihilatingUniverseProj\DivineDevourerIllusionBody.png" />
+    <None Remove="Assets\Projectiles\Ranged\AnnihilatingUniverseProj\DivineDevourerIllusionBodyGlow.png" />
+    <None Remove="Assets\Projectiles\Ranged\AnnihilatingUniverseProj\DivineDevourerIllusionGlow.png" />
+    <None Remove="Assets\Projectiles\Ranged\AnnihilatingUniverseProj\DivineDevourerIllusionGlow2.png" />
+    <None Remove="Assets\Projectiles\Ranged\AnnihilatingUniverseProj\DivineDevourerIllusionHead.png" />
+    <None Remove="Assets\Projectiles\Ranged\AnnihilatingUniverseProj\DivineDevourerIllusionTail.png" />
+    <None Remove="Assets\Projectiles\Ranged\AnnihilatingUniverseProj\DivineDevourerIllusionTailGlow.png" />
     <None Remove="Assets\Projectiles\RayBeam.png" />
     <None Remove="Assets\Tiles\FoodStallChair.png" />
     <None Remove="Assets\UIs\GenericBarBack.png" />

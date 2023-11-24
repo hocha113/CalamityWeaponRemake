@@ -243,6 +243,11 @@ Items: {
 		// DisplayName: Cleansing Blaze
 		// Tooltip: ""
 	}
+
+	AnnihilatingUniverse: {
+		// DisplayName: Annihilating Universe
+		// Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -349,6 +354,8 @@ Projectiles: {
 	// EssenceSpark.DisplayName: Essence Spark
 	// EssenceFlamethrower.DisplayName: Essence Flamethrower
 	// ShockwaveBoom.DisplayName: Shockwave Boom
+	// CelestialDevourer.DisplayName: Celestial Devourer
+	// CelestialObliterationArrow.DisplayName: Celestial Obliteration Arrow
 }
 
 Configs: {

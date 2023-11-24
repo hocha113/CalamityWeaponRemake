@@ -25,7 +25,8 @@ namespace CalamityWeaponRemake.Common
         public const string RavagerA = NPC + "RavagerAs/";
         public const string Sound = Asset + "Sounds/";
 
-        public const string Cay_Wap = "CalamityMod/Items/Weapons/";
+        public const string Cay_Item = "CalamityMod/Items/";
+        public const string Cay_Wap = Cay_Item + "Weapons/";
         public const string Cay_Wap_Melee = Cay_Wap + "Melee/";
         public const string Cay_Wap_Ranged = Cay_Wap + "Ranged/";
         public const string Cay_Wap_Magic = Cay_Wap + "Magic/";

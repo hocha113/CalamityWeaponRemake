@@ -32,7 +32,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
         public int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
         public int Time { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
         public int Time2 { get => (int)Projectile.localAI[0]; set => Projectile.localAI[0] = value; }
-        public int useArrow { get => (int)Projectile.localAI[1]; set => Projectile.localAI[1] = value; }
 
         private Player Owner => Main.player[Projectile.owner];
         private Vector2 toMou = Vector2.Zero;
@@ -41,7 +40,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
         public override void OnSpawn(IEntitySource source)
         {
             Time2 = 10;
-            useArrow = -1000;
         }
 
         public override void OnKill(int timeLeft)
