@@ -1,4 +1,7 @@
+using CalamityMod.Particles;
 using CalamityWeaponRemake.Common.Effects;
+using CalamityWeaponRemake.Content.Particles.Core;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake
@@ -14,13 +17,16 @@ namespace CalamityWeaponRemake
             Instance = this;
 
             FindMod();
+            CWRParticleHandler.Load();
             EffectsRegistry.LoadEffects();
-
+            On_Main.DrawInfernoRings += PeSystem.CWRDrawForegroundParticles;
             base.Load();
         }
 
         public override void Unload()
         {
+            CWRParticleHandler.Unload();
+            On_Main.DrawInfernoRings -= PeSystem.CWRDrawForegroundParticles;
             base.Unload();
         }
 

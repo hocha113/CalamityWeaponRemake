@@ -248,6 +248,11 @@ Items: {
 		// DisplayName: Annihilating Universe
 		// Tooltip: ""
 	}
+
+	HeavenfallLongbow: {
+		// DisplayName: Heavenfall Longbow
+		// Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -356,6 +361,10 @@ Projectiles: {
 	// ShockwaveBoom.DisplayName: Shockwave Boom
 	// CelestialDevourer.DisplayName: Celestial Devourer
 	// CelestialObliterationArrow.DisplayName: Celestial Obliteration Arrow
+	// CosmicEddies.DisplayName: Cosmic Eddies
+	// DivineDevourerIllusionBody.DisplayName: Divine Devourer Illusion Body
+	// DivineDevourerIllusionHead.DisplayName: Divine Devourer Illusion Head
+	// DivineDevourerIllusionTail.DisplayName: Divine Devourer Illusion Tail
 }
 
 Configs: {

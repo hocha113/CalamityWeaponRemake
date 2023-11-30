@@ -10,6 +10,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.Graphics.Shaders;
 using CalamityMod.Sounds;
 using Terraria.Audio;
+using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityWeaponRemake.Content.Particles.Core;
+using CalamityWeaponRemake.Content.Particles;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUniverseProj
 {
@@ -69,7 +72,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
                     Main.projectile[proj].scale = 0.3f;
                 }
             }
-            
+            if (target.type == ModContent.NPCType<SepulcherHead>() || target.type == ModContent.NPCType<SepulcherBody>() || target.type == ModContent.NPCType<SepulcherTail>())
+            {
+                ModNPC modNPC = target.ModNPC;
+                modNPC.NPC.life = 0;
+                modNPC.NPC.checkDead();
+                modNPC.OnKill();
+                modNPC.HitEffect(hit);
+                modNPC.NPC.active = false;
+            }
         }
 
         public override void OnKill(int timeLeft)
@@ -80,9 +91,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
                 {
                     Vector2 particleSpeed = Projectile.velocity * Main.rand.NextFloat(0.5f, 0.7f);
                     Vector2 pos = Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height));
-                    Particle energyLeak = new SquishyLightParticle(pos, particleSpeed
+                    CWRParticle energyLeak = new LightParticle(pos, particleSpeed
                         , Main.rand.NextFloat(0.3f, 0.7f), Color.Purple, 30, 1, 1.5f, hueShift: 0.0f);
-                    GeneralParticleHandler.SpawnParticle(energyLeak);
+                    CWRParticleHandler.SpawnParticle(energyLeak);
                 }
             }
         }

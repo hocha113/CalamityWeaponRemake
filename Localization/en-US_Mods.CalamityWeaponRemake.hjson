@@ -236,6 +236,11 @@ Items: {
 		DisplayName: Annihilating Universe
 		Tooltip: ""
 	}
+
+	HeavenfallLongbow: {
+		DisplayName: Heavenfall Longbow
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

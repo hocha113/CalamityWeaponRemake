@@ -6,6 +6,8 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Particles;
+using CalamityWeaponRemake.Content.Particles.Core;
+using CalamityWeaponRemake.Content.Particles;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUniverseProj
 {
@@ -57,9 +59,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
                 {
                     Vector2 particleSpeed = CWRUtils.GetRandomVevtor(0, 360, Main.rand.Next(6, 9));
                     Vector2 pos = Projectile.Center;
-                    Particle energyLeak = new SquishyLightParticle(pos, particleSpeed
+                    CWRParticle energyLeak = new LightParticle(pos, particleSpeed
                         , Main.rand.NextFloat(0.3f, 0.7f), Color.Purple, 30, 1, 1.5f, hueShift: 0.0f);
-                    GeneralParticleHandler.SpawnParticle(energyLeak);
+                    CWRParticleHandler.SpawnParticle(energyLeak);
                 }
             }
         }

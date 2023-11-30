@@ -35,9 +35,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
             {
                 targetPos = Main.player[Projectile.owner].Center;
                 int index = Projectile.whoAmI;
-                for (int i = 0; i < 13; i++)
+                int maxnum = (int)Projectile.ai[1];
+                for (int i = 0; i < maxnum; i++)
                 {
-                    int types = i == 12 ? ModContent.ProjectileType<DivineDevourerIllusionTail>() 
+                    int types = i == (maxnum - 1) ? ModContent.ProjectileType<DivineDevourerIllusionTail>() 
                         : ModContent.ProjectileType<DivineDevourerIllusionBody>();
                     int proj = Projectile.NewProjectile(Projectile.parent(), Projectile.Center, Vector2.Zero
                         , types, Projectile.damage / 2, Projectile.knockBack / 2, Projectile.owner, ai1: index);
@@ -48,13 +49,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
                 }
                 Projectile.ai[0] = 1;
             }
-            if (Projectile.IsOwnedByLocalPlayer())
+            NPC target = Projectile.Center.InPosClosestNPC(1900);
+            if (target != null)
             {
-                targetPos = Main.MouseWorld;
-                Projectile.netUpdate = true;
+                Projectile.ChasingBehavior2(target.Center, 1, 0.2f);
             }
-
-            Projectile.ChasingBehavior2(targetPos, 1, 0.1f);
+            Projectile.ChasingBehavior2(targetPos, 1.001f, 0.15f);
             Projectile.rotation = Projectile.velocity.ToRotation();
         }
 
