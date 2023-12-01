@@ -31,7 +31,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
 
         public override void AI()
         {
-            if (Projectile.ai[0] == 0 && !CWRUtils.isClient)
+            if (Projectile.ai[0] == 0 && Projectile.IsOwnedByLocalPlayer())
             {
                 targetPos = Main.player[Projectile.owner].Center;
                 int index = Projectile.whoAmI;

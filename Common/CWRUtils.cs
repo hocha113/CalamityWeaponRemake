@@ -1002,6 +1002,10 @@ namespace CalamityWeaponRemake.Common
         /// </summary>
         public static bool isClient => Main.netMode == NetmodeID.MultiplayerClient;
         /// <summary>
+        /// 判断是否处于服务端状态，如果是在单人或者客户端下将返回false
+        /// </summary>
+        public static bool isServer => Main.netMode == NetmodeID.Server;
+        /// <summary>
         /// 仅判断是否处于单人状态，在单人模式下返回true
         /// </summary>
         public static bool isSinglePlayer => Main.netMode == NetmodeID.SinglePlayer;

@@ -1,5 +1,8 @@
 ﻿using CalamityMod;
 using CalamityMod.Items;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Pets;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
@@ -179,6 +182,16 @@ namespace CalamityWeaponRemake.Content.Items
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.CWR().theRelicLuxor = 2;
+        }
+
+        public override void AddRecipes()
+        {
+            Recipe.Create(Type)
+                .AddIngredient(ModContent.ItemType<TheRelicLuxor>())
+                .AddIngredient(ModContent.ItemType<CosmiliteBar>(), 6)
+                .AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 13)
+                .AddRecipeGroup(CWRRecipes.GodDWGroup, 1)
+                .Register();
         }
     }
 }

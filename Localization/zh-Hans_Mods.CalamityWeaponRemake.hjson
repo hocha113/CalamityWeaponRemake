@@ -1,3 +1,8 @@
+CWRRecipes: {
+	ApostolicRelics: 使徒遗物
+	GodEaterWeapon: 噬神者武器
+}
+
 Items: {
 	BrinyBaron: {
 		DisplayName: 海爵剑
@@ -17,19 +22,13 @@ Items: {
 			'''
 	}
 
-	DimensionalRupture: {
-		// DisplayName: Dimensional Rupture
-		// Tooltip: ""
-	}
-
-	A: {
-		// DisplayName: A
-		// Tooltip: ""
-	}
-
 	DragonsBreath: {
-		// DisplayName: Dragons Breath
-		// Tooltip: ""
+		DisplayName: 巨龙之息
+		Tooltip:
+			'''
+			发射大量高温子弹
+			右键喷射灼热的龙息
+			'''
 	}
 
 	BansheeHook: {
@@ -43,28 +42,28 @@ Items: {
 	}
 
 	BlightedCleaver: {
-		// DisplayName: Blighted Cleaver
-		// Tooltip: ""
+		DisplayName: 暴君之刃
+		Tooltip: 刀刃击中敌人会积攒暴君能量，并生成大量的屠杀之镰
 	}
 
 	BurntSienna: {
-		// DisplayName: Burnt Sienna
-		// Tooltip: ""
+		DisplayName: 沙之刃
+		Tooltip: 挥舞会抛舞出三个沙球
 	}
 
 	CometQuasher: {
-		// DisplayName: Comet Quasher
-		// Tooltip: ""
+		DisplayName: 彗星陨刃
+		Tooltip: 让大量流星从天而降
 	}
 
 	DefiledGreatsword: {
-		// DisplayName: Defiled Greatsword
-		// Tooltip: ""
+		DisplayName: 真暴君之刃
+		Tooltip: 刀刃击中敌人会积攒暴君能量，并生成大量的丛林之镰
 	}
 
 	EntropicClaymore: {
-		// DisplayName: Entropic Claymore
-		// Tooltip: ""
+		DisplayName: 熵之舞
+		Tooltip: 刀光之间群星可见
 	}
 
 	GildedProboscis: {
@@ -77,98 +76,143 @@ Items: {
 	}
 
 	Terratomere: {
-		// DisplayName: Terratomere
-		// Tooltip: ""
+		DisplayName: 泰拉巨刃
+		Tooltip: 挥舞释放金源之力
 	}
 
 	TerrorBlade: {
-		// DisplayName: Terror Blade
-		// Tooltip: ""
+		DisplayName: 惊惧魂刃
+		Tooltip:
+			'''
+			挥舞释放惊惧爆弹
+			刀刃砍中敌人将会增强武器
+			'''
 	}
 
 	ArkoftheCosmos: {
-		// DisplayName: Arkofthe Cosmos
-		// Tooltip: ""
+		DisplayName: 鸿蒙方舟
+		Tooltip: 嗯...你不应该拥有它
 	}
 
 	StreamGouge: {
-		// DisplayName: Stream Gouge
-		// Tooltip: ""
+		DisplayName: 宇宙暗流
+		Tooltip:
+			'''
+			挥刺时发射宇宙暗光矢，击中敌人后爆出六团弑神者飞镖
+			右键使用暗流穿刺
+			'''
 	}
 
 	ElementalLance: {
-		// DisplayName: Elemental Lance
-		// Tooltip: ""
+		DisplayName: 元素长枪
+		Tooltip:
+			'''
+			挥刺时发射多次分裂的元素弹
+			右键生成数道棱彩极光
+			'''
 	}
 
 	AirSpinner: {
-		// DisplayName: Air Spinner
-		// Tooltip: ""
+		DisplayName: 天蓝悠悠球
+		Tooltip: 向附近的敌人发射散射的羽毛
 	}
 
 	GoldplumeSpear: {
-		// DisplayName: Goldplume Spear
-		// Tooltip: ""
+		DisplayName: 金羽
+		Tooltip:
+			'''
+			挥刺发射追踪的小型羽刃
+			右键令天羽从天而降
+			'''
 	}
 
 	WindBlade: {
-		// DisplayName: Wind Blade
-		// Tooltip: ""
+		DisplayName: 风之流
+		Tooltip:
+			'''
+			挥舞发射扰乱大范围气流的气旋
+			右键发射追踪的小型气旋
+			'''
 	}
 
 	Arbalest: {
-		// DisplayName: Arbalest
-		// Tooltip: ""
+		DisplayName: 机械强弩
+		Tooltip:
+			'''
+			发射大量箭矢，箭矢会随时间愈发巨大
+			右键进行单发速射
+			“它的齿轮咔哧咔哧的转个不停”
+			'''
 	}
 
 	Deathwind: {
-		// DisplayName: Deathwind
-		// Tooltip: ""
+		DisplayName: 死亡之风
+		Tooltip:
+			'''
+			木箭会被转化为死亡激光束
+			近距离击中敌人会吹出死亡气流
+			'''
 	}
 
 	DragonRage: {
-		// DisplayName: Dragon Rage
-		// Tooltip: ""
+		DisplayName: 巨龙之怒
+		Tooltip:
+			'''
+			刀锋旋转之间灭杀周围的敌人
+			右键发射龙火球
+			'''
 	}
 
 	WhiplashGalactica: {
-		// DisplayName: Whiplash Galactica
-		// Tooltip: ""
+		DisplayName: 银河鞭挞
+		Tooltip: 击中敌人后进行死亡标记，并发射宇宙火球
 	}
 
 	Tradewinds: {
-		// DisplayName: Tradewinds
-		// Tooltip: ""
+		DisplayName: 信风
+		Tooltip:
+			'''
+			发射减速的天之羽
+			右键更换为发射粘性的羽毛
+			'''
 	}
 
 	DeathhailStaff: {
-		// DisplayName: Deathhail Staff
-		// Tooltip: ""
+		DisplayName: 死亡冰雹
+		Tooltip: 令大量的死亡冰雹从天而降
 	}
 
 	Excelsus: {
-		// DisplayName: Excelsus
-		// Tooltip: ""
+		DisplayName: 宙宇波能刃
+		Tooltip:
+			'''
+			挥舞发射数个宇宙之刃
+			右键发射寰宇光暗矢
+			'''
 	}
 
 	GhastlyVisage: {
-		// DisplayName: Ghastly Visage
-		// Tooltip: ""
+		DisplayName: 鬼之形
+		Tooltip: 发射数个怨魂爆弹
 	}
 
 	Galeforce: {
-		// DisplayName: Galeforce
-		// Tooltip: ""
+		DisplayName: 烈风
+		Tooltip:
+			'''
+			攻击附带发射三发羽毛
+			右键进行单发速射
+			'''
 	}
 
 	ElementWhip: {
-		// DisplayName: Element Whip
-		// Tooltip: ""
+		DisplayName: 元素长鞭
+		Tooltip: ""
 	}
 
 	ElementalShiv: {
-		// DisplayName: Elemental Shiv
-		// Tooltip: ""
+		DisplayName: 元素短剑
+		Tooltip: ""
 	}
 
 	TheRelicLuxor: {
@@ -190,38 +234,33 @@ Items: {
 	}
 
 	AzureDragonRage: {
-		// DisplayName: Azure Dragon Rage
-		// Tooltip: ""
+		DisplayName: 青龙之怒
+		Tooltip: ""
 	}
 
 	BleedingScourge: {
-		// DisplayName: Bleeding Scourge
-		// Tooltip: ""
+		DisplayName: 血色鞭挞
+		Tooltip: 击中敌人后进行死亡标记，并令血雨降下
 	}
 
 	GhostFireWhip: {
-		// DisplayName: Ghost Fire Whip
-		// Tooltip: ""
-	}
-
-	TrueExcelsus: {
-		// DisplayName: True Excelsus
-		// Tooltip: ""
+		DisplayName: 鬼火鞭
+		Tooltip: ""
 	}
 
 	AllhallowsGoldWhip: {
-		// DisplayName: Allhallows Gold Whip
-		// Tooltip: ""
+		DisplayName: 金源长鞭
+		Tooltip: ""
 	}
 
 	DivineSourceBlade: {
-		// DisplayName: Divine Source Blade
-		// Tooltip: ""
+		DisplayName: 金源灭却刃
+		Tooltip: ""
 	}
 
 	FatesReveal: {
-		// DisplayName: Fates Reveal
-		// Tooltip: ""
+		DisplayName: 命运神启
+		Tooltip: 生成数个哀怨灵火攻击敌人
 	}
 
 	FoodStallChair: {
@@ -252,6 +291,15 @@ Items: {
 	HeavenfallLongbow: {
 		// DisplayName: Heavenfall Longbow
 		// Tooltip: ""
+	}
+
+	AegisBlade: {
+		DisplayName: 庇护之刃
+		Tooltip:
+			'''
+			挥舞时抛出惩戒火球
+			右键生成庇护巨刃
+			'''
 	}
 }
 
@@ -365,6 +413,8 @@ Projectiles: {
 	// DivineDevourerIllusionBody.DisplayName: Divine Devourer Illusion Body
 	// DivineDevourerIllusionHead.DisplayName: Divine Devourer Illusion Head
 	// DivineDevourerIllusionTail.DisplayName: Divine Devourer Illusion Tail
+	// AegisBladeProj.DisplayName: Aegis Blade Proj
+	// AegisBeams.DisplayName: Aegis Beams
 }
 
 Configs: {

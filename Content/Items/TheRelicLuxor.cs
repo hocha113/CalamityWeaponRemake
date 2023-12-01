@@ -1,5 +1,7 @@
 ﻿using CalamityMod;
 using CalamityMod.Items;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Materials;
 using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -178,6 +180,16 @@ namespace CalamityWeaponRemake.Content.Items
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.CWR().theRelicLuxor = 1;
+        }
+
+        public override void AddRecipes()
+        {
+            Recipe.Create(Type)
+                .AddIngredient(ModContent.ItemType<LuxorsGift>())
+                .AddIngredient(ModContent.ItemType<DivineGeode>(), 13)
+                .AddIngredient(ModContent.ItemType<UnholyEssence>(), 13)
+                .AddRecipeGroup(CWRRecipes.ARGroup, 1)
+                .Register();
         }
     }
 }

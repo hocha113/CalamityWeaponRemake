@@ -1,7 +1,9 @@
-﻿using CalamityWeaponRemake.Common;
+﻿using CalamityMod.Items.Materials;
+using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Content.Items.Ranged;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
@@ -11,6 +13,7 @@ namespace CalamityWeaponRemake.Content
     {
         public static int[] RemakItemType => new int[]
         {
+            //近战
             ItemType<BrinyBaron>(),
             ItemType<CosmicShiv>(),
             ItemType<AirSpinner>(),
@@ -30,7 +33,8 @@ namespace CalamityWeaponRemake.Content
             ItemType<Terratomere>(),
             ItemType<TerrorBlade>(),
             ItemType<WindBlade>(),
-
+            ItemType<AegisBlade>(),
+            //远程
             ItemType<DragonsBreath>(),
             ItemType<Arbalest>(),
             ItemType<Deathwind>(),
@@ -38,7 +42,8 @@ namespace CalamityWeaponRemake.Content
         };
 
         public static int[] VrsCalamityItemType => new int[]
-        {
+        {   
+            //近战
             ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>(),
             ItemType<CalamityMod.Items.Weapons.Melee.CosmicShiv>(),
             ItemType<CalamityMod.Items.Weapons.Melee.AirSpinner>(),
@@ -58,7 +63,8 @@ namespace CalamityWeaponRemake.Content
             ItemType<CalamityMod.Items.Weapons.Melee.Terratomere>(),
             ItemType<CalamityMod.Items.Weapons.Melee.TerrorBlade>(),
             ItemType<CalamityMod.Items.Weapons.Melee.WindBlade>(),
-
+            ItemType<CalamityMod.Items.Weapons.Melee.AegisBlade>(),
+            //远程
             ItemType<CalamityMod.Items.Weapons.Ranged.DragonsBreath>(),
             ItemType<CalamityMod.Items.Weapons.Ranged.Arbalest>(),
             ItemType<CalamityMod.Items.Weapons.Ranged.Deathwind>(),
@@ -93,6 +99,30 @@ namespace CalamityWeaponRemake.Content
                     Recipe.Create(type).AddIngredient(vrsType).Register();
                 }
             }
+        }
+
+        public static string Any => Language.GetTextValue("LegacyMisc.37");
+        public static RecipeGroup ARGroup;
+        public static RecipeGroup GodDWGroup;
+
+        public override void AddRecipeGroups()
+        {
+            string apostolicRelics = Language.GetTextValue($"Mods.CalamityWeaponRemake.CWRRecipes.ApostolicRelics");
+            ARGroup = new RecipeGroup(() => $"{Any} {apostolicRelics}", ItemType<ArmoredShell>(), ItemType<DarkPlasma>(), ItemType<TwistingNether>());
+            RecipeGroup.RegisterGroup(apostolicRelics, ARGroup);
+
+            string godEaterWeapon = Language.GetTextValue($"Mods.CalamityWeaponRemake.CWRRecipes.GodEaterWeapon");
+            GodDWGroup = new RecipeGroup(() => $"{Any} {apostolicRelics}"
+                , ItemType<CalamityMod.Items.Weapons.Melee.Excelsus>()
+                , ItemType<CalamityMod.Items.Weapons.Melee.TheObliterator>()
+                , ItemType<CalamityMod.Items.Weapons.Ranged.Deathwind>()
+                , ItemType<CalamityMod.Items.Weapons.Magic.DeathhailStaff>()
+                , ItemType<CalamityMod.Items.Weapons.Summon.StaffoftheMechworm>()
+                , ItemType<CalamityMod.Items.Weapons.Rogue.Eradicator>()
+                , ItemType<CalamityMod.Items.Weapons.Melee.CosmicDischarge>()
+                , ItemType<CalamityMod.Items.Weapons.Ranged.Norfleet>()
+                );
+            RecipeGroup.RegisterGroup(godEaterWeapon, GodDWGroup);
         }
     }
 }

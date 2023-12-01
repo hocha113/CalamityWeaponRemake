@@ -71,18 +71,20 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
             }
             else
             {
-                Projectile.velocity = Projectile.rotation.ToRotationVector2() * 22;
                 Projectile.ai[2]++;
                 Projectile.damage = Projectile.originalDamage + (int)Projectile.ai[1] * 5;
+                
                 if (Projectile.timeLeft <= Projectile.ai[1] + 30)
                 {
+                    
                     NPC target = Projectile.Center.InPosClosestNPC(1900);
                     if (target != null)
                     {
                         Projectile.ChasingBehavior2(target.Center, 1, 0.1f);
-                        Projectile.position += target.velocity * 0.75f;
                     }
                 }
+                else
+                    Projectile.velocity = Projectile.rotation.ToRotationVector2() * 22;
             }
             if (Main.netMode != NetmodeID.Server)
             {

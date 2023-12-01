@@ -1,27 +1,34 @@
+CWRRecipes: {
+	ApostolicRelics: Apostolic Relics
+	GodEaterWeapon: God Eater weapon
+}
+
 Items: {
 	BrinyBaron: {
 		DisplayName: Briny Baron
-		Tooltip: ""
+		Tooltip:
+			'''
+			<left> Wield the giant blade and fire a waterspout to both sides after hitting the enemy
+			<right> Launch three water vortices
+			'''
 	}
 
 	CosmicShiv: {
 		DisplayName: Cosmic Shiv
-		Tooltip: ""
-	}
-
-	DimensionalRupture: {
-		DisplayName: Dimensional Rupture
-		Tooltip: ""
-	}
-
-	A: {
-		DisplayName: A
-		Tooltip: ""
+		Tooltip:
+			'''
+			After hitting an enemy, it creates several vast eyes in front of the player
+			Summon cosmic rays to burn the enemy
+			'''
 	}
 
 	DragonsBreath: {
 		DisplayName: Dragons Breath
-		Tooltip: ""
+		Tooltip:
+			'''
+			Fire a lot of hot bullets
+			Right - shot a searing dragon's breath
+			'''
 	}
 
 	BansheeHook: {
@@ -36,62 +43,78 @@ Items: {
 
 	BlightedCleaver: {
 		DisplayName: Blighted Cleaver
-		Tooltip: ""
+		Tooltip: A blade hit an enemy will accumulate tyrant power and generate a large number of Sickles of slaughter
 	}
 
 	BurntSienna: {
 		DisplayName: Burnt Sienna
-		Tooltip: ""
+		Tooltip: The swing will throw three maracas
 	}
 
 	CometQuasher: {
 		DisplayName: Comet Quasher
-		Tooltip: ""
+		Tooltip: Raining meteors from the sky
 	}
 
 	DefiledGreatsword: {
 		DisplayName: Defiled Greatsword
-		Tooltip: ""
+		Tooltip: A blade hit an enemy boosts Tyrant Power and spawns a large number of jungle sickles
 	}
 
 	EntropicClaymore: {
 		DisplayName: Entropic Claymore
-		Tooltip: ""
+		Tooltip: The stars were visible between the blades
 	}
 
 	GildedProboscis: {
 		DisplayName: Gilded Proboscis
-		Tooltip: ""
+		Tooltip:
+			'''
+			The charged feathers split off during the attack
+			Right energy storage, before the power consumption will maintain a current to attack the enemy along the road
+			'''
 	}
 
 	Terratomere: {
 		DisplayName: Terratomere
-		Tooltip: ""
+		Tooltip: Wielding the power to release the gold source
 	}
 
 	TerrorBlade: {
 		DisplayName: Terror Blade
-		Tooltip: ""
+		Tooltip:
+			'''
+			Wield the release scare bomb
+			Cutting an enemy with a blade will increase your weapon
+			'''
 	}
 
 	ArkoftheCosmos: {
 		DisplayName: Arkofthe Cosmos
-		Tooltip: ""
+		Tooltip: Um... You shouldn't have it
 	}
 
 	StreamGouge: {
 		DisplayName: Stream Gouge
-		Tooltip: ""
+		Tooltip:
+			'''
+			Launch cosmic dark light arrows when stabbing, and blast six darts of God Killer after hitting the enemy
+			Right click using undercurrent puncture
+			'''
 	}
 
 	ElementalLance: {
 		DisplayName: Elemental Lance
-		Tooltip: ""
+		Tooltip:
+			'''
+			Firing multiple splintered elemental rounds
+			Right-click to generate several edge colored auroras
+			'''
 	}
 
 	AirSpinner: {
 		DisplayName: Air Spinner
-		Tooltip: ""
+		Tooltip: Fire scattered feathers at nearby enemies
 	}
 
 	GoldplumeSpear: {
@@ -101,52 +124,85 @@ Items: {
 
 	WindBlade: {
 		DisplayName: Wind Blade
-		Tooltip: ""
+		Tooltip:
+			'''
+			A flailing cyclone that disrupts a wide area of air flow
+			Right-click to launch a tracking small cyclone
+			'''
 	}
 
 	Arbalest: {
 		DisplayName: Arbalest
-		Tooltip: ""
+		Tooltip:
+			'''
+			Fire a lot of arrows, and the arrows get bigger and bigger over time
+			Right-click for a single rapid fire
+			"Its gears are chugging round and round."
+			'''
 	}
 
 	Deathwind: {
 		DisplayName: Deathwind
-		Tooltip: ""
+		Tooltip:
+			'''
+			The wooden arrow will be transformed into a death laser beam
+			Hitting an enemy at close range will blow a blast of death
+			'''
 	}
 
 	DragonRage: {
 		DisplayName: Dragon Rage
-		Tooltip: ""
+		Tooltip:
+			'''
+			The blade rotates between killing the surrounding enemies
+			Right click Fire Dragon ball
+			'''
 	}
 
 	WhiplashGalactica: {
 		DisplayName: Whiplash Galactica
-		Tooltip: ""
+		Tooltip: After hitting an enemy, make a death mark and launch a cosmic fireball
 	}
 
 	Tradewinds: {
 		DisplayName: Tradewinds
-		Tooltip: ""
+		Tooltip:
+			'''
+			Launch the decelerated sky plume
+			Right button replacement for emitting sticky feathers
+			'''
 	}
 
 	DeathhailStaff: {
 		DisplayName: Deathhail Staff
-		Tooltip: ""
+		Tooltip: Raining hail of death from the sky
 	}
 
 	Excelsus: {
 		DisplayName: Excelsus
-		Tooltip: ""
+		Tooltip:
+			'''
+			Brandishing and firing several cosmic blades
+			Right-click to emit universal light vector
+			'''
 	}
 
 	GhastlyVisage: {
 		DisplayName: Ghastly Visage
-		Tooltip: ""
+		Tooltip:
+			'''
+			Three feathers are fired as part of the attack
+			Right-click for a single rapid fire
+			'''
 	}
 
 	Galeforce: {
 		DisplayName: Galeforce
-		Tooltip: ""
+		Tooltip:
+			'''
+			Three feathers are fired as part of the attack
+			Right-click for a single rapid fire
+			'''
 	}
 
 	ElementWhip: {
@@ -184,16 +240,11 @@ Items: {
 
 	BleedingScourge: {
 		DisplayName: Bleeding Scourge
-		Tooltip: ""
+		Tooltip: When you hit an enemy, mark it with death and make it rain blood
 	}
 
 	GhostFireWhip: {
 		DisplayName: Ghost Fire Whip
-		Tooltip: ""
-	}
-
-	TrueExcelsus: {
-		DisplayName: True Excelsus
 		Tooltip: ""
 	}
 
@@ -209,7 +260,7 @@ Items: {
 
 	FatesReveal: {
 		DisplayName: Fates Reveal
-		Tooltip: ""
+		Tooltip: Generate several mournful spirit fires to attack enemies
 	}
 
 	FoodStallChair: {
@@ -240,6 +291,15 @@ Items: {
 	HeavenfallLongbow: {
 		DisplayName: Heavenfall Longbow
 		Tooltip: ""
+	}
+
+	AegisBlade: {
+		DisplayName: Aegis Blade
+		Tooltip:
+			'''
+			Throw a disciplinary fireball when swinging
+			Right click to generate Shelter Giant Blade
+			'''
 	}
 }
 
@@ -353,6 +413,8 @@ Projectiles: {
 	DivineDevourerIllusionBody.DisplayName: Divine Devourer Illusion Body
 	DivineDevourerIllusionHead.DisplayName: Divine Devourer Illusion Head
 	DivineDevourerIllusionTail.DisplayName: Divine Devourer Illusion Tail
+	AegisBladeProj.DisplayName: Aegis Blade Proj
+	AegisBeams.DisplayName: Aegis Beams
 }
 
 Configs: {

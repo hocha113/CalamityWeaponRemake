@@ -21,6 +21,7 @@ namespace CalamityWeaponRemake.Content.Particles
         public float HueShift;
 
         public Projectile ownerProj;
+        public Player player;
 
         public LightParticle(Vector2 position, Vector2 velocity, float scale, Color color, int lifetime, float opacity = 1f, float squishStrenght = 1f, float maxSquish = 3f, float hueShift = 0f)
         {
@@ -49,6 +50,10 @@ namespace CalamityWeaponRemake.Content.Particles
             if (ownerProj.Alives())
             {
                 Position += ownerProj.velocity * 0.9f;
+            }
+            if (player.Alives())
+            {
+                Position += player.velocity * 0.9f;
             }
         }
 

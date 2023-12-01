@@ -74,7 +74,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
             if (ThisTimeValue % 10 == 0 && Projectile.timeLeft <= 60 && Projectile.IsOwnedByLocalPlayer())
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.rotation.ToRotationVector2() * 17, ModContent.ProjectileType<GalaxyStar>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.rotation.ToRotationVector2() * 17
+                    , ModContent.ProjectileType<GalaxyStar>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
             }
         }
 
@@ -94,26 +95,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             }
         }
 
-        Vector2 OnHitPos = Vector2.Zero;
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            bool collBool = false;
             float point = 0f;
-
-            Vector2 startPos = Projectile.Center;
-
-            Vector2 endPos = Projectile.rotation.ToRotationVector2() * Leng + startPos;
-
-            collBool = Collision.CheckAABBvLineCollision(
-                            targetHitbox.TopLeft(),
-                            targetHitbox.Size(),
-                            startPos,
-                            endPos,
-                            8,
-                            ref point
-                            );
-
-            return collBool;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center
+                , Projectile.rotation.ToRotationVector2() * Leng + Projectile.Center, 8, ref point);
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -137,7 +123,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Texture2D startValue = CWRUtils.GetT2DValue(CWRConstant.Projectile + "TornadoProj");
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.AnisotropicWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.AnisotropicWrap
+                , DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
             Main.EntitySpriteDraw(
                 mainValue,
