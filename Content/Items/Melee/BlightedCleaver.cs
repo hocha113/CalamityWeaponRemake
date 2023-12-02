@@ -2,6 +2,7 @@
 using CalamityMod.Items;
 using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Buffs;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

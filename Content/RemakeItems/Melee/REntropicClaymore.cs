@@ -2,6 +2,7 @@
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -30,7 +31,14 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 item.rare = ItemRarityID.Cyan;
                 item.shoot = ModContent.ProjectileType<EntropicClaymoreHoldoutProj>();
                 item.shootSpeed = 12f;
-                item.CWR().remakeItem = true;
+            }
+        }
+
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.EntropicClaymore>(item))
+            {
+                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "EntropicClaymore");
             }
         }
 

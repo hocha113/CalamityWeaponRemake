@@ -4,6 +4,7 @@ using CalamityMod.Sounds;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -42,6 +43,14 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 item.rare = 11;
                 item.shoot = ModContent.ProjectileType<RemakeGildedProboscisProj>();
                 item.shootSpeed = 13f;
+            }
+        }
+
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.GildedProboscis>(item))
+            {
+                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "GildedProboscis");
             }
         }
 

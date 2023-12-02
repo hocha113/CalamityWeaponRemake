@@ -264,33 +264,33 @@ Items: {
 	}
 
 	FoodStallChair: {
-		// DisplayName: Food Stall Chair
-		// Tooltip: ""
+		DisplayName: 大排档塑料椅子
+		Tooltip: ""
 	}
 
 	DaemonsFlame: {
-		// DisplayName: Daemons Flame
-		// Tooltip: ""
+		DisplayName: 鬼火弓
+		Tooltip: ""
 	}
 
 	ClaretCannon: {
-		// DisplayName: Claret Cannon
-		// Tooltip: ""
+		DisplayName: 真红手炮
+		Tooltip: ""
 	}
 
 	CleansingBlaze: {
-		// DisplayName: Cleansing Blaze
-		// Tooltip: ""
+		DisplayName: 净神者之焰
+		Tooltip: ""
 	}
 
 	AnnihilatingUniverse: {
-		// DisplayName: Annihilating Universe
-		// Tooltip: ""
+		DisplayName: 湮宇星矢
+		Tooltip: ""
 	}
 
 	HeavenfallLongbow: {
-		// DisplayName: Heavenfall Longbow
-		// Tooltip: ""
+		DisplayName: 天堂陨落长弓
+		Tooltip: ""
 	}
 
 	AegisBlade: {
@@ -300,6 +300,11 @@ Items: {
 			挥舞时抛出惩戒火球
 			右键生成庇护巨刃
 			'''
+	}
+
+	DragonsBreathRifle: {
+		// DisplayName: Dragons Breath Rifle
+		// Tooltip: ""
 	}
 }
 
@@ -415,6 +420,8 @@ Projectiles: {
 	// DivineDevourerIllusionTail.DisplayName: Divine Devourer Illusion Tail
 	// AegisBladeProj.DisplayName: Aegis Blade Proj
 	// AegisBeams.DisplayName: Aegis Beams
+	// DragonsBreathRound.DisplayName: Dragons Breath Round
+	// DragonsBreathRifleHeldProj.DisplayName: Dragons Breath Rifle Held Proj
 }
 
 Configs: {
@@ -458,6 +465,11 @@ Buffs: {
 	GodKillsFire: {
 		// DisplayName: God Kills Fire
 		// Description: Mods.CalamityWeaponRemake.Buffs.GodKillsFire.Description
+	}
+
+	TyrantsFury: {
+		// DisplayName: Tyrants Fury
+		// Description: Mods.CalamityWeaponRemake.Buffs.TyrantsFury.Description
 	}
 }
 

@@ -1,18 +1,15 @@
-﻿using CalamityMod.Particles.Metaballs;
-using CalamityMod.Particles;
-using CalamityMod;
+﻿using CalamityMod;
+using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Particles;
+using CalamityWeaponRemake.Content.Particles.Core;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.Graphics.Shaders;
-using CalamityMod.Sounds;
-using Terraria.Audio;
-using CalamityMod.NPCs.SupremeCalamitas;
-using CalamityWeaponRemake.Content.Particles.Core;
-using CalamityWeaponRemake.Content.Particles;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUniverseProj
 {
@@ -54,17 +51,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
         {
             if (Projectile.numHits == 0)
             {
-                if (Main.netMode != NetmodeID.Server)
-                {
-                    for (int i = 0; i < 19; i++)
-                    {
-                        Vector2 center = Projectile.Center + Main.rand.NextVector2Circular(50f, 15f).RotatedBy(Projectile.rotation);
-                        FusableParticleManager.GetParticleSetByType<StreamGougeParticleSet>()?.SpawnParticle(center, 30f);
-                        float sizeStrength = MathHelper.Lerp(24f, 64f, CalamityUtils.Convert01To010(i / 19f));
-                        center = Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.UnitY) * MathHelper.Lerp(-40f, 90f, i / 19f);
-                        FusableParticleManager.GetParticleSetByType<StreamGougeParticleSet>()?.SpawnParticle(center, sizeStrength);
-                    }
-                }
+                StarnightBeams.StarRT(Projectile, target);
                 if (Main.rand.NextBool(3))
                 {
                     int proj = Projectile.NewProjectile(Projectile.parent(), Projectile.Center + Projectile.Center.To(target.Center) / 2, Vector2.Zero

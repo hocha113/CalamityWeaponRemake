@@ -4,6 +4,7 @@ using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -37,6 +38,14 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 item.rare = ModContent.RarityType<DarkBlue>();
                 item.shoot = ModContent.ProjectileType<ExcelsusMain>();
                 item.shootSpeed = 12f;
+            }
+        }
+
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.Excelsus>(item))
+            {
+                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "Excelsus", 2);
             }
         }
 

@@ -5,6 +5,7 @@ using CalamityMod.Sounds;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -40,6 +41,14 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 item.UseSound = SoundID.DD2_SkyDragonsFurySwing;
                 item.value = CalamityGlobalItem.Rarity15BuyPrice;
                 item.rare = ModContent.RarityType<Violet>();
+            }
+        }
+
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.DragonRage>(item))
+            {
+                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "DragonRage", 2);
             }
         }
 

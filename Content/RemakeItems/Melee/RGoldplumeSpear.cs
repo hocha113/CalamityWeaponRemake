@@ -2,6 +2,7 @@
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -37,6 +38,14 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 item.rare = ItemRarityID.Orange;
                 item.shoot = ModContent.ProjectileType<RemakeGoldplumeSpearProjectile>();
                 item.shootSpeed = 8f;
+            }
+        }
+
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.GoldplumeSpear>(item))
+            {
+                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "GoldplumeSpear");
             }
         }
 

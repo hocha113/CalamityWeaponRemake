@@ -19,11 +19,9 @@ namespace CalamityWeaponRemake.Content.Particles
         public float SquishStrenght;
         public float MaxSquish;
         public float HueShift;
+        public Entity entity;
 
-        public Projectile ownerProj;
-        public Player player;
-
-        public LightParticle(Vector2 position, Vector2 velocity, float scale, Color color, int lifetime, float opacity = 1f, float squishStrenght = 1f, float maxSquish = 3f, float hueShift = 0f)
+        public LightParticle(Vector2 position, Vector2 velocity, float scale, Color color, int lifetime, float opacity = 1f, float squishStrenght = 1f, float maxSquish = 3f, float hueShift = 0f, Entity _entity = null)
         {
             Position = position;
             Velocity = velocity;
@@ -35,11 +33,11 @@ namespace CalamityWeaponRemake.Content.Particles
             SquishStrenght = squishStrenght;
             MaxSquish = maxSquish;
             HueShift = hueShift;
+            entity = _entity;
         }
 
         public override void Update()
         {
-            
             Velocity *= (LifetimeCompletion >= 0.34f) ? 0.93f : 1.02f;
 
             Opacity = LifetimeCompletion > 0.5f ? ((float)Math.Sin(LifetimeCompletion * MathHelper.Pi) * 0.2f) + 0.8f : (float)Math.Sin(LifetimeCompletion * MathHelper.Pi);
@@ -47,13 +45,9 @@ namespace CalamityWeaponRemake.Content.Particles
 
             Color = Main.hslToRgb(Main.rgbToHsl(Color).X + HueShift, Main.rgbToHsl(Color).Y, Main.rgbToHsl(Color).Z);
 
-            if (ownerProj.Alives())
+            if (entity != null && entity.active)
             {
-                Position += ownerProj.velocity * 0.9f;
-            }
-            if (player.Alives())
-            {
-                Position += player.velocity * 0.9f;
+                Position += entity.velocity * 0.9f;
             }
         }
 

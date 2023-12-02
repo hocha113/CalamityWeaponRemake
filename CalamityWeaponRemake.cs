@@ -1,6 +1,8 @@
 using CalamityMod.Particles;
+using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.Effects;
 using CalamityWeaponRemake.Content.Particles.Core;
+using System.Reflection.Metadata;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -17,6 +19,7 @@ namespace CalamityWeaponRemake
             Instance = this;
 
             FindMod();
+            LoadClient();
             CWRParticleHandler.Load();
             EffectsRegistry.LoadEffects();
             On_Main.DrawInfernoRings += PeSystem.CWRDrawForegroundParticles;
@@ -34,6 +37,14 @@ namespace CalamityWeaponRemake
         {
             musicMod = null;
             ModLoader.TryGetMod("CalamityModMusic", out musicMod);
+        }
+
+        public void LoadClient()
+        {
+            if (Main.dedServ)
+                return;
+
+            MusicLoader.AddMusicBox(Instance, MusicLoader.GetMusicSlot("CalamityWeaponRemake/Assets/Sounds/Music/Funkytown"), Find<ModItem>("FoodStallChair").Type, Find<ModTile>("FoodStallChair").Type, 0);
         }
     }
 }

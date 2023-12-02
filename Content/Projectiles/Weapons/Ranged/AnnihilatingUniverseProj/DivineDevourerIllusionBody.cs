@@ -1,5 +1,6 @@
 ﻿using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -42,13 +43,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
             Projectile.spriteDirection = (directionToNextSegment.X > 0).ToDirectionInt();
         }
 
-        public override void OnKill(int timeLeft)
-        {
-
-        }
-
         public override bool PreDraw(ref Color lightColor)
         {
+            Main.spriteBatch.SetAdditiveState();
+            Texture2D value = CWRUtils.GetT2DValue(Texture);
+            Main.EntitySpriteDraw(value, Projectile.Center - Main.screenPosition, null, Color.White * (Projectile.timeLeft / 60f), Projectile.rotation
+                , CWRUtils.GetOrig(value), Projectile.scale, SpriteEffects.None);
+            Main.spriteBatch.ResetBlendState();
             return false;
         }
     }

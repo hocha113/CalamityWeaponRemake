@@ -1,16 +1,42 @@
 ﻿using CalamityMod;
+using CalamityMod.Items;
 using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
     internal class RCometQuasher : GlobalItem
     {
+        public override void SetDefaults(Item item)
+        {
+            if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.CometQuasher>() && CWRConstant.ForceReplaceResetContent)
+            {
+                item.width = 46;
+                item.height = 62;
+                item.scale = 1.5f;
+                item.damage = 160;
+                item.DamageType = DamageClass.Melee;
+                item.useAnimation = 28;
+                item.useStyle = ItemUseStyleID.Swing;
+                item.useTime = 28;
+                item.useTurn = true;
+                item.knockBack = 7.75f;
+                item.UseSound = SoundID.Item1;
+                item.autoReuse = true;
+                item.value = CalamityGlobalItem.Rarity8BuyPrice;
+                item.rare = ItemRarityID.Yellow;
+                item.shoot = ModContent.ProjectileType<CometQuasherMeteor>();
+                item.shootSpeed = 9f;
+            }
+        }
+
         public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (item.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.CometQuasher>() && CWRConstant.ForceReplaceResetContent)
@@ -63,6 +89,14 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 damage = (int)(item.damage * 0.4f);
             }
             return base.Shoot(item, player, source, position, velocity, type, damage, knockback);
+        }
+
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.CometQuasher>(item))
+            {
+                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "CometQuasher");
+            }
         }
 
         public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)

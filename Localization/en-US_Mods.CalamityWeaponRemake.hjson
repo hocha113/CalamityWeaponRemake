@@ -301,6 +301,11 @@ Items: {
 			Right click to generate Shelter Giant Blade
 			'''
 	}
+
+	DragonsBreathRifle: {
+		DisplayName: Dragons Breath Rifle
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -415,6 +420,8 @@ Projectiles: {
 	DivineDevourerIllusionTail.DisplayName: Divine Devourer Illusion Tail
 	AegisBladeProj.DisplayName: Aegis Blade Proj
 	AegisBeams.DisplayName: Aegis Beams
+	DragonsBreathRound.DisplayName: Dragons Breath Round
+	DragonsBreathRifleHeldProj.DisplayName: Dragons Breath Rifle Held Proj
 }
 
 Configs: {
@@ -458,6 +465,11 @@ Buffs: {
 	GodKillsFire: {
 		DisplayName: God Kills Fire
 		Description: Mods.CalamityWeaponRemake.Buffs.GodKillsFire.Description
+	}
+
+	TyrantsFury: {
+		DisplayName: Tyrants Fury
+		Description: Mods.CalamityWeaponRemake.Buffs.TyrantsFury.Description
 	}
 }
 

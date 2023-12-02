@@ -1,4 +1,5 @@
-﻿using CalamityMod.Projectiles.Ranged;
+﻿using CalamityMod;
+using CalamityMod.Projectiles.Ranged;
 using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,9 +14,9 @@ using static CalamityWeaponRemake.Common.CWRUtils;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
 {
-    internal class DragonsBreathHeldProj : ModProjectile
+    internal class DragonsBreathRifleHeldProj : ModProjectile
     {
-        public override string Texture => CWRConstant.Item_Ranged + "DragonsBreath";
+        public override string Texture => CWRConstant.Item_Ranged + "DragonsBreathRifle";
 
         public override void SetDefaults()
         {
@@ -116,13 +117,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
 
             Owner.direction = toMou.X > 0 ? 1 : -1;
             Projectile.EntityToRot(toMou.ToRotation(), 0.2f);
-            Vector2 rotOffset = Projectile.rotation.ToRotationVector2() * 6f;
+            Vector2 rotOffset = Projectile.rotation.ToRotationVector2() * -30f;
             Projectile.Center = Owner.Center + rotOffset;
             Owner.heldProj = Projectile.whoAmI;
 
             Vector2 speed = Projectile.rotation.ToRotationVector2() * 12f;
             Vector2 offset = rotOffset;
-            Vector2 shootPos = Owner.Center + offset * 13 + offset.GetNormalVector() * 16 * Owner.direction;
+            Vector2 shootPos = Projectile.Center + Projectile.rotation.ToRotationVector2() * 146;
 
             if (Status == 0)
             {
@@ -162,7 +163,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
                 {
                     spanSmogsBool = true;
                     SpawnDragonsBreathDust(shootPos, speed);
-                    shootPos = Owner.Center + offset * 33 + offset.GetNormalVector() * 16 * Owner.direction;
                     SpawnSomgDust(shootPos, speed);
                     ShootFire2(shootPos);
                     SoundEngine.PlaySound(in SoundID.Item74, shootPos);
@@ -173,16 +173,27 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
 
         int fireType => ModContent.ProjectileType<DragonsBreathRound>();
         int fireCross => ModContent.ProjectileType<DragonFireRupture>();
+        
         public void ShootFire(Vector2 shootPos)
         {
             if (Main.myPlayer != Projectile.owner) return;
 
-            for (int i = 0; i < 6; i++)
+            int AmmoTypes = ProjectileID.WoodenArrowFriendly;
+            float scaleFactor11 = 14f;
+            int weaponDamage2 = Owner.GetWeaponDamage(Owner.ActiveItem());
+            float weaponKnockback2 = Owner.ActiveItem().knockBack;
+            bool haveAmmo = Owner.PickAmmo(Owner.ActiveItem(), out AmmoTypes, out scaleFactor11, out weaponDamage2, out weaponKnockback2, out _, Main.rand.NextBool(3));
+            weaponKnockback2 = Owner.GetWeaponKnockback(Owner.ActiveItem(), weaponKnockback2);
+
+            if (haveAmmo)
             {
-                float angleOffset = MathHelper.ToRadians(-3 + i);
-                Vector2 rotatedVel = (Projectile.rotation + angleOffset).ToRotationVector2() * 13f;
-                Projectile.NewProjectile(Owner.parent(), shootPos, rotatedVel, (int)Projectile.localAI[1], Projectile.damage, Projectile.knockBack, Owner.whoAmI);
-                Projectile.NewProjectile(Projectile.parent(), shootPos, rotatedVel, fireType, (int)(Projectile.damage * 1.2f), Projectile.knockBack, Owner.whoAmI);
+                for (int i = 0; i < 6; i++)
+                {
+                    float angleOffset = MathHelper.ToRadians(-3 + i);
+                    Vector2 rotatedVel = (Projectile.rotation + angleOffset).ToRotationVector2() * 13f;
+                    Projectile.NewProjectile(Owner.parent(), shootPos, rotatedVel, AmmoTypes, weaponDamage2, weaponKnockback2, Owner.whoAmI);
+                    Projectile.NewProjectile(Projectile.parent(), shootPos, rotatedVel, fireType, (int)(weaponDamage2 * 1.2f), weaponKnockback2 * 1.3f, Owner.whoAmI);
+                }
             }
         }
 

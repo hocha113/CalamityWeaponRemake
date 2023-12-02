@@ -120,7 +120,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D mainValue = CWRUtils.GetT2DValue(CWRConstant.Masking + "Streak3");
-            Texture2D startValue = CWRUtils.GetT2DValue(CWRConstant.Projectile + "TornadoProj");
+            Texture2D startValue = CWRUtils.GetT2DValue("CalamityMod/Projectiles/TornadoProj");
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.AnisotropicWrap

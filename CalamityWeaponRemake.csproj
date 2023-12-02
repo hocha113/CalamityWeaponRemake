@@ -9,6 +9,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\BrinyBaron.png" />
+    <None Remove="Assets\Buffs\TyrantsFury.png" />
     <None Remove="Assets\Effects\TerrorBlade.png" />
     <None Remove="Assets\Effects\TerrorBladeGlow.png" />
     <None Remove="Assets\Items\AethersWhisper.png" />
@@ -109,6 +110,7 @@
     <None Remove="Assets\Projectiles\Ranged\AnnihilatingUniverseProj\DivineDevourerIllusionHead.png" />
     <None Remove="Assets\Projectiles\Ranged\AnnihilatingUniverseProj\DivineDevourerIllusionTail.png" />
     <None Remove="Assets\Projectiles\Ranged\AnnihilatingUniverseProj\DivineDevourerIllusionTailGlow.png" />
+    <None Remove="Assets\Projectiles\Ranged\DragonsBreathRound.png" />
     <None Remove="Assets\Projectiles\RayBeam.png" />
     <None Remove="Assets\Tiles\FoodStallChair.png" />
     <None Remove="Assets\UIs\GenericBarBack.png" />

@@ -1,20 +1,16 @@
-﻿using CalamityWeaponRemake.Common;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using System;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria;
-using CalamityMod;
-using Terraria.Graphics.Shaders;
-using CalamityMod.Items.Potions.Alcohol;
-using Terraria.Graphics.Effects;
-using CalamityMod.Particles.Metaballs;
-using CalamityMod.Particles;
-using ReLogic.Utilities;
-using Terraria.Audio;
+﻿using CalamityMod;
+using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Particles;
 using CalamityWeaponRemake.Content.Particles.Core;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Utilities;
+using System;
+using Terraria;
+using Terraria.Audio;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUniverseProj
 {
@@ -94,9 +90,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
                     Vector2 pos = Projectile.Center + Main.rand.NextVector2Unit() * Main.rand.Next((int)rgs);
                     Vector2 particleSpeed = pos.To(Projectile.Center + Projectile.velocity).UnitVector() * Main.rand.NextFloat(5.5f, 7.7f);
                     CWRParticle energyLeak = new LightParticle(pos, particleSpeed
-                        , Main.rand.NextFloat(0.3f, 0.3f + Projectile.ai[1] / 1000f), Color.Purple, 30, 1, 1.5f, hueShift: 0.0f);
-                    LightParticle lightParticle = energyLeak as LightParticle;
-                    lightParticle.ownerProj = Projectile;
+                        , Main.rand.NextFloat(0.3f, 0.3f + Projectile.ai[1] / 1000f), Color.Purple, 30, 1, 1.5f, hueShift: 0.0f, _entity: Projectile);
                     CWRParticleHandler.SpawnParticle(energyLeak);
                 }
 

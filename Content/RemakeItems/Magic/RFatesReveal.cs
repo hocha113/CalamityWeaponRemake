@@ -3,6 +3,7 @@ using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Magic.HeldProjs;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -36,6 +37,14 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Magic
             }
         }
 
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Magic.FatesReveal>(item))
+            {
+                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "FatesReveal");
+            }
+        }
+
         public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Magic.FatesReveal>(item))
@@ -44,10 +53,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Magic
                     Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<FatesRevealHeldProj>(), damage, knockback, player.whoAmI);
                 return false;
             }
-            else
-            {
-                return base.Shoot(item, player, source, position, velocity, type, damage, knockback);
-            }
+            return base.Shoot(item, player, source, position, velocity, type, damage, knockback);
         }
     }
 }

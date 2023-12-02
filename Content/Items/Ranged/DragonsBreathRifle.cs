@@ -1,6 +1,8 @@
 ﻿using CalamityMod;
 using CalamityMod.Items;
+using CalamityMod.Items.Materials;
 using CalamityMod.Rarities;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs;
 using Microsoft.Xna.Framework;
@@ -12,9 +14,9 @@ using static CalamityWeaponRemake.Common.CWRUtils;
 
 namespace CalamityWeaponRemake.Content.Items.Ranged
 {
-    internal class DragonsBreath : ModItem
+    internal class DragonsBreathRifle : ModItem
     {
-        public override string Texture => CWRConstant.Item + "Ranged/" + "DragonsBreath";
+        public override string Texture => CWRConstant.Item + "Ranged/" + "DragonsBreathRifle";
 
         public override void SetStaticDefaults()
         {
@@ -36,7 +38,7 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.knockBack = 6.5f;
-            Item.shoot = ModContent.ProjectileType<DragonsBreathHeldProj>();
+            Item.shoot = ModContent.ProjectileType<DragonsBreathRifleHeldProj>();
             Item.shootSpeed = 12f;
             Item.useAmmo = AmmoID.Bullet;
             Item.Calamity().canFirePointBlankShots = true;
@@ -49,24 +51,27 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
             return true;
         }
 
-        int dbpType => ModContent.ProjectileType<DragonsBreathHeldProj>();
+        int dbpType => ModContent.ProjectileType<DragonsBreathRifleHeldProj>();
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Item.initialize();
             if (player.ownedProjectileCounts[dbpType] == 0)
             {
-                Item.CWR().ai[0] = Projectile.NewProjectile(CWRUtils.parent(player), position, velocity, dbpType, damage, knockback, player.whoAmI);
+                int proj = Projectile.NewProjectile(CWRUtils.parent(player), position, velocity, dbpType, damage, knockback, player.whoAmI);
                 if (player.altFunctionUse == 2)
                 {
-                    Main.projectile[(int)Item.CWR().ai[0]].ai[0] = 1;
+                    Main.projectile[proj].ai[0] = 1;
                 }
             }
-            Projectile projectile = GetProjectileInstance((int)Item.CWR().ai[0]);
-            if (projectile != null)
-            {
-                projectile.localAI[1] = type;
-            }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<AuricBar>(5).
+                AddIngredient<CalamityMod.Items.Weapons.Ranged.TheSevensStriker>().
+                AddTile(ModContent.TileType<CosmicAnvil>()).
+                Register();
         }
     }
 }

@@ -1,8 +1,11 @@
 ﻿using CalamityMod.Items;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Melee
@@ -30,6 +33,14 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 item.shootSpeed = 14f;
                 item.rare = ItemRarityID.Orange;
                 item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            }
+        }
+
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.AirSpinner>(item))
+            {
+                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "AirSpinner", 2);
             }
         }
     }

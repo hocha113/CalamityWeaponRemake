@@ -26,7 +26,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
             Projectile.localNPCHitCooldown = 15;
         }
 
-        private List<Projectile> bodys = new List<Projectile>();
         private Vector2 targetPos;
 
         public override void AI()
@@ -44,7 +43,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
                         , types, Projectile.damage / 2, Projectile.knockBack / 2, Projectile.owner, ai1: index);
                     Main.projectile[proj].netUpdate = true;
                     Main.projectile[proj].netUpdate2 = true;
-                    bodys.Add(Main.projectile[proj]);
                     index = proj;
                 }
                 Projectile.ai[0] = 1;
@@ -58,23 +56,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
             Projectile.rotation = Projectile.velocity.ToRotation();
         }
 
-        public override void OnKill(int timeLeft)
-        {
-
-        }
-
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D head = CWRUtils.GetT2DValue(Texture);
             Main.spriteBatch.SetAdditiveState();
-            
-            foreach (var body in bodys)
-            {
-                if (!body.Alives()) continue;
-                Texture2D value = CWRUtils.GetT2DValue(body.ModProjectile.Texture);
-                Main.EntitySpriteDraw(value, body.Center - Main.screenPosition, null, Color.White * (body.timeLeft / 60f), body.rotation
-                    , CWRUtils.GetOrig(value), body.scale, SpriteEffects.None);
-            }
+
             Main.EntitySpriteDraw(head, Projectile.Center - Main.screenPosition, null, Color.White * (Projectile.timeLeft / 30f), Projectile.rotation + MathHelper.PiOver2
                 , CWRUtils.GetOrig(head) - new Vector2(8, 0), Projectile.scale, SpriteEffects.None);
             Main.spriteBatch.ResetBlendState();

@@ -1,4 +1,6 @@
 ﻿using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Particles.Core;
+using CalamityWeaponRemake.Content.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -52,7 +54,17 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
         public override void OnKill(int timeLeft)
         {
-
+            if (Main.netMode != NetmodeID.Server)
+            {
+                for (int i = 0; i < 16; i++)
+                {
+                    Vector2 particleSpeed = Projectile.velocity * Main.rand.NextFloat(0.7f, 0.9f);
+                    Vector2 pos = Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height));
+                    CWRParticle energyLeak = new LightParticle(pos, particleSpeed
+                        , Main.rand.NextFloat(0.2f, 0.5f), Main.rand.NextBool(2)? Color.Red : Color.Gold, 30, 1, 1.5f, hueShift: 0.0f);
+                    CWRParticleHandler.SpawnParticle(energyLeak);
+                }
+            }
         }
 
         public override void OnSpawn(IEntitySource source)
@@ -90,6 +102,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                     }
                 }
             }
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Vector2 particleSpeed = Projectile.velocity * Main.rand.NextFloat(0.7f, 0.9f);
+                Vector2 pos = Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height));
+                CWRParticle energyLeak = new LightParticle(pos, particleSpeed
+                    , Main.rand.NextFloat(0.2f, 0.3f), Main.rand.NextBool(2) ? Color.Red : Color.Gold, 15, 1, 1.5f, hueShift: 0.0f);
+                CWRParticleHandler.SpawnParticle(energyLeak);
+            }
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -107,7 +128,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                 Color.White,
                 Projectile.rotation,
                 CWRUtils.GetOrig(mainValue, 4),
-                Projectile.scale,
+                Projectile.scale * 0.6f,
                 SpriteEffects.None,
                 0
                 );

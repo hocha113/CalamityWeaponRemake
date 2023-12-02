@@ -6,6 +6,7 @@ using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -35,7 +36,14 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 item.shootSpeed = 20f;
                 item.value = CalamityGlobalItem.Rarity13BuyPrice;
                 item.rare = ModContent.RarityType<PureGreen>();
-                item.CWR().remakeItem = true;
+            }
+        }
+
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.TerrorBlade>(item))
+            {
+                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "TerrorBlade", 2);
             }
         }
 

@@ -35,7 +35,7 @@ namespace CalamityWeaponRemake.Content
             ItemType<WindBlade>(),
             ItemType<AegisBlade>(),
             //远程
-            ItemType<DragonsBreath>(),
+            ItemType<DragonsBreathRifle>(),
             ItemType<Arbalest>(),
             ItemType<Deathwind>(),
             ItemType<Galeforce>(),

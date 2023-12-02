@@ -91,7 +91,6 @@ namespace CalamityWeaponRemake.Content.Tiles
                     }
                 }
             }
-
             return true;
         }
 
@@ -116,6 +115,7 @@ namespace CalamityWeaponRemake.Content.Tiles
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
+
             return base.PreDraw(i, j, spriteBatch);
         }
     }

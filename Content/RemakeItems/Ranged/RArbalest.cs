@@ -3,6 +3,7 @@ using CalamityMod.Items;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -39,6 +40,14 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
                 item.shootSpeed = 12f;
                 item.useAmmo = AmmoID.Arrow;
                 item.Calamity().canFirePointBlankShots = true;
+            }
+        }
+
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Ranged.Arbalest>(item))
+            {
+                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "Arbalest", 4);
             }
         }
 

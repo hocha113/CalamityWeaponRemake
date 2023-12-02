@@ -2,7 +2,9 @@
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -21,21 +23,29 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         {
             if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.WindBlade>(item))
             {
-                item.width = 78;
-                item.damage = 250;
+                item.width = 58;
+                item.damage = 41;
                 item.DamageType = DamageClass.Melee;
-                item.useAnimation = 15;
+                item.useAnimation = 20;
                 item.useStyle = ItemUseStyleID.Swing;
-                item.useTime = 15;
+                item.useTime = 20;
                 item.useTurn = true;
-                item.knockBack = 8f;
+                item.knockBack = 5f;
                 item.UseSound = SoundID.Item1;
                 item.autoReuse = true;
-                item.height = 94;
-                item.value = CalamityGlobalItem.Rarity14BuyPrice;
-                item.rare = ModContent.RarityType<DarkBlue>();
-                item.shoot = ModContent.ProjectileType<ExcelsusMain>();
-                item.shootSpeed = 12f;
+                item.height = 58;
+                item.value = CalamityGlobalItem.Rarity3BuyPrice;
+                item.rare = ItemRarityID.Orange;
+                item.shoot = ModContent.ProjectileType<Cyclones>();
+                item.shootSpeed = 3f;
+            }
+        }
+
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.WindBlade>(item))
+            {
+                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "WindBlade");
             }
         }
 

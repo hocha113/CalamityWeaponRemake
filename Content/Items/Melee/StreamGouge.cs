@@ -42,7 +42,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.channel = true;
             Item.useAnimation = 19;
             Item.useTime = 19;
-            Item.useStyle = 5;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 9.75f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
@@ -56,8 +56,11 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         {
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (player.altFunctionUse == 2)
+            {
                 Main.projectile[proj].localAI[1] = 1;
-            return false;
+            }
+
+            return true;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

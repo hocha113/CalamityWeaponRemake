@@ -76,18 +76,18 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
 
         public void SpanProj()
         {
-            bool fire = Time % arbalest.useTime == 0;
             int ArrowTypes = ProjectileID.WoodenArrowFriendly;
             float scaleFactor11 = 14f;
             int weaponDamage2 = Owner.GetWeaponDamage(Owner.ActiveItem());
             float weaponKnockback2 = Owner.ActiveItem().knockBack;
-            bool haveAmmo = Owner.PickAmmo(Owner.ActiveItem(), out ArrowTypes, out scaleFactor11, out weaponDamage2, out weaponKnockback2, out _, !fire);
-            weaponKnockback2 = Owner.GetWeaponKnockback(Owner.ActiveItem(), weaponKnockback2);
-            if (haveAmmo)
+
+            if (Time > 20 && Time < 50 && Owner.PressKey())
             {
-                if (Time > 20 && Time < 50 && Owner.PressKey())
+                if (Time2 % 10 == 0)
                 {
-                    if (Time2 % 10 == 0)
+                    bool haveAmmo = Owner.PickAmmo(Owner.ActiveItem(), out ArrowTypes, out scaleFactor11, out weaponDamage2, out weaponKnockback2, out _);
+                    weaponKnockback2 = Owner.GetWeaponKnockback(Owner.ActiveItem(), weaponKnockback2);
+                    if (haveAmmo)
                     {
                         SoundEngine.PlaySound(in SoundID.Item5, Owner.Center);
                         int randShootNum = Main.rand.Next(4, 6);
@@ -111,27 +111,27 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
                         if (Projectile.localAI[2] > 16)
                             Projectile.localAI[2] = 0;
                     }
-
                 }
-                if (Time > 60)
-                    Time = 0;
+
             }
+            if (Time > 60)
+                Time = 0;
         }
 
         public void SpanProj2()
         {
-            bool fire = Time % arbalest.useTime == 0;
             int ArrowTypes = ProjectileID.WoodenArrowFriendly;
             float scaleFactor11 = 14f;
             int weaponDamage2 = Owner.GetWeaponDamage(Owner.ActiveItem());
             float weaponKnockback2 = Owner.ActiveItem().knockBack;
-            bool haveAmmo = Owner.PickAmmo(Owner.ActiveItem(), out ArrowTypes, out scaleFactor11, out weaponDamage2, out weaponKnockback2, out _, !fire);
-            weaponKnockback2 = Owner.GetWeaponKnockback(Owner.ActiveItem(), weaponKnockback2);
-            if (haveAmmo)
+
+            if (Time >= 30 && Time <= 60 && Owner.PressKey(false))
             {
-                if (Time >= 30 && Time <= 60 && Owner.PressKey(false))
+                if (Time2 % 5 == 0)
                 {
-                    if (Time2 % 5 == 0)
+                    bool haveAmmo = Owner.PickAmmo(Owner.ActiveItem(), out ArrowTypes, out scaleFactor11, out weaponDamage2, out weaponKnockback2, out _);
+                    weaponKnockback2 = Owner.GetWeaponKnockback(Owner.ActiveItem(), weaponKnockback2);
+                    if (haveAmmo)
                     {
                         Vector2 spanPos = Owner.Center + toMou.UnitVector() * 53;
                         int ammo = Projectile.NewProjectile(
@@ -150,10 +150,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
                         Main.projectile[ammo].rotation = Projectile.rotation + MathHelper.PiOver2;
                         Main.projectile[ammo].scale = 1.5f;
                     }
+                    
                 }
-                if (Time > 60)
-                    Time = 0;
             }
+            if (Time > 60)
+                Time = 0;
         }
 
         public void StickToOwner()

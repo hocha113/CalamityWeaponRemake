@@ -3,10 +3,12 @@ using CalamityMod.Items;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Buffs;
 using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -35,7 +37,14 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 item.rare = ModContent.RarityType<Turquoise>();
                 item.shoot = ModContent.ProjectileType<BlazingPhantomBlade>();
                 item.shootSpeed = 12f;
-                item.CWR().remakeItem = true;
+            }
+        }
+
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.DefiledGreatsword>(item))
+            {
+                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "DefiledGreatsword", 3);
             }
         }
 

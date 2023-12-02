@@ -4,6 +4,7 @@ using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -37,6 +38,14 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
                 item.rare = ModContent.RarityType<PureGreen>();
                 item.CWR().remakeItem = true;
                 item.Calamity().canFirePointBlankShots = true;
+            }
+        }
+
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Ranged.DaemonsFlame>(item))
+            {
+                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "DaemonsFlame");
             }
         }
 

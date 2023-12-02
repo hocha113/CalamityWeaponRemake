@@ -3,6 +3,7 @@ using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -39,6 +40,14 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 item.shoot = ModContent.ProjectileType<RemakeStreamGougeProj>();
                 item.shootSpeed = 15f;
                 item.rare = ModContent.RarityType<DarkBlue>();
+            }
+        }
+
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.StreamGouge>(item))
+            {
+                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "StreamGouge", 3);
             }
         }
 

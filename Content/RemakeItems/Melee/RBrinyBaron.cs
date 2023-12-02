@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
@@ -31,6 +32,14 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 item.UseSound = SoundID.Item1;
                 item.value = CalamityGlobalItem.Rarity8BuyPrice;
                 item.rare = ItemRarityID.Yellow;
+            }
+        }
+
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.BrinyBaron>(item))
+            {
+                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "BrinyBaron", 2);
             }
         }
 

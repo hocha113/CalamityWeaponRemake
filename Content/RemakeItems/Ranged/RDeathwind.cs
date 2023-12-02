@@ -4,6 +4,7 @@ using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -37,17 +38,12 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
             }
         }
 
-        public override void HoldItem(Item item, Player player)
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
-            //if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Ranged.Deathwind>(item))
-            //{
-            //    item.initialize();
-            //    Projectile heldProj = CWRUtils.GetProjectileInstance((int)item.CWR().ai[0]);
-            //    if (heldProj != null && heldProj.type == ModContent.ProjectileType<ArbalestHeldProj>())
-            //    {
-            //        heldProj.localAI[1] = item.CWR().ai[1];
-            //    }
-            //}
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Ranged.Deathwind>(item))
+            {
+                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "Deathwind", 2);
+            }
         }
 
         public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

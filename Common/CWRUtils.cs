@@ -901,6 +901,35 @@ namespace CalamityWeaponRemake.Common
             return CWRConstant.Asset + path1;
         }
 
+        public static void OnModifyTooltips(Mod mod, Item item, List<TooltipLine> tooltips, string key, int leva = 1)
+        {
+            List<TooltipLine> newTooltips = new List<TooltipLine>(tooltips);
+
+            foreach (TooltipLine line in tooltips.ToList()) //复制 tooltips 集合，以便在遍历时修改
+            {
+                if (leva >= 4)
+                    if (line.Name == "Tooltip3")
+                        line.Hide();
+                if (leva >= 3)
+                    if (line.Name == "Tooltip2")
+                        line.Hide();
+                if (leva >= 2)
+                    if (line.Name == "Tooltip1")
+                        line.Hide();
+                if (leva >= 1)
+                    if (line.Name == "Tooltip0")
+                        line.Hide();
+            }
+
+            TooltipLine newLine = new TooltipLine(mod, "CWRText"
+                , Language.GetText($"Mods.CalamityWeaponRemake.Items.{key}.Tooltip").Value);
+            newTooltips.Add(newLine);
+
+            tooltips.Clear(); // 清空原 tooltips 集合
+            tooltips.AddRange(newTooltips); // 添加修改后的 newTooltips 集合
+            CWRItems.AppAwakeningLine(tooltips);
+        }
+
         /// <summary>
         /// 检查指定玩家是否按下了鼠标键
         /// </summary>

@@ -3,6 +3,7 @@ using CalamityMod.Items;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,7 +32,14 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 item.shootSpeed = 2.4f;
                 item.value = CalamityGlobalItem.Rarity14BuyPrice;
                 item.rare = ModContent.RarityType<DarkBlue>();
-                item.Calamity().donorItem = true;
+            }
+        }
+
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.CosmicShiv>(item))
+            {
+                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "CosmicShiv", 2);
             }
         }
     }

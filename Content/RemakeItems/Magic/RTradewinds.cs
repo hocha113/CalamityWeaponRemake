@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Magic;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -37,6 +38,14 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Magic
                 item.autoReuse = true;
                 item.shoot = ModContent.ProjectileType<TradewindsProjectile>();
                 item.shootSpeed = 20f;
+            }
+        }
+
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Magic.Tradewinds>(item))
+            {
+                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "Tradewinds");
             }
         }
 

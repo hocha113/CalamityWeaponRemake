@@ -1,5 +1,4 @@
 ﻿using CalamityMod;
-using CalamityMod.Particles.Metaballs;
 using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -115,11 +114,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon
         {
             for (int i = 0; i < 10; i++)
             {
-                Vector2 center = Projectile.Center + Main.rand.NextVector2Circular(50f, 10f);
-                FusableParticleManager.GetParticleSetByType<StreamGougeParticleSet>()?.SpawnParticle(center, 30f);
-                float sizeStrength = MathHelper.Lerp(24f, 64f, CalamityUtils.Convert01To010(i / 19f));
-                center = Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.UnitY) * MathHelper.Lerp(-40f, 90f, i / 19f);
-                FusableParticleManager.GetParticleSetByType<StreamGougeParticleSet>()?.SpawnParticle(center, sizeStrength);
+                //Vector2 center = Projectile.Center + Main.rand.NextVector2Circular(50f, 10f);
+                //FusableParticleManager.GetParticleSetByType<StreamGougeParticleSet>()?.SpawnParticle(center, 30f);
+                //float sizeStrength = MathHelper.Lerp(24f, 64f, CalamityUtils.Convert01To010(i / 19f));
+                //center = Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.UnitY) * MathHelper.Lerp(-40f, 90f, i / 19f);
+                //FusableParticleManager.GetParticleSetByType<StreamGougeParticleSet>()?.SpawnParticle(center, sizeStrength);
             }
             return false;
         }

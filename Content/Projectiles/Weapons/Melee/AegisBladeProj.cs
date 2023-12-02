@@ -1,13 +1,11 @@
-﻿using CalamityMod.Projectiles.Melee;
-using CalamityMod;
+﻿using CalamityMod;
+using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Particles;
 using CalamityWeaponRemake.Content.Particles.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SteelSeries.GameSense;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -67,9 +65,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                             Vector2 pos = Projectile.Center + Main.rand.NextVector2Unit() * Main.rand.Next(143, 150) * Projectile.scale;
                             Vector2 particleSpeed = pos.To(Projectile.Center).UnitVector() * 16;
                             CWRParticle energyLeak = new LightParticle(pos, particleSpeed
-                                , 0.3f, Color.Gold, 16, 1, 1.5f, hueShift: 0.0f);
-                            LightParticle lightParticle = energyLeak as LightParticle;
-                            lightParticle.player = Main.player[Projectile.owner];
+                                , 0.3f, Color.Gold, 16, 1, 1.5f, hueShift: 0.0f, _entity: Projectile);
                             CWRParticleHandler.SpawnParticle(energyLeak);
                         }
                     }
