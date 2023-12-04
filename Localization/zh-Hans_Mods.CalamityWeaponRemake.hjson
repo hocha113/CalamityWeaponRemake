@@ -306,6 +306,11 @@ Items: {
 		// DisplayName: Dragons Breath Rifle
 		// Tooltip: ""
 	}
+
+	TextItem: {
+		// DisplayName: Text Item
+		// Tooltip: ""
+	}
 }
 
 Projectiles: {

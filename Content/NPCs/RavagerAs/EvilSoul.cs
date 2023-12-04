@@ -23,7 +23,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             NPC.damage = 125;
             NPC.noTileCollide = true;
             NPC.boss = true;
-            Music = MusicLoader.GetMusicSlot(CalamityWeaponRemake.Instance, "Assets/Sounds/Music/ShenA");//这个音乐是占位使用——谁让它这么酷呢？
+            Music = 78;//这个音乐是占位使用——谁让它这么酷呢？
         }
 
         public ref float Time => ref NPC.ai[0];
