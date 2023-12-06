@@ -548,9 +548,10 @@ namespace CalamityWeaponRemake.Common
         /// <param name="projectile">要爆炸的投射物</param>
         /// <param name="blastRadius">爆炸效果的半径（默认为 120 单位）</param>
         /// <param name="explosionSound">爆炸声音的样式（默认为默认的爆炸声音）</param>
-        public static void Explode(this Projectile projectile, int blastRadius = 120, SoundStyle explosionSound = default)
+        public static void Explode(this Projectile projectile, int blastRadius = 120, SoundStyle explosionSound = default, bool spanSound = true)
         {
-            SoundEngine.PlaySound(explosionSound == default ? SoundID.Item14 : explosionSound, projectile.Center);
+            if (spanSound)
+                SoundEngine.PlaySound(explosionSound == default ? SoundID.Item14 : explosionSound, projectile.Center);
             projectile.position = projectile.Center;
             projectile.width = projectile.height = blastRadius * 2;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
@@ -893,6 +894,19 @@ namespace CalamityWeaponRemake.Common
             else text = English;
             if (text == null || text == default) text = "Invalid Character";
             return text;
+        }
+
+        public static Color MultiLerpColor(float percent, params Color[] colors)
+        {
+            float per = 1f / (colors.Length - 1f);
+            float total = per;
+            int currentID = 0;
+            while (percent / total > 1f && currentID < colors.Length - 2)
+            {
+                total += per;
+                currentID++;
+            }
+            return Color.Lerp(colors[currentID], colors[currentID + 1], (percent - (per * currentID)) / per);
         }
 
         public static string GetPath(string baseTexPath)
@@ -1727,7 +1741,7 @@ namespace CalamityWeaponRemake.Common
         /// <param name="Maxframe"></param>
         public static void ClockFrame(ref int frameCounter, int intervalFrame, int maxFrame)
         {
-            if (Main.fpsCount % intervalFrame == 0) frameCounter++;
+            if (Main.GameUpdateCount % intervalFrame == 0) frameCounter++;
             if (frameCounter > maxFrame) frameCounter = 0;
         }
         /// <summary>
@@ -1765,9 +1779,9 @@ namespace CalamityWeaponRemake.Common
         /// </summary>
         /// <param name="texture">纹理路径</param>
         /// <returns></returns>
-        public static Texture2D GetT2DValue(string texture)
+        public static Texture2D GetT2DValue(string texture, bool immediateLoad = false)
         {
-            return ModContent.Request<Texture2D>(texture).Value;
+            return ModContent.Request<Texture2D>(texture, immediateLoad ? AssetRequestMode.AsyncLoad : AssetRequestMode.ImmediateLoad).Value;
         }
 
         /// <summary>

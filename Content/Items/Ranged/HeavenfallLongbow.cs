@@ -14,6 +14,7 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
 {
     internal class HeavenfallLongbow : ModItem
     {
+        public static Color[] rainbowColors = new Color[] { Color.Red, Color.Orange, Color.Yellow, Color.Green, Color.Blue, Color.Indigo, Color.Violet };
         public override string Texture => CWRConstant.Item_Ranged + "HeavenfallLongbow";
         public new string LocalizationCategory => "Items.Weapons.Ranged";
 
@@ -36,7 +37,6 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
             Item.useAnimation = 12;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 4f;
-            Item.UseSound = SoundID.Item5;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.DamageType = DamageClass.Ranged;

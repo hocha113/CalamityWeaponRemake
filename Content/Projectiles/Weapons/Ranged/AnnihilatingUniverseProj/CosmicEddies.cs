@@ -116,10 +116,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
             return CWRUtils.CircularHitboxCollision(Projectile.Center, rgs, targetHitbox);
         }
 
-        public override void OnKill(int timeLeft)
-        {
-        }
-
         public override bool PreDraw(ref Color lightColor)
         {
             Main.spriteBatch.EnterShaderRegion();

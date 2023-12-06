@@ -1,28 +1,24 @@
-﻿using CalamityMod.Particles;
-using CalamityMod;
+﻿using CalamityMod;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using Terraria.ModLoader.Core;
-using Terraria.ModLoader;
-using Terraria;
-using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
+using Terraria;
+using Terraria.ModLoader;
+using Terraria.ModLoader.Core;
 
 namespace CalamityWeaponRemake.Content.Particles.Core
 {
     internal class CWRParticleHandler
     {
         private static List<CWRParticle> particles;
-        //List containing the particles to delete
         private static List<CWRParticle> particlesToKill;
-        //Static list for details concerning every particle type
         internal static Dictionary<Type, int> particleTypes;
         internal static Dictionary<int, Texture2D> particleTextures;
         private static List<CWRParticle> particleInstances;
-        //Lists used when drawing particles batched
         private static List<CWRParticle> batchedAlphaBlendParticles;
         private static List<CWRParticle> batchedNonPremultipliedParticles;
         private static List<CWRParticle> batchedAdditiveBlendParticles;
@@ -34,7 +30,7 @@ namespace CalamityWeaponRemake.Content.Particles.Core
             {
                 if (type.IsSubclassOf(baseParticleType) && !type.IsAbstract && type != baseParticleType)
                 {
-                    int ID = particleTypes.Count; //Get the ID of the particle
+                    int ID = particleTypes.Count;
                     particleTypes[type] = ID;
 
                     CWRParticle instance = (CWRParticle)FormatterServices.GetUninitializedObject(type);
@@ -80,14 +76,8 @@ namespace CalamityWeaponRemake.Content.Particles.Core
         /// </summary>
         public static void SpawnParticle(CWRParticle particle)
         {
-            // Don't queue particles if the game is paused.
-            // This precedent is established with how Dust instances are created.
-            //Don't spawn particles if on the server side either, or if the particles dict is somehow null
             if (Main.gamePaused || Main.dedServ || particles == null)
                 return;
-
-            //if (particles.Count >= CalamityConfig.Instance.ParticleLimit && !particle.Important)
-            //    return;
 
             particles.Add(particle);
             particle.Type = particleTypes[particle.GetType()];
@@ -103,7 +93,7 @@ namespace CalamityWeaponRemake.Content.Particles.Core
                 particle.Time++;
                 particle.Update();
             }
-            //Clear out particles whose time is up
+
             particles.RemoveAll(particle => particle.Time >= particle.Lifetime && particle.SetLifetime || particlesToKill.Contains(particle));
             particlesToKill.Clear();
         }
@@ -124,7 +114,6 @@ namespace CalamityWeaponRemake.Content.Particles.Core
             Main.instance.GraphicsDevice.RasterizerState.ScissorTestEnable = true;
             Main.instance.GraphicsDevice.ScissorRectangle = new Rectangle(0, 0, Main.screenWidth, Main.screenHeight);
 
-            //Batch the particles to avoid constant restarting of the spritebatch
             foreach (CWRParticle particle in particles)
             {
                 if (particle == null)
@@ -222,9 +211,5 @@ namespace CalamityWeaponRemake.Content.Particles.Core
         /// Gives you the texture of the particle type. Useful for custom drawing
         /// </summary>
         public static Texture2D GetTexture(int type) => particleTextures[type];
-
-#pragma warning disable CS0414
-        private static string noteToEveryone = "This particle system was inspired by spirit mod's own particle system, with permission granted by Yuyutsu. Love you spirit mod! -Iban";
-#pragma warning restore CS0414
     }
 }

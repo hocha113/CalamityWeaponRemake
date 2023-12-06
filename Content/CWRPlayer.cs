@@ -7,6 +7,8 @@ namespace CalamityWeaponRemake.Content
     {
         public int theRelicLuxor = 0;
 
+        public int CompressorPanelID = -1;
+
         public override void Initialize()
         {
             theRelicLuxor = 0;

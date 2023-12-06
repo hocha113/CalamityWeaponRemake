@@ -311,6 +311,31 @@ Items: {
 		DisplayName: Text Item
 		Tooltip: ""
 	}
+
+	BaseSingularity: {
+		DisplayName: Base Singularity
+		Tooltip: ""
+	}
+
+	InfiniteIngot: {
+		DisplayName: Infinite Ingot
+		Tooltip: ""
+	}
+
+	CosmicMetalSingularity: {
+		DisplayName: Cosmic Metal Singularity
+		Tooltip: ""
+	}
+
+	TransmutationOfMatterItem: {
+		DisplayName: Transmutation Of Matter Item
+		Tooltip: ""
+	}
+
+	DarkMatterCompressorItem: {
+		DisplayName: Dark Matter Compressor Item
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -427,6 +452,10 @@ Projectiles: {
 	AegisBeams.DisplayName: Aegis Beams
 	DragonsBreathRound.DisplayName: Dragons Breath Round
 	DragonsBreathRifleHeldProj.DisplayName: Dragons Breath Rifle Held Proj
+	InfiniteArrow.DisplayName: Infinite Arrow
+	HeavenLightning.DisplayName: Heaven Lightning
+	CelestialVortex.DisplayName: Celestial Vortex
+	ParadiseArrow.DisplayName: Paradise Arrow
 }
 
 Configs: {

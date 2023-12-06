@@ -1,13 +1,24 @@
 ﻿using CalamityMod;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Particles;
+using CalamityMod.Projectiles.Ranged;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Items.Ranged;
+using CalamityWeaponRemake.Content.Particles;
+using CalamityWeaponRemake.Content.Particles.Core;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUniverseProj;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Mono.Cecil;
 using System;
 using System.IO;
+using System.Linq;
 using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLongbowProj
 {
@@ -67,7 +78,41 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
 
         public void SpanProj()
         {
-            
+            Vector2 vr = Projectile.rotation.ToRotationVector2();
+            int weaponDamage2 = Owners.GetWeaponDamage(Owners.ActiveItem());
+            float weaponKnockback2 = Owners.GetWeaponKnockback(Owners.ActiveItem(), Owners.ActiveItem().knockBack);
+            if (Projectile.ai[2] == 0)
+            {
+                if (Time > 10)
+                {
+                    SoundEngine.PlaySound(HeavenlyGale.FireSound, Projectile.Center);
+                    Owners.PickAmmo(Owners.ActiveItem(), out _, out _, out weaponDamage2, out weaponKnockback2, out _);
+                    Projectile.NewProjectile(Projectile.parent(), Projectile.Center, vr * 20, ProjectileType<InfiniteArrow>(), weaponDamage2, weaponKnockback2, Owners.whoAmI);
+                    Time = 0;
+                }
+            }
+            else
+            {
+                if (Time > 15)
+                {
+                    SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        Owners.PickAmmo(Owners.ActiveItem(), out _, out _, out weaponDamage2, out weaponKnockback2, out _);
+                        Vector2 spanPos = Projectile.Center + new Vector2(0, -633) + new Vector2(Main.MouseWorld.X - Owners.position.X, 0) * Main.rand.NextFloat(0.3f, 0.45f);
+                        Vector2 vr3 = spanPos.To(Main.MouseWorld).UnitVector().RotateRandom(12 * CWRUtils.atoR) * 23;
+                        Projectile.NewProjectile(Projectile.parent(), spanPos, vr3, ProjectileType<ParadiseArrow>(), (int)(weaponDamage2 * 0.5f), weaponKnockback2, Owners.whoAmI);
+                    }
+                    
+                    //for (int i = 0; i < 55; i++)
+                    //{
+                    //    Vector2 vr2 = vr.RotateRandom(15 * CWRUtils.atoR) * Main.rand.Next(21, 58);
+                    //    CWRParticleHandler.SpawnParticle(new HeavenHeavySmoke(Projectile.Center, vr2, Color.White, 30
+                    //        , Main.rand.NextFloat(0.6f, 1.2f) * Projectile.scale, 0.28f, 0f, glowing: false, 0f, required: true, Owners));
+                    //}
+                    Time = 0;
+                }
+            }
         }
 
         public void StickToOwner()
@@ -94,7 +139,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
                     Projectile.netUpdate = true;
                 }
             }
-            if (Owners.PressKey() || Owners.PressKey(false))
+            if ((Projectile.ai[2] == 0 && Owners.PressKey()) || (Projectile.ai[2] == 1 && Owners.PressKey(false)))
             {
                 Projectile.timeLeft = 2;
                 Owners.itemTime = 2;
@@ -127,6 +172,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
+            
             Main.EntitySpriteDraw(
                 mainValue,
                 Projectile.Center - Main.screenPosition,

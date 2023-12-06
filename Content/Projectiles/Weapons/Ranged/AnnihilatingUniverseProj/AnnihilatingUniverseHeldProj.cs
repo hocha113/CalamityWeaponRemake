@@ -116,7 +116,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
                     Projectile.netUpdate = true;
                 }
             }
-            if (Owners.PressKey() || Owners.PressKey(false))
+            if ((Projectile.ai[2] == 0 && Owners.PressKey()) || (Projectile.ai[2] == 1 && Owners.PressKey(false)))
             {
                 Projectile.timeLeft = 2;
                 Owners.itemTime = 2;

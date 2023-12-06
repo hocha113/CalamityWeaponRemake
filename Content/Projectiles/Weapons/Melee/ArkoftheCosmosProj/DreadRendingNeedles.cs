@@ -65,18 +65,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             Projectile.rotation = Projectile.velocity.ToRotation();
             Projectile.velocity *= 1.005f;
 
-            //if (Projectile.timeLeft < 40)
-            //{
-            //    NPC target = Projectile.ProjFindingNPCTarget(600);
-            //    if (target != null)
-            //    {
-            //        Vector2 toTarget = Projectile.Center.To(target.Center);
-            //        Projectile.EntityToRot(toTarget.ToRotation(), 0.1f);
-            //        Projectile.velocity = Projectile.rotation.ToRotationVector2() * Projectile.velocity.Length();
-            //        Projectile.velocity *= 1.001f;
-            //    }
-            //}            
-
             if (Projectile.velocity.LengthSquared() < 1f)
             {
                 Projectile.Kill();

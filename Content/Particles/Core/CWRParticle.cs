@@ -77,12 +77,12 @@ namespace CalamityWeaponRemake.Content.Particles.Core
         public virtual bool UseAdditiveBlend => false;
 
         /// <summary>
-        /// Set this to true to make your particles work with semi transparent pixels. Is overriden if UseAdditiveBlend is set to true.
+        /// 将此设置为true以使您的粒子与半透明像素一起工作。如果UseAdditiveBlend被设置为true，则被覆盖
         /// </summary>
         public virtual bool UseHalfTransparency => false;
 
         /// <summary>
-        /// Removes the particle from the handler
+        /// 从处理程序中移除粒子
         /// </summary>
         public void Kill() => CWRParticleHandler.RemoveParticle(this);
     }

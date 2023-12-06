@@ -5,7 +5,7 @@ namespace CalamityWeaponRemake.Content.Items.Placeable
 {
     internal class FoodStallChair : ModItem
     {
-        public override string Texture => CWRConstant.Item + "Placement/" + "FoodStallChair";
+        public override string Texture => CWRConstant.Item + "Placeable/" + "FoodStallChair";
 
         public override void SetDefaults()
         {

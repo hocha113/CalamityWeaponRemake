@@ -6,6 +6,7 @@ using CalamityWeaponRemake.Content.Particles.Core;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Linq;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -17,7 +18,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
     {
         public override string Texture => CWRConstant.Cay_Item + "Ammo/VanquisherArrow";
 
-        public PrimitiveTrail PierceAfterimageDrawer = null;
+        public PrimitiveTrail PierceDrawer = null;
 
         public override void SetStaticDefaults()
         {
@@ -61,12 +62,18 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
             }
             if (target.type == ModContent.NPCType<SepulcherHead>() || target.type == ModContent.NPCType<SepulcherBody>() || target.type == ModContent.NPCType<SepulcherTail>())
             {
-                ModNPC modNPC = target.ModNPC;
-                modNPC.NPC.life = 0;
-                modNPC.NPC.checkDead();
-                modNPC.OnKill();
-                modNPC.HitEffect(hit);
-                modNPC.NPC.active = false;
+                foreach (NPC targetHead in Main.npc)
+                {
+                    if (targetHead.type == ModContent.NPCType<SepulcherHead>())
+                    {
+                        ModNPC modNPC = targetHead.ModNPC;
+                        modNPC.NPC.life = 0;
+                        modNPC.NPC.checkDead();
+                        modNPC.OnKill();
+                        modNPC.HitEffect(hit);
+                        modNPC.NPC.active = false;
+                    }
+                }
             }
         }
 
@@ -91,7 +98,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
         
         public override bool PreDraw(ref Color lightColor)
         {
-            PierceAfterimageDrawer ??= new(PrimitiveWidthFunction, PrimitiveColorFunction, null, GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"]);
+            PierceDrawer ??= new(PrimitiveWidthFunction, PrimitiveColorFunction, null, GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"]);
 
             float localIdentityOffset = Projectile.identity * 0.1372f;
             Color mainColor = CalamityUtils.MulticolorLerp((Main.GlobalTimeWrappedHourly * 2f + localIdentityOffset) % 1f, Color.Blue, Color.White, Color.BlueViolet, Color.CadetBlue, Color.DarkBlue);
@@ -106,7 +113,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
             GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"].UseColor(mainColor);
             GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"].UseSecondaryColor(secondaryColor);
             GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"].Apply();
-            PierceAfterimageDrawer.Draw(Projectile.oldPos, trailOffset, 53);
+            PierceDrawer.Draw(Projectile.oldPos, trailOffset, 53);
 
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = tex.Size() * 0.5f;

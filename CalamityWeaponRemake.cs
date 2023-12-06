@@ -1,8 +1,6 @@
-using CalamityMod.Particles;
-using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.Effects;
 using CalamityWeaponRemake.Content.Particles.Core;
-using System.Reflection.Metadata;
+using CalamityWeaponRemake.Content.UIs;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -20,6 +18,7 @@ namespace CalamityWeaponRemake
 
             FindMod();
             LoadClient();
+            new CompressorUI().Load();
             CWRParticleHandler.Load();
             EffectsRegistry.LoadEffects();
             On_Main.DrawInfernoRings += PeSystem.CWRDrawForegroundParticles;
