@@ -21,7 +21,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
 
         public PrimitiveTrail PierceDrawer = null;
 
-        Color chromaColor => CWRUtils.MultiLerpColor(Projectile.ai[0] % 15 / 15f, HeavenfallLongbow.rainbowColors);
+        Color chromaColor => CWRUtils.MultiLerpColor(Projectile.ai[0] % 45 / 45f, HeavenfallLongbow.rainbowColors);
 
         public override void SetStaticDefaults()
         {
@@ -47,7 +47,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
         {
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
             
-            Lighting.AddLight(Projectile.Center, chromaColor.ToVector3());
+            Lighting.AddLight(Projectile.Center, chromaColor.ToVector3() * 1.5f);
             Projectile.velocity += (Projectile.rotation + MathHelper.PiOver2).ToRotationVector2() * 0.1f;
             if (Projectile.ai[0] == 0)
             {
@@ -75,7 +75,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             {
                 Projectile.position += Main.player[Projectile.owner].velocity;
             }
-
             Projectile.ai[0]++;
             Projectile.ai[1]++;
         }
@@ -106,7 +105,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             }
             if (Projectile.numHits == 0)
             {
-                int lightningDamage = (int)(Projectile.damage * 0.7f);
+                int lightningDamage = (int)(Projectile.damage * 1.3f);
                 Vector2 ownerPos = Main.player[Projectile.owner].Center;
                 Vector2 spanPos = ownerPos + ownerPos.To(target.Center).UnitVector().RotatedBy((120 + Main.rand.Next(120)) * CWRUtils.atoR) * Main.rand.Next(909, 1045);
                 Vector2 vr = (target.Center - spanPos + target.velocity * 7.5f).SafeNormalize(Vector2.UnitY) * 17f;

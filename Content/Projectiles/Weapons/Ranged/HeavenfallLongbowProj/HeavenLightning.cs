@@ -14,6 +14,9 @@ using Terraria.ModLoader;
 using Terraria.Utilities;
 using CalamityWeaponRemake.Common;
 using CalamityMod.Particles;
+using CalamityWeaponRemake.Content.Items.Ranged;
+using CalamityWeaponRemake.Content.Particles.Core;
+using CalamityWeaponRemake.Content.Particles;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLongbowProj
 {
@@ -25,6 +28,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
         public bool HasPlayedSound;
 
         public const int Lifetime = 45;
+
+        Color chromaColor => CWRUtils.MultiLerpColor(Projectile.timeLeft % 15 / 15f, HeavenfallLongbow.rainbowColors);
+
         public ref float InitialVelocityAngle => ref Projectile.ai[0];
 
         public ref float BaseTurnAngleRatio => ref Projectile.ai[1];
@@ -81,6 +87,20 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             if (Projectile.frameCounter >= Projectile.extraUpdates * 2)
             {
                 Projectile.frameCounter = 0;
+            }
+
+            if (!CWRUtils.isServer)
+            {
+                Color outerSparkColor = chromaColor;
+                float scaleBoost = MathHelper.Clamp(Projectile.ai[1] * 0.005f, 0f, 2f);
+                float outerSparkScale = 1.3f + scaleBoost;
+                HeavenfallStarParticle spark = new HeavenfallStarParticle(Projectile.Center, Projectile.velocity, false, 7, outerSparkScale, outerSparkColor);
+                CWRParticleHandler.SpawnParticle(spark);
+
+                Color innerSparkColor = CWRUtils.MultiLerpColor(Projectile.ai[1] % 30 / 30f, HeavenfallLongbow.rainbowColors);
+                float innerSparkScale = 0.6f + scaleBoost;
+                HeavenfallStarParticle spark2 = new HeavenfallStarParticle(Projectile.Center, Projectile.velocity, false, 7, innerSparkScale, innerSparkColor);
+                CWRParticleHandler.SpawnParticle(spark2);
             }
 
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;

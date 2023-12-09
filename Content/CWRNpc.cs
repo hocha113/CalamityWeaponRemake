@@ -15,10 +15,24 @@ namespace CalamityWeaponRemake.Content
         public byte WhipHitNum = 0;
         public byte WhipHitType = 0;
         public bool SprBoss;
+        public bool ObliterateBool;
 
         public override bool CanBeHitByNPC(NPC npc, NPC attacker)
         {
             return base.CanBeHitByNPC(npc, attacker);
+        }
+
+        public override bool CheckDead(NPC npc)
+        {
+            if (ObliterateBool)
+            {
+                return true;
+            }
+            else
+            {
+                return base.CheckDead(npc);
+            }
+            
         }
 
         public override void PostAI(NPC npc)

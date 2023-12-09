@@ -309,12 +309,12 @@ Items: {
 
 	TextItem: {
 		DisplayName: Text Item
-		Tooltip: ""
+		Tooltip: Um... You shouldn't have it
 	}
 
 	BaseSingularity: {
 		DisplayName: Base Singularity
-		Tooltip: ""
+		Tooltip: Um... You shouldn't have it
 	}
 
 	InfiniteIngot: {
@@ -456,6 +456,8 @@ Projectiles: {
 	HeavenLightning.DisplayName: Heaven Lightning
 	CelestialVortex.DisplayName: Celestial Vortex
 	ParadiseArrow.DisplayName: Paradise Arrow
+	InfiniteRune.DisplayName: Infinite Rune
+	VientianePunishment.DisplayName: Vientiane Punishment
 }
 
 Configs: {
@@ -516,4 +518,15 @@ NPCs: {
 	RavagerALegLeft.DisplayName: Ravager A Leg Left
 	RavagerALegRight.DisplayName: Ravager A Leg Right
 	EvilSoul.DisplayName: Evil Soul
+}
+
+Keybinds: {
+	Mods: {
+		CalamityWeaponRemake: {
+			Common.CWRKeySystem.HeavenfallLongbowSkillKey.DisplayName: Mods. Calamity Weapon Remake. Common. C W R Key System. Heavenfall Longbow Skill Key
+			CWRKeySystem.HeavenfallLongbowSkillKey.DisplayName: Mods. Calamity Weapon Remake. C W R Key System. Heavenfall Longbow Skill Key
+		}
+	}
+
+	天堂陨落长弓技能键.DisplayName: 天堂陨落长弓技能键
 }

@@ -303,38 +303,38 @@ Items: {
 	}
 
 	DragonsBreathRifle: {
-		// DisplayName: Dragons Breath Rifle
-		// Tooltip: ""
+		DisplayName: 龙息冲锋枪
+		Tooltip: ""
 	}
 
 	TextItem: {
-		// DisplayName: Text Item
-		// Tooltip: ""
+		DisplayName: 测试物品
+		Tooltip: 嗯...你不应该拥有它
 	}
 
 	BaseSingularity: {
-		// DisplayName: Base Singularity
-		// Tooltip: ""
+		DisplayName: 奇点基类
+		Tooltip: 嗯...你不应该拥有它
 	}
 
 	InfiniteIngot: {
-		// DisplayName: Infinite Ingot
-		// Tooltip: ""
+		DisplayName: 无尽锭
+		Tooltip: 寰宇之力，就在掌中
 	}
 
 	CosmicMetalSingularity: {
-		// DisplayName: Cosmic Metal Singularity
-		// Tooltip: ""
+		DisplayName: 宇宙金属奇点
+		Tooltip: ""
 	}
 
 	TransmutationOfMatterItem: {
-		// DisplayName: Transmutation Of Matter Item
-		// Tooltip: ""
+		DisplayName: 欧米茄物质聚合仪
+		Tooltip: ""
 	}
 
 	DarkMatterCompressorItem: {
-		// DisplayName: Dark Matter Compressor Item
-		// Tooltip: ""
+		DisplayName: 暗物质压缩机
+		Tooltip: ""
 	}
 }
 
@@ -455,6 +455,9 @@ Projectiles: {
 	// InfiniteArrow.DisplayName: Infinite Arrow
 	// HeavenLightning.DisplayName: Heaven Lightning
 	// CelestialVortex.DisplayName: Celestial Vortex
+	// ParadiseArrow.DisplayName: Paradise Arrow
+	// InfiniteRune.DisplayName: Infinite Rune
+	// VientianePunishment.DisplayName: Vientiane Punishment
 }
 
 Configs: {
@@ -515,4 +518,15 @@ NPCs: {
 	// RavagerALegLeft.DisplayName: Ravager A Leg Left
 	// RavagerALegRight.DisplayName: Ravager A Leg Right
 	// EvilSoul.DisplayName: Evil Soul
+}
+
+Keybinds: {
+	Mods: {
+		CalamityWeaponRemake: {
+			// Common.CWRKeySystem.HeavenfallLongbowSkillKey.DisplayName: Mods. Calamity Weapon Remake. Common. C W R Key System. Heavenfall Longbow Skill Key
+			// CWRKeySystem.HeavenfallLongbowSkillKey.DisplayName: Mods. Calamity Weapon Remake. C W R Key System. Heavenfall Longbow Skill Key
+		}
+	}
+
+	// 天堂陨落长弓技能键.DisplayName: 天堂陨落长弓技能键
 }

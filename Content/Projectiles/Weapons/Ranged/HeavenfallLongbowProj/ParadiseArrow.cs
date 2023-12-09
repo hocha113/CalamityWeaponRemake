@@ -11,7 +11,6 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityWeaponRemake.Content.Items.Ranged;
-using System;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLongbowProj
 {
@@ -21,7 +20,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
 
         public PrimitiveTrail PierceDrawer = null;
 
-        Color chromaColor => CWRUtils.MultiLerpColor(Projectile.ai[0] % 15 / 15f, HeavenfallLongbow.rainbowColors);
+        Color chromaColor => CWRUtils.MultiLerpColor(Projectile.ai[0] % 35 / 35f, HeavenfallLongbow.rainbowColors);
 
         public override void SetStaticDefaults()
         {
@@ -45,23 +44,21 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
 
         public override void AI()
         {
-            if (!CWRUtils.isServer)
-            {
-                Color outerSparkColor = chromaColor;
-                float scaleBoost = MathHelper.Clamp(Projectile.ai[1] * 0.005f, 0f, 2f);
-                float outerSparkScale = 1.3f + scaleBoost;
-                HeavenfallStarParticle spark = new HeavenfallStarParticle(Projectile.Center, Projectile.velocity, false, 7, outerSparkScale, outerSparkColor);
-                CWRParticleHandler.SpawnParticle(spark);
-
-                Color innerSparkColor = CWRUtils.MultiLerpColor(Projectile.ai[1] % 30 / 30f, HeavenfallLongbow.rainbowColors);
-                float innerSparkScale = 0.6f + scaleBoost;
-                HeavenfallStarParticle spark2 = new HeavenfallStarParticle(Projectile.Center, Projectile.velocity, false, 7, innerSparkScale, innerSparkColor);
-                CWRParticleHandler.SpawnParticle(spark2);
-            }
+            Lighting.AddLight(Projectile.Center, chromaColor.ToVector3());
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             NPC target = Projectile.Center.InPosClosestNPC(1300);
             if (target != null && Projectile.ai[0] > 30)
             {
                 Projectile.ChasingBehavior2(target.Center, 1, 0.3f);
+            }
+
+            if (!CWRUtils.isServer && Main.rand.NextBool(2))
+            {
+                Vector2 vector = Projectile.velocity * 1.05f;
+                float slp = Main.rand.NextFloat(0.5f, 0.9f);
+                CWRParticleHandler.SpawnParticle(new HeavenStarParticle(Projectile.Center, vector, Color.White
+                    , CWRUtils.MultiLerpColor(Main.rand.NextFloat(), HeavenfallLongbow.rainbowColors), 0f, new Vector2(0.6f, 1f) * slp
+                    , new Vector2(1.5f, 2.7f) * slp, 20 + Main.rand.Next(6), 0f, 3f, 0f, Main.rand.Next(7) * 2, Main.rand.NextFloat(-0.3f, 0.3f)));
             }
 
             Projectile.ai[0]++;
@@ -72,7 +69,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             for (int i = 0; i < 3; i++)
             {
                 float slp = Main.rand.NextFloat(0.5f, 1.2f);
-                GeneralParticleHandler.SpawnParticle(new PulseRing(target.Center + Main.rand.NextVector2Unit() * Main.rand.Next(13, 330), Vector2.Zero, CWRUtils.MultiLerpColor(Main.rand.NextFloat(1), HeavenfallLongbow.rainbowColors), 0.05f * slp, 0.8f * slp, 8));
+                CWRParticleHandler.SpawnParticle(new StarPulseRing(target.Center + Main.rand.NextVector2Unit() * Main.rand.Next(13, 330), Vector2.Zero, CWRUtils.MultiLerpColor(Main.rand.NextFloat(1), HeavenfallLongbow.rainbowColors), 0.05f * slp, 0.8f * slp, 8));
             }
             Projectile.timeLeft -= 15;
             if (Projectile.timeLeft <= 0)
@@ -106,6 +103,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"].UseSecondaryColor(secondaryColor);
             GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"].Apply();
             PierceDrawer.Draw(Projectile.oldPos, trailOffset, 53);
+
+            Vector2 scale = new Vector2(0.5f, 1.6f) * Projectile.scale;
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/StarProj").Value;
+
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, mainColor, Projectile.rotation, texture.Size() * 0.5f, scale, 0, 0f);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, secondaryColor, Projectile.rotation, texture.Size() * 0.5f, scale * new Vector2(0.45f, 1f), 0, 0f);
+
             return false;
         }
     }

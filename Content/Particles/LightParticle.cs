@@ -19,9 +19,10 @@ namespace CalamityWeaponRemake.Content.Particles
         public float SquishStrenght;
         public float MaxSquish;
         public float HueShift;
+        public float followingRateRatio;
         public Entity entity;
 
-        public LightParticle(Vector2 position, Vector2 velocity, float scale, Color color, int lifetime, float opacity = 1f, float squishStrenght = 1f, float maxSquish = 3f, float hueShift = 0f, Entity _entity = null)
+        public LightParticle(Vector2 position, Vector2 velocity, float scale, Color color, int lifetime, float opacity = 1f, float squishStrenght = 1f, float maxSquish = 3f, float hueShift = 0f, Entity _entity = null, float _followingRateRatio = 0.9f)
         {
             Position = position;
             Velocity = velocity;
@@ -34,6 +35,7 @@ namespace CalamityWeaponRemake.Content.Particles
             MaxSquish = maxSquish;
             HueShift = hueShift;
             entity = _entity;
+            followingRateRatio = _followingRateRatio;
         }
 
         public override void Update()
@@ -47,7 +49,7 @@ namespace CalamityWeaponRemake.Content.Particles
 
             if (entity != null && entity.active)
             {
-                Position += entity.velocity * 0.9f;
+                Position += entity.velocity * followingRateRatio;
             }
         }
 

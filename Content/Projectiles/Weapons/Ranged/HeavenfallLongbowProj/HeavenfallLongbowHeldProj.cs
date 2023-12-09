@@ -1,18 +1,15 @@
 ﻿using CalamityMod;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Particles;
-using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Sounds;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Items.Ranged;
 using CalamityWeaponRemake.Content.Particles;
 using CalamityWeaponRemake.Content.Particles.Core;
-using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUniverseProj;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Mono.Cecil;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.IO;
-using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -27,9 +24,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
         public override string Texture => CWRConstant.Item_Ranged + "HeavenfallLongbow";
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<HeavenfallLongbow>();
 
+        public const int MaxVientNum = 13;
+
+        Color chromaColor => CWRUtils.MultiLerpColor(Projectile.ai[0] % 15 / 15f, HeavenfallLongbow.rainbowColors);
         private Player Owners => CWRUtils.GetPlayerInstance(Projectile.owner);
         private Item heavenfall => Owners.HeldItem;
         private Vector2 toMou = Vector2.Zero;
+        private int ChargeValue;
+        private int oldChargeValue;
         private ref float Time => ref Projectile.ai[0];
         private ref float Time2 => ref Projectile.ai[1];
 
@@ -69,9 +71,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
                 Projectile.Kill();
                 return;
             }
-            if (Projectile.IsOwnedByLocalPlayer())
+            if (Projectile.IsOwnedByLocalPlayer() && Owners.ownedProjectileCounts[ProjectileType<VientianePunishment>()] == 0)
                 SpanProj();
             StickToOwner();
+
+            if (ChargeValue > 200)
+                ChargeValue = 200;
+
             Time++;
             Time2++;
         }
@@ -88,6 +94,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
                     SoundEngine.PlaySound(HeavenlyGale.FireSound, Projectile.Center);
                     Owners.PickAmmo(Owners.ActiveItem(), out _, out _, out weaponDamage2, out weaponKnockback2, out _);
                     Projectile.NewProjectile(Projectile.parent(), Projectile.Center, vr * 20, ProjectileType<InfiniteArrow>(), weaponDamage2, weaponKnockback2, Owners.whoAmI);
+                    oldChargeValue = ChargeValue;
+                    ChargeValue += 5;
+                    SpanInfiniteRune();
                     Time = 0;
                 }
             }
@@ -103,15 +112,59 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
                         Vector2 vr3 = spanPos.To(Main.MouseWorld).UnitVector().RotateRandom(12 * CWRUtils.atoR) * 23;
                         Projectile.NewProjectile(Projectile.parent(), spanPos, vr3, ProjectileType<ParadiseArrow>(), (int)(weaponDamage2 * 0.5f), weaponKnockback2, Owners.whoAmI);
                     }
-                    
-                    //for (int i = 0; i < 55; i++)
-                    //{
-                    //    Vector2 vr2 = vr.RotateRandom(15 * CWRUtils.atoR) * Main.rand.Next(21, 58);
-                    //    CWRParticleHandler.SpawnParticle(new HeavenHeavySmoke(Projectile.Center, vr2, Color.White, 30
-                    //        , Main.rand.NextFloat(0.6f, 1.2f) * Projectile.scale, 0.28f, 0f, glowing: false, 0f, required: true, Owners));
-                    //}
+                    oldChargeValue = ChargeValue;
+                    ChargeValue += 3;
+                    SpanInfiniteRune();
                     Time = 0;
                 }
+            }
+
+            if (ChargeValue >= 200 && CWRKeySystem.HeavenfallLongbowSkillKey.JustPressed)
+            {
+                int types = ProjectileType<VientianePunishment>();
+                if (Owners.ownedProjectileCounts[types] < MaxVientNum)
+                {
+                    int randomOffset = Main.rand.Next(MaxVientNum);
+                    int frmer = 0;
+                    for (int i = 0; i < MaxVientNum; i++)
+                    {
+                        int proj = Projectile.NewProjectile(Projectile.parent(), Owners.Center, Vector2.Zero, types, (int)(weaponDamage2 * 0.5f), weaponKnockback2, Owners.whoAmI, i + randomOffset);
+                        if (i == 0)
+                            frmer = proj;
+                        VientianePunishment vientianePunishment = Main.projectile[proj].ModProjectile as VientianePunishment;
+                        if (vientianePunishment != null)
+                        {
+                            vientianePunishment.Index = i;
+                            vientianePunishment.FemerProjIndex = frmer;
+                            vientianePunishment.Projectile.netUpdate = true;
+                            vientianePunishment.Projectile.netUpdate2 = true;
+                        }
+                    }
+                }
+                ChargeValue = 0;
+            }
+        }
+
+        public void SpanInfiniteRune()
+        {
+            if (oldChargeValue < 200 && ChargeValue >= 200)
+            {
+                SoundEngine.PlaySound(CommonCalamitySounds.PlasmaBoltSound, Projectile.Center);
+                float rot = 0;
+                for (int j = 0; j < 500; j++)
+                {
+                    rot += MathHelper.TwoPi / 500f;
+                    float scale = 2f / (3f - (float)Math.Cos(2 * rot)) * 25;
+                    float outwardMultiplier = MathHelper.Lerp(4f, 220f, Utils.GetLerpValue(0f, 120f, Time, true));
+                    Vector2 lemniscateOffset = scale * new Vector2((float)Math.Cos(rot), (float)Math.Sin(2f * rot) / 2f);
+                    Vector2 pos = Owners.Center + lemniscateOffset * outwardMultiplier;
+                    Vector2 particleSpeed = Vector2.Zero;
+                    Color color = CWRUtils.MultiLerpColor(j / 500f, HeavenfallLongbow.rainbowColors);
+                    CWRParticle energyLeak = new LightParticle(pos, particleSpeed
+                        , 1.5f, color, 120, 1, 1.5f, hueShift: 0.0f, _entity: Owners, _followingRateRatio: 1);
+                    CWRParticleHandler.SpawnParticle(energyLeak);
+                }
+                Projectile.NewProjectile(Projectile.parent(), Owners.Center, Vector2.Zero, ProjectileType<InfiniteRune>(), 99999, 0, Owners.whoAmI);
             }
         }
 
@@ -172,7 +225,29 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
-            
+            Color drawColor2 = CWRUtils.MultiLerpColor(Projectile.ai[0] % 15 / 15f, HeavenfallLongbow.rainbowColors);
+            if (ChargeValue < 200)
+                drawColor2 = CWRUtils.MultiLerpColor(ChargeValue / 200f, HeavenfallLongbow.rainbowColors);
+            float slp2 = ChargeValue / 300f;
+            if (slp2 > 1)
+                slp2 = 1;
+            if (slp2 < 0.1f)
+                slp2 = 0;
+
+            Main.spriteBatch.SetAdditiveState();
+            for(int i = 0; i < 8; i++)
+            Main.EntitySpriteDraw(
+                mainValue,
+                Projectile.Center - Main.screenPosition,
+                CWRUtils.GetRec(mainValue),
+                drawColor2,
+                Projectile.rotation,
+                CWRUtils.GetOrig(mainValue),
+                Projectile.scale * (1 + slp2 * 0.08f),
+                Owners.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipVertically
+                );
+            Main.spriteBatch.ResetBlendState();
+
             Main.EntitySpriteDraw(
                 mainValue,
                 Projectile.Center - Main.screenPosition,
@@ -183,6 +258,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
                 Projectile.scale,
                 Owners.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipVertically
                 );
+            
             return false;
         }
 
