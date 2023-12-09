@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Magic;
 using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Content.Items.Ranged;
 using Terraria;
@@ -34,11 +35,17 @@ namespace CalamityWeaponRemake.Content
             ItemType<TerrorBlade>(),
             ItemType<WindBlade>(),
             ItemType<AegisBlade>(),
+            ItemType<Murasama>(),
             //远程
             ItemType<DragonsBreathRifle>(),
             ItemType<Arbalest>(),
             ItemType<Deathwind>(),
             ItemType<Galeforce>(),
+            //魔法
+            ItemType<DeathhailStaff>(),
+            ItemType<FatesReveal>(),
+            ItemType<GhastlyVisage>(),
+            ItemType<Tradewinds>(),
         };
 
         public static int[] VrsCalamityItemType => new int[]
@@ -64,11 +71,17 @@ namespace CalamityWeaponRemake.Content
             ItemType<CalamityMod.Items.Weapons.Melee.TerrorBlade>(),
             ItemType<CalamityMod.Items.Weapons.Melee.WindBlade>(),
             ItemType<CalamityMod.Items.Weapons.Melee.AegisBlade>(),
+            ItemType<CalamityMod.Items.Weapons.Melee.Murasama>(),
             //远程
             ItemType<CalamityMod.Items.Weapons.Ranged.DragonsBreath>(),
             ItemType<CalamityMod.Items.Weapons.Ranged.Arbalest>(),
             ItemType<CalamityMod.Items.Weapons.Ranged.Deathwind>(),
             ItemType<CalamityMod.Items.Weapons.Ranged.Galeforce>(),
+            //魔法
+            ItemType<CalamityMod.Items.Weapons.Magic.DeathhailStaff>(),
+            ItemType<CalamityMod.Items.Weapons.Magic.FatesReveal>(),
+            ItemType<CalamityMod.Items.Weapons.Magic.GhastlyVisage>(),
+            ItemType<CalamityMod.Items.Weapons.Magic.Tradewinds>(),
         };
 
         public override void PostAddRecipes()

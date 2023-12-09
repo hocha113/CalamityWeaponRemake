@@ -120,6 +120,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
         {
             if (Time == 0)
             {
+                
                 if (!CWRUtils.isServer)
                     GetColorDate();
             }
@@ -131,25 +132,20 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
                 if (oldMousPos != MousPos)
                     Projectile.netUpdate = true;
             }
-
             float sengs = Time / 60f;
             if (sengs > 1)
                 sengs = 1;
 
             Vector2 toMou = Projectile.Center.To(OrigPos);
-            Vector2 offset = (MathHelper.TwoPi / Owner.ownedProjectileCounts[Type] * Index).ToRotationVector2() * 320;
-            Projectile.Center = OrigPos + Vector2.Lerp(Vector2.Zero, offset, sengs);
-            Projectile.rotation = toMou.ToRotation();
-            Projectile.scale = sengs;
 
-            if (Time >= 120)
+            if (Time >= 120)//一个攻击的阈值限定，如果大于该阈值，那么就会开始攻击
             {
                 if (Time == 120)
                 {
                     if (Index == 0)
                     {
                         SoundEngine.PlaySound(new SoundStyle(CWRConstant.Sound + "Pedestruct"), Projectile.Center);
-                        Obliterate();
+                        HeavenfallLongbow.Obliterate(OrigPos);
                         SpanInfiniteRune(OrigPos, 500, 1.5f, 2, HeavenfallLongbow.rainbowColors);
                     }
                     SpanInfiniteRune(Projectile.Center, 100, 0.5f, 0.5f, VientianeColors);
@@ -175,7 +171,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
                     toTargetPath[i] = Projectile.Center + rotToVr * i;
                 }
             }
-            else
+            else//否则，让万象跟随玩家鼠标
             {
                 OrigPos = MousPos;
                 if (Main.rand.NextBool(2) && !CWRUtils.isServer)
@@ -188,29 +184,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
                     CWRParticleHandler.SpawnParticle(energyLeak);
                 }
             }
+            //对于位置等基本数据的修改需要确保涉及到的数据被正确赋值后，这也就是为什么这一段会放在最后面
+            Vector2 offset = (MathHelper.TwoPi / HeavenfallLongbow.MaxVientNum * Index).ToRotationVector2() * 320;
+            Projectile.Center = OrigPos + Vector2.Lerp(Vector2.Zero, offset, sengs);
+            Projectile.rotation = toMou.ToRotation();
+            Projectile.scale = sengs;
 
             Time++;
-        }
-
-        public void Obliterate()
-        {
-            foreach (NPC npc in Main.npc)
-            {
-                if (npc.Center.To(OrigPos).LengthSquared() > 90000)
-                    continue;
-                if (npc.active)
-                {
-                    npc.CWR().ObliterateBool = true;
-                    npc.dontTakeDamage = true;
-                    npc.SimpleStrikeNPC(npc.lifeMax, 0);
-                    npc.life = 0;
-                    npc.checkDead();
-                    npc.HitEffect();
-                    npc.NPCLoot();
-                    npc.active = false;
-                    npc.netUpdate = true;
-                }
-            }
         }
 
         public void SpanInfiniteRune(Vector2 orig, int maxNum, float prtslp, float slp, Color[] colors)
@@ -284,10 +264,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             if (LightningDrawer is null)
                 LightningDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, PrimitiveTrail.RigidPointRetreivalFunction, GameShaders.Misc["CalamityMod:HeavenlyGaleLightningArc"]);
 
-            GameShaders.Misc["CalamityMod:HeavenlyGaleLightningArc"].UseImage1("Images/Misc/Perlin");
-            GameShaders.Misc["CalamityMod:HeavenlyGaleLightningArc"].Apply();
+            if (Time > 120)//在开始攻击之前不要进行特效的绘制
+            {
+                GameShaders.Misc["CalamityMod:HeavenlyGaleLightningArc"].UseImage1("Images/Misc/Perlin");
+                GameShaders.Misc["CalamityMod:HeavenlyGaleLightningArc"].Apply();
 
-            LightningDrawer.Draw(toTargetPath, Projectile.Size * 0.5f - Main.screenPosition, 50);
+                LightningDrawer.Draw(toTargetPath, Projectile.Size * 0.5f - Main.screenPosition, 50);
+            }
 
             Texture2D value = CWRUtils.GetT2DValue(CWRConstant.Cay_Wap_Ranged + VientianeTex[(int)Projectile.ai[0]]);
             Main.EntitySpriteDraw(value, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, value.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);

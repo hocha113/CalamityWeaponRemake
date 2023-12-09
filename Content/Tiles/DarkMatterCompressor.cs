@@ -2,6 +2,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Placeables.DraedonStructures;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Placeable;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -37,12 +38,8 @@ namespace CalamityWeaponRemake.Content.Tiles
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
             TileObjectData.newTile.LavaDeath = false;
-
-            ModTileEntity te = ModContent.GetInstance<TransmutationOfMatterEntity>();
-            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(te.Hook_AfterPlacement, -1, 0, true);
-
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(67, 72, 81), CalamityUtils.GetItemName<PowerCellFactoryItem>());
+            AddMapEntry(new Color(67, 72, 81), CalamityUtils.GetItemName<DarkMatterCompressorItem>());
             AnimationFrameHeight = 68;
         }
 
@@ -57,23 +54,6 @@ namespace CalamityWeaponRemake.Content.Tiles
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
         public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
-
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Tile t = Main.tile[i, j];
-            int left = i - t.TileFrameX % (Width * SheetSquare) / SheetSquare;
-            int top = j - t.TileFrameY % (Height * SheetSquare) / SheetSquare;
-        }
-
-        public override bool RightClick(int i, int j)
-        {
-            Player player = Main.LocalPlayer;
-            player.CancelSignsAndChests();
-            CalamityPlayer mp = player.Calamity();
-
-            Recipe.FindRecipes();
-            return true;
-        }
 
         int frameIndex = 1;
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)

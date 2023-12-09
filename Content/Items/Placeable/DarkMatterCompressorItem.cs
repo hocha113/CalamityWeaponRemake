@@ -1,4 +1,6 @@
-﻿using CalamityMod.Rarities;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Furniture.CraftingStations;
+using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Tiles;
 using Terraria.ID;
@@ -24,6 +26,18 @@ namespace CalamityWeaponRemake.Content.Items.Placeable
 
             Item.rare = ModContent.RarityType<DarkOrange>();
             Item.value = Terraria.Item.buyPrice(gold: 16);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient<DarkPlasma>(25)//暗物质
+                .AddIngredient<StaticRefiner>()
+                .AddIngredient<ProfanedCrucible>()
+                .AddIngredient<PlagueInfuser>()
+                .AddIngredient<MonolithAmalgam>()
+                .AddIngredient<VoidCondenser>()
+                .Register();
         }
     }
 }

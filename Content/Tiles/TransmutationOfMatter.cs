@@ -14,6 +14,10 @@ using Terraria.ObjectData;
 using Microsoft.Xna.Framework;
 using Terraria.Enums;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Placeable;
+using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.Items.Materials;
+using FTile = CalamityMod.Items.Placeables.Furniture.CraftingStations;
 
 namespace CalamityWeaponRemake.Content.Tiles
 {
@@ -50,12 +54,33 @@ namespace CalamityWeaponRemake.Content.Tiles
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
             TileObjectData.newTile.LavaDeath = false;
 
-            ModTileEntity te = ModContent.GetInstance<TransmutationOfMatterEntity>();
-            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(te.Hook_AfterPlacement, -1, 0, true);
-
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(67, 72, 81), CalamityUtils.GetItemName<PowerCellFactoryItem>());
+            AddMapEntry(new Color(67, 72, 81), CalamityUtils.GetItemName<TransmutationOfMatterItem>());
             AnimationFrameHeight = 68;
+
+            AdjTiles = new int[] {
+                TileID.WorkBenches,
+                TileID.Chairs,
+                TileID.Tables,
+                TileID.Anvils,
+                TileID.MythrilAnvil,
+                ModContent.TileType<CosmicAnvil>(),
+                ModContent.TileType<SCalAltarLarge>(),
+                ModContent.TileType<AncientAltar>(),
+                ModContent.TileType<AshenAltar>(),
+                ModContent.TileType<BotanicPlanter>(),
+                ModContent.TileType<EutrophicShelf>(),
+                ModContent.TileType<MonolithAmalgam>(),
+                ModContent.TileType<VoidCondenser>(),
+                ModContent.TileType<WulfrumLabstation>(),
+                ModContent.TileType<StaticRefiner>(),
+                TileID.Furnaces,
+                TileID.Hellforge,
+                TileID.AdamantiteForge,
+                TileID.TinkerersWorkbench,
+                TileID.LunarCraftingStation,
+                TileID.DemonAltar
+            };
         }
 
         public override bool CanExplode(int i, int j) => false;
@@ -86,23 +111,6 @@ namespace CalamityWeaponRemake.Content.Tiles
 
         public override bool RightClick(int i, int j)
         {
-            TransmutationOfMatterEntity thisFactory = CalamityUtils.FindTileEntity<TransmutationOfMatterEntity>(i, j, Width, Height, SheetSquare);
-            Player player = Main.LocalPlayer;
-            player.CancelSignsAndChests();
-            CalamityPlayer mp = player.Calamity();
-            if (thisFactory is null || thisFactory.ID == mp.CurrentlyViewedFactoryID)
-            {
-                mp.CurrentlyViewedFactoryID = -1;
-                SoundEngine.PlaySound(SoundID.MenuClose);
-            }
-            else if (thisFactory != null)
-            {
-                SoundEngine.PlaySound(mp.CurrentlyViewedFactoryID == -1 ? SoundID.MenuOpen : SoundID.MenuTick);
-                mp.CurrentlyViewedFactoryID = thisFactory.ID;
-                Main.playerInventory = true;
-                Main.recBigList = false;
-            }
-
             Recipe.FindRecipes();
             return true;
         }
