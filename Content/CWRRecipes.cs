@@ -35,7 +35,7 @@ namespace CalamityWeaponRemake.Content
             ItemType<TerrorBlade>(),
             ItemType<WindBlade>(),
             ItemType<AegisBlade>(),
-            ItemType<Murasama>(),
+            //ItemType<Murasama>(),
             //远程
             ItemType<DragonsBreathRifle>(),
             ItemType<Arbalest>(),
@@ -71,7 +71,7 @@ namespace CalamityWeaponRemake.Content
             ItemType<CalamityMod.Items.Weapons.Melee.TerrorBlade>(),
             ItemType<CalamityMod.Items.Weapons.Melee.WindBlade>(),
             ItemType<CalamityMod.Items.Weapons.Melee.AegisBlade>(),
-            ItemType<CalamityMod.Items.Weapons.Melee.Murasama>(),
+            //ItemType<CalamityMod.Items.Weapons.Melee.Murasama>(),
             //远程
             ItemType<CalamityMod.Items.Weapons.Ranged.DragonsBreath>(),
             ItemType<CalamityMod.Items.Weapons.Ranged.Arbalest>(),

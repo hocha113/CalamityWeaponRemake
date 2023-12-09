@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items;
+using CalamityMod.Items.Materials;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Tiles;
@@ -43,14 +44,14 @@ namespace CalamityWeaponRemake.Content.Items.Materials
                 return (int)(num * QFH);
             }
             CreateRecipe()
-                .AddIngredient<AerialiteBar>(QFD(75))//水华锭
-                .AddIngredient<AuricBar>(QFD(50))//圣金源锭
+                .AddIngredient<AerialiteBar>(QFD(150))//水华锭
+                .AddIngredient<AuricBar>(QFD(5))//圣金源锭
                 .AddIngredient<AstralBar>(QFD(50))//彗星锭
                 .AddIngredient<CosmiliteBar>(QFD(150))//宇宙锭
-                .AddIngredient<CryonicBar>(QFD(75))//极寒锭
+                .AddIngredient<CryonicBar>(QFD(50))//极寒锭
                 .AddIngredient<PerennialBar>(QFD(150))//龙篙锭
                 .AddIngredient<ScoriaBar>(QFD(75))//岩浆锭
-                .AddIngredient<ShadowspecBar>(QFD(50))//影魔锭
+                .AddIngredient<ShadowspecBar>(QFD(5))//影魔锭
                 .AddIngredient<MolluskHusk>(QFD(1200))//生物质
                 .AddIngredient<MurkyPaste>(QFD(150))//泥浆杂草混合物质
                 .AddIngredient<DarkPlasma>(QFD(50))//暗物质
@@ -75,6 +76,7 @@ namespace CalamityWeaponRemake.Content.Items.Materials
                 .AddIngredient<TwistingNether>(QFD(75))//扭曲虚空
                 .AddIngredient<ArmoredShell>(QFD(75))//装甲心脏
                 .AddIngredient<YharonSoulFragment>(QFD(75))//龙魂
+                .AddIngredient<Rock>(5)//古恒石
                 .AddTile(ModContent.TileType<DarkMatterCompressor>())
                 .Register();
         }

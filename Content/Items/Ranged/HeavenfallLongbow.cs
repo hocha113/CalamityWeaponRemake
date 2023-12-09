@@ -14,6 +14,9 @@ using CalamityWeaponRemake.Content.Particles.Core;
 using CalamityWeaponRemake.Content.Particles;
 using System;
 using Terraria.Audio;
+using CalamityMod.Items.Materials;
+using CalamityWeaponRemake.Content.Tiles;
+using CalamityWeaponRemake.Content.Items.Materials;
 
 namespace CalamityWeaponRemake.Content.Items.Ranged
 {
@@ -148,6 +151,17 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
                     npc.netUpdate = true;
                 }
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient<CalamityMod.Items.Weapons.Ranged.Drataliornus>()
+                .AddIngredient<CalamityMod.Items.Weapons.Ranged.HeavenlyGale>()
+                .AddIngredient<CalamityMod.Items.Weapons.Magic.Eternity>()
+                .AddIngredient<InfiniteIngot>(15)
+                .AddTile(ModContent.TileType<TransmutationOfMatter>())
+                .Register();
         }
     }
 }

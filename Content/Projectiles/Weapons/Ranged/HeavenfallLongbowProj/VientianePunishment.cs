@@ -1,21 +1,18 @@
 ﻿using CalamityMod;
+using CalamityMod.Sounds;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Items.Ranged;
-using CalamityWeaponRemake.Content.Particles.Core;
 using CalamityWeaponRemake.Content.Particles;
+using CalamityWeaponRemake.Content.Particles.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
-using Terraria.ID;
-using CalamityMod.Sounds;
-using Terraria.Audio;
-using static log4net.Appender.ColoredConsoleAppender;
-using CalamityMod.NPCs.SupremeCalamitas;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLongbowProj
 {
@@ -88,20 +85,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
 
         private Vector2[] toTargetPath = new Vector2[62];
 
-        private bool Fire;
-
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.WriteVector2(MousPos);
             writer.Write(Index);
-            writer.Write(Fire);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             MousPos = reader.ReadVector2();
             Index = reader.ReadInt32();
-            Fire = reader.ReadBoolean();
         }
 
         public override void SetDefaults()
@@ -197,18 +190,21 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
         {
             SoundEngine.PlaySound(CommonCalamitySounds.PlasmaBoltSound, Projectile.Center);
             float rot = 0;
-            for (int j = 0; j < maxNum; j++)
+            if (!CWRUtils.isServer)
             {
-                rot += MathHelper.TwoPi / maxNum;
-                float scale = 2f / (3f - (float)Math.Cos(2 * rot)) * slp;
-                float outwardMultiplier = MathHelper.Lerp(4f, 220f, Utils.GetLerpValue(0f, 120f, Time, true));
-                Vector2 lemniscateOffset = scale * new Vector2((float)Math.Cos(rot), (float)Math.Sin(2f * rot) / 2f);
-                Vector2 pos = orig + lemniscateOffset * outwardMultiplier;
-                Vector2 particleSpeed = Vector2.Zero;
-                Color color = CWRUtils.MultiLerpColor(j / maxNum, colors);
-                CWRParticle energyLeak = new LightParticle(pos, particleSpeed
-                    , prtslp, color, 120, 1, 1.5f, hueShift: 0.0f, _entity: null, _followingRateRatio: 1);
-                CWRParticleHandler.SpawnParticle(energyLeak);
+                for (int j = 0; j < maxNum; j++)
+                {
+                    rot += MathHelper.TwoPi / maxNum;
+                    float scale = 2f / (3f - (float)Math.Cos(2 * rot)) * slp;
+                    float outwardMultiplier = MathHelper.Lerp(4f, 220f, Utils.GetLerpValue(0f, 120f, Time, true));
+                    Vector2 lemniscateOffset = scale * new Vector2((float)Math.Cos(rot), (float)Math.Sin(2f * rot) / 2f);
+                    Vector2 pos = orig + lemniscateOffset * outwardMultiplier;
+                    Vector2 particleSpeed = Vector2.Zero;
+                    Color color = CWRUtils.MultiLerpColor(j / maxNum, colors);
+                    CWRParticle energyLeak = new LightParticle(pos, particleSpeed
+                        , prtslp, color, 120, 1, 1.5f, hueShift: 0.0f, _entity: null, _followingRateRatio: 1);
+                    CWRParticleHandler.SpawnParticle(energyLeak);
+                }
             }
         }
 

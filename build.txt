@@ -1,4 +1,4 @@
 displayName = Calamity Weapon Remake
 modReferences = CalamityMod
 author = HoCha113
-version = 0.2
+version = 0.21

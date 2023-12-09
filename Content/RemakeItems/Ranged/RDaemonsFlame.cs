@@ -36,7 +36,6 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
                 item.useAmmo = AmmoID.Arrow;
                 item.value = CalamityGlobalItem.Rarity13BuyPrice;
                 item.rare = ModContent.RarityType<PureGreen>();
-                item.CWR().remakeItem = true;
                 item.Calamity().canFirePointBlankShots = true;
             }
         }

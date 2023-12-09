@@ -10,6 +10,9 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUniverseProj;
+using CalamityMod.Items.Materials;
+using CalamityWeaponRemake.Content.Tiles;
+using CalamityWeaponRemake.Content.Items.Placeable;
 
 namespace CalamityWeaponRemake.Content.Items.Ranged
 {
@@ -61,6 +64,18 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
             Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y
                 , ModContent.ProjectileType<AnnihilatingUniverseHeldProj>(), damage, knockback, player.whoAmI, ai2: player.altFunctionUse == 0 ? 0 : 1);
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient<CalamityMod.Items.Weapons.Ranged.Deathwind>()
+                .AddIngredient<CalamityMod.Items.Weapons.Ranged.Alluvion>()
+                .AddIngredient<CalamityMod.Items.Weapons.Magic.Apotheosis>()
+                .AddIngredient<Rock>()
+                .AddIngredient<CosmiliteBar>(150)//宇宙锭
+                .AddTile(ModContent.TileType<TransmutationOfMatter>())
+                .Register();
         }
     }
 }

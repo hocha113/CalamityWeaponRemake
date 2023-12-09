@@ -327,7 +327,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
                 }
 
                 Projectile.Center = Vector2.Lerp(Projectile.Center, Owner.Calamity().mouseWorld, 0.025f * ThrowRatio());
-                Projectile.Center = CalamityUtils.MoveTowards(Projectile.Center, Owner.Calamity().mouseWorld, 20f * ThrowRatio());
+                Projectile.Center = CWRUtils.InPosMoveTowards(Projectile.Center, Owner.Calamity().mouseWorld, 20f * ThrowRatio());
                 if ((Projectile.Center - Owner.Center).Length() > ArkoftheCosmos.MaxThrowReach)//如果刀刃抛出的距离超过了武器的最大设置范围
                 {
                     float lengs = ArkoftheCosmos.MaxThrowReach;

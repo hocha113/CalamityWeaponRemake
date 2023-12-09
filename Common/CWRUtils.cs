@@ -46,6 +46,15 @@ namespace CalamityWeaponRemake.Common
         /// </summary>
         public static EntitySource_Parent parent(this Entity entity) => new EntitySource_Parent(entity);
 
+        public static Vector2 InPosMoveTowards(this Vector2 currentPosition, Vector2 targetPosition, float maxAmountAllowedToMove)
+        {
+            Vector2 v = targetPosition - currentPosition;
+            if (v.Length() < maxAmountAllowedToMove)
+                return targetPosition;
+
+            return currentPosition + v.SafeNormalize(Vector2.Zero) * maxAmountAllowedToMove;
+        }
+
         /// <summary>
         /// 判断是否发生对视
         /// </summary>
