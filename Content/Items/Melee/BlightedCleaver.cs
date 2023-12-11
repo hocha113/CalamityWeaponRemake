@@ -40,7 +40,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.height = 88;
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
-            Item.shoot = ModContent.ProjectileType<RemakeBlazingPhantomBlade>();
+            Item.shoot = ModContent.ProjectileType<RBlazingPhantomBlade>();
             Item.shootSpeed = 12f;
             Item.CWR().remakeItem = true;
         }

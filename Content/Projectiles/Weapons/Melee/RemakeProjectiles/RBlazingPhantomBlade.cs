@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles
 {
-    internal class RemakeBlazingPhantomBlade : ModProjectile
+    internal class RBlazingPhantomBlade : ModProjectile
     {
         public override string Texture => CWRConstant.Projectile_Melee + "BlazingPhantomBlade";
 

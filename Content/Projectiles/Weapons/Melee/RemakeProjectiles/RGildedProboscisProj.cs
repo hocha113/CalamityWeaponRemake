@@ -15,7 +15,7 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles
 {
-    internal class RemakeGildedProboscisProj : BaseSpearProjectile
+    internal class RGildedProboscisProj : BaseSpearProjectile
     {
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<Items.Melee.GildedProboscis>();
 

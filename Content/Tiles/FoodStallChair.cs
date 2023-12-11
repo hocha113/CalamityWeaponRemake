@@ -37,7 +37,7 @@ namespace CalamityWeaponRemake.Content.Tiles
             AddMapEntry(new Color(200, 200, 200), Language.GetText("MapObject.Chair"));
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
-            TileObjectData.newTile.CoordinateHeights = new[] { 16, 18 };
+            TileObjectData.newTile.CoordinateHeights = new[] { 16, 16 };
             TileObjectData.newTile.CoordinatePaddingFix = new Point16(0, 2);
             TileObjectData.newTile.Direction = TileObjectDirection.PlaceLeft;
 
@@ -115,7 +115,6 @@ namespace CalamityWeaponRemake.Content.Tiles
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-
             return base.PreDraw(i, j, spriteBatch);
         }
     }

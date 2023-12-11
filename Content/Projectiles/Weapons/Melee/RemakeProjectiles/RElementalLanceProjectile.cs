@@ -15,7 +15,7 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles
 {
-    internal class RemakeElementalLanceProjectile : BaseSpearProjectile
+    internal class RElementalLanceProjectile : BaseSpearProjectile
     {
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<Items.Melee.ElementalLance>();
 

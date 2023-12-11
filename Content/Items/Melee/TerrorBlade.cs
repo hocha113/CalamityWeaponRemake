@@ -40,7 +40,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 80;
-            Item.shoot = ModContent.ProjectileType<RemakeTerrorBeam>();
+            Item.shoot = ModContent.ProjectileType<RTerrorBeam>();
             Item.shootSpeed = 20f;
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.rare = ModContent.RarityType<PureGreen>();

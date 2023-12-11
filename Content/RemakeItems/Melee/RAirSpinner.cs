@@ -29,7 +29,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 item.channel = true;
                 item.noUseGraphic = true;
                 item.noMelee = true;
-                item.shoot = ModContent.ProjectileType<RemakeAirSpinnerYoyo>();
+                item.shoot = ModContent.ProjectileType<RAirSpinnerYoyo>();
                 item.shootSpeed = 14f;
                 item.rare = ItemRarityID.Orange;
                 item.value = CalamityGlobalItem.Rarity3BuyPrice;

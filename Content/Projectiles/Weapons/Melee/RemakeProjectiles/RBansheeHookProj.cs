@@ -18,7 +18,7 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles
 {
-    internal class RemakeBansheeHookProj : BaseSpearProjectile
+    internal class RBansheeHookProj : BaseSpearProjectile
     {
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<BansheeHook>();
 
@@ -28,7 +28,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
 
         public override Action<Projectile> EffectBeforeReelback => delegate
         {
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Projectile.velocity * 0.5f, Projectile.velocity * 0.8f, ModContent.ProjectileType<RemakeBansheeHookScythe>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack * 0.85f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Projectile.velocity * 0.5f, Projectile.velocity * 0.8f, ModContent.ProjectileType<RBansheeHookScythe>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack * 0.85f, Projectile.owner);
         };
 
         public override string Texture => CWRConstant.Item_Melee + "BansheeHook";

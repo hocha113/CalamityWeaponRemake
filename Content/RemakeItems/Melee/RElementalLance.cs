@@ -37,7 +37,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 item.height = 88;
                 item.value = CalamityGlobalItem.Rarity11BuyPrice;
                 item.rare = ItemRarityID.Purple;
-                item.shoot = ModContent.ProjectileType<RemakeElementalLanceProjectile>();
+                item.shoot = ModContent.ProjectileType<RElementalLanceProjectile>();
                 item.shootSpeed = 12f;
             }
         }

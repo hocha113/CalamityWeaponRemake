@@ -52,7 +52,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.noMelee = true;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.rare = ModContent.RarityType<Turquoise>();
-            Item.shoot = ModContent.ProjectileType<RemakeTerratomereHoldoutProj>();
+            Item.shoot = ModContent.ProjectileType<RTerratomereHoldoutProj>();
             Item.shootSpeed = 60f;
             Item.CWR().remakeItem = true;
         }

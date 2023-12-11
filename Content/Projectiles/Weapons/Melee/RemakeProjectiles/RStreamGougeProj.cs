@@ -15,7 +15,7 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles
 {
-    internal class RemakeStreamGougeProj : BaseSpearProjectile
+    internal class RStreamGougeProj : BaseSpearProjectile
     {
         public int Time;
 
@@ -38,7 +38,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
         public override Action<Projectile> EffectBeforeReelback => delegate
         {
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0.8f
-                , ModContent.ProjectileType<StarnightBeams>(), Projectile.damage, Projectile.knockBack * 0.85f, Projectile.owner);
+                , ModContent.ProjectileType<StreamBeams>(), Projectile.damage, Projectile.knockBack * 0.85f, Projectile.owner);
         };
 
         public override void SetDefaults()
@@ -157,23 +157,27 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             float tomousRot = Owner.Center.To(Main.MouseWorld).ToRotation();
-            for (int i = 0; i < 3; i++)
+            if (Projectile.numHits == 0)
             {
-                Vector2 spanPos = (tomousRot + MathHelper.ToRadians(120 + Main.rand.Next(6) * 20)).ToRotationVector2() * 280 + Owner.Center;
-                Vector2 vr = spanPos.To(target.Center).UnitVector() * 16;
-                int proj = Projectile.NewProjectile(
-                        Projectile.parent(),
-                        spanPos,
-                        vr,
-                        ModContent.ProjectileType<GodKillers>(),
-                        Projectile.damage / 2,
-                        0,
-                        Projectile.owner
-                        );
-                Main.projectile[proj].timeLeft = 60;
+                for (int i = 0; i < 2; i++)
+                {
+                    Vector2 spanPos = (tomousRot + MathHelper.ToRadians(120 + Main.rand.Next(6) * 20)).ToRotationVector2() * 280 + Owner.Center;
+                    Vector2 vr = spanPos.To(target.Center).UnitVector() * 16;
+                    int proj = Projectile.NewProjectile(
+                            Projectile.parent(),
+                            spanPos,
+                            vr,
+                            ModContent.ProjectileType<GodKillers>(),
+                            Projectile.damage / 2,
+                            0,
+                            Projectile.owner
+                            );
+                    Main.projectile[proj].timeLeft = 90;
+                }
             }
+            
 
-            StarnightBeams.StarRT(Projectile, target);
+            StreamBeams.StarRT(Projectile, target);
         }
 
         public void DrawPortal(Vector2 drawPosition, float opacity)

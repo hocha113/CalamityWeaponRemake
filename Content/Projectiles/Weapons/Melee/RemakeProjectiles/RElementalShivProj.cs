@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles
 {
-    internal class RemakeElementalShivProj : BaseShortswordProjectile
+    internal class RElementalShivProj : BaseShortswordProjectile
     {
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<ElementalShiv>();
 

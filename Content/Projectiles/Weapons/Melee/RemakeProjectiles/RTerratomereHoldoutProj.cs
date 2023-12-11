@@ -16,7 +16,7 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles
 {
-    internal class RemakeTerratomereHoldoutProj : ModProjectile
+    internal class RTerratomereHoldoutProj : ModProjectile
     {
         public PrimitiveTrail SlashDrawer;
 

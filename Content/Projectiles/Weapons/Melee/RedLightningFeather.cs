@@ -106,7 +106,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             if (Main.netMode != NetmodeID.Server)
             {
                 Vector2 particleSpeed = Projectile.velocity * Main.rand.NextFloat(0.7f, 0.9f);
-                Vector2 pos = Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height));
+                Vector2 pos = Projectile.Center + Main.rand.NextVector2Unit() * Main.rand.Next(16) + Projectile.velocity;
                 CWRParticle energyLeak = new LightParticle(pos, particleSpeed
                     , Main.rand.NextFloat(0.2f, 0.3f), Main.rand.NextBool(2) ? Color.Red : Color.Gold, 15, 1, 1.5f, hueShift: 0.0f);
                 CWRParticleHandler.SpawnParticle(energyLeak);

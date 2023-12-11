@@ -52,7 +52,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
         {
             if (Projectile.numHits == 0)
             {
-                StarnightBeams.StarRT(Projectile, target);
+                StreamBeams.StarRT(Projectile, target);
                 if (Main.rand.NextBool(3))
                 {
                     int proj = Projectile.NewProjectile(Projectile.parent(), Projectile.Center + Projectile.Center.To(target.Center) / 2, Vector2.Zero

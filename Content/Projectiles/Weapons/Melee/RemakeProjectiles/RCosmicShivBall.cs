@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles
 {
-    internal class RemakeCosmicShivBall : ModProjectile
+    internal class RCosmicShivBall : ModProjectile
     {
         public NPC target;
 

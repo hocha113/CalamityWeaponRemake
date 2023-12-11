@@ -41,7 +41,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.height = 54;
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
-            Item.shoot = ModContent.ProjectileType<RemakeGoldplumeSpearProjectile>();
+            Item.shoot = ModContent.ProjectileType<RGoldplumeSpearProjectile>();
             Item.shootSpeed = 8f;
         }
 

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
 
-public class RemakeBansheeHookScythe : ModProjectile
+public class RBansheeHookScythe : ModProjectile
 {
     public override string Texture => CWRConstant.Projectile_Melee + "BansheeHookScythe";
 

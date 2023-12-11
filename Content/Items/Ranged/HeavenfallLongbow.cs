@@ -17,6 +17,8 @@ using Terraria.Audio;
 using CalamityMod.Items.Materials;
 using CalamityWeaponRemake.Content.Tiles;
 using CalamityWeaponRemake.Content.Items.Materials;
+using Terraria.UI.Chat;
+using Terraria.Localization;
 
 namespace CalamityWeaponRemake.Content.Items.Ranged
 {
@@ -97,6 +99,19 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
                     spanInfiniteRuneBool = true;//重置符文生成开关
                 }
             }
+        }
+
+        public override bool PreDrawTooltipLine(DrawableTooltipLine line, ref int yOffset)
+        {
+            if (line.Name == "ItemName" && line.Mod == "Terraria")
+            {
+                Color rarityColor = Main.DiscoColor;
+                Vector2 basePosition = Main.MouseWorld - Main.screenPosition + new Vector2(23, 23);
+                string Txet = Language.GetTextValue("Mods.CalamityWeaponRemake.Items.HeavenfallLongbow.DisplayName");
+                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, line.Font, Txet, basePosition, rarityColor, line.Rotation, line.Origin, line.BaseScale * 1.06f, line.MaxWidth, line.Spread);
+                return false;
+            }
+            return true;
         }
 
         public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.NextBool(3) && player.ownedProjectileCounts[Item.shoot] > 0;

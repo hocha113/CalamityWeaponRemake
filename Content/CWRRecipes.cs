@@ -3,10 +3,12 @@ using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Items.Magic;
 using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Content.Items.Ranged;
+using CalamityWeaponRemake.Content.Tiles;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using Terraria.ID;
 
 namespace CalamityWeaponRemake.Content
 {
@@ -35,7 +37,8 @@ namespace CalamityWeaponRemake.Content
             ItemType<TerrorBlade>(),
             ItemType<WindBlade>(),
             ItemType<AegisBlade>(),
-            //ItemType<Murasama>(),
+            ItemType<Murasama>(),
+            ItemType<HolyCollider>(),
             //远程
             ItemType<DragonsBreathRifle>(),
             ItemType<Arbalest>(),
@@ -71,7 +74,8 @@ namespace CalamityWeaponRemake.Content
             ItemType<CalamityMod.Items.Weapons.Melee.TerrorBlade>(),
             ItemType<CalamityMod.Items.Weapons.Melee.WindBlade>(),
             ItemType<CalamityMod.Items.Weapons.Melee.AegisBlade>(),
-            //ItemType<CalamityMod.Items.Weapons.Melee.Murasama>(),
+            ItemType<CalamityMod.Items.Weapons.Melee.Murasama>(),
+            ItemType<CalamityMod.Items.Weapons.Melee.HolyCollider>(),
             //远程
             ItemType<CalamityMod.Items.Weapons.Ranged.DragonsBreath>(),
             ItemType<CalamityMod.Items.Weapons.Ranged.Arbalest>(),
@@ -112,6 +116,12 @@ namespace CalamityWeaponRemake.Content
                     Recipe.Create(type).AddIngredient(vrsType).Register();
                 }
             }
+
+            Recipe.Create(ItemType<CalamityMod.Items.Weapons.Melee.HolyCollider>())
+                .AddIngredient(ItemType<CalamityMod.Items.Weapons.Melee.CelestialClaymore>())
+                .AddIngredient(ItemType<DivineGeode>(), 16)
+                .AddTile(TileID.LunarCraftingStation)
+                .Register();
         }
 
         public static string Any => Language.GetTextValue("LegacyMisc.37");

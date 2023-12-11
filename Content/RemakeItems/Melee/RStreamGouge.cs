@@ -37,7 +37,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 item.UseSound = SoundID.Item1;
                 item.autoReuse = true;
                 item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
-                item.shoot = ModContent.ProjectileType<RemakeStreamGougeProj>();
+                item.shoot = ModContent.ProjectileType<RStreamGougeProj>();
                 item.shootSpeed = 15f;
                 item.rare = ModContent.RarityType<DarkBlue>();
             }

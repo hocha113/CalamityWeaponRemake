@@ -18,6 +18,7 @@ using CalamityWeaponRemake.Content.Items.Placeable;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Items.Materials;
 using FTile = CalamityMod.Items.Placeables.Furniture.CraftingStations;
+using System.Collections.Generic;
 
 namespace CalamityWeaponRemake.Content.Tiles
 {
@@ -74,6 +75,7 @@ namespace CalamityWeaponRemake.Content.Tiles
                 ModContent.TileType<VoidCondenser>(),
                 ModContent.TileType<WulfrumLabstation>(),
                 ModContent.TileType<StaticRefiner>(),
+                ModContent.TileType<DraedonsForge>(),
                 TileID.Furnaces,
                 TileID.Hellforge,
                 TileID.AdamantiteForge,
@@ -94,20 +96,6 @@ namespace CalamityWeaponRemake.Content.Tiles
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
         public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
-
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Tile t = Main.tile[i, j];
-            int left = i - t.TileFrameX % (Width * SheetSquare) / SheetSquare;
-            int top = j - t.TileFrameY % (Height * SheetSquare) / SheetSquare;
-
-            TransmutationOfMatterEntity factory = CalamityUtils.FindTileEntity<TransmutationOfMatterEntity>(i, j, Width, Height, SheetSquare);
-            int numCells = factory?.CellStack ?? 0;
-            if (numCells > 0)
-                Item.NewItem(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16f, ModContent.ItemType<DraedonPowerCell>(), numCells);
-
-            factory?.Kill(left, top);
-        }
 
         public override bool RightClick(int i, int j)
         {

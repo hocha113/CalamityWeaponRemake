@@ -416,6 +416,26 @@ Items: {
 		DisplayName: 高分子斩切刃
 		Tooltip: 如果有链锯剑会更好
 	}
+
+	HolyCollider: {
+		DisplayName: 圣光巨刃
+		Tooltip: 挥舞时让圣之烈焰向你聚拢
+	}
+
+	Oracle: {
+		DisplayName: 神寓
+		Tooltip: 指哪打哪
+	}
+
+	PerfectDark: {
+		DisplayName: 暗雷回响
+		Tooltip: ""
+	}
+
+	StarnightLance: {
+		DisplayName: 寒夜长枪
+		Tooltip: 令人通体生寒
+	}
 }
 
 Projectiles: {
@@ -426,6 +446,8 @@ Projectiles: {
 		// DimensionalRuptureProjectile.DisplayName: Dimensional Rupture Projectile
 		// RemakeCosmicShivProjectile.DisplayName: Remake Cosmic Shiv Projectile
 		// RemakeStreamGougeProj.DisplayName: Remake Stream Gouge Proj
+		// RCosmicShivProjectile.DisplayName: R Cosmic Shiv Projectile
+		// RStreamGougeProj.DisplayName: R Stream Gouge Proj
 	}
 
 	// DimensionalRuptureProjectile.DisplayName: Dimensional Rupture Projectile
@@ -538,6 +560,13 @@ Projectiles: {
 	// ParadiseArrow.DisplayName: Paradise Arrow
 	// InfiniteRune.DisplayName: Infinite Rune
 	// VientianePunishment.DisplayName: Vientiane Punishment
+	// HolyColliderHolyFires.DisplayName: Holy Collider Holy Fires
+	// RBansheeHookScythe.DisplayName: R Banshee Hook Scythe
+	// RBlazingPhantomBlade.DisplayName: R Blazing Phantom Blade
+	// RCosmicShivBall.DisplayName: R Cosmic Shiv Ball
+	// RTerratomereHoldoutProj.DisplayName: R Terratomere Holdout Proj
+	// RTerrorBeam.DisplayName: R Terror Beam
+	// StreamBeams.DisplayName: Stream Beams
 }
 
 Configs: {

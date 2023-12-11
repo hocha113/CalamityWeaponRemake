@@ -47,7 +47,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
-            Item.shoot = ModContent.ProjectileType<RemakeStreamGougeProj>();
+            Item.shoot = ModContent.ProjectileType<RStreamGougeProj>();
             Item.shootSpeed = 15f;
             Item.rare = ModContent.RarityType<DarkBlue>();
         }
@@ -70,7 +70,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[ModContent.ProjectileType<RemakeStreamGougeProj>()] <= 0;
+            return player.ownedProjectileCounts[ModContent.ProjectileType<RStreamGougeProj>()] <= 0;
         }
 
         public override bool AltFunctionUse(Player player)

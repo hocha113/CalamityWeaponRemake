@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles
 {
-    internal class RemakeTerrorBeam : ModProjectile
+    internal class RTerrorBeam : ModProjectile
     {
         public new string LocalizationCategory => "Projectiles.Melee";
 

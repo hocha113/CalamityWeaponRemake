@@ -241,12 +241,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
         public override Color? GetAlpha(Color lightColor) => Color.DarkRed * Projectile.Opacity;
 
-        public override bool PreDraw(ref Color lightColor)
+        public void DrawLigOib()
         {
-            if (LightningTarget == null || LightningTarget == default)
-                return false;
-            if (LightningTarget.IsDisposed)
-                return false;
             Texture2D mainValue = CWRUtils.GetT2DValue(CWRConstant.Masking + "Hexagram2_White");
             int slp = (int)Time * 5;
             if (slp > 255) slp = 255;
@@ -298,6 +294,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                     );
             }
             Main.spriteBatch.ResetBlendState();
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            if (LightningTarget == null || LightningTarget == default)
+                return false;
+            if (LightningTarget.IsDisposed)
+                return false;
+            DrawLigOib();
             return true;
         }
 

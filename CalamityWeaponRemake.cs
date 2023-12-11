@@ -1,6 +1,8 @@
 using CalamityWeaponRemake.Common.Effects;
 using CalamityWeaponRemake.Content.Particles.Core;
 using CalamityWeaponRemake.Content.UIs;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -9,13 +11,13 @@ namespace CalamityWeaponRemake
     public class CalamityWeaponRemake : Mod
     {
         internal static CalamityWeaponRemake Instance;
-
+        internal List<Mod> LoadMods;
         internal Mod musicMod = null;
 
         public override void Load()
         {
             Instance = this;
-
+            LoadMods = ModLoader.Mods.ToList();
             FindMod();
             LoadClient();
             new CompressorUI().Load();

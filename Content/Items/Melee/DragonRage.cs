@@ -37,7 +37,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.channel = true;
             Item.autoReuse = true;
             Item.shootSpeed = 14f;
-            Item.shoot = ModContent.ProjectileType<RemakeDragonRageStaff>();
+            Item.shoot = ModContent.ProjectileType<RDragonRageStaff>();
             Item.width = 128;
             Item.height = 140;
             Item.noUseGraphic = true;

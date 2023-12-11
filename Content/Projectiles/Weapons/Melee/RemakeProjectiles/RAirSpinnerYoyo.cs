@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles
 {
-    internal class RemakeAirSpinnerYoyo : ModProjectile
+    internal class RAirSpinnerYoyo : ModProjectile
     {
         public const int MaxUpdates = 2;
 

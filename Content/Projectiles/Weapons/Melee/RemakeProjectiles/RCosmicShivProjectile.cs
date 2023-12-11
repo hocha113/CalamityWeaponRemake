@@ -9,13 +9,13 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles
 {
-    internal class RemakeCosmicShivProjectile : BaseShortswordProjectile
+    internal class RCosmicShivProjectile : BaseShortswordProjectile
     {
         public override string Texture => CWRConstant.Item_Melee + "CosmicShiv";
 
         public override Action<Projectile> EffectBeforePullback => delegate
         {
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 14f, ModContent.ProjectileType<RemakeCosmicShivBall>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 14f, ModContent.ProjectileType<RCosmicShivBall>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner);
         };
 
         public override void SetDefaults()

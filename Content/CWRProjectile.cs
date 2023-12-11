@@ -2,6 +2,7 @@
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged;
@@ -33,11 +34,17 @@ namespace CalamityWeaponRemake.Content
         public override void SetDefaults(Projectile projectile)
         {
             base.SetDefaults(projectile);
+            if (projectile.type == ModContent.ProjectileType<HolyColliderHolyFire>())
+            {
+                projectile.damage = 0;
+                projectile.Kill();
+                return;
+            }
         }
 
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
-
+            
         }
 
         public override void AI(Projectile projectile)

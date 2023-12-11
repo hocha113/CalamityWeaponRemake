@@ -28,7 +28,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                 item.autoReuse = true;
                 item.noUseGraphic = true;
                 item.noMelee = true;
-                item.shoot = ModContent.ProjectileType<RemakeCosmicShivProjectile>();
+                item.shoot = ModContent.ProjectileType<RCosmicShivProjectile>();
                 item.shootSpeed = 2.4f;
                 item.value = CalamityGlobalItem.Rarity14BuyPrice;
                 item.rare = ModContent.RarityType<DarkBlue>();

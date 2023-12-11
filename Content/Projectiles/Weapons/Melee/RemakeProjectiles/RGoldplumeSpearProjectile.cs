@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles
 {
-    internal class RemakeGoldplumeSpearProjectile : BaseSpearProjectile
+    internal class RGoldplumeSpearProjectile : BaseSpearProjectile
     {
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<GoldplumeSpear>();
 
