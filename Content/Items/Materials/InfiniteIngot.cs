@@ -14,7 +14,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Core;
 using Terraria.UI.Chat;
-using static CalamityWeaponRemake.CalamityWeaponRemake;
+using static CalamityWeaponRemake.CWRMod;
 
 namespace CalamityWeaponRemake.Content.Items.Materials
 {

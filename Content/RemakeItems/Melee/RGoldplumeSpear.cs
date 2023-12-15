@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
+using CalamityWeaponRemake.Content.RemakeItems.Core;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
@@ -10,8 +11,11 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
-    internal class RGoldplumeSpear : GlobalItem
+    internal class RGoldplumeSpear : BaseRItem
     {
+        public override void Load() {
+            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Melee.GildedProboscis>();
+        }
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[ModContent.ItemType<CalamityMod.Items.Weapons.Melee.GoldplumeSpear>()] = true;
@@ -19,66 +23,48 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 
         public override void SetDefaults(Item item)
         {
-            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.GoldplumeSpear>(item))
-            {
-                item.width = 54;
-                item.damage = 24;
-                item.DamageType = DamageClass.Melee;
-                item.noMelee = true;
-                item.useTurn = true;
-                item.noUseGraphic = true;
-                item.useAnimation = 23;
-                item.useStyle = ItemUseStyleID.Shoot;
-                item.useTime = 23;
-                item.knockBack = 5.75f;
-                item.UseSound = SoundID.Item1;
-                item.autoReuse = true;
-                item.height = 54;
-                item.value = CalamityGlobalItem.Rarity3BuyPrice;
-                item.rare = ItemRarityID.Orange;
-                item.shoot = ModContent.ProjectileType<RGoldplumeSpearProjectile>();
-                item.shootSpeed = 8f;
-            }
+            item.width = 54;
+            item.damage = 24;
+            item.DamageType = DamageClass.Melee;
+            item.noMelee = true;
+            item.useTurn = true;
+            item.noUseGraphic = true;
+            item.useAnimation = 23;
+            item.useStyle = ItemUseStyleID.Shoot;
+            item.useTime = 23;
+            item.knockBack = 5.75f;
+            item.UseSound = SoundID.Item1;
+            item.autoReuse = true;
+            item.height = 54;
+            item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            item.rare = ItemRarityID.Orange;
+            item.shoot = ModContent.ProjectileType<RGoldplumeSpearProjectile>();
+            item.shootSpeed = 8f;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
-            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.GoldplumeSpear>(item))
-            {
-                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "GoldplumeSpear");
-            }
+            CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "GoldplumeSpear");
         }
 
-        public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.GoldplumeSpear>(item))
-            {
-                int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
-                if (player.altFunctionUse == 2)
-                {
-                    Main.projectile[proj].ai[1] = 1;
-                    Main.projectile[proj].rotation = player.Center.To(Main.MouseWorld).ToRotation();
-                }
-                return false;
+            int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+            if (player.altFunctionUse == 2) {
+                Main.projectile[proj].ai[1] = 1;
+                Main.projectile[proj].rotation = player.Center.To(Main.MouseWorld).ToRotation();
             }
-            return base.Shoot(item, player, source, position, velocity, type, damage, knockback);
+            return false;
         }
 
-        public override bool AltFunctionUse(Item item, Player player)
+        public override bool? AltFunctionUse(Item item, Player player)
         {
-            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.GoldplumeSpear>(item))
-                return true;
-            return base.AltFunctionUse(item, player);
+            return true;
         }
 
         public override bool? UseItem(Item item, Player player)
         {
-            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.GoldplumeSpear>(item))
-            {
-                if (player.ownedProjectileCounts[item.shoot] > 0)
-                    return false;
-            }
-            return base.UseItem(item, player);
+            return player.ownedProjectileCounts[item.shoot] == 0;
         }
     }
 }

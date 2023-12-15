@@ -13,7 +13,7 @@ namespace CalamityWeaponRemake.Common.Effects
 
         public static void LoadEffects()
         {
-            var assets = CalamityWeaponRemake.Instance.Assets;
+            var assets = CWRMod.Instance.Assets;
             LoadRegularShaders(assets);
         }
 

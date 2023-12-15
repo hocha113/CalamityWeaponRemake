@@ -3,6 +3,7 @@ using CalamityMod.Items;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs;
+using CalamityWeaponRemake.Content.RemakeItems.Core;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
@@ -12,40 +13,37 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
 {
-    internal class RDaemonsFlame : GlobalItem
+    internal class RDaemonsFlame : BaseRItem
     {
+        public override void Load() {
+            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Ranged.DaemonsFlame>();
+        }
         public override void SetDefaults(Item item)
         {
-            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Ranged.DaemonsFlame>(item))
-            {
-                item.damage = 150;
-                item.width = 62;
-                item.height = 128;
-                item.useTime = 12;
-                item.useAnimation = 12;
-                item.useStyle = ItemUseStyleID.Shoot;
-                item.knockBack = 4f;
-                item.UseSound = SoundID.Item5;
-                item.noMelee = true;
-                item.noUseGraphic = true;
-                item.DamageType = DamageClass.Ranged;
-                item.channel = true;
-                item.autoReuse = true;
-                item.shoot = ModContent.ProjectileType<DaemonsFlameHeldProj>();
-                item.shootSpeed = 20f;
-                item.useAmmo = AmmoID.Arrow;
-                item.value = CalamityGlobalItem.Rarity13BuyPrice;
-                item.rare = ModContent.RarityType<PureGreen>();
-                item.Calamity().canFirePointBlankShots = true;
-            }
+            item.damage = 150;
+            item.width = 62;
+            item.height = 128;
+            item.useTime = 12;
+            item.useAnimation = 12;
+            item.useStyle = ItemUseStyleID.Shoot;
+            item.knockBack = 4f;
+            item.UseSound = SoundID.Item5;
+            item.noMelee = true;
+            item.noUseGraphic = true;
+            item.DamageType = DamageClass.Ranged;
+            item.channel = true;
+            item.autoReuse = true;
+            item.shoot = ModContent.ProjectileType<DaemonsFlameHeldProj>();
+            item.shootSpeed = 20f;
+            item.useAmmo = AmmoID.Arrow;
+            item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            item.rare = ModContent.RarityType<PureGreen>();
+            item.Calamity().canFirePointBlankShots = true;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
-            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Ranged.DaemonsFlame>(item))
-            {
-                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "DaemonsFlame");
-            }
+            CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "DaemonsFlame");
         }
 
         public override bool? UseItem(Item item, Player player)
@@ -58,14 +56,10 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
             return base.UseItem(item, player);
         }
 
-        public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Ranged.DaemonsFlame>(item))
-            {
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<DaemonsFlameHeldProj>(), damage, knockback, player.whoAmI);
-                return false;
-            }
-            return base.Shoot(item, player, source, position, velocity, type, damage, knockback);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<DaemonsFlameHeldProj>(), damage, knockback, player.whoAmI);
+            return false;
         }
     }
 }

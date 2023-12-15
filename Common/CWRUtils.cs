@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Chat;
@@ -23,6 +24,21 @@ namespace CalamityWeaponRemake.Common
 {
     public static class CWRUtils
     {
+        public static List<Type> GetSubclasses(Type baseType) {
+            List<Type> subclasses = new List<Type>();
+
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            Type[] allTypes = assembly.GetTypes();
+
+            foreach (Type type in allTypes) {
+                if (type.IsClass && !type.IsAbstract && baseType.IsAssignableFrom(type)) {
+                    subclasses.Add(type);
+                }
+            }
+
+            return subclasses;
+        }
+
         #region AIUtils
 
         #region 工具部分
@@ -950,7 +966,6 @@ namespace CalamityWeaponRemake.Common
 
             tooltips.Clear(); // 清空原 tooltips 集合
             tooltips.AddRange(newTooltips); // 添加修改后的 newTooltips 集合
-            CWRItems.AppAwakeningLine(tooltips);
         }
 
         /// <summary>
@@ -1064,7 +1079,7 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 发收统一端口的实例
         /// </summary>
-        public static ModPacket Packet => CalamityWeaponRemake.Instance.GetPacket();
+        public static ModPacket Packet => CWRMod.Instance.GetPacket();
         /// <summary>
         /// 检查一个 Projectile 对象是否属于当前客户端玩家拥有的，如果是，返回true
         /// </summary>

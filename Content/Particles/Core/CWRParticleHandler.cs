@@ -56,7 +56,7 @@ namespace CalamityWeaponRemake.Content.Particles.Core
             batchedNonPremultipliedParticles = new List<CWRParticle>();
             batchedAdditiveBlendParticles = new List<CWRParticle>();
 
-            LoadModParticleInstances(CalamityWeaponRemake.Instance);
+            LoadModParticleInstances(CWRMod.Instance);
         }
 
         internal static void Unload()

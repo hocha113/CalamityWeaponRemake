@@ -6,6 +6,7 @@ using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Buffs;
 using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
+using CalamityWeaponRemake.Content.RemakeItems.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -16,177 +17,143 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
-    internal class RDefiledGreatsword : GlobalItem
+    internal class RDefiledGreatsword : BaseRItem
     {
+        public override void Load() {
+            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Melee.DefiledGreatsword>();
+        }
+
         public override void SetDefaults(Item item)
         {
-            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.DefiledGreatsword>(item))
-            {
-                item.width = 102;
-                item.damage = 112;
-                item.DamageType = DamageClass.Melee;
-                item.useAnimation = 18;
-                item.useStyle = ItemUseStyleID.Swing;
-                item.useTime = 18;
-                item.useTurn = true;
-                item.knockBack = 7.5f;
-                item.UseSound = SoundID.Item1;
-                item.autoReuse = true;
-                item.height = 102;
-                item.value = CalamityGlobalItem.Rarity12BuyPrice;
-                item.rare = ModContent.RarityType<Turquoise>();
-                item.shoot = ModContent.ProjectileType<BlazingPhantomBlade>();
-                item.shootSpeed = 12f;
-            }
+            item.width = 102;
+            item.damage = 112;
+            item.DamageType = DamageClass.Melee;
+            item.useAnimation = 18;
+            item.useStyle = ItemUseStyleID.Swing;
+            item.useTime = 18;
+            item.useTurn = true;
+            item.knockBack = 7.5f;
+            item.UseSound = SoundID.Item1;
+            item.autoReuse = true;
+            item.height = 102;
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = ModContent.RarityType<Turquoise>();
+            item.shoot = ModContent.ProjectileType<BlazingPhantomBlade>();
+            item.shootSpeed = 12f;
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
-            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.DefiledGreatsword>(item))
-            {
-                CWRUtils.OnModifyTooltips(Mod, item, tooltips, "DefiledGreatsword", 3);
-            }
+            CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "DefiledGreatsword", 3);
         }
 
         public override void PostDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            base.PostDrawInInventory(item, spriteBatch, position, frame, drawColor, itemColor, origin, scale);
-            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.DefiledGreatsword>(item))
-            {
-                if (item.CWR().HoldOwner != null && item.CWR().MeleeCharge > 0)
-                {
-                    DrawRageEnergyChargeBar(item.CWR().HoldOwner, item);
-                }
+            if (item.CWR().HoldOwner != null && item.CWR().MeleeCharge > 0) {
+                DrawRageEnergyChargeBar(item.CWR().HoldOwner, item);
             }
         }
 
         public override void UpdateInventory(Item item, Player player)
         {
-            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.DefiledGreatsword>(item))
-            {
-                UpdateBar(item);
-            }
-            base.UpdateInventory(item, player);
+            UpdateBar(item);
         }
 
         public override void HoldItem(Item item, Player player)
         {
-            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.DefiledGreatsword>(item))
-            {
-                if (item.CWR().HoldOwner == null)
-                {
-                    item.CWR().HoldOwner = player;
-                }
-
-                if (item.CWR().MeleeCharge > 0)
-                {
-                    item.useAnimation = 16;
-                    item.useTime = 16;
-                }
-                else
-                {
-                    item.useAnimation = 26;
-                    item.useTime = 26;
-                }
-
-                UpdateBar(item);
+            if (item.CWR().HoldOwner == null) {
+                item.CWR().HoldOwner = player;
             }
-            base.HoldItem(item, player);
+
+            if (item.CWR().MeleeCharge > 0) {
+                item.useAnimation = 16;
+                item.useTime = 16;
+            }
+            else {
+                item.useAnimation = 26;
+                item.useTime = 26;
+            }
+
+            UpdateBar(item);
         }
 
-        public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.DefiledGreatsword>(item))
-            {
-                if (!item.CWR().closeCombat)
-                {
-                    item.CWR().MeleeCharge -= damage;
-                    if (item.CWR().MeleeCharge < 0) item.CWR().MeleeCharge = 0;
+            if (!item.CWR().closeCombat) {
+                item.CWR().MeleeCharge -= damage;
+                if (item.CWR().MeleeCharge < 0) item.CWR().MeleeCharge = 0;
 
-                    if (item.CWR().MeleeCharge == 0)
-                    {
+                if (item.CWR().MeleeCharge == 0) {
+                    Projectile.NewProjectile(
+                        source,
+                        position,
+                        velocity,
+                        type,
+                        damage,
+                        knockback,
+                        player.whoAmI,
+                        1
+                        );
+                }
+                else {
+
+                    for (int i = 0; i < 3; i++) {
+                        float rot = MathHelper.ToRadians(-10 + i * 10);
                         Projectile.NewProjectile(
                             source,
                             position,
-                            velocity,
+                            velocity.RotatedBy(rot),
                             type,
                             damage,
                             knockback,
                             player.whoAmI,
                             1
-                            );
-                    }
-                    else
-                    {
-
-                        for (int i = 0; i < 3; i++)
-                        {
-                            float rot = MathHelper.ToRadians(-10 + i * 10);
-                            Projectile.NewProjectile(
-                                source,
-                                position,
-                                velocity.RotatedBy(rot),
-                                type,
-                                damage,
-                                knockback,
-                                player.whoAmI,
-                                1
-                            );
-                        }
+                        );
                     }
                 }
-                item.CWR().closeCombat = false;
-                return false;
             }
-            return base.Shoot(item, player, source, position, velocity, type, damage, knockback);
+            item.CWR().closeCombat = false;
+            return false;
         }
 
         public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.DefiledGreatsword>(item))
-            {
-                item.CWR().closeCombat = true;
-                float addnum = hit.Damage;
-                if (addnum > target.lifeMax)
-                    addnum = 0;
-                else addnum *= 2;
-                item.CWR().MeleeCharge += addnum;
+            item.CWR().closeCombat = true;
+            float addnum = hit.Damage;
+            if (addnum > target.lifeMax)
+                addnum = 0;
+            else addnum *= 2;
+            item.CWR().MeleeCharge += addnum;
 
-                int type = ModContent.ProjectileType<SunlightBlades>();
-                int randomLengs = Main.rand.Next(150);
-                for (int i = 0; i < 3; i++)
-                {
-                    Vector2 offsetvr = Common.CWRUtils.GetRandomVevtor(-15, 15, 900 + randomLengs);
-                    Vector2 spanPos = target.Center + offsetvr;
-                    Projectile.NewProjectile(
-                        Common.CWRUtils.parent(player),
-                        spanPos,
-                        (Vector2)(Common.CWRUtils.UnitVector(offsetvr) * -13),
-                        type,
-                        item.damage - 50,
-                        0,
-                        player.whoAmI
-                        );
-                    Vector2 offsetvr2 = Common.CWRUtils.GetRandomVevtor(165, 195, 900 + randomLengs);
-                    Vector2 spanPos2 = target.Center + offsetvr2;
-                    Projectile.NewProjectile(
-                        Common.CWRUtils.parent(player),
-                        spanPos2,
-                        (Vector2)(Common.CWRUtils.UnitVector(offsetvr2) * -13),
-                        type,
-                        item.damage - 50,
-                        0,
-                        player.whoAmI
-                        );
-                }
+            int type = ModContent.ProjectileType<SunlightBlades>();
+            int randomLengs = Main.rand.Next(150);
+            for (int i = 0; i < 3; i++) {
+                Vector2 offsetvr = Common.CWRUtils.GetRandomVevtor(-15, 15, 900 + randomLengs);
+                Vector2 spanPos = target.Center + offsetvr;
+                Projectile.NewProjectile(
+                    Common.CWRUtils.parent(player),
+                    spanPos,
+                    (Vector2)(Common.CWRUtils.UnitVector(offsetvr) * -13),
+                    type,
+                    item.damage - 50,
+                    0,
+                    player.whoAmI
+                    );
+                Vector2 offsetvr2 = Common.CWRUtils.GetRandomVevtor(165, 195, 900 + randomLengs);
+                Vector2 spanPos2 = target.Center + offsetvr2;
+                Projectile.NewProjectile(
+                    Common.CWRUtils.parent(player),
+                    spanPos2,
+                    (Vector2)(Common.CWRUtils.UnitVector(offsetvr2) * -13),
+                    type,
+                    item.damage - 50,
+                    0,
+                    player.whoAmI
+                    );
+            }
 
-                player.AddBuff(ModContent.BuffType<TyrantsFury>(), 300);
-                target.AddBuff(70, 150);
-            }
-            else
-            {
-                base.OnHitNPC(item, player, target, hit, damageDone);
-            }
+            player.AddBuff(ModContent.BuffType<TyrantsFury>(), 300);
+            target.AddBuff(70, 150);
         }
 
         private static void UpdateBar(Item item)

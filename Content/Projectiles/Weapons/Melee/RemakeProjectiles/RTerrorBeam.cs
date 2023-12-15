@@ -105,22 +105,19 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
                             float lengs = toTarget.Length() / 2;
                             if (lengs > 160) lengs = 160;
 
-                            for (int i = 0; i < 3; i++)
-                            {
-                                Vector2 pos = Main.rand.NextFloat(rot - offsetrot, rot + offsetrot)
+                            Vector2 pos = Main.rand.NextFloat(rot - offsetrot, rot + offsetrot)
                                     .ToRotationVector2() * lengs + Main.player[Projectile.owner].Center;
-                                Projectile.NewProjectileDirect(
-                                    Projectile.parent(),
-                                    pos,
-                                    pos.To(target.Center).UnitVector() * 17,
-                                    Type,
-                                    Projectile.damage / 2,
-                                    0,
-                                    Projectile.owner,
-                                    2,
-                                    Main.rand.Next(2)
-                                    ).timeLeft = 60;
-                            }
+                            Projectile.NewProjectileDirect(
+                                Projectile.parent(),
+                                pos,
+                                pos.To(target.Center).UnitVector() * 17,
+                                Type,
+                                Projectile.damage / 2,
+                                0,
+                                Projectile.owner,
+                                2,
+                                Main.rand.Next(2)
+                                ).timeLeft = 60;
                         }
 
                         break;

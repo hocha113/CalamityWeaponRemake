@@ -14,7 +14,7 @@ namespace CalamityWeaponRemake.Content
         {
             base.RightClick(i, j, type);
 
-            Mod musicMod = CalamityWeaponRemake.Instance.musicMod;
+            Mod musicMod = CWRMod.Instance.musicMod;
             if (musicMod is not null)
             {
                 if (type == musicMod.Find<ModTile>("CalamityTitleMusicBox").Type

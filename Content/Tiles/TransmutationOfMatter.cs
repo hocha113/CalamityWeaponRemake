@@ -31,15 +31,6 @@ namespace CalamityWeaponRemake.Content.Tiles
         public const int OriginOffsetY = 1;
         public const int SheetSquare = 18;
 
-        // 动画帧数为45。单元格在动画帧42上创建
-        public const int TotalFrames = 45;
-        private const int FramesPerColumn = 15;
-        public const int AnimationFramerate = 5;
-
-        public const int BetweenCellDowntime = 675;
-        public const int CellCreateFrame = 42;
-        public const int MagicFrameDelay = AnimationFramerate - 1;
-
         public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;

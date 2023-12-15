@@ -37,7 +37,9 @@ namespace CalamityWeaponRemake
 
         public override bool? UseItem(Player player)
         {
-            CedTile();
+            Main.NewText(CWRIDs.BlightedCleaver);
+            Main.NewText(ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BlightedCleaver>());
+            Main.NewText("___________________________");
             return base.UseItem(player);
         }
 

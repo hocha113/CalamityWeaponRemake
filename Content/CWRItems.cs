@@ -98,7 +98,7 @@ namespace CalamityWeaponRemake.Content
 
         public static void AppAwakeningLine(List<TooltipLine> tooltips)
         {
-            TooltipLine line = new TooltipLine(CalamityWeaponRemake.Instance, "CalamityWeaponRemake",
+            TooltipLine line = new TooltipLine(CWRMod.Instance, "CalamityWeaponRemake",
                     CalamityUtils.ColorMessage(
                         CWRUtils.Translation("- 觉醒 -", "- Awakening -")
                         , new Color(196, 35, 44))

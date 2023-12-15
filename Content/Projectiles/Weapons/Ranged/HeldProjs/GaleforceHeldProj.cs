@@ -110,11 +110,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
                     if (fire)
                     {
                         SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);
-                        int ammo = Projectile.NewProjectile(
+                        Projectile.NewProjectile(
                                     Owner.parent(),
                                     Projectile.Center,
                                     vr,
-                                    useArrow,
+                                    ArrowTypes,
                                     weaponDamage2,
                                     weaponKnockback2,
                                     Projectile.owner

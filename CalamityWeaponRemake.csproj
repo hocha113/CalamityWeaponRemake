@@ -86,6 +86,8 @@
     <None Remove="Assets\Masking\StreakSolid.png" />
     <None Remove="Assets\Masking\WavyNoise.png" />
     <None Remove="Assets\NPCs\RavagerAs\RavagerAChain.png" />
+    <None Remove="Assets\Overs\AureusSpawnGlow.png" />
+    <None Remove="Assets\Overs\memo.txt" />
     <None Remove="Assets\placeholder.png" />
     <None Remove="Assets\Projectiles\CosmicShivBlade.png" />
     <None Remove="Assets\Projectiles\Melee\BansheeHookScythe.png" />
