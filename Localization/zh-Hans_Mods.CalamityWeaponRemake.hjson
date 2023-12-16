@@ -436,6 +436,16 @@ Items: {
 		DisplayName: 寒夜长枪
 		Tooltip: 令人通体生寒
 	}
+
+	CelestialClaymore: {
+		// DisplayName: Celestial Claymore
+		// Tooltip: ""
+	}
+
+	TheEnforcer: {
+		// DisplayName: The Enforcer
+		// Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -567,6 +577,8 @@ Projectiles: {
 	// RTerratomereHoldoutProj.DisplayName: R Terratomere Holdout Proj
 	// RTerrorBeam.DisplayName: R Terror Beam
 	// StreamBeams.DisplayName: Stream Beams
+	// CosmicSpiritBombs.DisplayName: Cosmic Spirit Bombs
+	// CelestialClaymoreBeam.DisplayName: Celestial Claymore Beam
 }
 
 Configs: {

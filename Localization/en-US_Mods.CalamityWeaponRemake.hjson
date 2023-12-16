@@ -436,6 +436,16 @@ Items: {
 		DisplayName: Starnight Lance
 		Tooltip: ""
 	}
+
+	CelestialClaymore: {
+		DisplayName: Celestial Claymore
+		Tooltip: ""
+	}
+
+	TheEnforcer: {
+		DisplayName: The Enforcer
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -567,6 +577,11 @@ Projectiles: {
 	RTerratomereHoldoutProj.DisplayName: R Terratomere Holdout Proj
 	RTerrorBeam.DisplayName: R Terror Beam
 	StreamBeams.DisplayName: Stream Beams
+	CosmicSpiritBombs.DisplayName: Cosmic Spirit Bombs
+	CelestialClaymoreBeam.DisplayName: Celestial Claymore Beam
+	EssenceFlames.DisplayName: Essence Flames
+	EssenceStar.DisplayName: Essence Star
+	TheEnforcerBeam.DisplayName: The Enforcer Beam
 }
 
 Configs: {

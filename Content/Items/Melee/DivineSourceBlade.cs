@@ -42,7 +42,6 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             float itmeRots = player.itemRotation + (MathHelper.ToRadians(60)) * player.direction;
-            //+player.Center.To(Main.MouseWorld).ToRotation() + MathHelper.Pi * (player.direction > 0 ? 0 : 1);
             player.itemRotation = itmeRots;
 
             player.itemLocation = player.Center + player.itemRotation.ToRotationVector2() * -15 * player.direction;

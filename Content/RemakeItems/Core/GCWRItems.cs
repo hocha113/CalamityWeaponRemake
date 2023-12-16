@@ -32,15 +32,6 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
             return result;
         }
 
-        //public override void SetStaticDefaults() {
-        //    base.SetStaticDefaults();
-        //    foreach (BaseRItem rItem in CWRMod.RItemInstances) {
-        //        if (CWRConstant.ForceReplaceResetContent) {
-        //            rItem.SetStaticDefaults();
-        //        }
-        //    }
-        //}
-
         public override void PostDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale) {
             base.PostDrawInInventory(item, spriteBatch, position, frame, drawColor, itemColor, origin, scale);
             ProcessRemakeAction(item, (inds) => inds.PostDrawInInventory(item, spriteBatch, position, frame, drawColor, itemColor, origin, scale));
@@ -231,6 +222,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
 
         public override void OnHitPvp(Item item, Player player, Player target, Player.HurtInfo hurtInfo) {
             base.OnHitPvp(item, player, target, hurtInfo);
+            ProcessRemakeAction(item, (inds) => inds.OnHitPvp(item, player, target, hurtInfo));
         }
 
         public override void OnMissingMana(Item item, Player player, int neededMana) {

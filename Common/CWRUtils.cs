@@ -24,6 +24,18 @@ namespace CalamityWeaponRemake.Common
 {
     public static class CWRUtils
     {
+        public static Color[] GetColorDate(Texture2D tex) {
+            Color[] colors = new Color[tex.Width * tex.Height];
+            tex.GetData(colors);
+            List<Color> nonTransparentColors = new List<Color>();
+            foreach (Color color in colors) {
+                if ((color.A > 0 || color.R > 0 || color.G > 0 || color.B > 0) && (color != Color.White && color != Color.Black)) {
+                    nonTransparentColors.Add(color);
+                }
+            }
+            return nonTransparentColors.ToArray();
+        }
+
         public static List<Type> GetSubclasses(Type baseType) {
             List<Type> subclasses = new List<Type>();
 
@@ -575,17 +587,28 @@ namespace CalamityWeaponRemake.Common
         /// <param name="explosionSound">爆炸声音的样式（默认为默认的爆炸声音）</param>
         public static void Explode(this Projectile projectile, int blastRadius = 120, SoundStyle explosionSound = default, bool spanSound = true)
         {
+            Vector2 originalPosition = projectile.position;
+            int originalWidth = projectile.width;
+            int originalHeight = projectile.height;
+
             if (spanSound)
                 SoundEngine.PlaySound(explosionSound == default ? SoundID.Item14 : explosionSound, projectile.Center);
+
             projectile.position = projectile.Center;
             projectile.width = projectile.height = blastRadius * 2;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            projectile.position.X = projectile.position.X - (projectile.width / 2);
+            projectile.position.Y = projectile.position.Y - (projectile.height / 2);
+
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
+
             projectile.Damage();
+
+            projectile.position = originalPosition;
+            projectile.width = originalWidth;
+            projectile.height = originalHeight;
         }
 
         /// <summary>

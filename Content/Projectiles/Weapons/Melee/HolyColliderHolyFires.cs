@@ -50,15 +50,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                 Projectile.frame = 0;
             }
 
-            if (Math.Abs(Projectile.velocity.X) < 7f)
-            {
-                Projectile.velocity.X *= 1.05f;
-            }
-
+            float toO = Projectile.position.To(Main.player[Projectile.owner].position).Length() / 50f;
+            if (toO > 17)
+                toO = 17;
             if (Projectile.timeLeft > 60)
             {
-                Projectile.ChasingBehavior(Main.player[Projectile.owner].Center, Projectile.velocity.Length());
-                Projectile.velocity *= 0.97f;
+                Projectile.ChasingBehavior(Main.player[Projectile.owner].Center, toO);
             }
             else
             {
@@ -67,6 +64,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                 {
                     Projectile.velocity *= 1.01f;
                     Projectile.ChasingBehavior(npc.Center, Projectile.velocity.Length());
+                }
+                else {
+                    Projectile.ChasingBehavior(Main.player[Projectile.owner].Center, toO);
                 }
             }
         }
