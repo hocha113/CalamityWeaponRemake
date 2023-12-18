@@ -2,7 +2,7 @@
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
-    internal class RTheEnforcer : BaseRItem
+    internal class RTheEnforcer
     {
 
     }

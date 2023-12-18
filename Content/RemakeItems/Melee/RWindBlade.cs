@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Items;
-using CalamityMod.Projectiles.Melee;
-using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using CalamityWeaponRemake.Content.RemakeItems.Core;
 using Microsoft.Xna.Framework;
@@ -15,8 +14,10 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
     internal class RWindBlade : BaseRItem
     {
+        public override int TargetID => ModContent.ItemType<CalamityMod.Items.Weapons.Melee.WindBlade>();
+        public override int ProtogenesisID => ModContent.ItemType<WindBlade>();
         public override void Load() {
-            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Melee.WindBlade>();
+            SetReadonlyTargetID = TargetID;
         }
         public override void SetStaticDefaults()
         {

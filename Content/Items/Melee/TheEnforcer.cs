@@ -71,14 +71,14 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             if (player.altFunctionUse == 2) {
-                Projectile.NewProjectile(source, position, velocity * 5, ModContent.ProjectileType<EssenceStar>(), damage, knockback, player.whoAmI, 0f, Main.rand.Next(3));
+                Projectile.NewProjectile(source, position, velocity * 5, ModContent.ProjectileType<EssenceStar>(), (int)(damage * 0.75f), knockback, player.whoAmI, 0f, Main.rand.Next(3));
             }
             else {
                 _ = player.RotatedRelativePoint(player.MountedCenter, true);
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 5; i++) {
                     Vector2 realPlayerPos = new Vector2(player.position.X + (player.width * 0.5f) + (float)(Main.rand.Next(1358) * -(float)player.direction)
                         + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y);
-                    realPlayerPos.X = ((realPlayerPos.X + player.Center.X) / 2f) + Main.rand.Next(-200, 201);
+                    realPlayerPos.X = ((realPlayerPos.X + player.Center.X) / 2f) + Main.rand.Next(-350, 351);
                     realPlayerPos.Y -= 100 * i;
                     int proj = Projectile.NewProjectile(source, realPlayerPos.X, realPlayerPos.Y, 0f, 0f, type, (int)(damage * 0.3f), knockback, player.whoAmI, 0f, Main.rand.Next(3));
                 }

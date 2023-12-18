@@ -55,27 +55,42 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             }
             if (Projectile.ai[1] == 1)
             {
-                if (Projectile.scale < 3)
-                {
+                if (Projectile.scale < 3){
                     Projectile.scale += 0.02f;
-                    if (!CWRUtils.isServer)
-                    {
-                        for (int i = 0; i < 6; i++)
-                        {
-                            Vector2 pos = Projectile.Center + Main.rand.NextVector2Unit() * Main.rand.Next(143, 150) * Projectile.scale;
-                            Vector2 particleSpeed = pos.To(Projectile.Center).UnitVector() * 16;
+                    if (!CWRUtils.isServer) {
+                        for (int i = 0; i < 6; i++) {
+                            Vector2 pos = Projectile.Center + Main.rand.NextVector2Unit() * Main.rand.Next(133, 140) * Projectile.scale;
+                            Vector2 particleSpeed = pos.To(Projectile.Center).UnitVector() * 17;
                             CWRParticle energyLeak = new LightParticle(pos, particleSpeed
-                                , 0.3f, Color.Gold, 16, 1, 1.5f, hueShift: 0.0f, _entity: Projectile);
+                                , Main.rand.NextFloat(0.3f, 0.5f), Color.Gold, 16, 1, 1.5f, hueShift: 0.0f, _entity: Projectile);
+                            CWRParticleHandler.SpawnParticle(energyLeak);
+                        }
+                    }
+                }
+                else {
+                    if (!CWRUtils.isServer) {
+                        for (int i = 0; i < 6; i++) {
+                            Vector2 randdom = Main.rand.NextVector2Unit();
+                            Vector2 pos = Projectile.Center + randdom * Main.rand.Next(3, 14) * Projectile.scale;
+                            Vector2 particleSpeed = randdom * 17;
+                            CWRParticle energyLeak = new LightParticle(pos, particleSpeed
+                                , Main.rand.NextFloat(0.1f, 0.6f), Color.DarkGoldenrod, 16, 1, 1.5f, hueShift: 0.0f);
                             CWRParticleHandler.SpawnParticle(energyLeak);
                         }
                     }
                 }
                 
                 Projectile.velocity = Vector2.Zero;
-                Projectile.damage += 25;
+                Projectile.damage += 35;
                 Projectile.rotation += 0.2f;
                 Projectile.position += Main.player[Projectile.owner].velocity;
-                if (Projectile.ai[0] > 60)
+                if (Main.player[Projectile.owner].PressKey(false)) {
+                    Projectile.timeLeft = 300;
+                    if (Projectile.ai[0] > 55) {
+                        Projectile.ai[0] = 55;
+                    }
+                }
+                if (Projectile.ai[0] > 60 || !Main.player[Projectile.owner].PressKey(false))
                 {
                     Projectile.ai[1] = 2;
                     Projectile.netUpdate = true;
@@ -83,7 +98,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             }
             if (Projectile.ai[1] == 2)
             {
-                NPC npc = Projectile.ProjFindingNPCTarget(16000);
+                NPC npc = Projectile.Center.InPosClosestNPC(6000);
                 if (npc != null)
                 {
                     Projectile.ChasingBehavior(npc.Center, 56);
@@ -116,10 +131,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             }
             if (Projectile.IsOwnedByLocalPlayer())
             {
-                for (int i = 0; i < 32; i++)
+                for (int i = 0; i < 12; i++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + velocity.UnitVector() * 13, velocity, ModContent.ProjectileType<AegisFlame>(), (int)(Projectile.damage * 0.75), 0f, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + velocity.UnitVector() * 13, velocity, ModContent.ProjectileType<AegisFlame>(), (int)(Projectile.damage * 0.5), 0f, Projectile.owner, 0f, 0f);
                 }
             }
         }

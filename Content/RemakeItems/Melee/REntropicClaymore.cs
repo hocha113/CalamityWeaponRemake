@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using CalamityWeaponRemake.Content.RemakeItems.Core;
 using Microsoft.Xna.Framework;
@@ -13,8 +14,10 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
     internal class REntropicClaymore : BaseRItem
     {
+        public override int TargetID => ModContent.ItemType<CalamityMod.Items.Weapons.Melee.EntropicClaymore>();
+        public override int ProtogenesisID => ModContent.ItemType<EntropicClaymore>();
         public override void Load() {
-            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Melee.EntropicClaymore>();
+            SetReadonlyTargetID = TargetID;
         }
         public override void SetDefaults(Item item)
         {

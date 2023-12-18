@@ -6,7 +6,7 @@ namespace CalamityWeaponRemake.Common
     {
         public const string Asset = "CalamityWeaponRemake/Assets/";
         public const string Effects = Asset + "Effects/";
-        public const string placeholder = Asset + "placeholder";
+        public const string Placeholder = Asset + "placeholder";
         public const string Masking = "CalamityWeaponRemake/Assets/Masking/";
         public const string Item = "CalamityWeaponRemake/Assets/Items/";
         public const string Item_Magic = "CalamityWeaponRemake/Assets/Items/Magic/";

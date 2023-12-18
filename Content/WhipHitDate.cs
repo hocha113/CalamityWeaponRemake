@@ -34,7 +34,7 @@ namespace CalamityWeaponRemake.Content
                 case WhipHitTypeEnum.AllhallowsGoldWhip:
                     return CWRUtils.GetT2DValue(ModContent.GetInstance<AllhallowsGoldWhip>().Texture);
                 default:
-                    return CWRUtils.GetT2DValue(CWRConstant.placeholder);
+                    return CWRUtils.GetT2DValue(CWRConstant.Placeholder);
             }
         }
     }

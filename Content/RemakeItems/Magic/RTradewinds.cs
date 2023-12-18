@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items;
 using CalamityMod.Projectiles.Magic;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Magic;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using CalamityWeaponRemake.Content.RemakeItems.Core;
 using Microsoft.Xna.Framework;
@@ -14,8 +15,10 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Magic
 {
     internal class RTradewinds : BaseRItem
     {
+        public override int TargetID => ModContent.ItemType<CalamityMod.Items.Weapons.Magic.Tradewinds>();
+        public override int ProtogenesisID => ModContent.ItemType<Tradewinds>();
         public override void Load() {
-            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Magic.Tradewinds>();
+            SetReadonlyTargetID = TargetID;
         }
         public override void SetStaticDefaults()
         {

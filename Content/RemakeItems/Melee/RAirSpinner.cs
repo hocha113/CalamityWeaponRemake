@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
 using CalamityWeaponRemake.Content.RemakeItems.Core;
 using System.Collections.Generic;
@@ -11,8 +12,10 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
     internal class RAirSpinner : BaseRItem
     {
+        public override int TargetID => ModContent.ItemType<CalamityMod.Items.Weapons.Melee.AirSpinner>();
+        public override int ProtogenesisID => ModContent.ItemType<AirSpinner>();
         public override void Load() {
-            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Melee.AirSpinner>();
+            SetReadonlyTargetID = TargetID;
         }
         public override void SetDefaults(Item item){
             item.width = 28;

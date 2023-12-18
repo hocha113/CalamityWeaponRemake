@@ -33,12 +33,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                 Projectile.ChasingBehavior2(target.Center, 1, 0.05f);
             }
             if (Main.netMode != NetmodeID.Server) {
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 6; i++) {
                     Vector2 vector = Projectile.velocity * 1.01f;
-                    float slp = Main.rand.NextFloat(0.3f, 2.3f);
+                    float slp = Main.rand.NextFloat(0.5f, 1.7f);
                     CWRParticleHandler.SpawnParticle(new HeavenStarParticle(Projectile.Center, vector, Color.White
                         , new Color(150, 100, 255, 255) * Projectile.Opacity, 0f, new Vector2(0.6f, 1f) * slp
-                        , new Vector2(1.5f, 2.7f) * slp, 20 + Main.rand.Next(6), 0f, 3f, 0f, Main.rand.Next(7) * 2, Main.rand.NextFloat(-0.3f, 0.3f)));
+                        , new Vector2(1, 1.7f) * slp, 10 + Main.rand.Next(6), 0f, 3f, 0f, Main.rand.Next(7) * 2, Main.rand.NextFloat(-0.3f, 0.3f)));
                 }
             }
         }

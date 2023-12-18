@@ -1,5 +1,4 @@
-﻿using CalamityMod;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using System;
@@ -77,6 +76,9 @@ namespace CalamityWeaponRemake.Content.Particles.Core
         public static void SpawnParticle(CWRParticle particle)
         {
             if (Main.gamePaused || Main.dedServ || particles == null)
+                return;
+
+            if (particles.Count >= 10000 && !particle.Important)
                 return;
 
             particles.Add(particle);
@@ -204,7 +206,7 @@ namespace CalamityWeaponRemake.Content.Particles.Core
             if (Main.dedServ || particles == null)
                 return 0;
 
-            return CalamityConfig.Instance.ParticleLimit - particles.Count();
+            return 10000 - particles.Count();
         }
 
         /// <summary>

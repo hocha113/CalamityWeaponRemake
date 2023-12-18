@@ -19,10 +19,11 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
     internal class RDefiledGreatsword : BaseRItem
     {
+        public override int TargetID => ModContent.ItemType<CalamityMod.Items.Weapons.Melee.DefiledGreatsword>();
+        public override int ProtogenesisID => ModContent.ItemType<DefiledGreatsword>();
         public override void Load() {
-            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Melee.DefiledGreatsword>();
+            SetReadonlyTargetID = TargetID;
         }
-
         public override void SetDefaults(Item item)
         {
             item.width = 102;

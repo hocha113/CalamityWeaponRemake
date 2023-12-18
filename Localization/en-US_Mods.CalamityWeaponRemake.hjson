@@ -446,6 +446,16 @@ Items: {
 		DisplayName: The Enforcer
 		Tooltip: ""
 	}
+
+	InfinitePick: {
+		DisplayName: Infinite Pick
+		Tooltip: ""
+	}
+
+	DarkMatterBall: {
+		DisplayName: Dark Matter Ball
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -582,6 +592,7 @@ Projectiles: {
 	EssenceFlames.DisplayName: Essence Flames
 	EssenceStar.DisplayName: Essence Star
 	TheEnforcerBeam.DisplayName: The Enforcer Beam
+	InfiniteIngotTileProj.DisplayName: Infinite Ingot Tile Proj
 }
 
 Configs: {
@@ -653,4 +664,6 @@ Keybinds: {
 	}
 
 	天堂陨落长弓技能键.DisplayName: 天堂陨落长弓技能键
+	"HeavenfallLongbow Skill Key.DisplayName": Heavenfall Longbow  Skill  Key
+	无尽之镐形态切换键.DisplayName: 无尽之镐形态切换键
 }

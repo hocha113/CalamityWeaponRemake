@@ -12,7 +12,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
     {
         internal PrimitiveTrail TrailDrawer;
 
-        public override string Texture => CWRConstant.placeholder;
+        public override string Texture => CWRConstant.Placeholder;
 
         public override void SetStaticDefaults()
         {

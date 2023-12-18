@@ -17,10 +17,11 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
     internal class RBlightedCleaver : BaseRItem
     {
+        public override int TargetID => ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BlightedCleaver>();
+        public override int ProtogenesisID => ModContent.ItemType<BlightedCleaver>();
         public override void Load() {
-            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BlightedCleaver>();
+            SetReadonlyTargetID = TargetID;
         }
-
         public override void SetDefaults(Item item)
         {
             item.width = 88;

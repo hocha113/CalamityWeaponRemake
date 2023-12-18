@@ -2,6 +2,7 @@
 using CalamityMod.Items;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
 using CalamityWeaponRemake.Content.RemakeItems.Core;
 using System.Collections.Generic;
@@ -13,8 +14,10 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
     internal class RCosmicShiv : BaseRItem
     {
+        public override int TargetID => ModContent.ItemType<CalamityMod.Items.Weapons.Melee.CosmicShiv>();
+        public override int ProtogenesisID => ModContent.ItemType<CosmicShiv>();
         public override void Load() {
-            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Melee.CosmicShiv>();
+            SetReadonlyTargetID = TargetID;
         }
         public override void SetDefaults(Item item)
         {

@@ -10,7 +10,9 @@
   <ItemGroup>
     <None Remove="Assets\BrinyBaron.png" />
     <None Remove="Assets\Buffs\TyrantsFury.png" />
+    <None Remove="Assets\Effects\ColourModulation.fx" />
     <None Remove="Assets\Effects\GravitationalLensingShader.fx" />
+    <None Remove="Assets\Effects\MetaballEdgeShader.fx" />
     <None Remove="Assets\Effects\TerrorBlade.png" />
     <None Remove="Assets\Effects\TerrorBladeGlow.png" />
     <None Remove="Assets\Items\AethersWhisper.png" />
@@ -38,6 +40,10 @@
     <None Remove="Assets\Items\TearsofHeaven.png" />
     <None Remove="Assets\Items\Terratomere.png" />
     <None Remove="Assets\Items\Thunderstorm.png" />
+    <None Remove="Assets\Items\Tools\empty.png" />
+    <None Remove="Assets\Items\Tools\full.png" />
+    <None Remove="Assets\Items\Tools\hammer.png" />
+    <None Remove="Assets\Items\Tools\pickaxe.png" />
     <None Remove="Assets\Items\TyrannysEnd.png" />
     <None Remove="Assets\Items\VoidVortex.png" />
     <None Remove="Assets\Items\VoltaicClimax.png" />
@@ -118,8 +124,10 @@
     <None Remove="Assets\Projectiles\Ranged\DragonsBreathRound.png" />
     <None Remove="Assets\Projectiles\RayBeam.png" />
     <None Remove="Assets\Tiles\FoodStallChair.png" />
+    <None Remove="Assets\Tiles\InfiniteIngotTile.png" />
     <None Remove="Assets\UIs\GenericBarBack.png" />
     <None Remove="Assets\UIs\GenericBarFront.png" />
+    <None Remove="Assets\UIs\Ticoninfinity.png" />
     <None Remove="Content\Projectiles\ModeProj.txt" />
     <None Remove="description_workshop.txt" />
     <None Remove="icon.png" />

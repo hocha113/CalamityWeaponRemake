@@ -132,7 +132,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         }
 
         public override void MeleeEffects(Item item, Player player, Rectangle hitbox) {
-            base.MeleeEffects(item, player, hitbox);
+            ProcessRemakeAction(item, (inds) => inds.MeleeEffects(item, player, hitbox));
         }
 
         public override void ModifyHitNPC(Item item, Player player, NPC target, ref NPC.HitModifiers modifiers) {

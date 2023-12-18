@@ -17,7 +17,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
 {
     internal class CelestialVortex : ModProjectile
     {
-        public override string Texture => CWRConstant.placeholder;
+        public override string Texture => CWRConstant.Placeholder;
 
         float rgs => Projectile.width * Projectile.ai[1] / 40;
 

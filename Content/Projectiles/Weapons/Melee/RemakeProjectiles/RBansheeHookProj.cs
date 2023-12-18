@@ -53,8 +53,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
         }
 
         Player Owner => CWRUtils.GetPlayerInstance(Projectile.owner);
-        Item bansheeHook => Owner.HeldItem;//oh，这个物品实例的转化访问语法是从鸿蒙方舟的项目中学习到的，
-                                           //这提供了不同实例之间互相访问的手段，尤其是当下的使用情景中尤为有用
+        Item bansheeHook => Owner.HeldItem;
         int drawUIalp = 0;
         public override void AI()
         {
@@ -124,7 +123,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
                                 SoundID.DD2_GhastlyGlaivePierce,
                                 Projectile.Center
                                 );
-                            for (int i = 0; i < 9; i++)
+                            for (int i = 0; i < 7; i++)
                             {
                                 Vector2 vr = CWRUtils.GetRandomVevtor(0, 360, 25);
                                 Projectile.NewProjectile(
@@ -140,9 +139,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
                         }
                         if (Projectile.localAI[1] % 10 == 0)
                         {
-                            for (int i = 0; i < 9; i++)
+                            for (int i = 0; i < 7; i++)
                             {
-                                Vector2 vr = (MathHelper.TwoPi / 9 * i).ToRotationVector2() * 10;
+                                Vector2 vr = (MathHelper.TwoPi / 7 * i).ToRotationVector2() * 10;
                                 Projectile.NewProjectile(
                                     Owner.parent(),
                                     Owner.Center,
@@ -175,9 +174,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
 
                         bansheeHook.CWR().MeleeCharge--;
 
-                        if (Projectile.localAI[1] > 10 && Projectile.localAI[1] % 20 == 0)
+                        if (Projectile.localAI[1] > 10 && Projectile.localAI[1] % 20 == 0)//在鼠标处发射勾魂爪
                         {
-                            int damages = (int)(Projectile.damage * 0.75f);
+                            int damages = (int)(Owner.GetWeaponDamage(Owner.ActiveItem()) * 0.5f);
                             for (int i = 0; i < 3; i++)
                             {
                                 Vector2 spanPos = Main.MouseWorld + CWRUtils.GetRandomVevtor(0, 360, 160);
@@ -192,7 +191,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
                                     );
                             }
                         }
-                        if (Projectile.localAI[1] > 10 && Projectile.localAI[1] % 15 == 0)
+                        if (Projectile.localAI[1] > 10 && Projectile.localAI[1] % 15 == 0)//在法杖处制造鬼火效果
                         {
                             for (int i = 0; i < 3; i++)
                             {

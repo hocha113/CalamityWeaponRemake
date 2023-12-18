@@ -11,7 +11,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 {
     internal class StarDust : CustomProjectiles
     {
-        public override string Texture => CWRConstant.placeholder;
+        public override string Texture => CWRConstant.Placeholder;
 
         public override void SetStaticDefaults()
         {

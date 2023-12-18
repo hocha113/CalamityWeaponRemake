@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using CalamityWeaponRemake.Content.RemakeItems.Core;
 using Microsoft.Xna.Framework;
@@ -13,8 +14,10 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
     internal class RAegisBlade : BaseRItem
     {
+        public override int TargetID => ModContent.ItemType<CalamityMod.Items.Weapons.Melee.AegisBlade>();
+        public override int ProtogenesisID => ModContent.ItemType<AegisBlade>();
         public override void Load() {
-            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Melee.AegisBlade>();
+            SetReadonlyTargetID = TargetID;
         }
         public override void SetDefaults(Item item)
         {
@@ -59,7 +62,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             int damages = damage;
             if (player.altFunctionUse == 2)
             {
-                damages = (int)(damage * 3.3f);
+                damages = (int)(damage * 1.3f);
             }
             else
             {

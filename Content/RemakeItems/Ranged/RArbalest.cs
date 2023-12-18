@@ -1,6 +1,7 @@
 ﻿using CalamityMod;
 using CalamityMod.Items;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Ranged;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs;
 using CalamityWeaponRemake.Content.RemakeItems.Core;
 using Microsoft.Xna.Framework;
@@ -14,8 +15,10 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
 {
     internal class RArbalest : BaseRItem
     {
+        public override int TargetID => ModContent.ItemType<CalamityMod.Items.Weapons.Ranged.Arbalest>();
+        public override int ProtogenesisID => ModContent.ItemType<Arbalest>();
         public override void Load() {
-            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Ranged.Arbalest>();
+            SetReadonlyTargetID = TargetID;
         }
         public override void SetStaticDefaults()
         {

@@ -54,9 +54,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Main.dust[num458].noGravity = true;
             Main.dust[num458].velocity *= 0.5f;
             Main.dust[num458].velocity += Projectile.velocity * 0.1f;
-            NPC npc = Projectile.Center.InPosClosestNPC(600);
+            NPC npc = Projectile.Center.InPosClosestNPC(250);
             if (npc != null)
-                Projectile.ChasingBehavior2(npc.Center, 1, 0.1f);
+                Projectile.ChasingBehavior2(npc.Center, 1, 0.035f);
         }
 
         public override void OnKill(int timeLeft)

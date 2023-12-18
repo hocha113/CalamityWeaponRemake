@@ -2,6 +2,7 @@
 using CalamityMod.Items;
 using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Content.RemakeItems.Core;
 using Microsoft.Xna.Framework;
 using System;
@@ -15,8 +16,10 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
     internal class RCometQuasher : BaseRItem
     {
+        public override int TargetID => ModContent.ItemType<CalamityMod.Items.Weapons.Melee.CometQuasher>();
+        public override int ProtogenesisID => ModContent.ItemType<CometQuasher>();
         public override void Load() {
-            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Melee.CometQuasher>();
+            SetReadonlyTargetID = TargetID;
         }
         public override void SetDefaults(Item item)
         {

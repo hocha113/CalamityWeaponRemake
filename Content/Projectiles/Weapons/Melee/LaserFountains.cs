@@ -10,7 +10,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 {
     internal class LaserFountains : ModProjectile
     {
-        public override string Texture => CWRConstant.placeholder;
+        public override string Texture => CWRConstant.Placeholder;
 
         public override void SetDefaults()
         {

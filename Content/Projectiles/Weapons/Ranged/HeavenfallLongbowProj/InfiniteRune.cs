@@ -10,7 +10,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
     internal class InfiniteRune : ModProjectile
     {
         public new string LocalizationCategory => "Projectiles.Magic";
-        public override string Texture => CWRConstant.placeholder;
+        public override string Texture => CWRConstant.Placeholder;
 
         public override void SetStaticDefaults()
         {

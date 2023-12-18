@@ -22,7 +22,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
 
         public new string LocalizationCategory => "Projectiles.Melee";
 
-        public override string Texture => CWRConstant.placeholder;
+        public override string Texture => CWRConstant.Placeholder;
 
         public Player Owner => Main.player[Projectile.owner];
 

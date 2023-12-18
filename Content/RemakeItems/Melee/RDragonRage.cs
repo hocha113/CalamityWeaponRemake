@@ -3,6 +3,7 @@ using CalamityMod.Items;
 using CalamityMod.Rarities;
 using CalamityMod.Sounds;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
 using CalamityWeaponRemake.Content.RemakeItems.Core;
 using Microsoft.Xna.Framework;
@@ -17,8 +18,10 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
     internal class RDragonRage : BaseRItem
     {
+        public override int TargetID => ModContent.ItemType<CalamityMod.Items.Weapons.Melee.DragonRage>();
+        public override int ProtogenesisID => ModContent.ItemType<DragonRage>();
         public override void Load() {
-            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Melee.DragonRage>();
+            SetReadonlyTargetID = TargetID;
         }
         public override void SetStaticDefaults()
         {

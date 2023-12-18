@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
@@ -14,8 +15,37 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
 
         public virtual int TargetID => SetReadonlyTargetID;
 
+        public virtual int ProtogenesisID => SetReadonlyTargetID;
+
         public virtual void Load() {
-            SetReadonlyTargetID = 0;
+            SetReadonlyTargetID = TargetID;
+        }
+
+        public virtual void LoadItemRecipe() {
+            int recipeTargetType = ProtogenesisID;
+            if (ProtogenesisID == 0) {
+                ModItem item = ItemLoader.GetItem(TargetID);
+                if (item != null) {
+                    recipeTargetType = CWRMod.Instance.Find<ModItem>(item.Name).Type;
+                }
+            }
+            Recipe.Create(recipeTargetType).AddIngredient(TargetID).Register();
+        }
+
+        public virtual void UnLoadItemRecipe() {
+            int recipeTargetType = ProtogenesisID;
+            if (ProtogenesisID == 0) {
+                ModItem item = ItemLoader.GetItem(TargetID);
+                if (item != null) {
+                    recipeTargetType = CWRMod.Instance.Find<ModItem>(item.Name).Type;
+                }
+            }
+            for (int i = 0; i < Recipe.numRecipes; i++) {
+                Recipe recipe = Main.recipe[i];
+                if (recipe.HasResult(recipeTargetType)) {
+                    recipe.DisableRecipe();
+                }
+            }
         }
 
         public virtual void SetStaticDefaults() {

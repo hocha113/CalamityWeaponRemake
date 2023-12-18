@@ -3,6 +3,7 @@ using CalamityMod.Items.Armor.Bloodflare;
 using CalamityMod.Rarities;
 using CalamityMod.Sounds;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
 using CalamityWeaponRemake.Content.RemakeItems.Core;
 using Microsoft.Xna.Framework;
@@ -20,10 +21,11 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
     internal class RBansheeHook : BaseRItem
     {
+        public override int TargetID => ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BansheeHook>();
+        public override int ProtogenesisID => ModContent.ItemType<BansheeHook>();
         public override void Load() {
-            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BansheeHook>();
+            SetReadonlyTargetID = TargetID;
         }
-
         public override void SetStaticDefaults()
         {
             ItemID.Sets.Spears[TargetID] = true;
@@ -33,7 +35,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         public override void SetDefaults(Item item)
         {
             item.width = 120;
-            item.damage = 250;
+            item.damage = 220;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.channel = true;

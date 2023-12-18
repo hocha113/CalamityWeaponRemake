@@ -423,7 +423,7 @@ Items: {
 	}
 
 	Oracle: {
-		DisplayName: 神寓
+		DisplayName: 神启
 		Tooltip: 指哪打哪
 	}
 
@@ -438,13 +438,23 @@ Items: {
 	}
 
 	CelestialClaymore: {
-		// DisplayName: Celestial Claymore
-		// Tooltip: ""
+		DisplayName: 天神之剑
+		Tooltip: ""
 	}
 
 	TheEnforcer: {
-		// DisplayName: The Enforcer
-		// Tooltip: ""
+		DisplayName: 暴政
+		Tooltip: ""
+	}
+
+	InfinitePick: {
+		DisplayName: 无尽镐
+		Tooltip: ""
+	}
+
+	DarkMatterBall: {
+		DisplayName: 暗物质球
+		Tooltip: ""
 	}
 }
 
@@ -579,6 +589,10 @@ Projectiles: {
 	// StreamBeams.DisplayName: Stream Beams
 	// CosmicSpiritBombs.DisplayName: Cosmic Spirit Bombs
 	// CelestialClaymoreBeam.DisplayName: Celestial Claymore Beam
+	// EssenceFlames.DisplayName: Essence Flames
+	// EssenceStar.DisplayName: Essence Star
+	// TheEnforcerBeam.DisplayName: The Enforcer Beam
+	// InfiniteIngotTileProj.DisplayName: Infinite Ingot Tile Proj
 }
 
 Configs: {
@@ -650,4 +664,6 @@ Keybinds: {
 	}
 
 	// 天堂陨落长弓技能键.DisplayName: 天堂陨落长弓技能键
+	// "HeavenfallLongbow Skill Key.DisplayName": Heavenfall Longbow  Skill  Key
+	// 无尽之镐形态切换键.DisplayName: 无尽之镐形态切换键
 }

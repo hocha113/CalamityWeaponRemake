@@ -16,7 +16,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
 {
     internal class CosmicEddies : ModProjectile
     {
-        public override string Texture => CWRConstant.placeholder;
+        public override string Texture => CWRConstant.Placeholder;
 
         float rgs => Projectile.width * Projectile.ai[1] / 40;
 

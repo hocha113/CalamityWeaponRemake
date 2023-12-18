@@ -37,7 +37,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
         {
             Projectile.width = 48;
             Projectile.height = 48;
-            Projectile.scale = 2f;
+            Projectile.scale = 1.5f;
             Projectile.alpha = 100;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Default;

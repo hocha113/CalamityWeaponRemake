@@ -11,7 +11,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
     {
         public new string LocalizationCategory => "Projectiles.Melee";
 
-        public override string Texture => CWRConstant.placeholder;
+        public override string Texture => CWRConstant.Placeholder;
 
         public override void SetDefaults()
         {

@@ -8,7 +8,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon
 {
     internal class BloodBall : ModProjectile
     {
-        public override string Texture => CWRConstant.placeholder;
+        public override string Texture => CWRConstant.Placeholder;
 
         public override void SetDefaults()
         {
