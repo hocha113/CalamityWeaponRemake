@@ -17,7 +17,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 {
     internal class GildedProboscisKevinLightning : ModProjectile
     {
-        public override string Texture => CWRConstant.placeholder;
+        public override string Texture => CWRConstant.Placeholder;
 
         public ManagedRenderTarget LightningTarget
         {

@@ -45,6 +45,18 @@ namespace CalamityWeaponRemake.Content
         /// </summary>
         public float MeleeCharge;
 
+        public override void SetDefaults(Item item) {
+            base.SetDefaults(item);
+            if (CWRIDs.OnLoadContentBool) {
+                if (item.createTile != -1 && !CWRIDs.TileToItem.ContainsKey(item.createTile)) {
+                    CWRIDs.TileToItem.Add(item.createTile, item.type);
+                }  
+                if (item.createWall != -1 && !CWRIDs.WallToItem.ContainsKey(item.createWall)) {
+                    CWRIDs.WallToItem.Add(item.createWall, item.type);
+                }   
+            }
+        }
+
         public override void NetSend(Item item, BinaryWriter writer)
         {
             base.NetSend(item, writer);

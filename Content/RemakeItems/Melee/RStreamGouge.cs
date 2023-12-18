@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectiles;
 using CalamityWeaponRemake.Content.RemakeItems.Core;
 using Microsoft.Xna.Framework;
@@ -14,8 +15,10 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
     internal class RStreamGouge : BaseRItem
     {
+        public override int TargetID => ModContent.ItemType<CalamityMod.Items.Weapons.Melee.StreamGouge>();
+        public override int ProtogenesisID => ModContent.ItemType<StreamGouge>();
         public override void Load() {
-            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Melee.StreamGouge>();
+            SetReadonlyTargetID = TargetID;
         }
         public override void SetStaticDefaults()
         {

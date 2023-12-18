@@ -158,7 +158,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips
         {
             internal PrimitiveTrail TrailDrawer;
 
-            public override string Texture => CWRConstant.placeholder;
+            public override string Texture => CWRConstant.Placeholder;
 
             public override void SetStaticDefaults()
             {

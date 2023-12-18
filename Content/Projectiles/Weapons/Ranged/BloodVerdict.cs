@@ -8,7 +8,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
 {
     internal class BloodVerdict : ModProjectile
     {
-        public override string Texture => CWRConstant.placeholder;
+        public override string Texture => CWRConstant.Placeholder;
         public new string LocalizationCategory => "Projectiles.Ranged";
 
         private ref float Time => ref Projectile.ai[0];

@@ -17,8 +17,10 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
     internal class RMurasama : BaseRItem
     {
+        public override int TargetID => ModContent.ItemType<CalamityMod.Items.Weapons.Melee.Murasama>();
+        public override int ProtogenesisID => ModContent.ItemType<Murasama>();
         public override void Load() {
-            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Melee.Murasama>();
+            SetReadonlyTargetID = TargetID;
         }
         public override void SetDefaults(Item item)
         {

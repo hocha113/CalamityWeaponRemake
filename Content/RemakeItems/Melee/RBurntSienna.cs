@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items;
 using CalamityMod.Projectiles.Healing;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Content.RemakeItems.Core;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -13,8 +14,10 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
     internal class RBurntSienna : BaseRItem
     {
+        public override int TargetID => ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BurntSienna>();
+        public override int ProtogenesisID => ModContent.ItemType<BurntSienna>();
         public override void Load() {
-            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BurntSienna>();
+            SetReadonlyTargetID = TargetID;
         }
         public override void SetDefaults(Item item)
         {

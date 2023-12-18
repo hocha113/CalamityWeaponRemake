@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Magic;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Magic.HeldProjs;
 using CalamityWeaponRemake.Content.RemakeItems.Core;
 using Microsoft.Xna.Framework;
@@ -14,8 +15,10 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Magic
 {
     internal class RGhastlyVisage : BaseRItem
     {
+        public override int TargetID => ModContent.ItemType<CalamityMod.Items.Weapons.Magic.GhastlyVisage>();
+        public override int ProtogenesisID => ModContent.ItemType<GhastlyVisage>();
         public override void Load() {
-            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Magic.GhastlyVisage>();
+            SetReadonlyTargetID = TargetID;
         }
         public override void SetDefaults(Item item)
         {

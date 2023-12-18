@@ -2,9 +2,11 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Common.Effects;
 using CalamityWeaponRemake.Content.Tiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
@@ -12,9 +14,10 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Core;
 using Terraria.UI.Chat;
 using static CalamityWeaponRemake.CWRMod;
+using static System.Net.Mime.MediaTypeNames;
+using static Terraria.GameContent.TextureAssets;
 
 namespace CalamityWeaponRemake.Content.Items.Materials
 {
@@ -74,18 +77,35 @@ namespace CalamityWeaponRemake.Content.Items.Materials
             Item.maxStack = 99;
             Item.rare = ModContent.RarityType<HotPink>();
             Item.value = Item.sellPrice(gold: 999);
+            Item.useAnimation = Item.useTime = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<InfiniteIngotTile>();          
         }
 
         public override bool PreDrawTooltipLine(DrawableTooltipLine line, ref int yOffset)
-        {
+        {    
             if (line.Name == "ItemName" && line.Mod == "Terraria")
-            { 
+            {
                 Vector2 basePosition = Main.MouseWorld - Main.screenPosition + new Vector2(23, 23);
-                string Txet = Language.GetTextValue("Mods.CalamityWeaponRemake.Items.InfiniteIngot.DisplayName");
-                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, line.Font, Txet, basePosition, Main.DiscoColor, line.Rotation, line.Origin, line.BaseScale * 1.06f, line.MaxWidth, line.Spread);
+                string text = Language.GetTextValue("Mods.CalamityWeaponRemake.Items.InfiniteIngot.DisplayName");
+                drawColorText(Main.spriteBatch, line, text, basePosition);
                 return false;
             }
             return true;
+        }
+
+        public static void drawColorText(SpriteBatch sb, DrawableTooltipLine line, string text, Vector2 basePosition) {
+            EffectsRegistry.ColourModulationShader.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.25f);
+            Main.instance.GraphicsDevice.Textures[1] = EffectsRegistry.Ticoninfinity;
+                ChatManager.DrawColorCodedString(sb, line.Font, text, basePosition, Color.White, 0f, Vector2.Zero, new Vector2(1.1f, 1.1f));
+            sb.End();
+            sb.Begin(SpriteSortMode.Immediate, sb.GraphicsDevice.BlendState, sb.GraphicsDevice.SamplerStates[0],
+                sb.GraphicsDevice.DepthStencilState, sb.GraphicsDevice.RasterizerState, EffectsRegistry.ColourModulationShader, Main.UIScaleMatrix);
+                ChatManager.DrawColorCodedString(sb, line.Font, text, basePosition, Color.White, 0f, Vector2.Zero, new Vector2(1.1f, 1.1f));
+            sb.End();
+            sb.Begin(SpriteSortMode.Deferred, sb.GraphicsDevice.BlendState, sb.GraphicsDevice.SamplerStates[0],
+                sb.GraphicsDevice.DepthStencilState, sb.GraphicsDevice.RasterizerState, null, Main.UIScaleMatrix);
         }
 
         public override void AddRecipes()

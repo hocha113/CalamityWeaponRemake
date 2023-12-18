@@ -32,7 +32,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Projectile.localNPCHitCooldown = 8;
         }
 
-        public override string Texture => CWRConstant.placeholder;
+        public override string Texture => CWRConstant.Placeholder;
 
         public int Status
         {

@@ -32,6 +32,8 @@ namespace CalamityWeaponRemake
                     }
                 }
             }
+
+            CWRIDs.Load();
         }
 
         public override void Load(){

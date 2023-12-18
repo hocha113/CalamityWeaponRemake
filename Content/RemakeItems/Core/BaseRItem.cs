@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
@@ -14,8 +15,42 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
 
         public virtual int TargetID => SetReadonlyTargetID;
 
+        public virtual int ProtogenesisID => SetReadonlyTargetID;
+
         public virtual void Load() {
-            SetReadonlyTargetID = 0;
+            SetReadonlyTargetID = TargetID;//这里默认加载一次，在多数情况使其下不用重写Load()方法
+        }
+
+        /// <summary>
+        /// 加入配方，当关闭了强制内容替换设置时进行调用
+        /// </summary>
+        public virtual void LoadItemRecipe() {
+            int recipeTargetType = ProtogenesisID;
+            if (ProtogenesisID == 0) {
+                ModItem item = ItemLoader.GetItem(TargetID);
+                if (item != null) {
+                    recipeTargetType = CWRMod.Instance.Find<ModItem>(item.Name).Type;
+                }
+            }
+            Recipe.Create(recipeTargetType).AddIngredient(TargetID).Register();
+        }
+        /// <summary>
+        /// 移除配方，当开启了强制内容替换设置时进行调用
+        /// </summary>
+        public virtual void UnLoadItemRecipe() {
+            int recipeTargetType = ProtogenesisID;
+            if (ProtogenesisID == 0) {
+                ModItem item = ItemLoader.GetItem(TargetID);
+                if (item != null) {
+                    recipeTargetType = CWRMod.Instance.Find<ModItem>(item.Name).Type;
+                }
+            }
+            for (int i = 0; i < Recipe.numRecipes; i++) {
+                Recipe recipe = Main.recipe[i];
+                if (recipe.HasResult(recipeTargetType)) {
+                    recipe.DisableRecipe();
+                }
+            }
         }
 
         public virtual void SetStaticDefaults() {

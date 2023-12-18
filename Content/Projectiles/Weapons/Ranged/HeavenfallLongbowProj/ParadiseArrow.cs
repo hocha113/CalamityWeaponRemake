@@ -16,7 +16,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
 {
     internal class ParadiseArrow : ModProjectile
     {
-        public override string Texture => CWRConstant.placeholder;
+        public override string Texture => CWRConstant.Placeholder;
 
         public PrimitiveTrail PierceDrawer = null;
 

@@ -62,6 +62,7 @@ namespace CalamityWeaponRemake.Content.Particles
             Velocity *= 0.85f;
             float opacity = Utils.GetLerpValue(1f, 0.85f, LifetimeCompletion, true);
             Color *= opacity;
+            if (player != null)
             Position += player.velocity;
             sengs++;
         }

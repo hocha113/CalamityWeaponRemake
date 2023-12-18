@@ -18,8 +18,10 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
     internal class RTerrorBlade : BaseRItem
     {
+        public override int TargetID => ModContent.ItemType<CalamityMod.Items.Weapons.Melee.TerrorBlade>();
+        public override int ProtogenesisID => ModContent.ItemType<Terratomere>();
         public override void Load() {
-            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Melee.TerrorBlade>();
+            SetReadonlyTargetID = TargetID;
         }
         public override void SetDefaults(Item item)
         {

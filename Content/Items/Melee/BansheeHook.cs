@@ -30,7 +30,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         public override void SetDefaults()
         {
             Item.width = 120;
-            Item.damage = 250;
+            Item.damage = 220;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.channel = true;

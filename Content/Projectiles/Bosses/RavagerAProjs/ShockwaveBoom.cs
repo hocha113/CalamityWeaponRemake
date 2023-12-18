@@ -7,7 +7,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Bosses.RavagerAProjs
 {
     internal class ShockwaveBoom : ModProjectile
     {
-        public override string Texture => CWRConstant.placeholder;
+        public override string Texture => CWRConstant.Placeholder;
 
         public override void SetDefaults()
         {

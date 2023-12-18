@@ -101,13 +101,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                     spanPos,
                     offset.UnitVector() * -13,
                     ModContent.ProjectileType<AbominateSpirit>(),
-                    Projectile.damage / 2,
+                    Projectile.damage / 3,
                     0,
                     Projectile.owner,
                     status
                     );
             }
-            Projectile.timeLeft -= 10;
+            Projectile.timeLeft -= 30;
             Projectile.ai[0] = 1;
             if (Projectile.ai[2] == 0)
                 Projectile.ai[2] = target.whoAmI;

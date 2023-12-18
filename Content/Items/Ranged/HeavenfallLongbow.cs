@@ -1,24 +1,24 @@
-﻿using CalamityMod.Items;
+﻿using CalamityMod;
+using CalamityMod.Items;
 using CalamityMod.Rarities;
-using CalamityMod;
+using CalamityMod.Sounds;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUniverseProj;
+using CalamityWeaponRemake.Content.Items.Materials;
+using CalamityWeaponRemake.Content.Particles;
+using CalamityWeaponRemake.Content.Particles.Core;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLongbowProj;
+using CalamityWeaponRemake.Content.Tiles;
+using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLongbowProj;
-using CalamityMod.Sounds;
-using CalamityWeaponRemake.Content.Particles.Core;
-using CalamityWeaponRemake.Content.Particles;
-using System;
-using Terraria.Audio;
-using CalamityMod.Items.Materials;
-using CalamityWeaponRemake.Content.Tiles;
-using CalamityWeaponRemake.Content.Items.Materials;
-using Terraria.UI.Chat;
 using Terraria.Localization;
+using Terraria.ModLoader;
+using Terraria.UI.Chat;
 
 namespace CalamityWeaponRemake.Content.Items.Ranged
 {
@@ -107,8 +107,8 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
             {
                 Color rarityColor = Main.DiscoColor;
                 Vector2 basePosition = Main.MouseWorld - Main.screenPosition + new Vector2(23, 23);
-                string Txet = Language.GetTextValue("Mods.CalamityWeaponRemake.Items.HeavenfallLongbow.DisplayName");
-                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, line.Font, Txet, basePosition, rarityColor, line.Rotation, line.Origin, line.BaseScale * 1.06f, line.MaxWidth, line.Spread);
+                string text = Language.GetTextValue("Mods.CalamityWeaponRemake.Items.HeavenfallLongbow.DisplayName");
+                InfiniteIngot.drawColorText(Main.spriteBatch, line, text, basePosition);
                 return false;
             }
             return true;
@@ -149,21 +149,49 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
 
         public static void Obliterate(Vector2 origPos)
         {
+            void killAction(NPC npc) {
+                npc.CWR().ObliterateBool = true;
+                npc.dontTakeDamage = true;
+                npc.SimpleStrikeNPC(npc.lifeMax, 0);
+                npc.life = 0;
+                npc.checkDead();
+                npc.HitEffect();
+                npc.NPCLoot();
+                npc.active = false;
+                npc.netUpdate = true;
+            }
+            var allTargetNpcTypes = new List<List<int>>{
+                 CWRIDs.targetNpcTypes,
+                 CWRIDs.targetNpcTypes2,
+                 CWRIDs.targetNpcTypes3,
+                 CWRIDs.targetNpcTypes4,
+                 CWRIDs.targetNpcTypes5,
+                 CWRIDs.targetNpcTypes6,
+                 CWRIDs.targetNpcTypes7,
+                 CWRIDs.targetNpcTypes8,
+                 CWRIDs.targetNpcTypes9,
+                 CWRIDs.targetNpcTypes10,
+                 CWRIDs.targetNpcTypes11,
+                 CWRIDs.targetNpcTypes12,
+                 CWRIDs.targetNpcTypes13,
+                 CWRIDs.targetNpcTypes14,
+                 CWRIDs.targetNpcTypes15
+            };
             foreach (NPC npc in Main.npc)
             {
                 if (npc.Center.To(origPos).LengthSquared() > 90000)
                     continue;
                 if (npc.active)
                 {
-                    npc.CWR().ObliterateBool = true;
-                    npc.dontTakeDamage = true;
-                    npc.SimpleStrikeNPC(npc.lifeMax, 0);
-                    npc.life = 0;
-                    npc.checkDead();
-                    npc.HitEffect();
-                    npc.NPCLoot();
-                    npc.active = false;
-                    npc.netUpdate = true;
+                    foreach (var targetNpcTypes in allTargetNpcTypes) {
+                        if (targetNpcTypes.Contains(npc.type)) {
+                            foreach (NPC npcToKill in Main.npc.Where(n => targetNpcTypes.Contains(n.type))) {
+                                killAction(npcToKill);
+                            }
+                            break;
+                        }
+                    }
+                    killAction(npc);
                 }
             }
         }

@@ -12,13 +12,16 @@ using CalamityWeaponRemake.Content.Particles.Core;
 using CalamityWeaponRemake.Content.Particles;
 using Mono.Cecil;
 using CalamityWeaponRemake.Content.RemakeItems.Core;
+using CalamityWeaponRemake.Content.Items.Melee;
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
     internal class RHolyCollider : BaseRItem
     {
+        public override int TargetID => ModContent.ItemType<CalamityMod.Items.Weapons.Melee.HolyCollider>();
+        public override int ProtogenesisID => ModContent.ItemType<HolyCollider>();
         public override void Load() {
-            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Melee.HolyCollider>();
+            SetReadonlyTargetID = TargetID;
         }
         public override void SetDefaults(Item item)
         {

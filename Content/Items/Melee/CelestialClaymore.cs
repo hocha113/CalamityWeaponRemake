@@ -45,20 +45,6 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             return false;
         }
 
-        public override void UseAnimation(Player player) {
-            //if (Main.myPlayer == player.whoAmI) {
-            //    int types = ModContent.ProjectileType<CelestialClaymoreBeam>();
-            //    Vector2 vector2 = player.Center.To(Main.MouseWorld).UnitVector() * 3;
-            //    Vector2 position = player.Center;
-            //    Projectile.NewProjectile(
-            //        player.parent(), position, vector2
-            //        , types
-            //        , (int)(Item.damage * 1.25f)
-            //        , Item.knockBack
-            //        , player.whoAmI);
-            //}
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox) {
             if (Main.rand.NextBool(4)) {
                 int dustType = Main.rand.Next(2);

@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items;
 using CalamityMod.Projectiles.Melee;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Melee;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee;
 using CalamityWeaponRemake.Content.RemakeItems.Core;
 using Microsoft.Xna.Framework;
@@ -15,8 +16,10 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
     internal class RBrinyBaron : BaseRItem
     {
+        public override int TargetID => ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>();
+        public override int ProtogenesisID => ModContent.ItemType<BrinyBaron>();
         public override void Load() {
-            SetReadonlyTargetID = ModContent.ItemType<CalamityMod.Items.Weapons.Melee.BrinyBaron>();
+            SetReadonlyTargetID = TargetID;
         }
         public override void SetDefaults(Item item)
         {
