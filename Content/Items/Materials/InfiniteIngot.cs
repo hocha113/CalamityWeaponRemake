@@ -7,6 +7,7 @@ using CalamityWeaponRemake.Content.Tiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
@@ -25,44 +26,32 @@ namespace CalamityWeaponRemake.Content.Items.Materials
     {
         public override string Texture => CWRConstant.Item + "Materials/InfiniteIngot";
         public new string LocalizationCategory => "Items.Materials";
-        public float QFH
-        {
-            get
-            {
-                bool hasMod(string name)
-                {
-                    return Instance.LoadMods.Any((Mod mod) => mod.Name == name);
-                }
-                float sengs = 1;
+        public float QFH{
+            get {
+                const float baseBonus = 1.0f;
+                var modBonuses = new Dictionary<string, float>{
+                    {"LightAndDarknessMod", 0.1f},
+                    {"DDmod", 0.1f},
+                    {"MaxStackExtra", 0.1f},
+                    {"Wild", 0.1f},
+                    {"Coralite", 0.1f},
+                    {"AncientsAwakened", 0.1f},
+                    {"NoxusBoss", 0.25f},
+                    {"FargowiltasSouls", 0.25f},
+                    {"MagicBuilder", 0.25f},
+                    {"CalamityPostMLBoots", 0.25f},
+                    {"仆从暴击", 0.25f}
+                };
                 float overMdgs = Instance.LoadMods.Count / 10f;
-                if (overMdgs < 0.5f)
-                    overMdgs = 0;
-                sengs += overMdgs;
-                if (hasMod("LightAndDarknessMod"))
-                    sengs += 0.1f;
-                if (hasMod("DDmod"))
-                    sengs += 0.1f;
-                if (hasMod("MaxStackExtra"))
-                    sengs += 0.1f;
-                if (hasMod("Wild"))
-                    sengs += 0.1f;
-                if (hasMod("Coralite"))
-                    sengs += 0.1f;
-                if (hasMod("AncientsAwakened"))
-                    sengs += 0.1f;
-                if (hasMod("NoxusBoss"))
-                    sengs += 0.25f;
-                if (hasMod("FargowiltasSouls"))
-                    sengs += 0.25f;
-                if (hasMod("MagicBuilder"))
-                    sengs += 0.25f;
-                if (hasMod("CalamityPostMLBoots"))
-                    sengs += 0.25f;
-                if (hasMod("仆从暴击"))
-                    sengs += 0.25f;
-                return sengs;
+                overMdgs = overMdgs < 0.5f ? 0 : overMdgs;
+                float totalBonus = modBonuses.Sum(pair => hasMod(pair.Key) ? pair.Value : 0);
+                return baseBonus + overMdgs + totalBonus;
             }
         }
+        private bool hasMod(string name) {
+            return Instance.LoadMods.Any(mod => mod.Name == name);
+        }
+
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 9999;

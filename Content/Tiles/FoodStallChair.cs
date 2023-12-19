@@ -1,4 +1,5 @@
 ﻿using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.TileEntitys;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -15,9 +16,7 @@ namespace CalamityWeaponRemake.Content.Tiles
     internal class FoodStallChair : ModTile
     {
         public override string Texture => CWRConstant.Asset + "Tiles/" + "FoodStallChair";
-
-        private int MaxRigDims = 280;
-
+        public bool playerInR;
         public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
@@ -48,7 +47,6 @@ namespace CalamityWeaponRemake.Content.Tiles
 
             TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
             TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
-            TileObjectData.addAlternate(1); // 面向右将使用第二个纹理样式
             TileObjectData.addTile(Type);
         }
 
@@ -71,25 +69,9 @@ namespace CalamityWeaponRemake.Content.Tiles
         public override bool RightClick(int i, int j)
         {
             Player player = Main.LocalPlayer;
-            Tile tile = CWRUtils.GetTile(i, j);
-            short changeFrames = 60;
-
-            if (player.IsWithinSnappngRangeToTile(i, j, 180))
-            { // 避免能够从远处触发它
+            if (player.IsWithinSnappngRangeToTile(i, j, 180)){
                 player.GamepadEnableGrappleCooldown();
                 player.sitting.SitDown(player, i, j);
-
-                if (tile != null)
-                {
-                    int mouse2TopLeftX = tile.TileFrameX / 36 * -1;
-                    int mouse2TopLeftY = tile.TileFrameY / 36 * -1;
-
-                    if (mouse2TopLeftX < -1)
-                    {
-                        mouse2TopLeftX += 2;
-                        changeFrames = -36;
-                    }
-                }
             }
             return true;
         }
@@ -115,7 +97,36 @@ namespace CalamityWeaponRemake.Content.Tiles
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            return base.PreDraw(i, j, spriteBatch);
+            Tile t = Main.tile[i, j];
+            int frameXPos = t.TileFrameX;
+            int frameYPos = t.TileFrameY;
+            if (frameXPos == 36) {//第一列
+                frameXPos = 0;
+            }
+            if (frameXPos == 54) {//第二列
+                frameXPos = 18;
+            }
+            if (t.TileFrameX >= 36) {
+                if (frameYPos == 0) {
+                    frameYPos = 36;
+                }
+                if (frameYPos == 18) {
+                    frameYPos = 54;
+                }
+            }
+            
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+            Vector2 offset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
+            Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + offset;
+            Color drawColor = Lighting.GetColor(i, j);
+
+            if (!t.IsHalfBlock && t.Slope == 0)
+                spriteBatch.Draw(tex, drawOffset, new Rectangle(frameXPos, frameYPos, 16, 16)
+                    , drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+            else if (t.IsHalfBlock)
+                spriteBatch.Draw(tex, drawOffset + Vector2.UnitY * 8f, new Rectangle(frameXPos, frameYPos, 16, 16)
+                    , drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+            return false;
         }
     }
 }

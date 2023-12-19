@@ -15,18 +15,22 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
     internal class GCWRItems : GlobalItem
     {
         public static void ProcessRemakeAction(Item item, Action<BaseRItem> action) {
-            foreach (BaseRItem rItem in CWRMod.RItemInstances) {
-                if (rItem.TargetID == item.type && CWRConstant.ForceReplaceResetContent) {
-                    action(rItem);
+            if (CWRConstant.ForceReplaceResetContent) {
+                foreach (BaseRItem rItem in CWRMod.RItemInstances) {
+                    if (rItem.SetReadonlyTargetID == item.type) {
+                        action(rItem);
+                    }
                 }
             }
         }
 
         public static bool? ProcessRemakeAction(Item item, Func<BaseRItem, bool?> action) {
             bool? result = null;
-            foreach (BaseRItem rItem in CWRMod.RItemInstances) {
-                if (rItem.TargetID == item.type && CWRConstant.ForceReplaceResetContent) {
-                    result = action(rItem);
+            if (CWRConstant.ForceReplaceResetContent) {
+                foreach (BaseRItem rItem in CWRMod.RItemInstances) {
+                    if (rItem.SetReadonlyTargetID == item.type) {
+                        result = action(rItem);
+                    }
                 }
             }
             return result;

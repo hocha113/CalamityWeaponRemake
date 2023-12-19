@@ -34,17 +34,18 @@ namespace CalamityWeaponRemake.Content
         public override void SetDefaults(Projectile projectile)
         {
             base.SetDefaults(projectile);
-            if (projectile.type == ModContent.ProjectileType<HolyColliderHolyFire>())
-            {
-                projectile.damage = 0;
-                projectile.Kill();
-                return;
-            }
         }
 
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
-            
+            if (CWRConstant.ForceReplaceResetContent) {
+                if (projectile.type == ModContent.ProjectileType<HolyColliderHolyFire>()
+                    || projectile.type == ModContent.ProjectileType<EssenceFlame2>()) {
+                    projectile.damage = 0;
+                    projectile.active = false;
+                    return;
+                }
+            }
         }
 
         public override void AI(Projectile projectile)

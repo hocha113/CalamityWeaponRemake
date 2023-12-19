@@ -34,25 +34,11 @@ namespace CalamityWeaponRemake.Content.Tiles
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem) {
             Player closestPlayer = null;
             Vector2 tilePosition = new Vector2(i, j) * 16;
-            int minLength = 99999;
-            foreach (Player p in Main.player) {
-                if (!p.Alives()) {
-                    continue;
-                }
-                int length = (int)p.position.To(tilePosition).Length();
-                if (length < minLength) {
-                    closestPlayer = p;
-                    minLength = length;
-                }
-            }
+            closestPlayer = CWRUtils.TileFindPlayer(i, j);
             if (closestPlayer == null || closestPlayer?.HeldItem.type != ModContent.ItemType<InfinitePick>()) {
                 Projectile.NewProjectile(new EntitySource_WorldEvent(), tilePosition, Vector2.Zero, ModContent.ProjectileType<InfiniteIngotTileProj>(), 9999, 0);
             }
             base.KillTile(i, j, ref fail, ref effectOnly, ref noItem);
-        }
-
-        public override void KillMultiTile(int i, int j, int frameX, int frameY) {
-            base.KillMultiTile(i, j, frameX, frameY);
         }
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch) {

@@ -19,6 +19,8 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Items.Materials;
 using FTile = CalamityMod.Items.Placeables.Furniture.CraftingStations;
 using System.Collections.Generic;
+using CalamityWeaponRemake.Content.TileEntitys;
+using CalamityWeaponRemake.Content.UIs.SupertableUI;
 
 namespace CalamityWeaponRemake.Content.Tiles
 {
@@ -45,7 +47,9 @@ namespace CalamityWeaponRemake.Content.Tiles
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
             TileObjectData.newTile.LavaDeath = false;
-
+            ModTileEntity te = ModContent.GetInstance<TransmutationOfMatterEntity>();
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(te.Hook_AfterPlacement, -1, 0, true);
+            TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(67, 72, 81), CalamityUtils.GetItemName<TransmutationOfMatterItem>());
             AnimationFrameHeight = 68;
@@ -88,8 +92,14 @@ namespace CalamityWeaponRemake.Content.Tiles
 
         public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) {
+            SupertableUI.instance.Active = false;
+            ModContent.GetInstance<TransmutationOfMatterEntity>().Kill(i, j);
+        }
+
         public override bool RightClick(int i, int j)
         {
+            SupertableUI.instance.Active = !SupertableUI.instance.Active;
             Recipe.FindRecipes();
             return true;
         }

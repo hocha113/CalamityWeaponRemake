@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content
@@ -9,6 +10,8 @@ namespace CalamityWeaponRemake.Content
 
         public int CompressorPanelID = -1;
 
+        public bool inFoodStallChair;
+
         public override void Initialize()
         {
             theRelicLuxor = 0;
@@ -17,6 +20,7 @@ namespace CalamityWeaponRemake.Content
         public override void ResetEffects()
         {
             theRelicLuxor = 0;
+            inFoodStallChair = false;
         }
 
         public override void OnEnterWorld()

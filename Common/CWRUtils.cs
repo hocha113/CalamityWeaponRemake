@@ -24,6 +24,23 @@ namespace CalamityWeaponRemake.Common
 {
     public static class CWRUtils
     {
+        public static Player TileFindPlayer(int i, int j) {
+            Player closestPlayer = null;
+            Vector2 tilePosition = new Vector2(i, j) * 16;
+            int minLength = 99999;
+            foreach (Player p in Main.player) {
+                if (!p.Alives()) {
+                    continue;
+                }
+                int length = (int)p.position.To(tilePosition).Length();
+                if (length < minLength) {
+                    closestPlayer = p;
+                    minLength = length;
+                }
+            }
+            return closestPlayer;
+        }
+
         public static Color[] GetColorDate(Texture2D tex) {
             Color[] colors = new Color[tex.Width * tex.Height];
             tex.GetData(colors);

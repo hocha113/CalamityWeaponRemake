@@ -86,16 +86,8 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             return false;
         }
 
-        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
-            base.ModifyShootStats(player, ref position, ref velocity, ref type, ref damage, ref knockback);
-        }
-
         public override bool AltFunctionUse(Player player) {
             return true;
-        }
-
-        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone) {
-            
         }
 
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo) {

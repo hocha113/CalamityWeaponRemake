@@ -20,6 +20,11 @@ namespace CalamityWeaponRemake.Content.UIs
                         CompressorUI.instance.Draw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.UI));
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Sp UI", delegate {
+                    if (SupertableUI.instance.Active)
+                        SupertableUI.instance.Draw(Main.spriteBatch);
+                    return true;
+                }, InterfaceScaleType.UI));
             }
         }
 
@@ -28,6 +33,8 @@ namespace CalamityWeaponRemake.Content.UIs
             base.UpdateUI(gameTime);
             if (Main.LocalPlayer.CWR().CompressorPanelID != -1)
             CompressorUI.instance.Update();
+            if (SupertableUI.instance.Active)
+                SupertableUI.instance.Update(gameTime);
         }
     }
 }

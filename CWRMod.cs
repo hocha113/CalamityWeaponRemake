@@ -28,11 +28,13 @@ namespace CalamityWeaponRemake
                     if (obj is BaseRItem inds) {
                         inds.Load();
                         inds.SetStaticDefaults();
-                        RItemInstances.Add(inds);
+                        //最后再判断一下TargetID是否为0，因为如果这是一个有效的Ritem实例，那么它的TargetID就不可能为0，否则将其添加进去会导致LoadRecipe部分报错
+                        if (inds.TargetID != 0)
+                            RItemInstances.Add(inds);
                     }
                 }
             }
-
+            //加载一次ID列表，从这里加载可以保障所有内容已经添加好了
             CWRIDs.Load();
         }
 
@@ -42,6 +44,7 @@ namespace CalamityWeaponRemake
             FindMod();
             LoadClient();
             new CompressorUI().Load();
+            new SupertableUI().Load();
             CWRParticleHandler.Load();
             EffectsRegistry.LoadEffects();
             On_Main.DrawInfernoRings += PeSystem.CWRDrawForegroundParticles;
@@ -63,7 +66,7 @@ namespace CalamityWeaponRemake
             if (Main.dedServ)
                 return;
 
-            MusicLoader.AddMusicBox(Instance, MusicLoader.GetMusicSlot("CalamityWeaponRemake/Assets/Sounds/Music/Funkytown"), Find<ModItem>("FoodStallChair").Type, Find<ModTile>("FoodStallChair").Type, 0);
+            MusicLoader.AddMusicBox(Instance, MusicLoader.GetMusicSlot("CalamityWeaponRemake/Assets/Sounds/Music/BuryTheLight"), Find<ModItem>("FoodStallChair").Type, Find<ModTile>("FoodStallChair").Type, 0);
         }
     }
 }
