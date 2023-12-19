@@ -18,14 +18,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic
 
         private ref float Time => ref Projectile.ai[0];
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 42;
             Projectile.height = 42;
             Projectile.friendly = true;
@@ -40,15 +38,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic
             Projectile.localNPCHitCooldown = 12;
         }
 
-        public override void OnSpawn(IEntitySource source)
-        {
+        public override void OnSpawn(IEntitySource source) {
             Projectile.frameCounter = Main.rand.Next(4);
         }
 
-        public void SpanDust()
-        {
-            for (int i = 0; i <= 360; i += 3)
-            {
+        public void SpanDust() {
+            for (int i = 0; i <= 360; i += 3) {
                 Vector2 vr = new Vector2(3f, 3f).RotatedBy(MathHelper.ToRadians(i));
                 int num = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height
                     , DustID.RedTorch, vr.X, vr.Y, 200, new Color(232, 251, 250, 200), 1.4f);
@@ -58,15 +53,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic
             }
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             CWRUtils.ClockFrame(ref Projectile.frameCounter, 5, 3);
             Projectile.alpha += 3;
             if (Projectile.alpha > 255)
                 Projectile.alpha = 255;
 
-            if (Owner == null)
-            {
+            if (Owner == null) {
                 Projectile.Kill();
                 return;
             }
@@ -84,21 +77,17 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic
 
             //在一定时间后开始追踪附近的敌人
             NPC target = Projectile.Center.InPosClosestNPC(1900);
-            if (target != null && Projectile.timeLeft < 1080)
-            {
+            if (target != null && Projectile.timeLeft < 1080) {
                 Projectile.ChasingBehavior2(target.Center + Projectile.velocity * 100, 1, 0.1f);
 
                 Vector2 toTarget = Projectile.Center.To(target.Center);
 
-                if (toTarget.LengthSquared() > 400 * 400)
-                {
+                if (toTarget.LengthSquared() > 400 * 400) {
                     Projectile.alpha -= 7;//对于透明度的衰减需要大于默认的全局增加速度
                 }
 
-                if (Projectile.IsOwnedByLocalPlayer())
-                {
-                    if (Projectile.alpha <= 0)
-                    {
+                if (Projectile.IsOwnedByLocalPlayer()) {
+                    if (Projectile.alpha <= 0) {
                         SpanDust();
                         Projectile.Center = target.Center + Main.rand.NextVector2Unit() * 200;
                         Projectile.netUpdate = true;
@@ -106,11 +95,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic
                         SpanDust();
                     }
 
-                    if (toTarget.LengthSquared() < 600 * 600)
-                    {
+                    if (toTarget.LengthSquared() < 600 * 600) {
                         int types = ModContent.ProjectileType<FateCluster>();
-                        if (Time % 15 == 0 && Owner.ownedProjectileCounts[types] <= 36)
-                        {
+                        if (Time % 15 == 0 && Owner.ownedProjectileCounts[types] <= 36) {
                             Vector2 vr = toTarget.UnitVector() * 13;
                             Projectile.NewProjectile(
                                 Owner.parent(),
@@ -132,13 +119,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic
             Time++;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
             base.OnHitNPC(target, hit, damageDone);
         }
 
-        public override void OnKill(int timeLeft)
-        {
+        public override void OnKill(int timeLeft) {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
 
             Projectile.position = Projectile.Center;
@@ -153,14 +138,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic
 
             // 生成爆炸粒子，从各种意义上讲，这段代码是不讨喜的
             int maxFore;
-            for (int i = 0; i < 3; i = maxFore + 1)
-            {
+            for (int i = 0; i < 3; i = maxFore + 1) {
                 int dust0 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.RedTorch, 0f, 0f, 100, default, 1.5f);
                 Main.dust[dust0].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
                 maxFore = i;
             }
-            for (int j = 0; j < 10; j = maxFore + 1)
-            {
+            for (int j = 0; j < 10; j = maxFore + 1) {
                 int dust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.RedTorch, 0f, 0f, 0, default, 2.5f);
                 Main.dust[dust2].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
                 Main.dust[dust2].noGravity = true;
@@ -168,8 +151,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic
                 dust.velocity *= 2f;
                 maxFore = j;
             }
-            for (int k = 0; k < 5; k = maxFore + 1)
-            {
+            for (int k = 0; k < 5; k = maxFore + 1) {
                 int dust3 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.RedTorch, 0f, 0f, 0, default, 1.5f);
                 Main.dust[dust3].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)Projectile.velocity.ToRotation(), default) * Projectile.width / 2f;
                 Main.dust[dust3].noGravity = true;
@@ -179,8 +161,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Main.EntitySpriteDraw(
                 mainValue,

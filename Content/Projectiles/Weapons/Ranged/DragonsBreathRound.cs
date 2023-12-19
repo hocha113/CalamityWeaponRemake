@@ -16,14 +16,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
     {
         public override string Texture => CWRConstant.Projectile_Ranged + "DragonsBreathRound";
         public new string LocalizationCategory => "Projectiles.Ranged";
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 4;
             Projectile.height = 4;
             Projectile.friendly = true;
@@ -36,14 +34,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + (MathHelper.ToRadians(90) * Projectile.direction);
 
             Projectile.localAI[0] += 1f;
-            if (Projectile.localAI[0] > 4f)
-            {
+            if (Projectile.localAI[0] > 4f) {
                 float num93 = Projectile.velocity.X / 3f;
                 float num94 = Projectile.velocity.Y / 3f;
                 int num95 = 4;
@@ -55,8 +51,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
                 dust.position.X -= num93;
                 dust.position.Y -= num94;
 
-                if (Main.rand.NextBool(20))
-                {
+                if (Main.rand.NextBool(20)) {
                     int num97 = 4;
                     int num98 = Dust.NewDust(new Vector2(Projectile.position.X + num97, Projectile.position.Y + num97), Projectile.width - (num97 * 2), Projectile.height - (num97 * 2), DustID.Flare, 0f, 0f, 100, default, 0.6f);
                     Main.dust[num98].velocity *= 0.25f;
@@ -65,21 +60,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             }
         }
 
-        public override void OnKill(int timeLeft)
-        {
-            if (Projectile.owner == Main.myPlayer)
-            {
+        public override void OnKill(int timeLeft) {
+            if (Projectile.owner == Main.myPlayer) {
                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0.85f + (Main.rand.NextFloat() * 1.15f));
-                if (proj.WithinBounds(Main.maxProjectiles))
-                {
+                if (proj.WithinBounds(Main.maxProjectiles)) {
                     Main.projectile[proj].DamageType = DamageClass.Ranged;
                 }
             }
             Projectile.Explode(50);
-            if (Main.netMode != NetmodeID.Server)
-            {
-                for (int i = 0; i < 16; i++)
-                {
+            if (Main.netMode != NetmodeID.Server) {
+                for (int i = 0; i < 16; i++) {
                     Vector2 particleSpeed = (Main.rand.Next(70, 110) * CWRUtils.atoR).ToRotationVector2() * -Main.rand.Next(11, 17);
                     Vector2 pos = Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height));
                     CWRParticle energyLeak = new LightParticle(pos, particleSpeed
@@ -89,13 +79,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             }
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
             target.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor);
             return false;
         }

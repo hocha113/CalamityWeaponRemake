@@ -11,12 +11,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 {
     internal class AbominateSpirit : ModProjectile
     {
-        public override string Texture
-        {
-            get
-            {
-                switch (Status)
-                {
+        public override string Texture {
+            get {
+                switch (Status) {
                     case 0:
                         return CWRConstant.Cay_Proj_Melee + "GhastlySoulLarge";
                     case 1:
@@ -27,14 +24,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             }
         }
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailingMode[Type] = 2;
             ProjectileID.Sets.TrailCacheLength[Type] = 8;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 48;
             Projectile.height = 48;
             Projectile.scale = 1.5f;
@@ -52,8 +47,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
         public ref float Status => ref Projectile.ai[0];
 
-        public override void OnSpawn(IEntitySource source)
-        {
+        public override void OnSpawn(IEntitySource source) {
             Projectile.rotation = Projectile.velocity.ToRotation();
             SoundEngine.PlaySound(
                 SoundID.NPCDeath39,
@@ -61,41 +55,34 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                 );
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Projectile.rotation = Projectile.velocity.ToRotation();
             CWRUtils.ClockFrame(ref Projectile.frameCounter, 15, 3);
 
-            if (Status == 3)
-            {
+            if (Status == 3) {
                 Projectile.timeLeft = 2;
                 Projectile.scale *= 1.001f;
                 Player target = CWRUtils.GetPlayerInstance(Projectile.owner);
-                if (target != null)
-                {
+                if (target != null) {
                     float leng = Projectile.Center.To(target.Center).Length();
                     Projectile.ChasingBehavior(
                         target.Center,
                         6 + leng / 100f
                         );
-                    if (leng < 60)
-                    {
+                    if (leng < 60) {
                         if (Projectile.ai[1] > 10000)
                             target.Heal(Main.rand.Next(10, 15));
                         else
                             target.Heal(Main.rand.Next(1, 3));
-                        for (int i = 0; i < 13; i++)
-                        {
+                        for (int i = 0; i < 13; i++) {
                             Vector2 vr = CWRUtils.GetRandomVevtor(0, 360, Main.rand.Next(4, 7));
                             Dust.NewDust(target.Center, 13, 13, DustID.HealingPlus, vr.X, vr.Y);
                         }
                         Projectile.Kill();
                     }
                 }
-                if (Projectile.scale > 5)
-                {
-                    for (int i = 0; i < 13; i++)
-                    {
+                if (Projectile.scale > 5) {
+                    for (int i = 0; i < 13; i++) {
                         Vector2 vr = CWRUtils.GetRandomVevtor(0, 360, Main.rand.Next(4, 7));
                         Dust.NewDust(target.Center, 13, 13, DustID.HealingPlus, vr.X, vr.Y);
                         Projectile.Kill();
@@ -103,20 +90,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                 }
             }
 
-            if (Projectile.timeLeft < 85)
-            {
+            if (Projectile.timeLeft < 85) {
                 Projectile.alpha = Projectile.timeLeft * 3;
             }
-            else
-            {
+            else {
                 Projectile.alpha = 195;
             }
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            switch (Status)
-            {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
+            switch (Status) {
                 case 0:
                     target.AddBuff(BuffID.ShadowFlame, 360);
                     target.AddBuff(BuffID.OnFire3, 360);
@@ -126,8 +109,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                     int types = Main.rand.Next(0, 5);
                     Player owner = CWRUtils.GetPlayerInstance(Projectile.owner);
                     if (owner == null) return;
-                    switch (types)
-                    {
+                    switch (types) {
                         case 0:
                             owner.AddBuff(BuffID.WeaponImbueCursedFlames, 160);
                             break;
@@ -153,8 +135,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Projectile.damage -= 20;
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Color color = Color.White;
             if (Status == 0) color = Color.DarkRed;

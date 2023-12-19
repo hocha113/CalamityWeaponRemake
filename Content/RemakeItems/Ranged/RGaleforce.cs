@@ -20,8 +20,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.damage = 18;
             item.DamageType = DamageClass.Ranged;
             item.width = 32;
@@ -42,13 +41,11 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
             item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "Galeforce");
         }
 
-        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             int heldType = ModContent.ProjectileType<GaleforceHeldProj>();
             if (player.ownedProjectileCounts[heldType] <= 0) {
                 Projectile.NewProjectile(source, position, Vector2.Zero
@@ -58,8 +55,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
             return false;
         }
 
-        public override bool? AltFunctionUse(Item item, Player player)
-        {
+        public override bool? AltFunctionUse(Item item, Player player) {
             return true;
         }
     }

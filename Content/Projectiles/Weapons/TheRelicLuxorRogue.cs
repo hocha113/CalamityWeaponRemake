@@ -13,14 +13,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons
 
         public override string Texture => CWRConstant.Projectile + "TheRelicLuxorRogueProj";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 18;
             Projectile.height = 18;
             Projectile.friendly = true;
@@ -34,69 +32,55 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons
             Projectile.DamageType = ModContent.GetInstance<RogueDamageClass>();
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            if (Projectile.ai[0] == 0)
-            {
+            if (Projectile.ai[0] == 0) {
                 Projectile.velocity.Y += 0.1f;
                 Projectile.velocity.X *= 1.01f;
             }
-            if (Projectile.ai[0] == 1)
-            {
+            if (Projectile.ai[0] == 1) {
                 Player owners = CWRUtils.GetPlayerInstance(Projectile.owner);
-                if (owners != null)
-                {
+                if (owners != null) {
                     Projectile.ChasingBehavior2(owners.Center, 0.999f, 0.2f);
-                    if (Projectile.timeLeft <= 120)
-                    {
+                    if (Projectile.timeLeft <= 120) {
                         Projectile.ai[0] = 2;
                     }
                 }
             }
-            if (Projectile.ai[0] == 2)
-            {
-                if (Projectile.IsOwnedByLocalPlayer())
-                {
+            if (Projectile.ai[0] == 2) {
+                if (Projectile.IsOwnedByLocalPlayer()) {
                     Projectile.velocity = Projectile.Center.To(Main.MouseWorld).UnitVector() * 22f;
                     Projectile.ai[0] = 3;
                 }
             }
 
-            if (Projectile.localAI[0] == 0f)
-            {
+            if (Projectile.localAI[0] == 0f) {
                 Projectile.scale -= 0.01f;
                 Projectile.alpha += 15;
-                if (Projectile.alpha >= 250)
-                {
+                if (Projectile.alpha >= 250) {
                     Projectile.alpha = 255;
                     Projectile.localAI[0] = 1f;
                 }
             }
-            else if (Projectile.localAI[0] == 1f)
-            {
+            else if (Projectile.localAI[0] == 1f) {
                 Projectile.scale += 0.01f;
                 Projectile.alpha -= 15;
-                if (Projectile.alpha <= 0)
-                {
+                if (Projectile.alpha <= 0) {
                     Projectile.alpha = 0;
                     Projectile.localAI[0] = 0f;
                 }
             }
             Projectile.localAI[1] += 1f;
-            if (Projectile.localAI[1] == 3f)
-            {
+            if (Projectile.localAI[1] == 3f) {
                 SpanDust();
             }
             if (Projectile.timeLeft % 20 == 0)
                 SpanDust(22);
         }
 
-        private void SpanDust(int maxfores = 12)
-        {
-            for (int i = 0; i < maxfores; i++)
-            {
+        private void SpanDust(int maxfores = 12) {
+            for (int i = 0; i < maxfores; i++) {
                 Vector2 modeVrs = Vector2.UnitX * (0f - Projectile.width) / 2f;
                 modeVrs -= Vector2.UnitY.RotatedBy(i * CWRUtils.PiOver6) * new Vector2(8f, 16f);
                 modeVrs = modeVrs.RotatedBy(Projectile.rotation - MathHelper.PiOver2);
@@ -110,10 +94,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons
             }
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            if (Projectile.timeLeft < 85)
-            {
+        public override Color? GetAlpha(Color lightColor) {
+            if (Projectile.timeLeft < 85) {
                 byte b2 = (byte)(Projectile.timeLeft * 3);
                 byte a2 = (byte)(100f * (b2 / 255f));
                 return new Color(b2, b2, b2, a2);
@@ -121,31 +103,25 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons
             return new Color(255, 255, 255, 100);
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
+        public override bool OnTileCollide(Vector2 oldVelocity) {
             SpanDust();
             Projectile.penetrate--;
             Projectile.ai[0] = 1;
-            if (Projectile.penetrate <= 0)
-            {
+            if (Projectile.penetrate <= 0) {
                 Projectile.Kill();
             }
-            else
-            {
-                if (Projectile.velocity.X != oldVelocity.X)
-                {
+            else {
+                if (Projectile.velocity.X != oldVelocity.X) {
                     Projectile.velocity.X = 0f - oldVelocity.X;
                 }
-                if (Projectile.velocity.Y != oldVelocity.Y)
-                {
+                if (Projectile.velocity.Y != oldVelocity.Y) {
                     Projectile.velocity.Y = 0f - oldVelocity.Y;
                 }
             }
             return false;
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }

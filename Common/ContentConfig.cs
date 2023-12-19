@@ -18,8 +18,8 @@ namespace CalamityWeaponRemake.Common
         [DefaultValue(true)]
         public bool WeaponEnhancementSystem { get; set; }
 
-        public override bool AcceptClientChanges(ModConfig pendingConfig, int whoAmI, ref string message)
-        {
+        [System.Obsolete]
+        public override bool AcceptClientChanges(ModConfig pendingConfig, int whoAmI, ref string message) {
             return true;
         }
     }

@@ -11,61 +11,51 @@ namespace CalamityWeaponRemake.Content
         public override bool InstancePerEntity => true;
 
         public byte TerratomereBoltOnHitNum = 0;
+        public byte OrderbringerOnHitNum = 0;
         public ushort colldHitTime = 0;
         public byte WhipHitNum = 0;
         public byte WhipHitType = 0;
         public bool SprBoss;
         public bool ObliterateBool;
 
-        public override bool CanBeHitByNPC(NPC npc, NPC attacker)
-        {
+        public override bool CanBeHitByNPC(NPC npc, NPC attacker) {
             return base.CanBeHitByNPC(npc, attacker);
         }
 
-        public override bool CheckDead(NPC npc)
-        {
-            if (ObliterateBool)
-            {
+        public override bool CheckDead(NPC npc) {
+            if (ObliterateBool) {
                 return true;
             }
-            else
-            {
+            else {
                 return base.CheckDead(npc);
             }
-            
+
         }
 
-        public override void PostAI(NPC npc)
-        {
-            if (!CWRUtils.isClient)
-            {
-                if (WhipHitNum > 10)
-                {
+        public override void PostAI(NPC npc) {
+            if (!CWRUtils.isClient) {
+                if (WhipHitNum > 10) {
                     WhipHitNum = 10;
                 }
             }
         }
 
-        public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
-        {
+        public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) {
             base.PostDraw(npc, spriteBatch, screenPos, drawColor);
 
-            if (WhipHitNum > 0)
-            {
+            if (WhipHitNum > 0) {
                 DrawTameBar(spriteBatch, npc);
             }
         }
 
-        public void DrawTameBar(SpriteBatch spriteBatch, NPC npc)
-        {
+        public void DrawTameBar(SpriteBatch spriteBatch, NPC npc) {
             Texture2D top = CWRUtils.GetT2DValue(CWRConstant.UI + "TameBarTop");
             Texture2D bar = CWRUtils.GetT2DValue(CWRConstant.UI + "TameBar");
             Texture2D whi = WhipHitDate.Tex((WhipHitTypeEnum)WhipHitType);
 
             float slp = 0.75f;
             float alp = 1 - (npc.velocity.Length() / 15f);
-            if (alp < 0.3f)
-            {
+            if (alp < 0.3f) {
                 alp = 0.3f;
             }
 

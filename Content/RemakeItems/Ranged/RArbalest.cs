@@ -20,13 +20,11 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[ModContent.ItemType<CalamityMod.Items.Weapons.Ranged.Arbalest>()] = true;
         }
 
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.damage = 28;
             item.DamageType = DamageClass.Ranged;
             item.width = 82;
@@ -47,13 +45,11 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
             item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "Arbalest", 4);
         }
 
-        public override void HoldItem(Item item, Player player)
-        {
+        public override void HoldItem(Item item, Player player) {
             item.initialize();
             Projectile heldProj = CWRUtils.GetProjectileInstance((int)item.CWR().ai[0]);
             if (heldProj != null && heldProj.type == ModContent.ProjectileType<ArbalestHeldProj>()) {
@@ -61,8 +57,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
             }
         }
 
-        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             item.initialize();
             item.CWR().ai[1] = type;
             if (player.ownedProjectileCounts[ModContent.ProjectileType<ArbalestHeldProj>()] <= 0) {
@@ -76,8 +71,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
             return false;
         }
 
-        public override bool? AltFunctionUse(Item item, Player player)
-        {
+        public override bool? AltFunctionUse(Item item, Player player) {
             return true;
         }
     }

@@ -12,13 +12,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 {
     internal class CosmicRay : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.DrawScreenCheckFluff[Type] = 15000;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 32;
             Projectile.height = 32;
             Projectile.scale = 1;
@@ -34,14 +32,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
         public override string Texture => CWRConstant.Placeholder;
 
-        public int Status
-        {
+        public int Status {
             set => Projectile.ai[0] = value;
             get => (int)Projectile.ai[0];
         }
 
-        public int ThisTimeValue
-        {
+        public int ThisTimeValue {
             set => Projectile.ai[1] = value;
             get => (int)Projectile.ai[1];
         }
@@ -50,44 +46,37 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
         public bool SterDust { set; get; } = true;
 
-        public override bool ShouldUpdatePosition()
-        {
+        public override bool ShouldUpdatePosition() {
             return false;
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
+        public override void SendExtraAI(BinaryWriter writer) {
             writer.Write(Projectile.rotation);
             writer.Write(ThisTimeValue);
         }
 
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
+        public override void ReceiveExtraAI(BinaryReader reader) {
             Projectile.rotation = reader.ReadSingle();
             ThisTimeValue = reader.ReadInt32();
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             ThisTimeValue++;
             if (ThisTimeValue > 30) SterDust = true;
 
-            if (ThisTimeValue % 10 == 0 && Projectile.timeLeft <= 60 && Projectile.IsOwnedByLocalPlayer())
-            {
+            if (ThisTimeValue % 10 == 0 && Projectile.timeLeft <= 60 && Projectile.IsOwnedByLocalPlayer()) {
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.rotation.ToRotationVector2() * 17
                     , ModContent.ProjectileType<GalaxyStar>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
             }
         }
 
-        public void NewSterDust(Vector2 center)
-        {
+        public void NewSterDust(Vector2 center) {
             float angle = Main.rand.NextFloat(MathF.PI * 2f);
             int numSpikes = 5;
             float spikeAmplitude = 22f;
             float scale = Main.rand.NextFloat(1f, 1.35f);
 
-            for (float spikeAngle = 0f; spikeAngle < MathF.PI * 2f; spikeAngle += 0.1f)
-            {
+            for (float spikeAngle = 0f; spikeAngle < MathF.PI * 2f; spikeAngle += 0.1f) {
                 Vector2 offset = spikeAngle.ToRotationVector2() * (2f + (float)(Math.Sin(angle + spikeAngle * numSpikes) + 1.0) * spikeAmplitude)
                                  * Main.rand.NextFloat(0.95f, 1.05f);
 
@@ -95,20 +84,17 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             }
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             float point = 0f;
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center
                 , Projectile.rotation.ToRotationVector2() * Leng + Projectile.Center, 8, ref point);
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
             Projectile.localNPCHitCooldown += 2;
             Projectile.damage -= 15;
 
-            if (SterDust)
-            {
+            if (SterDust) {
                 NewSterDust(target.Center);
                 SterDust = false;
                 ThisTimeValue = 0;
@@ -117,8 +103,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
         }
 
         int Rot = 0;
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D mainValue = CWRUtils.GetT2DValue(CWRConstant.Masking + "Streak3");
             Texture2D startValue = CWRUtils.GetT2DValue("CalamityMod/Projectiles/TornadoProj");
 
@@ -144,8 +129,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             if (Projectile.timeLeft >= 77) vortexLayers = 90 - Projectile.timeLeft;
             if (vortexLayers > 13 && Projectile.timeLeft < 77) vortexLayers = 13;
 
-            for (int i = 0; i < vortexLayers; i++)
-            {
+            for (int i = 0; i < vortexLayers; i++) {
                 Main.EntitySpriteDraw(
                 startValue,
                 CWRUtils.WDEpos(Projectile.Center),
@@ -159,8 +143,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                 );
             }
 
-            for (int i = 0; i < 13; i++)
-            {
+            for (int i = 0; i < 13; i++) {
                 Main.EntitySpriteDraw(
                 startValue,
                 CWRUtils.WDEpos(Projectile.Center),

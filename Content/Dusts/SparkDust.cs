@@ -18,12 +18,9 @@ namespace CalamityWeaponRemake.Content.Dusts
 
         public int Lifetime;
 
-        public float LifetimeCompletion
-        {
-            get
-            {
-                if (Lifetime == 0)
-                {
+        public float LifetimeCompletion {
+            get {
+                if (Lifetime == 0) {
                     return 0f;
                 }
                 return Time / (float)Lifetime;
@@ -32,8 +29,7 @@ namespace CalamityWeaponRemake.Content.Dusts
 
         public override string Texture => "CalamityMod/Projectiles/StarProj";
 
-        public override void OnSpawn(Dust dust)
-        {
+        public override void OnSpawn(Dust dust) {
             Lifetime = Main.rand.Next(31, 73);
             dust.scale = Main.rand.NextFloat(0.5f, 0.9f);
             InitialColor = Main.rand.NextBool(7) ? Color.Aqua : Color.Fuchsia;
@@ -41,11 +37,9 @@ namespace CalamityWeaponRemake.Content.Dusts
             AffectedByGravity = false;
         }
 
-        public override bool Update(Dust dust)
-        {
+        public override bool Update(Dust dust) {
             NPC formes = Common.CWRUtils.GetNPCInstance(dust.alpha);
-            if (formes == null)
-            {
+            if (formes == null) {
                 dust.active = false;
                 return false;
             }
@@ -53,13 +47,11 @@ namespace CalamityWeaponRemake.Content.Dusts
             dust.scale *= 0.95f;
             dust.color = InitialColor;
             dust.velocity *= 0.95f;
-            if (dust.velocity.Length() < 12f && AffectedByGravity)
-            {
+            if (dust.velocity.Length() < 12f && AffectedByGravity) {
                 dust.velocity.X *= 0.94f;
                 dust.velocity.Y += 0.25f;
             }
-            if (Lifetime <= 0)
-            {
+            if (Lifetime <= 0) {
                 dust.active = false;
             }
             dust.rotation = dust.velocity.ToRotation() + MathHelper.PiOver2;
@@ -68,8 +60,7 @@ namespace CalamityWeaponRemake.Content.Dusts
             return false;
         }
 
-        public override bool PreDraw(Dust dust)
-        {
+        public override bool PreDraw(Dust dust) {
             Vector2 dustSlp = new Vector2(0.5f, 1.6f) * dust.scale;
             Texture2D texture = CWRUtils.GetT2DValue(Texture);
             Main.spriteBatch.Draw(texture, dust.position - Main.screenPosition, null, dust.color, dust.rotation, texture.Size() * 0.5f, dustSlp, 0, 0f);

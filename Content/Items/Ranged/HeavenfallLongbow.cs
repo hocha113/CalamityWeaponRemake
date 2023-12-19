@@ -32,18 +32,15 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
         public int ChargeValue;
         public bool spanInfiniteRuneBool = true;
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
         }
 
-        public override bool AltFunctionUse(Player player)
-        {
+        public override bool AltFunctionUse(Player player) {
             return true;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.damage = 9999;
             Item.width = 62;
             Item.height = 128;
@@ -67,27 +64,22 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
-        public override void HoldItem(Player player)
-        {
+        public override void HoldItem(Player player) {
             if (ChargeValue >= 200 && Main.myPlayer == player.whoAmI)//当充能达到阈值时，会释放一次无尽符文，此时可以按下技能键触发技能
             {
                 SpanInfiniteRune(player);
 
-                if (CWRKeySystem.HeavenfallLongbowSkillKey.JustPressed)
-                {
+                if (CWRKeySystem.HeavenfallLongbowSkillKey.JustPressed) {
                     int types = ModContent.ProjectileType<VientianePunishment>();
-                    if (player.ownedProjectileCounts[types] < MaxVientNum)
-                    {
+                    if (player.ownedProjectileCounts[types] < MaxVientNum) {
                         int randomOffset = Main.rand.Next(MaxVientNum);//生成一个随机的偏移值，这样可以让所有的弓都有机会出现
                         int frmer = 0;
-                        for (int i = 0; i < MaxVientNum; i++)
-                        {
+                        for (int i = 0; i < MaxVientNum; i++) {
                             int proj = Projectile.NewProjectile(player.parent(), player.Center, Vector2.Zero, types, Item.damage, 0, player.whoAmI, i + randomOffset);//给予ai[0]一个可排序的索引量，这决定了该万象弹幕使用什么样的贴图
                             if (i == 0)//让第一个万象弹幕作为主弹幕，负责多数代码执行
                                 frmer = proj;//将首号弹幕的索引储存起来
                             VientianePunishment vientianePunishment = Main.projectile[proj].ModProjectile as VientianePunishment;
-                            if (vientianePunishment != null)
-                            {
+                            if (vientianePunishment != null) {
                                 vientianePunishment.Index = i;//给每个万象弹幕分配合适索引，这决定了它们能否正确排序
                                 vientianePunishment.FemerProjIndex = frmer;
                                 vientianePunishment.Projectile.netUpdate = true;
@@ -101,10 +93,8 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
             }
         }
 
-        public override bool PreDrawTooltipLine(DrawableTooltipLine line, ref int yOffset)
-        {
-            if (line.Name == "ItemName" && line.Mod == "Terraria")
-            {
+        public override bool PreDrawTooltipLine(DrawableTooltipLine line, ref int yOffset) {
+            if (line.Name == "ItemName" && line.Mod == "Terraria") {
                 Color rarityColor = Main.DiscoColor;
                 Vector2 basePosition = Main.MouseWorld - Main.screenPosition + new Vector2(23, 23);
                 string text = Language.GetTextValue("Mods.CalamityWeaponRemake.Items.HeavenfallLongbow.DisplayName");
@@ -116,21 +106,17 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
 
         public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.NextBool(3) && player.ownedProjectileCounts[Item.shoot] > 0;
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y
                 , ModContent.ProjectileType<HeavenfallLongbowHeldProj>(), damage, knockback, player.whoAmI, ai2: player.altFunctionUse == 0 ? 0 : 1);
             return false;
         }
 
-        public void SpanInfiniteRune(Player player)
-        {
-            if (spanInfiniteRuneBool)
-            {
+        public void SpanInfiniteRune(Player player) {
+            if (spanInfiniteRuneBool) {
                 SoundEngine.PlaySound(CommonCalamitySounds.PlasmaBoltSound, player.Center);
                 float rot = 0;
-                for (int j = 0; j < 500; j++)
-                {
+                for (int j = 0; j < 500; j++) {
                     rot += MathHelper.TwoPi / 500f;
                     float scale = 2f / (3f - (float)Math.Cos(2 * rot)) * 25;
                     float outwardMultiplier = MathHelper.Lerp(4f, 220f, Utils.GetLerpValue(0f, 120f, 13, true));
@@ -147,8 +133,7 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
             }
         }
 
-        public static void Obliterate(Vector2 origPos)
-        {
+        public static void Obliterate(Vector2 origPos) {
             void killAction(NPC npc) {
                 npc.CWR().ObliterateBool = true;
                 npc.dontTakeDamage = true;
@@ -177,12 +162,10 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
                  CWRIDs.targetNpcTypes14,
                  CWRIDs.targetNpcTypes15
             };
-            foreach (NPC npc in Main.npc)
-            {
+            foreach (NPC npc in Main.npc) {
                 if (npc.Center.To(origPos).LengthSquared() > 90000)
                     continue;
-                if (npc.active)
-                {
+                if (npc.active) {
                     foreach (var targetNpcTypes in allTargetNpcTypes) {
                         if (targetNpcTypes.Contains(npc.type)) {
                             foreach (NPC npcToKill in Main.npc.Where(n => targetNpcTypes.Contains(n.type))) {
@@ -196,8 +179,7 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
             }
         }
 
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             CreateRecipe()
                 .AddIngredient<CalamityMod.Items.Weapons.Ranged.Drataliornus>()
                 .AddIngredient<CalamityMod.Items.Weapons.Ranged.HeavenlyGale>()

@@ -32,14 +32,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
 
         public ref float HomingStrenght => ref Projectile.ai[1];
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = Projectile.height = 30;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
@@ -52,23 +50,19 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
         public int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
         public int ThisTimeValue { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
 
-        public override void AI()
-        {
+        public override void AI() {
             ThisTimeValue++;
             Projectile OwnerProj = CWRUtils.GetProjectileInstance(Behavior);
-            if (OwnerProj == null)
-            {
+            if (OwnerProj == null) {
                 Projectile.Kill();
                 return;
             }
 
-            if (Head == null)
-            {
+            if (Head == null) {
                 Head = new GenericSparkle(Projectile.Center, Vector2.Zero, Color.White, Main.hslToRgb(Hue, 100f, 50f), 1.2f, 2, 0.06f, 3f, needed: true);
                 GeneralParticleHandler.SpawnParticle(Head);
             }
-            else
-            {
+            else {
                 Head.Position = Projectile.Center + Projectile.velocity * 0.5f;
                 Head.Time = 0;
                 Head.Scale += (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f) * 0.02f * Projectile.scale;
@@ -80,32 +74,27 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             Projectile.rotation = Projectile.oldPos[Projectile.oldPos.Length - 1].To(Projectile.position).ToRotation();
 
             Lighting.AddLight(Projectile.Center, 0.75f, 1f, 0.24f);
-            if (Main.rand.NextBool(2))
-            {
+            if (Main.rand.NextBool(2)) {
                 GeneralParticleHandler.SpawnParticle(new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, Color.Lerp(Color.DodgerBlue, Color.MediumVioletRed, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f)), 20, Main.rand.NextFloat(0.6f, 1.2f) * Projectile.scale, 0.28f, 0f, glowing: false, 0f, required: true));
-                if (Main.rand.NextBool(3))
-                {
+                if (Main.rand.NextBool(3)) {
                     GeneralParticleHandler.SpawnParticle(new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, Main.hslToRgb(Hue, 1f, 0.7f), 15, Main.rand.NextFloat(0.4f, 0.7f) * Projectile.scale, 0.8f, 0f, glowing: true, 0.05f, required: true));
                 }
             }
         }
 
-        internal Color ColorFunction(float completionRatio)
-        {
+        internal Color ColorFunction(float completionRatio) {
             float amount = MathHelper.Lerp(0.65f, 1f, (float)Math.Cos((0f - Main.GlobalTimeWrappedHourly) * 3f) * 0.5f + 0.5f);
             float num = Utils.GetLerpValue(1f, 0.64f, completionRatio, clamped: true) * Projectile.Opacity;
             Color value = Color.Lerp(Main.hslToRgb(Hue, 1f, 0), Color.Gold, (float)Math.Sin(completionRatio * MathF.PI * 1.6f - Main.GlobalTimeWrappedHourly * 4f) * 0.5f + 0.5f);
             return Color.Lerp(Color.White, value, amount) * num;
         }
 
-        internal float WidthFunction(float completionRatio)
-        {
+        internal float WidthFunction(float completionRatio) {
             float amount = (float)Math.Pow(1f - completionRatio, 3.0);
             return MathHelper.Lerp(0f, 22f * Projectile.scale * Projectile.Opacity, amount);
         }
 
-        public void DrawStar()
-        {
+        public void DrawStar() {
             //Texture2D mainValue = DrawUtils.GetT2DValue(CWRConstant.Masking + "StarTexture_White");
             //Vector2 pos = Projectile.Center - Main.screenPosition;
             //int Time = ThisTimeValue;
@@ -159,10 +148,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             //Main.spriteBatch.ResetBlendState();
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
-            if (TrailDrawer == null)
-            {
+        public override bool PreDraw(ref Color lightColor) {
+            if (TrailDrawer == null) {
                 TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, null, GameShaders.Misc["CalamityMod:TrailStreak"]);
             }
 

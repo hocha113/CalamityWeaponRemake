@@ -22,8 +22,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
         public const float Lifetime = FadeinTime + FadeoutTime;
         public const float FireMaxLength = 1950f;
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 30;
             Projectile.height = 30;
             Projectile.alpha = 255;
@@ -32,15 +31,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             Projectile.tileCollide = false;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Projectile.Center = Owner.Center + Projectile.rotation.ToRotationVector2() * 85f;
             Projectile.rotation = toMou.ToRotation();
 
             Vector2 flameDirection = Projectile.rotation.ToRotationVector2();
 
-            if (Projectile.IsOwnedByLocalPlayer())
-            {
+            if (Projectile.IsOwnedByLocalPlayer()) {
                 toMou = Owner.Center.To(Main.MouseWorld);
             }
 
@@ -60,10 +57,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             Utils.PlotTileLine(Projectile.Center + flameDirection.RotatedBy(-FlameRotation) * FireMaxLength * fadeOut
                 , Projectile.Center + flameDirection.RotatedBy(-FlameRotation) * FireMaxLength * fadeIn, 16f, DelegateMethods.CastLight);
 
-            if (fadeOut == 0f && fadeIn > 0.1f)
-            {
-                for (int i = 0; i < 3; i++)
-                {
+            if (fadeOut == 0f && fadeIn > 0.1f) {
+                for (int i = 0; i < 3; i++) {
                     Dust fire = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.TerraBlade, 0f, 0f, 0, default, 1f);
                     fire.fadeIn = 1.5f;
                     fire.velocity = flameDirection.RotatedBy(Main.rand.NextFloatDirection() * FlameRotation * 2f) * Main.rand.NextFloat(0.5f, 3f) * FireMaxLength / 27f;
@@ -73,8 +68,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
                     fire.alpha = 200;
                 }
             }
-            if (Main.netMode != NetmodeID.Server && Main.rand.NextBool(5) && Time >= 15f)
-            {
+            if (Main.netMode != NetmodeID.Server && Main.rand.NextBool(5) && Time >= 15f) {
                 Vector2 smokeSpawnPosition = Projectile.Center + flameDirection * FireMaxLength * 0.75f + Main.rand.NextVector2Square(-20f, 20f);
                 Gore smoke = Gore.NewGoreDirect(Projectile.GetSource_FromAI(), smokeSpawnPosition, Vector2.Zero, Main.rand.Next(61, 64), 0.5f);
                 smoke.velocity *= 0.3f;
@@ -101,8 +95,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
                 Projectile.Kill();
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Vector2 startOfFlame = Projectile.Center - Main.screenPosition;
             float relativeFrameCompletion = Projectile.frameCounter / 40f;
             Texture2D texture2D5 = TextureAssets.Projectile[Projectile.type].Value;
@@ -114,8 +107,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             ulong flameDrawerSeed = (ulong)(Projectile.identity + 958);
 
             int flameCount = (int)(FireMaxLength / 6f);
-            for (float i = 0f; i < flameCount; i++)
-            {
+            for (float i = 0f; i < flameCount; i++) {
                 float flameOffsetDirectionAngle = Lerp(-0.05f, 0.05f, Utils.RandomFloat(ref flameDrawerSeed));
                 Vector2 flameDirection = (Projectile.rotation + flameOffsetDirectionAngle).ToRotationVector2();
                 Vector2 endOfFlame = startOfFlame + flameDirection * FireMaxLength;
@@ -124,8 +116,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
                 flameDrawInterpolant %= 1f;
 
                 if ((flameDrawInterpolant <= relativeFrameCompletion % 1f || Projectile.frameCounter >= 40f) &&
-                    (flameDrawInterpolant >= relativeFrameCompletion % 1f || Projectile.frameCounter < 40f))
-                {
+                    (flameDrawInterpolant >= relativeFrameCompletion % 1f || Projectile.frameCounter < 40f)) {
                     if (flameDrawInterpolant < 0.1f)
                         flameDrawColor = Color.Lerp(Color.Transparent, startingFlameColor, Utils.GetLerpValue(0f, 0.1f, flameDrawInterpolant, true));
 
@@ -154,8 +145,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             return false;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             if (Time < 32f)
                 return false;
 

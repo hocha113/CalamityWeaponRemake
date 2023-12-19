@@ -19,14 +19,12 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public const float DefiledGreatswordMaxRageEnergy = 15000;
 
-        private float rageEnergy
-        {
+        private float rageEnergy {
             get => Item.CWR().MeleeCharge;
             set => Item.CWR().MeleeCharge = value;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.width = 102;
             Item.damage = 112;
             Item.DamageType = DamageClass.Melee;
@@ -46,25 +44,20 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         }
 
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position
-            , Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
-        {
+            , Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale) {
             base.PostDrawInInventory(spriteBatch, position, frame, drawColor, itemColor, origin, scale);
-            if (Item.CWR().HoldOwner != null && rageEnergy > 0)
-            {
+            if (Item.CWR().HoldOwner != null && rageEnergy > 0) {
                 DrawRageEnergyChargeBar(Item.CWR().HoldOwner);
             }
         }
 
-        public override void UpdateInventory(Player player)
-        {
+        public override void UpdateInventory(Player player) {
             UpdateBar();
             base.UpdateInventory(player);
         }
 
-        public override void HoldItem(Player player)
-        {
-            if (Item.CWR().HoldOwner == null)
-            {
+        public override void HoldItem(Player player) {
+            if (Item.CWR().HoldOwner == null) {
                 Item.CWR().HoldOwner = player;
             }
 
@@ -72,21 +65,17 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             base.HoldItem(player);
         }
 
-        private void UpdateBar()
-        {
+        private void UpdateBar() {
             if (rageEnergy > DefiledGreatswordMaxRageEnergy)
                 rageEnergy = DefiledGreatswordMaxRageEnergy;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            if (!Item.CWR().closeCombat)
-            {
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
+            if (!Item.CWR().closeCombat) {
                 rageEnergy -= damage;
                 if (rageEnergy < 0) rageEnergy = 0;
 
-                if (rageEnergy == 0)
-                {
+                if (rageEnergy == 0) {
                     Projectile.NewProjectile(
                         source,
                         position,
@@ -98,11 +87,9 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                         1
                         );
                 }
-                else
-                {
+                else {
 
-                    for (int i = 0; i < 3; i++)
-                    {
+                    for (int i = 0; i < 3; i++) {
                         float rot = MathHelper.ToRadians(-10 + i * 10);
                         Projectile.NewProjectile(
                             source,
@@ -121,16 +108,13 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             return false;
         }
 
-        public override void MeleeEffects(Player player, Rectangle hitbox)
-        {
-            if (Main.rand.NextBool(5))
-            {
+        public override void MeleeEffects(Player player, Rectangle hitbox) {
+            if (Main.rand.NextBool(5)) {
                 Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.RuneWizard);
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone) {
             Item.CWR().closeCombat = true;
             float addnum = hit.Damage;
             if (addnum > target.lifeMax)
@@ -140,8 +124,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
             int type = ModContent.ProjectileType<SunlightBlades>();
             int randomLengs = Main.rand.Next(150);
-            for (int i = 0; i < 3; i++)
-            {
+            for (int i = 0; i < 3; i++) {
                 Vector2 offsetvr = Common.CWRUtils.GetRandomVevtor(-15, 15, 900 + randomLengs);
                 Vector2 spanPos = target.Center + offsetvr;
                 Projectile.NewProjectile(
@@ -170,13 +153,11 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             target.AddBuff(70, 150);
         }
 
-        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
-        {
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo) {
             Item.CWR().closeCombat = true;
             int type = ModContent.ProjectileType<SunlightBlades>();
             int offsety = 180;
-            for (int i = 0; i < 16; i++)
-            {
+            for (int i = 0; i < 16; i++) {
                 Vector2 offsetvr = new Vector2(-600, offsety);
                 Vector2 spanPos = offsetvr + player.Center;
                 Projectile.NewProjectile(
@@ -206,8 +187,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             target.AddBuff(70, 150);
         }
 
-        public void DrawRageEnergyChargeBar(Player player)
-        {
+        public void DrawRageEnergyChargeBar(Player player) {
             if (player.HeldItem != Item) return;
             Texture2D rageEnergyTop = CWRUtils.GetT2DValue(CWRConstant.UI + "RageEnergyTop");
             Texture2D rageEnergyBar = CWRUtils.GetT2DValue(CWRConstant.UI + "RageEnergyBar");

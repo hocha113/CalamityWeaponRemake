@@ -15,13 +15,11 @@ namespace CalamityWeaponRemake.Content.Items.Melee
     {
         public override string Texture => CWRConstant.Cay_Wap_Melee + "StarnightLance";
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ItemID.Sets.Spears[Item.type] = true;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.width = 72;
             Item.damage = 110;
             Item.DamageType = DamageClass.Melee;

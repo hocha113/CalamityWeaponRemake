@@ -24,6 +24,23 @@ namespace CalamityWeaponRemake.Common
 {
     public static class CWRUtils
     {
+        public static Player TileFindPlayer(int i, int j) {
+            Player closestPlayer = null;
+            Vector2 tilePosition = new Vector2(i, j) * 16;
+            int minLength = 99999;
+            foreach (Player p in Main.player) {
+                if (!p.Alives()) {
+                    continue;
+                }
+                int length = (int)p.position.To(tilePosition).Length();
+                if (length < minLength) {
+                    closestPlayer = p;
+                    minLength = length;
+                }
+            }
+            return closestPlayer;
+        }
+
         public static Color[] GetColorDate(Texture2D tex) {
             Color[] colors = new Color[tex.Width * tex.Height];
             tex.GetData(colors);
@@ -63,8 +80,7 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 获取一个实体真正的中心位置,该结果被实体碰撞箱的长宽影响
         /// </summary>
-        public static Vector2 GetEntityCenter(Entity entity)
-        {
+        public static Vector2 GetEntityCenter(Entity entity) {
             Vector2 vector2 = new Vector2(entity.width * 0.5f, entity.height * 0.5f);
             return entity.position + vector2;
         }
@@ -74,8 +90,7 @@ namespace CalamityWeaponRemake.Common
         /// </summary>
         public static EntitySource_Parent parent(this Entity entity) => new EntitySource_Parent(entity);
 
-        public static Vector2 InPosMoveTowards(this Vector2 currentPosition, Vector2 targetPosition, float maxAmountAllowedToMove)
-        {
+        public static Vector2 InPosMoveTowards(this Vector2 currentPosition, Vector2 targetPosition, float maxAmountAllowedToMove) {
             Vector2 v = targetPosition - currentPosition;
             if (v.Length() < maxAmountAllowedToMove)
                 return targetPosition;
@@ -86,8 +101,7 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 判断是否发生对视
         /// </summary>
-        public static bool NPCVisualJudgement(Entity targetPlayer, Entity npc)
-        {
+        public static bool NPCVisualJudgement(Entity targetPlayer, Entity npc) {
             Vector2 Perspective = Main.MouseWorld - GetEntityCenter(targetPlayer);
             Vector2 Perspective2 = GetEntityCenter(npc) - GetEntityCenter(targetPlayer);
             Vector2 Perspective3 = Perspective - Perspective2;
@@ -111,21 +125,16 @@ namespace CalamityWeaponRemake.Common
         /// <param name="npcs">是否影响NPC</param>
         /// <param name="items">是否影响物品</param>
         /// <param name="slow">力的影响程度，1 表示不受影响</param>
-        public static void ForceFieldEffect(Vector2 position, int range, float strength, bool projectiles = true, bool magicOnly = false, bool npcs = true, bool items = true, float slow = 1.0f)
-        {
+        public static void ForceFieldEffect(Vector2 position, int range, float strength, bool projectiles = true, bool magicOnly = false, bool npcs = true, bool items = true, float slow = 1.0f) {
             int rangeSquared = range * range;
 
             // 影响NPC
-            if (npcs)
-            {
-                for (int i = 0; i < Main.maxNPCs; i++)
-                {
+            if (npcs) {
+                for (int i = 0; i < Main.maxNPCs; i++) {
                     NPC npc = Main.npc[i];
-                    if (npc.active)
-                    {
+                    if (npc.active) {
                         int dist = (int)Vector2.DistanceSquared(npc.Center, position);
-                        if (dist < rangeSquared)
-                        {
+                        if (dist < rangeSquared) {
                             npc.velocity *= slow;
                             npc.velocity += Vector2.Normalize(position - npc.Center) * strength;
                             Dust.NewDust(npc.position, npc.width, npc.height, DustID.Shadowflame, 0, 0, 0, default);
@@ -135,16 +144,12 @@ namespace CalamityWeaponRemake.Common
             }
 
             // 影响投掷物
-            if (projectiles)
-            {
-                for (int i = 0; i < Main.maxProjectiles; i++)
-                {
+            if (projectiles) {
+                for (int i = 0; i < Main.maxProjectiles; i++) {
                     Projectile projectile = Main.projectile[i];
-                    if (projectile.active && (!magicOnly || projectile.DamageType == DamageClass.Magic && projectile.friendly && !projectile.hostile))
-                    {
+                    if (projectile.active && (!magicOnly || projectile.DamageType == DamageClass.Magic && projectile.friendly && !projectile.hostile)) {
                         int dist = (int)Vector2.DistanceSquared(projectile.Center, position);
-                        if (dist < rangeSquared)
-                        {
+                        if (dist < rangeSquared) {
                             projectile.velocity *= slow;
                             projectile.velocity += Vector2.Normalize(position - projectile.Center) * strength;
                             Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Shadowflame, 0, 0, 0, default);
@@ -154,14 +159,11 @@ namespace CalamityWeaponRemake.Common
             }
 
             // 影响灰尘
-            for (int i = 0; i < Main.maxDust; i++)
-            {
+            for (int i = 0; i < Main.maxDust; i++) {
                 Dust dust = Main.dust[i];
-                if (dust.active)
-                {
+                if (dust.active) {
                     int dist = (int)Vector2.DistanceSquared(dust.position, position);
-                    if (dist < rangeSquared)
-                    {
+                    if (dist < rangeSquared) {
                         dust.velocity *= slow;
                         dust.velocity += Vector2.Normalize(position - dust.position) * strength;
                     }
@@ -169,16 +171,12 @@ namespace CalamityWeaponRemake.Common
             }
 
             // 影响物品
-            if (items)
-            {
-                for (int i = 0; i < Main.maxItems; i++)
-                {
+            if (items) {
+                for (int i = 0; i < Main.maxItems; i++) {
                     Item item = Main.item[i];
-                    if (item.active)
-                    {
+                    if (item.active) {
                         int dist = (int)Vector2.DistanceSquared(item.Center, position);
-                        if (dist < rangeSquared)
-                        {
+                        if (dist < rangeSquared) {
                             item.velocity *= slow;
                             item.velocity += Vector2.Normalize(position - item.Center) * strength;
                             Dust.NewDust(item.position, item.width, item.height, DustID.Shadowflame, 0, 0, 0, default);
@@ -193,8 +191,7 @@ namespace CalamityWeaponRemake.Common
         /// </summary>
         /// <param name="wePos"></param>
         /// <returns></returns>
-        public static Vector2 WEPosToTilePos(Vector2 wePos)
-        {
+        public static Vector2 WEPosToTilePos(Vector2 wePos) {
             int tilePosX = (int)(wePos.X / 16f);
             int tilePosY = (int)(wePos.Y / 16f);
             Vector2 tilePos = new Vector2(tilePosX, tilePosY);
@@ -207,8 +204,7 @@ namespace CalamityWeaponRemake.Common
         /// </summary>
         /// <param name="tilePos"></param>
         /// <returns></returns>
-        public static Vector2 TilePosToWEPos(Vector2 tilePos)
-        {
+        public static Vector2 TilePosToWEPos(Vector2 tilePos) {
             float wePosX = (float)(tilePos.X * 16f);
             float wePosY = (float)(tilePos.Y * 16f);
 
@@ -223,17 +219,14 @@ namespace CalamityWeaponRemake.Common
         /// <param name="speed">速度</param>
         /// <param name="shutdownDistance">停摆范围</param>
         /// <returns></returns>
-        public static float AsymptoticVelocity(Vector2 thisCenter, Vector2 targetCenter, float speed, float shutdownDistance)
-        {
+        public static float AsymptoticVelocity(Vector2 thisCenter, Vector2 targetCenter, float speed, float shutdownDistance) {
             Vector2 toMou = targetCenter - thisCenter;
             float thisSpeed;
 
-            if (toMou.LengthSquared() > shutdownDistance * shutdownDistance)
-            {
+            if (toMou.LengthSquared() > shutdownDistance * shutdownDistance) {
                 thisSpeed = speed;
             }
-            else
-            {
+            else {
                 thisSpeed = MathHelper.Min(speed, toMou.Length());
             }
 
@@ -247,10 +240,8 @@ namespace CalamityWeaponRemake.Common
         /// <param name="radius">半径</param>
         /// <param name="targetHitbox">碰撞对象的箱体结构</param>
         /// <returns></returns>
-        public static bool CircularHitboxCollision(Vector2 centerPosition, float radius, Rectangle targetHitbox)
-        {
-            if (new Rectangle((int)centerPosition.X, (int)centerPosition.Y, 1, 1).Intersects(targetHitbox))
-            {
+        public static bool CircularHitboxCollision(Vector2 centerPosition, float radius, Rectangle targetHitbox) {
+            if (new Rectangle((int)centerPosition.X, (int)centerPosition.Y, 1, 1).Intersects(targetHitbox)) {
                 return true;
             }
 
@@ -260,18 +251,15 @@ namespace CalamityWeaponRemake.Common
             float distanceToBottomRight = Vector2.Distance(centerPosition, targetHitbox.BottomRight());
             float closestDistance = distanceToTopLeft;
 
-            if (distanceToTopRight < closestDistance)
-            {
+            if (distanceToTopRight < closestDistance) {
                 closestDistance = distanceToTopRight;
             }
 
-            if (distanceToBottomLeft < closestDistance)
-            {
+            if (distanceToBottomLeft < closestDistance) {
                 closestDistance = distanceToBottomLeft;
             }
 
-            if (distanceToBottomRight < closestDistance)
-            {
+            if (distanceToBottomRight < closestDistance) {
                 closestDistance = distanceToBottomRight;
             }
 
@@ -282,8 +270,7 @@ namespace CalamityWeaponRemake.Common
         /// 检测玩家是否有效且正常存活
         /// </summary>
         /// <returns>返回 true 表示活跃，返回 false 表示为空或者已经死亡的非活跃状态</returns>
-        public static bool Alives(this Player player)
-        {
+        public static bool Alives(this Player player) {
             if (player == null) return false;
             return player.active && !player.dead;
         }
@@ -293,8 +280,7 @@ namespace CalamityWeaponRemake.Common
         /// 检测弹幕是否有效且正常存活
         /// </summary>
         /// <returns>返回 true 表示活跃，返回 false 表示为空或者已经死亡的非活跃状态</returns>
-        public static bool Alives(this Projectile projectile)
-        {
+        public static bool Alives(this Projectile projectile) {
             if (projectile == null) return false;
             return projectile.active && projectile.timeLeft > 0;
         }
@@ -303,14 +289,12 @@ namespace CalamityWeaponRemake.Common
         /// 检测NPC是否有效且正常存活
         /// </summary>
         /// <returns>返回 true 表示活跃，返回 false 表示为空或者已经死亡的非活跃状态</returns>
-        public static bool Alives(this NPC npc)
-        {
+        public static bool Alives(this NPC npc) {
             if (npc == null) return false;
             return npc.active && npc.timeLeft > 0;
         }
 
-        public static bool AlivesByNPC<T>(this ModNPC npc) where T : ModNPC
-        {
+        public static bool AlivesByNPC<T>(this ModNPC npc) where T : ModNPC {
             if (npc == null)
                 return false;
             if (!npc.NPC.Alives())
@@ -322,10 +306,8 @@ namespace CalamityWeaponRemake.Common
         /// 根据索引返回在player域中的player实例，同时考虑合法性校验
         /// </summary>
         /// <returns>当获取值非法时将返回 <see cref="null"/> </returns>
-        public static Player GetPlayerInstance(int playerIndex)
-        {
-            if (playerIndex.ValidateIndex(Main.player))
-            {
+        public static Player GetPlayerInstance(int playerIndex) {
+            if (playerIndex.ValidateIndex(Main.player)) {
                 Player player = Main.player[playerIndex];
 
                 if (player.Alives()) return player;
@@ -338,10 +320,8 @@ namespace CalamityWeaponRemake.Common
         /// 根据索引返回在npc域中的npc实例，同时考虑合法性校验
         /// </summary>
         /// <returns>当获取值非法时将返回 <see cref="null"/> </returns>
-        public static NPC GetNPCInstance(int npcIndex)
-        {
-            if (npcIndex.ValidateIndex(Main.npc))
-            {
+        public static NPC GetNPCInstance(int npcIndex) {
+            if (npcIndex.ValidateIndex(Main.npc)) {
                 NPC npc = Main.npc[npcIndex];
 
                 if (npc.Alives()) return npc;
@@ -354,10 +334,8 @@ namespace CalamityWeaponRemake.Common
         /// 根据索引返回在projectile域中的Projectile实例，同时考虑合法性校验
         /// </summary>
         /// <returns>当获取值非法时将返回 <see cref="null"/> </returns>
-        public static Projectile GetProjectileInstance(int projectileIndex)
-        {
-            if (projectileIndex.ValidateIndex(Main.projectile))
-            {
+        public static Projectile GetProjectileInstance(int projectileIndex) {
+            if (projectileIndex.ValidateIndex(Main.projectile)) {
                 Projectile proj = Main.projectile[projectileIndex];
 
                 if (proj.Alives()) return proj;
@@ -369,16 +347,14 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 返回该NPC的生命比例
         /// </summary>
-        public static float NPCLifeRatio(NPC npc)
-        {
+        public static float NPCLifeRatio(NPC npc) {
             return npc.life / (float)npc.lifeMax;
         }
 
         /// <summary>
         /// 根据难度返回相应的血量数值
         /// </summary>
-        public static int ConvenientBossHealth(int normalHealth, int expertHealth, int masterHealth)
-        {
+        public static int ConvenientBossHealth(int normalHealth, int expertHealth, int masterHealth) {
             if (Main.expertMode) return expertHealth;
             if (Main.masterMode) return masterHealth;
             return normalHealth;
@@ -386,8 +362,7 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 根据难度返回相应的伤害数值
         /// </summary>
-        public static int ConvenientBossDamage(int normalDamage, int expertDamage, int masterDamage)
-        {
+        public static int ConvenientBossDamage(int normalDamage, int expertDamage, int masterDamage) {
             if (Main.expertMode) return expertDamage;
             if (Main.masterMode) return masterDamage;
             return normalDamage;
@@ -401,12 +376,10 @@ namespace CalamityWeaponRemake.Common
         /// <param name="Lists">这个NPC专属的局部集合</param>
         /// <param name="npc">NPC本身</param>
         /// <param name="NPCindexes">NPC的局部索引值</param>
-        public static void LoadList(ref List<int> Lists, NPC npc, ref int NPCindexes)
-        {
+        public static void LoadList(ref List<int> Lists, NPC npc, ref int NPCindexes) {
             ListUnNoAction(Lists, 0);//每次添加新元素时都将清理一次目标集合
 
-            lock (listLock)
-            {
+            lock (listLock) {
                 Lists.AddOrReplace(npc.whoAmI);
                 NPCindexes = Lists.IndexOf(npc.whoAmI);
             }
@@ -418,12 +391,10 @@ namespace CalamityWeaponRemake.Common
         /// <param name="Lists">这个弹幕专属的局部集合</param>
         /// <param name="projectile">弹幕本身</param>
         /// <param name="returnProJindex">弹幕的局部索引值</param>
-        public static void LoadList(ref List<int> Lists, Projectile projectile, ref int returnProJindex)
-        {
+        public static void LoadList(ref List<int> Lists, Projectile projectile, ref int returnProJindex) {
             ListUnNoAction(Lists, 1);
 
-            lock (listLock)
-            {
+            lock (listLock) {
                 Lists.AddOrReplace(projectile.whoAmI);
                 returnProJindex = Lists.IndexOf(projectile.whoAmI);
             }
@@ -432,14 +403,11 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 用于处理NPC局部集合的善后工作，通常在NPC死亡或者无效化时调用，与 LoadList 配合使用
         /// </summary>
-        public static void UnLoadList(ref List<int> Lists, NPC npc, ref int NPCindexes)
-        {
-            if (NPCindexes >= 0 && NPCindexes < Lists.Count)
-            {
+        public static void UnLoadList(ref List<int> Lists, NPC npc, ref int NPCindexes) {
+            if (NPCindexes >= 0 && NPCindexes < Lists.Count) {
                 Lists[NPCindexes] = -1;
             }
-            else
-            {
+            else {
                 npc.active = false;
                 ListUnNoAction(Lists, 0);
             }
@@ -448,14 +416,11 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 用于处理弹幕局部集合的善后工作，通常在弹幕死亡或者无效化时调用，与 LoadList 配合使用
         /// </summary>
-        public static void UnLoadList(ref List<int> Lists, Projectile projectile, ref int ProJindexes)
-        {
-            if (ProJindexes >= 0 && ProJindexes < Lists.Count)
-            {
+        public static void UnLoadList(ref List<int> Lists, Projectile projectile, ref int ProJindexes) {
+            if (ProJindexes >= 0 && ProJindexes < Lists.Count) {
                 Lists[ProJindexes] = -1;
             }
-            else
-            {
+            else {
                 projectile.active = false;
                 ListUnNoAction(Lists, 1);
             }
@@ -466,44 +431,35 @@ namespace CalamityWeaponRemake.Common
         /// </summary>
         /// <param name="Thislist">传入的局部集合</param>
         /// <param name="funcInt">处理对象，0将处理NPC，1将处理弹幕</param>
-        public static void ListUnNoAction(List<int> Thislist, int funcInt)
-        {
+        public static void ListUnNoAction(List<int> Thislist, int funcInt) {
             List<int> list = Thislist.GetIntList();
 
-            if (funcInt == 0)
-            {
-                foreach (int e in list)
-                {
+            if (funcInt == 0) {
+                foreach (int e in list) {
                     NPC npc = Main.npc[e];
                     int index = Thislist.IndexOf(e);
 
-                    if (npc == null)
-                    {
+                    if (npc == null) {
                         Thislist[index] = -1;
                         continue;
                     }
 
-                    if (npc.active == false)
-                    {
+                    if (npc.active == false) {
                         Thislist[index] = -1;
                     }
                 }
             }
-            if (funcInt == 1)
-            {
-                foreach (int e in list)
-                {
+            if (funcInt == 1) {
+                foreach (int e in list) {
                     Projectile proj = Main.projectile[e];
                     int index = Thislist.IndexOf(e);
 
-                    if (proj == null)
-                    {
+                    if (proj == null) {
                         Thislist[index] = -1;
                         continue;
                     }
 
-                    if (proj.active == false)
-                    {
+                    if (proj.active == false) {
                         Thislist[index] = -1;
                     }
                 }
@@ -517,46 +473,37 @@ namespace CalamityWeaponRemake.Common
         /// <param name="funcInt">处理对象，0将处理NPC，非0值将处理弹幕</param>
         /// <param name="valueToReplace">决定排除对象，默认排除-1值元素</param>
         /// <returns></returns>
-        public static List<int> GetListOnACtion(List<int> ThisList, int funcInt, int valueToReplace = -1)
-        {
+        public static List<int> GetListOnACtion(List<int> ThisList, int funcInt, int valueToReplace = -1) {
             List<int> list = ThisList.GetIntList();
 
-            if (funcInt == 0)
-            {
-                foreach (int e in list)
-                {
+            if (funcInt == 0) {
+                foreach (int e in list) {
                     NPC npc = Main.npc[e];
                     int index = list.IndexOf(e);
 
-                    if (npc == null)
-                    {
+                    if (npc == null) {
                         list[index] = -1;
                         continue;
                     }
 
-                    if (npc.active == false)
-                    {
+                    if (npc.active == false) {
                         list[index] = -1;
                     }
                 }
 
                 return list.GetIntList();
             }
-            else
-            {
-                foreach (int e in list)
-                {
+            else {
+                foreach (int e in list) {
                     Projectile proj = Main.projectile[e];
                     int index = list.IndexOf(e);
 
-                    if (proj == null)
-                    {
+                    if (proj == null) {
                         list[index] = -1;
                         continue;
                     }
 
-                    if (proj.active == false)
-                    {
+                    if (proj.active == false) {
                         list[index] = -1;
                     }
                 }
@@ -568,8 +515,7 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 获取鞭类弹幕的路径点集
         /// </summary>
-        public static List<Vector2> GetWhipControlPoints(this Projectile projectile)
-        {
+        public static List<Vector2> GetWhipControlPoints(this Projectile projectile) {
             List<Vector2> list = new List<Vector2>();
             Projectile.FillWhipControlPoints(projectile, list);
             return list;
@@ -585,8 +531,7 @@ namespace CalamityWeaponRemake.Common
         /// <param name="projectile">要爆炸的投射物</param>
         /// <param name="blastRadius">爆炸效果的半径（默认为 120 单位）</param>
         /// <param name="explosionSound">爆炸声音的样式（默认为默认的爆炸声音）</param>
-        public static void Explode(this Projectile projectile, int blastRadius = 120, SoundStyle explosionSound = default, bool spanSound = true)
-        {
+        public static void Explode(this Projectile projectile, int blastRadius = 120, SoundStyle explosionSound = default, bool spanSound = true) {
             Vector2 originalPosition = projectile.position;
             int originalWidth = projectile.width;
             int originalHeight = projectile.height;
@@ -617,42 +562,33 @@ namespace CalamityWeaponRemake.Common
         /// <param name="NPC">寻找主体</param>
         /// <param name="maxFindingDg">最大搜寻范围，如果值为-1则不开启范围限制</param>
         /// <returns>返回一个玩家实例，如果返回的实例为null，则说明玩家无效或者范围内无有效玩家</returns>
-        public static Player NPCFindingPlayerTarget(this Entity NPC, int maxFindingDg)
-        {
+        public static Player NPCFindingPlayerTarget(this Entity NPC, int maxFindingDg) {
             Player target = null;
 
-            if (Main.netMode == NetmodeID.SinglePlayer)
-            {
+            if (Main.netMode == NetmodeID.SinglePlayer) {
                 Player player = Main.player[Main.myPlayer];
 
-                if (maxFindingDg == -1)
-                {
+                if (maxFindingDg == -1) {
                     return player;
                 }
 
-                if ((NPC.position - player.position).LengthSquared() > maxFindingDg * maxFindingDg)
-                {
+                if ((NPC.position - player.position).LengthSquared() > maxFindingDg * maxFindingDg) {
                     return null;
                 }
-                else
-                {
+                else {
                     return player;
                 }
             }
-            else
-            {
+            else {
                 float MaxFindingDgSquared = maxFindingDg * maxFindingDg;
-                for (int i = 0; i < Main.player.Length; i++)
-                {
+                for (int i = 0; i < Main.player.Length; i++) {
                     Player player = Main.player[i];
 
-                    if (!player.active || player.dead || player.ghost || player == null)
-                    {
+                    if (!player.active || player.dead || player.ghost || player == null) {
                         continue;
                     }
 
-                    if (maxFindingDg == -1)
-                    {
+                    if (maxFindingDg == -1) {
                         return player;
                     }
 
@@ -660,8 +596,7 @@ namespace CalamityWeaponRemake.Common
 
                     bool FindingBool = TargetDg < MaxFindingDgSquared;
 
-                    if (!FindingBool)
-                    {
+                    if (!FindingBool) {
                         continue;
                     }
 
@@ -678,17 +613,14 @@ namespace CalamityWeaponRemake.Common
         /// <param name="proj">寻找主体</param>
         /// <param name="maxFindingDg">最大搜寻范围，如果值为 <see cref="-1"/> 则不开启范围限制</param>
         /// <returns>返回一个NPC实例，如果返回的实例为 <see cref="null"/> ，则说明NPC无效或者范围内无有效NPC</returns>
-        public static NPC ProjFindingNPCTarget(this Projectile proj, int maxFindingDg)
-        {
+        public static NPC ProjFindingNPCTarget(this Projectile proj, int maxFindingDg) {
             float MaxFindingDgSquared = maxFindingDg * maxFindingDg;
             NPC target = null;
 
-            for (int i = 0; i < Main.npc.Length; i++)
-            {
+            for (int i = 0; i < Main.npc.Length; i++) {
                 NPC npc = Main.npc[i];
 
-                if (npc.Alives() == false || npc.friendly == true || npc.dontTakeDamage == true)
-                {
+                if (npc.Alives() == false || npc.friendly == true || npc.dontTakeDamage == true) {
                     continue;
                 }
 
@@ -696,8 +628,7 @@ namespace CalamityWeaponRemake.Common
                 bool FindingBool = TargetDg < MaxFindingDgSquared;
                 if (maxFindingDg == -1) FindingBool = true;
 
-                if (!FindingBool)
-                {
+                if (!FindingBool) {
                     continue;
                 }
 
@@ -715,8 +646,7 @@ namespace CalamityWeaponRemake.Common
         /// <param name="Speed">速度</param>
         /// <param name="ShutdownDistance">停摆距离</param>
         /// <returns></returns>
-        public static Vector2 ChasingBehavior(this Entity entity, Vector2 TargetCenter, float Speed, float ShutdownDistance = 16)
-        {
+        public static Vector2 ChasingBehavior(this Entity entity, Vector2 TargetCenter, float Speed, float ShutdownDistance = 16) {
             if (entity == null) return Vector2.Zero;
 
             Vector2 ToTarget = TargetCenter - entity.Center;
@@ -734,8 +664,7 @@ namespace CalamityWeaponRemake.Common
         /// <param name="SpeedUpdates">速度的更新系数</param>
         /// <param name="HomingStrenght">追击力度</param>
         /// <returns></returns>
-        public static Vector2 ChasingBehavior2(this Entity entity, Vector2 TargetCenter, float SpeedUpdates = 1, float HomingStrenght = 0.1f)
-        {
+        public static Vector2 ChasingBehavior2(this Entity entity, Vector2 TargetCenter, float SpeedUpdates = 1, float HomingStrenght = 0.1f) {
             float targetAngle = entity.AngleTo(TargetCenter);
             float f = entity.velocity.ToRotation().RotTowards(targetAngle, HomingStrenght);
             Vector2 speed = f.ToRotationVector2() * entity.velocity.Length() * SpeedUpdates;
@@ -751,29 +680,22 @@ namespace CalamityWeaponRemake.Common
         /// <param name="ignoreTiles">在检查障碍物时是否忽略瓦片</param>
         /// <param name="bossPriority">是否优先选择Boss</param>
         /// <returns>距离最近的NPC。</returns>
-        public static NPC InPosClosestNPC(this Vector2 origin, float maxDistanceToCheck, bool ignoreTiles = true, bool bossPriority = false)
-        {
+        public static NPC InPosClosestNPC(this Vector2 origin, float maxDistanceToCheck, bool ignoreTiles = true, bool bossPriority = false) {
             NPC closestTarget = null;
             float distance = maxDistanceToCheck;
-            if (bossPriority)
-            {
+            if (bossPriority) {
                 bool bossFound = false;
-                for (int index2 = 0; index2 < Main.npc.Length; index2++)
-                {
-                    if (bossFound && !Main.npc[index2].boss && Main.npc[index2].type != NPCID.WallofFleshEye || !Main.npc[index2].CanBeChasedBy())
-                    {
+                for (int index2 = 0; index2 < Main.npc.Length; index2++) {
+                    if (bossFound && !Main.npc[index2].boss && Main.npc[index2].type != NPCID.WallofFleshEye || !Main.npc[index2].CanBeChasedBy()) {
                         continue;
                     }
                     float extraDistance2 = Main.npc[index2].width / 2 + Main.npc[index2].height / 2;
                     bool canHit2 = true;
-                    if (extraDistance2 < distance && !ignoreTiles)
-                    {
+                    if (extraDistance2 < distance && !ignoreTiles) {
                         canHit2 = Collision.CanHit(origin, 1, 1, Main.npc[index2].Center, 1, 1);
                     }
-                    if (Vector2.Distance(origin, Main.npc[index2].Center) < distance + extraDistance2 && canHit2)
-                    {
-                        if (Main.npc[index2].boss || Main.npc[index2].type == NPCID.WallofFleshEye)
-                        {
+                    if (Vector2.Distance(origin, Main.npc[index2].Center) < distance + extraDistance2 && canHit2) {
+                        if (Main.npc[index2].boss || Main.npc[index2].type == NPCID.WallofFleshEye) {
                             bossFound = true;
                         }
                         distance = Vector2.Distance(origin, Main.npc[index2].Center);
@@ -781,20 +703,15 @@ namespace CalamityWeaponRemake.Common
                     }
                 }
             }
-            else
-            {
-                for (int index = 0; index < Main.npc.Length; index++)
-                {
-                    if (Main.npc[index].CanBeChasedBy())
-                    {
+            else {
+                for (int index = 0; index < Main.npc.Length; index++) {
+                    if (Main.npc[index].CanBeChasedBy()) {
                         float extraDistance = Main.npc[index].width / 2 + Main.npc[index].height / 2;
                         bool canHit = true;
-                        if (extraDistance < distance && !ignoreTiles)
-                        {
+                        if (extraDistance < distance && !ignoreTiles) {
                             canHit = Collision.CanHit(origin, 1, 1, Main.npc[index].Center, 1, 1);
                         }
-                        if (Vector2.Distance(origin, Main.npc[index].Center) < distance + extraDistance && canHit)
-                        {
+                        if (Vector2.Distance(origin, Main.npc[index].Center) < distance + extraDistance && canHit) {
                             distance = Vector2.Distance(origin, Main.npc[index].Center);
                             closestTarget = Main.npc[index];
                         }
@@ -813,22 +730,18 @@ namespace CalamityWeaponRemake.Common
         /// <param name="ignoreTiles">在检查障碍物时是否忽略瓦片</param>
         /// <param name="checksRange">是否检查召唤物的攻击范围</param>
         /// <returns>距离最近的NPC</returns>
-        public static NPC MinionHoming(this Vector2 origin, float maxDistanceToCheck, Player owner, bool ignoreTiles = true, bool checksRange = false)
-        {
-            if (owner == null || !owner.whoAmI.ValidateIndex(Main.player.Length) || !owner.MinionAttackTargetNPC.ValidateIndex(Main.maxNPCs))
-            {
+        public static NPC MinionHoming(this Vector2 origin, float maxDistanceToCheck, Player owner, bool ignoreTiles = true, bool checksRange = false) {
+            if (owner == null || !owner.whoAmI.ValidateIndex(Main.player.Length) || !owner.MinionAttackTargetNPC.ValidateIndex(Main.maxNPCs)) {
                 return origin.InPosClosestNPC(maxDistanceToCheck, ignoreTiles);
             }
             NPC npc = Main.npc[owner.MinionAttackTargetNPC];
             bool canHit = true;
-            if (!ignoreTiles)
-            {
+            if (!ignoreTiles) {
                 canHit = Collision.CanHit(origin, 1, 1, npc.Center, 1, 1);
             }
             float extraDistance = npc.width / 2 + npc.height / 2;
             bool distCheck = Vector2.Distance(origin, npc.Center) < maxDistanceToCheck + extraDistance || !checksRange;
-            if (owner.HasMinionAttackTargetNPC && canHit && distCheck)
-            {
+            if (owner.HasMinionAttackTargetNPC && canHit && distCheck) {
                 return npc;
             }
             return origin.InPosClosestNPC(maxDistanceToCheck, ignoreTiles);
@@ -842,8 +755,7 @@ namespace CalamityWeaponRemake.Common
         /// <param name="Speed"></param>
         /// <param name="ShutdownDistance"></param>
         /// <returns></returns>
-        public static Vector2 GetChasingVelocity(this Entity entity, Vector2 TargetCenter, float Speed, float ShutdownDistance)
-        {
+        public static Vector2 GetChasingVelocity(this Entity entity, Vector2 TargetCenter, float Speed, float ShutdownDistance) {
             if (entity == null) return Vector2.Zero;
 
             Vector2 ToTarget = TargetCenter - entity.Center;
@@ -858,16 +770,14 @@ namespace CalamityWeaponRemake.Common
         /// <param name="TargetCenter">目标地点</param>
         /// <param name="acceleration">加速度系数</param>
         /// <returns></returns>
-        public static void AccelerationBehavior(this Entity entity, Vector2 TargetCenter, float acceleration)
-        {
+        public static void AccelerationBehavior(this Entity entity, Vector2 TargetCenter, float acceleration) {
             if (entity.Center.X > TargetCenter.X) entity.velocity.X -= acceleration;
             if (entity.Center.X < TargetCenter.X) entity.velocity.X += acceleration;
             if (entity.Center.Y > TargetCenter.Y) entity.velocity.Y -= acceleration;
             if (entity.Center.Y < TargetCenter.Y) entity.velocity.Y += acceleration;
         }
 
-        public static void EntityToRot(this NPC entity, float ToRot, float rotSpeed)
-        {
+        public static void EntityToRot(this NPC entity, float ToRot, float rotSpeed) {
             //entity.rotation = MathHelper.SmoothStep(entity.rotation, ToRot, rotSpeed);
 
             // 将角度限制在 -π 到 π 的范围内
@@ -877,12 +787,10 @@ namespace CalamityWeaponRemake.Common
             float diff = MathHelper.WrapAngle(ToRot - entity.rotation);
 
             // 选择修改幅度小的方向进行旋转
-            if (Math.Abs(diff) < MathHelper.Pi)
-            {
+            if (Math.Abs(diff) < MathHelper.Pi) {
                 entity.rotation += diff * rotSpeed;
             }
-            else
-            {
+            else {
                 entity.rotation -= MathHelper.WrapAngle(-diff) * rotSpeed;
             }
         }
@@ -890,8 +798,7 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 处理实体的旋转行为
         /// </summary>
-        public static void EntityToRot(this Projectile entity, float ToRot, float rotSpeed)
-        {
+        public static void EntityToRot(this Projectile entity, float ToRot, float rotSpeed) {
             //entity.rotation = MathHelper.SmoothStep(entity.rotation, ToRot, rotSpeed);
 
             // 将角度限制在 -π 到 π 的范围内
@@ -901,12 +808,10 @@ namespace CalamityWeaponRemake.Common
             float diff = MathHelper.WrapAngle(ToRot - entity.rotation);
 
             // 选择修改幅度小的方向进行旋转
-            if (Math.Abs(diff) < MathHelper.Pi)
-            {
+            if (Math.Abs(diff) < MathHelper.Pi) {
                 entity.rotation += diff * rotSpeed;
             }
-            else
-            {
+            else {
                 entity.rotation -= MathHelper.WrapAngle(-diff) * rotSpeed;
             }
         }
@@ -922,8 +827,7 @@ namespace CalamityWeaponRemake.Common
         /// </summary>
         /// <param name="message">要发送的消息文本</param>
         /// <param name="colour">（可选）消息的颜色,默认为 null</param>
-        public static void Text(string message, Color? colour = null)
-        {
+        public static void Text(string message, Color? colour = null) {
             if (Main.netMode == NetmodeID.SinglePlayer)
                 Main.NewText(message, colour);
             else if (Main.netMode == NetmodeID.Server)
@@ -933,8 +837,7 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 一个根据语言选项返回字符的方法
         /// </summary>
-        public static string Translation(string Chinese = null, string English = null, string Japanese = null, string Russian = null)
-        {
+        public static string Translation(string Chinese = null, string English = null, string Japanese = null, string Russian = null) {
             string text;
             if (Language.ActiveCulture.Name == "zh-Hans") text = Chinese;
             else if (Language.ActiveCulture.Name == "ja-Hans") text = Japanese;
@@ -944,27 +847,23 @@ namespace CalamityWeaponRemake.Common
             return text;
         }
 
-        public static Color MultiLerpColor(float percent, params Color[] colors)
-        {
+        public static Color MultiLerpColor(float percent, params Color[] colors) {
             float per = 1f / (colors.Length - 1f);
             float total = per;
             int currentID = 0;
-            while (percent / total > 1f && currentID < colors.Length - 2)
-            {
+            while (percent / total > 1f && currentID < colors.Length - 2) {
                 total += per;
                 currentID++;
             }
             return Color.Lerp(colors[currentID], colors[currentID + 1], (percent - (per * currentID)) / per);
         }
 
-        public static string GetPath(string baseTexPath)
-        {
+        public static string GetPath(string baseTexPath) {
             string path1 = baseTexPath.Replace("CalamityWeaponRemake/", string.Empty);
             return CWRConstant.Asset + path1;
         }
 
-        public static void OnModifyTooltips(Mod mod, Item item, List<TooltipLine> tooltips, string key, int leva = 1)
-        {
+        public static void OnModifyTooltips(Mod mod, Item item, List<TooltipLine> tooltips, string key, int leva = 1) {
             List<TooltipLine> newTooltips = new List<TooltipLine>(tooltips);
 
             foreach (TooltipLine line in tooltips.ToList()) //复制 tooltips 集合，以便在遍历时修改
@@ -998,8 +897,7 @@ namespace CalamityWeaponRemake.Common
         /// <param name="leftCed">是否检查左鼠标键，否则检测右鼠标键</param>
         /// <param name="netCed">是否进行网络同步检查</param>
         /// <returns>如果按下了指定的鼠标键，则返回true，否则返回false</returns>
-        public static bool PressKey(this Player player, bool leftCed = true, bool netCed = true)
-        {
+        public static bool PressKey(this Player player, bool leftCed = true, bool netCed = true) {
             if (netCed && Main.myPlayer != player.whoAmI) return false;
             return leftCed ? PlayerInput.Triggers.Current.MouseLeft : PlayerInput.Triggers.Current.MouseRight;
         }
@@ -1007,8 +905,7 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 判断是否重写该物品
         /// </summary>
-        public static bool RemakeByItem<T>(Item item) where T : ModItem
-        {
+        public static bool RemakeByItem<T>(Item item) where T : ModItem {
             return item.type == ModContent.ItemType<T>() && CWRConstant.ForceReplaceResetContent;
         }
 
@@ -1018,8 +915,7 @@ namespace CalamityWeaponRemake.Common
         /// <param name="damageClass">要检查的伤害类型</param>
         /// <param name="intendedClass">目标伤害类型</param>
         /// <returns>如果匹配或继承，则为 true；否则为 false</returns>
-        public static bool CountsAsClass(this DamageClass damageClass, DamageClass intendedClass)
-        {
+        public static bool CountsAsClass(this DamageClass damageClass, DamageClass intendedClass) {
             return damageClass == intendedClass || damageClass.GetEffectInheritance(intendedClass);
         }
 
@@ -1030,13 +926,10 @@ namespace CalamityWeaponRemake.Common
         /// <param name="projectileIdentity">弹幕的标识</param>
         /// <param name="projectileType">可选的弹幕类型</param>
         /// <returns>找到的弹幕索引，如果未找到则返回 -1</returns>
-        public static int GetProjectileByIdentity(int player, int projectileIdentity, params int[] projectileType)
-        {
-            for (int i = 0; i < Main.maxProjectiles; i++)
-            {
+        public static int GetProjectileByIdentity(int player, int projectileIdentity, params int[] projectileType) {
+            for (int i = 0; i < Main.maxProjectiles; i++) {
                 if (Main.projectile[i].active && Main.projectile[i].identity == projectileIdentity && Main.projectile[i].owner == player
-                    && (projectileType.Length == 0 || projectileType.Contains(Main.projectile[i].type)))
-                {
+                    && (projectileType.Length == 0 || projectileType.Contains(Main.projectile[i].type))) {
                     return i;
                 }
             }
@@ -1056,11 +949,9 @@ namespace CalamityWeaponRemake.Common
         /// <param name="ai0">自定义AI参数0（默认为0）</param>
         /// <param name="ai1">自定义AI参数1（默认为0）</param>
         /// <returns>新投射物的索引</returns>
-        public static int NewSummonProjectile(IEntitySource source, Vector2 spawn, Vector2 velocity, int type, int rawBaseDamage, float knockback, int owner = 255, float ai0 = 0, float ai1 = 0)
-        {
+        public static int NewSummonProjectile(IEntitySource source, Vector2 spawn, Vector2 velocity, int type, int rawBaseDamage, float knockback, int owner = 255, float ai0 = 0, float ai1 = 0) {
             int projectileIndex = Projectile.NewProjectile(source, spawn, velocity, type, rawBaseDamage, knockback, owner, ai0, ai1);
-            if (projectileIndex != Main.maxProjectiles)
-            {
+            if (projectileIndex != Main.maxProjectiles) {
                 Main.projectile[projectileIndex].originalDamage = rawBaseDamage;
                 Main.projectile[projectileIndex].ContinuouslyUpdateDamageStats = true;
             }
@@ -1079,8 +970,7 @@ namespace CalamityWeaponRemake.Common
         public static CWRProjectile CWR(this Projectile projectile)
             => projectile.GetGlobalProjectile<CWRProjectile>();
 
-        public static void initialize(this Item item)
-        {
+        public static void initialize(this Item item) {
             if (item.CWR().ai == null)
                 item.CWR().ai = new float[] { 0, 0, 0 };
         }
@@ -1111,10 +1001,8 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 同步整个世界状态
         /// </summary>
-        public static void SyncWorld()
-        {
-            if (Main.dedServ)
-            {
+        public static void SyncWorld() {
+            if (Main.dedServ) {
                 NetMessage.SendData(7);
             }
         }
@@ -1127,11 +1015,9 @@ namespace CalamityWeaponRemake.Common
         /// <param name="list">要填充读取元素的列表</param>
         /// <param name="count">要读取的元素数量</param>
         /// <param name="readFunction">用于从二进制读取器中读取类型 T 的元素的函数</param>
-        public static void ReadToList<T>(this BinaryReader reader, List<T> list, int count, Func<BinaryReader, T> readFunction)
-        {
+        public static void ReadToList<T>(this BinaryReader reader, List<T> list, int count, Func<BinaryReader, T> readFunction) {
             list.Clear();
-            for (int i = 0; i < count; i++)
-            {
+            for (int i = 0; i < count; i++) {
                 T value = readFunction(reader);
                 list.Add(value);
             }
@@ -1143,11 +1029,9 @@ namespace CalamityWeaponRemake.Common
         /// <param name="reader">要读取的二进制读取器</param>
         /// <param name="list">要填充读取整数的列表</param>
         /// <param name="count">要读取的整数数量</param>
-        public static void ReadToList(this BinaryReader reader, List<int> list, int count)
-        {
+        public static void ReadToList(this BinaryReader reader, List<int> list, int count) {
             list.Clear();
-            for (int i = 0; i < count; i++)
-            {
+            for (int i = 0; i < count; i++) {
                 int value = reader.ReadInt32();
                 list.Add(value);
             }
@@ -1159,11 +1043,9 @@ namespace CalamityWeaponRemake.Common
         /// <param name="reader">要读取的二进制读取器</param>
         /// <param name="list">要填充读取字节的列表</param>
         /// <param name="count">要读取的字节数量</param>
-        public static void ReadToList(this BinaryReader reader, List<byte> list, int count)
-        {
+        public static void ReadToList(this BinaryReader reader, List<byte> list, int count) {
             list.Clear();
-            for (int i = 0; i < count; i++)
-            {
+            for (int i = 0; i < count; i++) {
                 byte value = reader.ReadByte();
                 list.Add(value);
             }
@@ -1175,11 +1057,9 @@ namespace CalamityWeaponRemake.Common
         /// <param name="reader">要读取的二进制读取器</param>
         /// <param name="list">要填充读取单精度浮点数的列表</param>
         /// <param name="count">要读取的单精度浮点数数量</param>
-        public static void ReadToList(this BinaryReader reader, List<float> list, int count)
-        {
+        public static void ReadToList(this BinaryReader reader, List<float> list, int count) {
             list.Clear();
-            for (int i = 0; i < count; i++)
-            {
+            for (int i = 0; i < count; i++) {
                 float value = reader.ReadSingle();
                 list.Add(value);
             }
@@ -1191,11 +1071,9 @@ namespace CalamityWeaponRemake.Common
         /// <param name="reader">要读取的二进制读取器</param>
         /// <param name="list">要填充读取二维向量的列表</param>
         /// <param name="count">要读取的二维向量数量</param>
-        public static void ReadToList(this BinaryReader reader, List<Vector2> list, int count)
-        {
+        public static void ReadToList(this BinaryReader reader, List<Vector2> list, int count) {
             list.Clear();
-            for (int i = 0; i < count; i++)
-            {
+            for (int i = 0; i < count; i++) {
                 float valueX = reader.ReadSingle();
                 float valueY = reader.ReadSingle();
                 list.Add(new Vector2(valueX, valueY));
@@ -1209,11 +1087,9 @@ namespace CalamityWeaponRemake.Common
         /// <param name="writer">要写入的二进制写入器</param>
         /// <param name="list">要写入的列表</param>
         /// <param name="writeFunction">用于将类型 T 的元素写入二进制写入器的函数</param>
-        public static void WriteList<T>(this BinaryWriter writer, List<T> list, Action<BinaryWriter, T> writeFunction)
-        {
+        public static void WriteList<T>(this BinaryWriter writer, List<T> list, Action<BinaryWriter, T> writeFunction) {
             writer.Write(list.Count);
-            foreach (T value in list)
-            {
+            foreach (T value in list) {
                 writeFunction(writer, value);
             }
         }
@@ -1223,11 +1099,9 @@ namespace CalamityWeaponRemake.Common
         /// </summary>
         /// <param name="writer">要写入的二进制写入器</param>
         /// <param name="list">要写入的整数列表</param>
-        public static void WriteList(this BinaryWriter writer, List<int> list)
-        {
+        public static void WriteList(this BinaryWriter writer, List<int> list) {
             writer.Write(list.Count);
-            foreach (int value in list)
-            {
+            foreach (int value in list) {
                 writer.Write(value);
             }
         }
@@ -1237,11 +1111,9 @@ namespace CalamityWeaponRemake.Common
         /// </summary>
         /// <param name="writer">要写入的二进制写入器</param>
         /// <param name="list">要写入的字节列表</param>
-        public static void WriteList(this BinaryWriter writer, List<byte> list)
-        {
+        public static void WriteList(this BinaryWriter writer, List<byte> list) {
             writer.Write(list.Count);
-            foreach (byte value in list)
-            {
+            foreach (byte value in list) {
                 writer.Write(value);
             }
         }
@@ -1251,11 +1123,9 @@ namespace CalamityWeaponRemake.Common
         /// </summary>
         /// <param name="writer">要写入的二进制写入器</param>
         /// <param name="list">要写入的单精度浮点数列表</param>
-        public static void WriteList(this BinaryWriter writer, List<float> list)
-        {
+        public static void WriteList(this BinaryWriter writer, List<float> list) {
             writer.Write(list.Count);
-            foreach (float value in list)
-            {
+            foreach (float value in list) {
                 writer.Write(value);
             }
         }
@@ -1265,11 +1135,9 @@ namespace CalamityWeaponRemake.Common
         /// </summary>
         /// <param name="writer">要写入的二进制写入器</param>
         /// <param name="list">要写入的二维向量列表</param>
-        public static void WriteList(this BinaryWriter writer, List<Vector2> list)
-        {
+        public static void WriteList(this BinaryWriter writer, List<Vector2> list) {
             writer.Write(list.Count);
-            foreach (Vector2 value in list)
-            {
+            foreach (Vector2 value in list) {
                 writer.Write(value.X);
                 writer.Write(value.Y);
             }
@@ -1282,23 +1150,19 @@ namespace CalamityWeaponRemake.Common
         /// <param name="player">触发生成的玩家实例</param>
         /// <param name="bossType">要生成的 Boss 的类型</param>
         /// <param name="obeyLocalPlayerCheck">是否要遵循本地玩家检查</param>
-        public static void SpawnBossNetcoded(Player player, int bossType, bool obeyLocalPlayerCheck = true)
-        {
+        public static void SpawnBossNetcoded(Player player, int bossType, bool obeyLocalPlayerCheck = true) {
 
-            if (player.whoAmI == Main.myPlayer || !obeyLocalPlayerCheck)
-            {
+            if (player.whoAmI == Main.myPlayer || !obeyLocalPlayerCheck) {
                 // 如果使用物品的玩家是客户端
                 // （在此明确排除了服务器端）
 
                 SoundEngine.PlaySound(SoundID.Roar, player.position);
 
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
+                if (Main.netMode != NetmodeID.MultiplayerClient) {
                     // 如果玩家不在多人游戏中，直接生成 Boss
                     NPC.SpawnOnPlayer(player.whoAmI, bossType);
                 }
-                else
-                {
+                else {
                     // 如果玩家在多人游戏中，请求生成
                     // 仅当 NPCID.Sets.MPAllowedEnemies[type] 为真时才有效，需要在 NPC 代码中设置
 
@@ -1321,16 +1185,13 @@ namespace CalamityWeaponRemake.Common
         /// <param name="target">NPC 的目标 ID</param>
         /// <param name="velocity">NPC 的初始速度</param>
         /// <returns>新生成的 NPC 的 ID</returns>
-        public static int NewNPCEasy(IEntitySource source, Vector2 spawnPos, int type, int start = 0, float ai0 = 0, float ai1 = 0, float ai2 = 0, float ai3 = 0, int target = 255, Vector2 velocity = default)
-        {
+        public static int NewNPCEasy(IEntitySource source, Vector2 spawnPos, int type, int start = 0, float ai0 = 0, float ai1 = 0, float ai2 = 0, float ai3 = 0, int target = 255, Vector2 velocity = default) {
             if (Main.netMode == NetmodeID.MultiplayerClient)
                 return Main.maxNPCs;
 
             int n = NPC.NewNPC(source, (int)spawnPos.X, (int)spawnPos.Y, type, start, ai0, ai1, ai2, ai3, target);
-            if (n != Main.maxNPCs)
-            {
-                if (velocity != default)
-                {
+            if (n != Main.maxNPCs) {
+                if (velocity != default) {
                     Main.npc[n].velocity = velocity;
                 }
 
@@ -1347,19 +1208,15 @@ namespace CalamityWeaponRemake.Common
 
         public static Random rands = new Random();
 
-        public static float RotTowards(this float curAngle, float targetAngle, float maxChange)
-        {
+        public static float RotTowards(this float curAngle, float targetAngle, float maxChange) {
             curAngle = MathHelper.WrapAngle(curAngle);
             targetAngle = MathHelper.WrapAngle(targetAngle);
-            if (curAngle < targetAngle)
-            {
-                if (targetAngle - curAngle > (float)Math.PI)
-                {
+            if (curAngle < targetAngle) {
+                if (targetAngle - curAngle > (float)Math.PI) {
                     curAngle += (float)Math.PI * 2f;
                 }
             }
-            else if (curAngle - targetAngle > (float)Math.PI)
-            {
+            else if (curAngle - targetAngle > (float)Math.PI) {
                 curAngle -= (float)Math.PI * 2f;
             }
 
@@ -1381,8 +1238,7 @@ namespace CalamityWeaponRemake.Common
         /// </summary>
         /// <param name="angleIn">输入的角度值</param>
         /// <returns>标准化的角度，以 π 为中心，范围在 -π 到 π 之间</returns>
-        public static float ConvertAngle(float angleIn)
-        {
+        public static float ConvertAngle(float angleIn) {
             // 将输入角度与零角度比较，以获得标准化的角度
             return CompareAngle(0, angleIn) + (float)Math.PI;
         }
@@ -1390,12 +1246,10 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 色彩混合
         /// </summary>
-        public static Color RecombinationColor(params (Color color, float weight)[] colorWeightPairs)
-        {
+        public static Color RecombinationColor(params (Color color, float weight)[] colorWeightPairs) {
             Vector4 result = Vector4.Zero;
 
-            for (int i = 0; i < colorWeightPairs.Length; i++)
-            {
+            for (int i = 0; i < colorWeightPairs.Length; i++) {
                 result += colorWeightPairs[i].color.ToVector4() * colorWeightPairs[i].weight;
             }
 
@@ -1411,8 +1265,7 @@ namespace CalamityWeaponRemake.Common
         /// <param name="targetAngle">目标角度,请输入角度单位的值</param>
         /// <param name="ModeLength">返回的向量的长度</param>
         /// <returns></returns>
-        public static Vector2 GetRandomVevtor(float startAngle, float targetAngle, float ModeLength)
-        {
+        public static Vector2 GetRandomVevtor(float startAngle, float targetAngle, float ModeLength) {
             float angularSeparation = targetAngle - startAngle;
             float randomPosx = (angularSeparation * Main.rand.NextFloat() + startAngle) * (MathHelper.Pi / 180);
             float cosValue = MathF.Cos(randomPosx);
@@ -1424,8 +1277,7 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 获取一个垂直于该向量的单位向量
         /// </summary>
-        public static Vector2 GetNormalVector(this Vector2 vr)
-        {
+        public static Vector2 GetNormalVector(this Vector2 vr) {
             Vector2 nVr = new Vector2(vr.Y, -vr.X);
             return Vector2.Normalize(nVr);
         }
@@ -1458,8 +1310,7 @@ namespace CalamityWeaponRemake.Common
         /// <param name="ProbabilityExpectation">期望倾向</param>
         /// <param name="DesiredObject">期望对象</param>
         /// <returns></returns>
-        public static bool RandomBooleanValue(int ProbabilityDenominator, int ProbabilityExpectation, bool DesiredObject)
-        {
+        public static bool RandomBooleanValue(int ProbabilityDenominator, int ProbabilityExpectation, bool DesiredObject) {
             int randomInt = rands.Next(0, ProbabilityDenominator);
             return randomInt == ProbabilityExpectation && DesiredObject;
         }
@@ -1469,8 +1320,7 @@ namespace CalamityWeaponRemake.Common
         /// </summary>
         public class VeYSort : IComparer<Vector2>
         {
-            public int Compare(Vector2 v1, Vector2 v2)
-            {
+            public int Compare(Vector2 v1, Vector2 v2) {
                 // 比较两个向量的Y值，根据Y值大小进行排序
                 if (v1.Y < v2.Y)
                     return -1;
@@ -1504,11 +1354,9 @@ namespace CalamityWeaponRemake.Common
         /// <param name="list">目标集合</param>
         /// <param name="valueToAdd">替换为什么值</param>
         /// <param name="valueToReplace">替换的目标对象的值，不填则默认为-1</param>
-        public static void AddOrReplace(this List<int> list, int valueToAdd, int valueToReplace = -1)
-        {
+        public static void AddOrReplace(this List<int> list, int valueToAdd, int valueToReplace = -1) {
             int index = list.IndexOf(valueToReplace);
-            if (index >= 0)
-            {
+            if (index >= 0) {
                 list[index] = valueToAdd;
             }
             else list.Add(valueToAdd);
@@ -1517,8 +1365,7 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 返回一个集合的干净数量，排除数默认为-1，该扩展方法不会影响原集合
         /// </summary>
-        public static int GetIntListCount(this List<int> list, int valueToReplace = -1)
-        {
+        public static int GetIntListCount(this List<int> list, int valueToReplace = -1) {
             List<int> result = new List<int>(list);
             result.RemoveAll(item => item == -1);
             return result.Count;
@@ -1527,8 +1374,7 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 返回一个集合的筛选副本，排除数默认为-1，该扩展方法不会影响原集合
         /// </summary>
-        public static List<int> GetIntList(this List<int> list, int valueToReplace = -1)
-        {
+        public static List<int> GetIntList(this List<int> list, int valueToReplace = -1) {
             List<int> result = new List<int>(list);
             result.RemoveAll(item => item == -1);
             return result;
@@ -1538,14 +1384,11 @@ namespace CalamityWeaponRemake.Common
         /// 去除目标集合中所有-1元素
         /// </summary>
         /// <param name="list"></param>
-        public static void SweepLoadLists(ref List<int> list)
-        {
+        public static void SweepLoadLists(ref List<int> list) {
             int count = list.Count;
             int i = 0;
-            while (i < count)
-            {
-                if (list[i] == -1)
-                {
+            while (i < count) {
+                if (list[i] == -1) {
                     list.RemoveAt(i);
                     count--;
                 }
@@ -1566,16 +1409,14 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 对float集合进行平滑插值，precision不应该输入0值或者负值
         /// </summary>
-        public static List<float> InterpolateFloatList(List<float> originalList, float precision)
-        {
+        public static List<float> InterpolateFloatList(List<float> originalList, float precision) {
             if (precision <= 0) precision = 1;
             int precisionCounter = (int)(1f / precision);
             if (precisionCounter < 1) precisionCounter = 1;
 
             List<float> interpolatedList = new List<float>();
 
-            for (int i = 0; i < originalList.Count - 1; i++)
-            {
+            for (int i = 0; i < originalList.Count - 1; i++) {
                 interpolatedList.Add(originalList[i]);
 
                 float currentValue = originalList[i];
@@ -1584,8 +1425,7 @@ namespace CalamityWeaponRemake.Common
                 int absDis = (int)Math.Abs(dis);
                 int numInterpolations = absDis * precisionCounter;
 
-                for (int j = 1; j <= numInterpolations; j++)
-                {
+                for (int j = 1; j <= numInterpolations; j++) {
                     float t = j / (float)(numInterpolations + 1);
                     float interpolatedValue = MathHelper.Lerp(currentValue, nextValue, t);
                     interpolatedList.Add(interpolatedValue);
@@ -1600,15 +1440,13 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 对Vector2集合进行平滑插值，precision不应该输入0值或者负值
         /// </summary>
-        public static List<Vector2> InterpolateVectorList(List<Vector2> originalList, float precision = 1)
-        {
+        public static List<Vector2> InterpolateVectorList(List<Vector2> originalList, float precision = 1) {
             if (precision <= 0) precision = 1;
             int precisionCounter = Math.Max(1, (int)(1f / precision));
 
             List<Vector2> interpolatedList = new List<Vector2>(originalList.Count * (2 * precisionCounter + 1));
 
-            for (int i = 0; i < originalList.Count - 1; i++)
-            {
+            for (int i = 0; i < originalList.Count - 1; i++) {
                 interpolatedList.Add(originalList[i]);
 
                 Vector2 currentValue = originalList[i];
@@ -1616,8 +1454,7 @@ namespace CalamityWeaponRemake.Common
                 float maxDis = Math.Max(Math.Abs(nextValue.X - currentValue.X), Math.Abs(nextValue.Y - currentValue.Y));
                 int numInterpolations = Math.Max(1, (int)(maxDis * precisionCounter));
 
-                for (int j = 1; j <= numInterpolations; j++)
-                {
+                for (int j = 1; j <= numInterpolations; j++) {
                     float t = j / (float)(numInterpolations + 1);
                     Vector2 interpolatedValue;
                     interpolatedValue.X = MathHelper.Lerp(currentValue.X, nextValue.X, t);
@@ -1637,8 +1474,7 @@ namespace CalamityWeaponRemake.Common
         /// <param name="originalList">原始的 Vector2 列表</param>
         /// <param name="precision">插值精度，不能为零或负数</param>
         /// <returns>包含平滑插值点的新 Vector2 列表</returns>
-        public static List<Vector2> InterpolateVectorListWithBezier(List<Vector2> originalList, float precision = 1)
-        {
+        public static List<Vector2> InterpolateVectorListWithBezier(List<Vector2> originalList, float precision = 1) {
             if (precision <= 0) precision = 1;
             int precisionCounter = (int)(1f / precision);
             if (precisionCounter < 1) precisionCounter = 1;
@@ -1647,8 +1483,7 @@ namespace CalamityWeaponRemake.Common
 
             Vector2[] controlPoints = new Vector2[4]; // 用于存储控制点
 
-            for (int i = 0; i < originalList.Count - 1; i++)
-            {
+            for (int i = 0; i < originalList.Count - 1; i++) {
                 Vector2 startPoint = originalList[i];
                 Vector2 endPoint = originalList[i + 1];
 
@@ -1660,8 +1495,7 @@ namespace CalamityWeaponRemake.Common
                 controlPoints[2] = midPoint;
                 controlPoints[3] = endPoint;
 
-                for (int j = 0; j <= precisionCounter; j++)
-                {
+                for (int j = 0; j <= precisionCounter; j++) {
                     float t = j / (float)precisionCounter;
 
                     // 计算贝塞尔曲线点
@@ -1676,8 +1510,7 @@ namespace CalamityWeaponRemake.Common
         }
 
         // 计算贝塞尔曲线上的点
-        private static Vector2 CalculateBezierPoint(Vector2[] controlPoints, float t)
-        {
+        private static Vector2 CalculateBezierPoint(Vector2[] controlPoints, float t) {
             float u = 1 - t;
             float tt = t * t;
             float uu = u * u;
@@ -1709,8 +1542,7 @@ namespace CalamityWeaponRemake.Common
         /// 获取与纹理大小对应的矩形框
         /// </summary>
         /// <param name="value">纹理对象</param>
-        public static Rectangle GetRec(Texture2D value)
-        {
+        public static Rectangle GetRec(Texture2D value) {
             return new Rectangle(0, 0, value.Width, value.Height);
         }
         /// <summary>
@@ -1722,8 +1554,7 @@ namespace CalamityWeaponRemake.Common
         /// <param name="Sx">宽度</param>
         /// <param name="Sy">高度</param>
         /// <returns></returns>
-        public static Rectangle GetRec(Texture2D value, int Dx, int Dy, int Sx, int Sy)
-        {
+        public static Rectangle GetRec(Texture2D value, int Dx, int Dy, int Sx, int Sy) {
             return new Rectangle(Dx, Dy, Sx, Sy);
         }
         /// <summary>
@@ -1733,8 +1564,7 @@ namespace CalamityWeaponRemake.Common
         /// <param name="frameCounter">帧索引</param>
         /// <param name="frameCounterMax">总帧数，该值默认为1</param>
         /// <returns></returns>
-        public static Rectangle GetRec(Texture2D value, int frameCounter, int frameCounterMax = 1)
-        {
+        public static Rectangle GetRec(Texture2D value, int frameCounter, int frameCounterMax = 1) {
             int singleFrameY = value.Height / frameCounterMax;
             return new Rectangle(0, singleFrameY * frameCounter, value.Width, singleFrameY);
         }
@@ -1743,8 +1573,7 @@ namespace CalamityWeaponRemake.Common
         /// </summary>
         /// <param name="value">纹理对象</param>
         /// <returns></returns>
-        public static Vector2 GetOrig(Texture2D value)
-        {
+        public static Vector2 GetOrig(Texture2D value) {
             return new Vector2(value.Width, value.Height) * 0.5f;
         }
         /// <summary>
@@ -1753,8 +1582,7 @@ namespace CalamityWeaponRemake.Common
         /// <param name="value">纹理对象</param>
         /// <param name="ScaleOrig">整体缩放体积偏移</param>
         /// <returns></returns>
-        public static Vector2 GetOrig(Texture2D value, float ScaleOrig)
-        {
+        public static Vector2 GetOrig(Texture2D value, float ScaleOrig) {
             return new Vector2(value.Width, value.Height) * ScaleOrig;
         }
         /// <summary>
@@ -1764,8 +1592,7 @@ namespace CalamityWeaponRemake.Common
         /// <param name="ScaleX">X方向收缩系数</param>
         /// <param name="ScaleY">Y方向收缩系数</param>
         /// <returns></returns>
-        public static Vector2 GetOrig(Texture2D value, float ScaleX, float ScaleY)
-        {
+        public static Vector2 GetOrig(Texture2D value, float ScaleX, float ScaleY) {
             return new Vector2(value.Width * ScaleX, value.Height * ScaleY);
         }
         /// <summary>
@@ -1775,8 +1602,7 @@ namespace CalamityWeaponRemake.Common
         /// <param name="frameCounter">帧索引</param>
         /// <param name="frameCounterMax">总帧数，该值默认为1</param>
         /// <returns></returns>
-        public static Vector2 GetOrig(Texture2D value, int frameCounterMax = 1)
-        {
+        public static Vector2 GetOrig(Texture2D value, int frameCounterMax = 1) {
             float singleFrameY = value.Height / frameCounterMax;
             return new Vector2(value.Width * 0.5f, singleFrameY / 2);
         }
@@ -1786,8 +1612,7 @@ namespace CalamityWeaponRemake.Common
         /// <param name="frameCounter"></param>
         /// <param name="intervalFrame"></param>
         /// <param name="Maxframe"></param>
-        public static void ClockFrame(ref int frameCounter, int intervalFrame, int maxFrame)
-        {
+        public static void ClockFrame(ref int frameCounter, int intervalFrame, int maxFrame) {
             if (Main.GameUpdateCount % intervalFrame == 0) frameCounter++;
             if (frameCounter > maxFrame) frameCounter = 0;
         }
@@ -1798,8 +1623,7 @@ namespace CalamityWeaponRemake.Common
         /// <param name="intervalFrame"></param>
         /// <param name="Maxframe"></param>
         /// <param name="startCounter"></param>
-        public static void ClockFrame(ref double frameCounter, int intervalFrame, int maxFrame, int startCounter = 0)
-        {
+        public static void ClockFrame(ref double frameCounter, int intervalFrame, int maxFrame, int startCounter = 0) {
             if (Main.fpsCount % intervalFrame == 0) frameCounter++;
             if (frameCounter > maxFrame) frameCounter = startCounter;
         }
@@ -1808,8 +1632,7 @@ namespace CalamityWeaponRemake.Common
         /// </summary>
         /// <param name="entity">传入目标实体</param>
         /// <returns></returns>
-        public static Vector2 WDEpos(Entity entity)
-        {
+        public static Vector2 WDEpos(Entity entity) {
             return GetEntityCenter(entity) - Main.screenPosition;
         }
         /// <summary>
@@ -1817,8 +1640,7 @@ namespace CalamityWeaponRemake.Common
         /// </summary>
         /// <param name="pos">绘制目标的世界位置</param>
         /// <returns></returns>
-        public static Vector2 WDEpos(Vector2 pos)
-        {
+        public static Vector2 WDEpos(Vector2 pos) {
             return pos - Main.screenPosition;
         }
         /// <summary>
@@ -1826,8 +1648,7 @@ namespace CalamityWeaponRemake.Common
         /// </summary>
         /// <param name="texture">纹理路径</param>
         /// <returns></returns>
-        public static Texture2D GetT2DValue(string texture, bool immediateLoad = false)
-        {
+        public static Texture2D GetT2DValue(string texture, bool immediateLoad = false) {
             return ModContent.Request<Texture2D>(texture, immediateLoad ? AssetRequestMode.AsyncLoad : AssetRequestMode.ImmediateLoad).Value;
         }
 
@@ -1836,8 +1657,7 @@ namespace CalamityWeaponRemake.Common
         /// </summary>
         /// <param name="texture">纹理路径</param>
         /// <returns></returns>
-        public static Asset<Texture2D> GetT2DAsset(string texture)
-        {
+        public static Asset<Texture2D> GetT2DAsset(string texture) {
             return ModContent.Request<Texture2D>(texture);
         }
 
@@ -1850,8 +1670,7 @@ namespace CalamityWeaponRemake.Common
         /// </summary>
         /// <param name="spriteBatch">绘制模式</param>
         /// <param name="blendState">要使用的混合状态</param>
-        public static void ModifyBlendState(this SpriteBatch spriteBatch, BlendState blendState)
-        {
+        public static void ModifyBlendState(this SpriteBatch spriteBatch, BlendState blendState) {
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, blendState, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
         }
@@ -1872,8 +1691,7 @@ namespace CalamityWeaponRemake.Common
         /// 将 <see cref="SpriteBatch"/> 重置为无效果的UI画布状态，在大多数情况下，这个适合结束一段在UI中的绘制
         /// </summary>
         /// <param name="spriteBatch">绘制模式</param>
-        public static void ResetUICanvasState(this SpriteBatch spriteBatch)
-        {
+        public static void ResetUICanvasState(this SpriteBatch spriteBatch) {
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(0, BlendState.AlphaBlend, null, null, null, null, Main.UIScaleMatrix);
         }
@@ -1887,8 +1705,7 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 检测是否为一个背景方块
         /// </summary>
-        public static bool TopSlope(this Tile tile)
-        {
+        public static bool TopSlope(this Tile tile) {
             byte b = (byte)tile.Slope;
             if (b != 1)
                 return b == 2;
@@ -1899,22 +1716,17 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 将可能越界的方块坐标收值为非越界坐标
         /// </summary>
-        public static Vector2 PTransgressionTile(Vector2 TileVr, int L = 0, int R = 0, int D = 0, int S = 0)
-        {
-            if (TileVr.X > Main.maxTilesX - R)
-            {
+        public static Vector2 PTransgressionTile(Vector2 TileVr, int L = 0, int R = 0, int D = 0, int S = 0) {
+            if (TileVr.X > Main.maxTilesX - R) {
                 TileVr.X = Main.maxTilesX - R;
             }
-            if (TileVr.X < 0 + L)
-            {
+            if (TileVr.X < 0 + L) {
                 TileVr.X = 0 + L;
             }
-            if (TileVr.Y > Main.maxTilesY - S)
-            {
+            if (TileVr.Y > Main.maxTilesY - S) {
                 TileVr.Y = Main.maxTilesY - S;
             }
-            if (TileVr.Y < 0 + D)
-            {
+            if (TileVr.Y < 0 + D) {
                 TileVr.Y = 0 + D;
             }
             return new Vector2(TileVr.X, TileVr.Y);
@@ -1923,13 +1735,11 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 检测该位置是否存在一个实心的固体方块
         /// </summary>
-        public static bool HasSolidTile(this Tile tile)
-        {
+        public static bool HasSolidTile(this Tile tile) {
             return tile.HasTile && Main.tileSolid[tile.TileType] && !Main.tileSolidTop[tile.TileType];
         }
 
-        public static Vector2 FindTopLeft(int x, int y)
-        {
+        public static Vector2 FindTopLeft(int x, int y) {
             Tile tile = Main.tile[x, y];
             if (tile == null)
                 return new Vector2(x, y);
@@ -1947,16 +1757,12 @@ namespace CalamityWeaponRemake.Common
         /// <param name="DetectionR">矩形右</param>
         /// <param name="DetectionD">矩形上</param>
         /// <param name="DetectionS">矩形下</param>
-        public static bool TileRectangleDetection(Vector2 tileVr, int DetectionL, int DetectionR, int DetectionD, int DetectionS)
-        {
+        public static bool TileRectangleDetection(Vector2 tileVr, int DetectionL, int DetectionR, int DetectionD, int DetectionS) {
             Vector2 newTileVr;
-            for (int x = 0; x < DetectionR - DetectionL; x++)
-            {
-                for (int y = 0; y < DetectionS - DetectionD; y++)
-                {
+            for (int x = 0; x < DetectionR - DetectionL; x++) {
+                for (int y = 0; y < DetectionS - DetectionD; y++) {
                     newTileVr = PTransgressionTile(new Vector2(tileVr.X + x, tileVr.Y + y));
-                    if (Main.tile[(int)newTileVr.X, (int)newTileVr.Y].HasSolidTile())
-                    {
+                    if (Main.tile[(int)newTileVr.X, (int)newTileVr.Y].HasSolidTile()) {
                         return false;
                     }
                 }
@@ -1967,16 +1773,14 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 获取一个物块目标，输入世界物块坐标，自动考虑收界情况
         /// </summary>
-        public static Tile GetTile(int i, int j)
-        {
+        public static Tile GetTile(int i, int j) {
             return GetTile(new Vector2(i, j));
         }
 
         /// <summary>
         /// 获取一个物块目标，输入世界物块坐标，自动考虑收界情况
         /// </summary>
-        public static Tile GetTile(Vector2 pos)
-        {
+        public static Tile GetTile(Vector2 pos) {
             pos = PTransgressionTile(pos);
             return Main.tile[(int)pos.X, (int)pos.Y];
         }
@@ -1987,11 +1791,9 @@ namespace CalamityWeaponRemake.Common
         /// <param name="tileID">矿石的瓦块ID</param>
         /// <param name="veinSize">矿脉的大小</param>
         /// <param name="chanceDenominator">生成机会的分母，值越小生成机会越大</param>
-        public static void CreateOre(int tileID, int veinSize, int chanceDenominator)
-        {
+        public static void CreateOre(int tileID, int veinSize, int chanceDenominator) {
             // 根据机会分母循环尝试生成矿脉
-            for (int i = 0; i < Main.maxTilesX * Main.maxTilesY / chanceDenominator; i++)
-            {
+            for (int i = 0; i < Main.maxTilesX * Main.maxTilesY / chanceDenominator; i++) {
                 // 随机选择一个位置
                 int x = Main.rand.Next(1, Main.maxTilesX - 1);
                 int y = Main.rand.Next((int)GenVars.rockLayerLow, Main.maxTilesY - 1);
@@ -2005,8 +1807,7 @@ namespace CalamityWeaponRemake.Common
                     Main.tile[x, y].TileType == TileID.Sand ||
                     Main.tile[x, y].TileType == TileID.Mud ||
                     Main.tile[x, y].TileType == TileID.SnowBlock ||
-                    Main.tile[x, y].TileType == TileID.IceBlock)
-                {
+                    Main.tile[x, y].TileType == TileID.IceBlock) {
                     // 在符合条件的位置生成矿脉
                     WorldGen.TileRunner(x, y, veinSize, 15, tileID);
                 }
@@ -2020,8 +1821,7 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 对UI版面的布局设置
         /// </summary>
-        public static void SetRectangle(UIElement uiElement, float left, float top, float width, float height)
-        {
+        public static void SetRectangle(UIElement uiElement, float left, float top, float width, float height) {
             uiElement.Left.Set(left, 0f);
             uiElement.Top.Set(top, 0f);
             uiElement.Width.Set(width, 0f);
@@ -2051,8 +1851,7 @@ namespace CalamityWeaponRemake.Common
             float pitchVariance = 1,
             int maxInstances = 1,
             SoundLimitBehavior soundLimitBehavior = SoundLimitBehavior.ReplaceOldest
-            )
-        {
+            ) {
             sound = sound with
             {
                 Volume = volume,
@@ -2069,8 +1868,7 @@ namespace CalamityWeaponRemake.Common
         /// <summary>
         /// 更新声音位置
         /// </summary>
-        public static void PanningSound(Vector2 pos, SlotId sid)
-        {
+        public static void PanningSound(Vector2 pos, SlotId sid) {
             if (!SoundEngine.TryGetActiveSound(sid, out var activeSound)) return;
             else activeSound.Position = pos;
         }

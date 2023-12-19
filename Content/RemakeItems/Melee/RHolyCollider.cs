@@ -23,8 +23,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.width = 94;
             item.height = 80;
             item.scale = 1f;
@@ -43,8 +42,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             item.rare = ModContent.RarityType<Turquoise>();
         }
 
-        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             for (int i = 0; i < Main.rand.Next(3, 5); i++) {
                 Projectile.NewProjectile(source, player.Center + Main.rand.NextVector2Unit() * Main.rand.Next(342, 468), velocity / 3, ModContent.ProjectileType<HolyColliderHolyFires>(), damage, knockback, player.whoAmI);
                 for (int j = 0; j < 3; j++) {
@@ -58,13 +56,11 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             return false;
         }
 
-        public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone) {
             return;
         }
 
-        public override void OnHitPvp(Item item, Player player, Player target, Player.HurtInfo hurtInfo)
-        {
+        public override void OnHitPvp(Item item, Player player, Player target, Player.HurtInfo hurtInfo) {
             return;
         }
     }

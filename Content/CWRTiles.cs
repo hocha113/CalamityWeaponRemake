@@ -10,22 +10,17 @@ namespace CalamityWeaponRemake.Content
 {
     internal class CWRTiles : GlobalTile
     {
-        public override void RightClick(int i, int j, int type)
-        {
+        public override void RightClick(int i, int j, int type) {
             base.RightClick(i, j, type);
 
             Mod musicMod = CWRMod.Instance.musicMod;
-            if (musicMod is not null)
-            {
+            if (musicMod is not null) {
                 if (type == musicMod.Find<ModTile>("CalamityTitleMusicBox").Type
-                    && !NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()))
-                {
+                    && !NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>())) {
                     CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
 
-                    if (!CWRWorld.TitleMusicBoxEasterEgg)
-                    {
-                        if (modPlayer.sCalKillCount <= 0)
-                        {
+                    if (!CWRWorld.TitleMusicBoxEasterEgg) {
+                        if (modPlayer.sCalKillCount <= 0) {
                             return;
                         }
                     }
@@ -36,8 +31,7 @@ namespace CalamityWeaponRemake.Content
                             "Want to have a musical orgy?")
                         , Color.Pink);
 
-                    if (!CWRUtils.isClient)
-                    {
+                    if (!CWRUtils.isClient) {
                         int npc = CWRUtils.NewNPCEasy(null, new Vector2(i, j) * 16 + new Vector2(0, -32)
                         , ModContent.NPCType<SupremeCalamitas>());
 

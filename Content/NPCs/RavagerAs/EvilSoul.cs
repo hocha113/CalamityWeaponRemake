@@ -12,8 +12,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
     {
         public override string Texture => CWRConstant.RavagerA + "EvilSoul";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             NPC.width = 32;
             NPC.height = 32;
             NPC.lifeMax = 36000;
@@ -28,8 +27,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
 
         public ref float Time => ref NPC.ai[0];
 
-        public override void AI()
-        {
+        public override void AI() {
             //if (Time == 0)
             //SoundEngine.PlaySound(new SoundStyle(CWRConstant.Sound + "ShenA"));
             //Music = MusicLoader.GetMusicSlot(Mod, "Assets/ShenA");
@@ -49,8 +47,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             NPC.ChasingBehavior(Main.player[NPC.target].Center + new Vector2(0, -280), 13);
             NPC.timeLeft = 2;
 
-            switch (Time)
-            {
+            switch (Time) {
                 case 175:
                     CWRUtils.Text(langs[0], new Color(45, 46, 70));
                     break;
@@ -70,10 +67,8 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
                     CWRUtils.Text(langs[5], new Color(146, 30, 68));
                     break;
             }
-            if (Time >= 1200)
-            {
-                if (!CWRUtils.isClient)
-                {
+            if (Time >= 1200) {
+                if (!CWRUtils.isClient) {
                     int boss = CWRUtils.NewNPCEasy(new EntitySource_BossSpawn(NPC), NPC.position, ModContent.NPCType<RavagerABody>());
                     Main.npc[boss].timeLeft *= 20;
                 }
@@ -93,8 +88,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             CWRUtils.Translation("我  不  介  意  让  你  成  为  我  身  体  上  的  装  饰  之  一")
         };
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
-        {
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) {
             Texture2D value = CWRUtils.GetT2DValue(Texture);
             Main.EntitySpriteDraw(
                 value,

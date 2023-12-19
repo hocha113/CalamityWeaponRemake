@@ -15,15 +15,13 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public override string Texture => CWRConstant.Cay_Wap_Melee + "AirSpinner";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ItemID.Sets.Yoyo[Item.type] = true;
             ItemID.Sets.GamepadExtraRange[Item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.width = 28;
             Item.height = 28;
             Item.DamageType = DamageClass.MeleeNoSpeed;

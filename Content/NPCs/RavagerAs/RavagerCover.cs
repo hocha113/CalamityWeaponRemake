@@ -12,11 +12,9 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
 {
     internal class RavagerCover : GlobalNPC
     {
-        public override void SetDefaults(NPC npc)
-        {
+        public override void SetDefaults(NPC npc) {
             base.SetDefaults(npc);
-            if (npc.type == ModContent.NPCType<RavagerBody>())
-            {
+            if (npc.type == ModContent.NPCType<RavagerBody>()) {
                 npc.Calamity().canBreakPlayerDefense = true;
                 npc.lavaImmune = true;
                 npc.noGravity = true;
@@ -50,19 +48,15 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             }
         }
 
-        public override void OnKill(NPC npc)
-        {
-            if (npc.type == ModContent.NPCType<RavagerBody>())
-            {
+        public override void OnKill(NPC npc) {
+            if (npc.type == ModContent.NPCType<RavagerBody>()) {
                 int types = ModContent.NPCType<EvilSoul>();
                 int types2 = ModContent.NPCType<RavagerABody>();
 
-                if (DownedBossSystem.downedProvidence && !NPC.AnyNPCs(types) && !NPC.AnyNPCs(types2))
-                {
+                if (DownedBossSystem.downedProvidence && !NPC.AnyNPCs(types) && !NPC.AnyNPCs(types2)) {
                     SoundEngine.PlaySound(SoundID.ScaryScream, npc.Center);
 
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
+                    if (Main.netMode != NetmodeID.MultiplayerClient) {
                         int soud = NPC.NewNPC(new EntitySource_BossSpawn(npc), (int)npc.position.X, (int)npc.position.Y, types, 1);
                         Main.npc[soud].timeLeft *= 20;
                         CalamityUtils.BossAwakenMessage(soud);

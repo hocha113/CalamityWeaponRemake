@@ -23,8 +23,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
 
         public override float ForwardSpeed => 0.5f;
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 40;
             Projectile.height = 40;
             Projectile.DamageType = DamageClass.Melee;
@@ -47,21 +46,17 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
 
         Player owners => CWRUtils.GetPlayerInstance(Projectile.owner);
 
-        public override void AI()
-        {
+        public override void AI() {
             if (Status == 0)
                 base.AI();
-            if (Status == 1)
-            {
+            if (Status == 1) {
                 Projectile.velocity = Vector2.Zero;
 
-                if (owners == null)
-                {
+                if (owners == null) {
                     Projectile.Kill();
                     return;
                 }
-                if (Projectile.IsOwnedByLocalPlayer())
-                {
+                if (Projectile.IsOwnedByLocalPlayer()) {
                     StickToOwner();
                     SpanProj();
                 }
@@ -72,12 +67,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             Time++;
         }
 
-        public void SpanProj()
-        {
-            if (Time % 30 == 0 && Time > 0)
-            {
-                for (int i = 0; i < 3; i++)
-                {
+        public void SpanProj() {
+            if (Time % 30 == 0 && Time > 0) {
+                for (int i = 0; i < 3; i++) {
                     Vector2 spanPos = Main.MouseWorld
                         + MathHelper.ToRadians(Main.rand.NextFloat(-110, -70)).ToRotationVector2() * Main.rand.Next(670, 780);
                     Projectile proj = Projectile.NewProjectileDirect(
@@ -96,23 +88,19 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             }
         }
 
-        public void StickToOwner()
-        {
+        public void StickToOwner() {
             Vector2 toMous = owners.Center.To(Main.MouseWorld);
             Rots = toMous.ToRotation();
             owners.direction = toMous.X > 0 ? 1 : -1;
             owners.heldProj = Projectile.whoAmI;
             owners.SetDummyItemTime(2);
-            if (owners.PressKey(false))
-            {
+            if (owners.PressKey(false)) {
                 Projectile.timeLeft = 2;
             }
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            for (int i = 0; i < 3; i++)
-            {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
+            for (int i = 0; i < 3; i++) {
                 Vector2 spanPos = target.Center
                     + MathHelper.ToRadians(Main.rand.NextFloat(-110, -70)).ToRotationVector2() * Main.rand.Next(300, 320);
                 Projectile proj = Projectile.NewProjectileDirect(
@@ -133,30 +121,24 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             }
         }
 
-        public override void ExtraBehavior()
-        {
-            if (Main.rand.NextBool(5))
-            {
+        public override void ExtraBehavior() {
+            if (Main.rand.NextBool(5)) {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.BlueTorch, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
 
             Projectile.localAI[0] += 1f;
-            if (Projectile.localAI[0] >= 6f)
-            {
+            if (Projectile.localAI[0] >= 6f) {
                 Projectile.localAI[0] = 0f;
-                if (Main.myPlayer == Projectile.owner)
-                {
+                if (Main.myPlayer == Projectile.owner) {
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Projectile.velocity, Projectile.velocity, ModContent.ProjectileType<Feathers>(), (int)(Projectile.damage * 0.4), 0f, Projectile.owner, 1);
                 }
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             if (Status == 0)
                 base.PreDraw(ref lightColor);
-            if (Status == 1)
-            {
+            if (Status == 1) {
                 Texture2D value = CWRUtils.GetT2DValue(Texture);
                 Main.EntitySpriteDraw(
                     value,

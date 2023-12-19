@@ -456,6 +456,21 @@ Items: {
 		DisplayName: Dark Matter Ball
 		Tooltip: ""
 	}
+
+	GreatswordofJudgement: {
+		DisplayName: Greatswordof Judgement
+		Tooltip: ""
+	}
+
+	Orderbringer: {
+		DisplayName: Orderbringer
+		Tooltip: ""
+	}
+
+	IridescentExcalibur: {
+		DisplayName: Iridescent Excalibur
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -593,6 +608,10 @@ Projectiles: {
 	EssenceStar.DisplayName: Essence Star
 	TheEnforcerBeam.DisplayName: The Enforcer Beam
 	InfiniteIngotTileProj.DisplayName: Infinite Ingot Tile Proj
+	JudgementBeam.DisplayName: Judgement Beam
+	OrderbringerBeams.DisplayName: Orderbringer Beams
+	OrderbringerProj.DisplayName: Orderbringer Proj
+	OrderbringerBeams2.DisplayName: Orderbringer Beams2
 }
 
 Configs: {

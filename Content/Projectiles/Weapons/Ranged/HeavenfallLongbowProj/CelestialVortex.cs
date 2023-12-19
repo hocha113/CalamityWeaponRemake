@@ -25,8 +25,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
 
         SoundStyle modSoundtyle;
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.height = 24;
             Projectile.width = 24;
             Projectile.tileCollide = false;
@@ -38,24 +37,20 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             Projectile.localNPCHitCooldown = 15;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Player player = CWRUtils.GetPlayerInstance(Projectile.owner);
             Projectile ownerProj = CWRUtils.GetProjectileInstance((int)Projectile.ai[0]);
-            if (!player.Alives())
-            {
+            if (!player.Alives()) {
                 Projectile.Kill();
                 return;
             }
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             return CWRUtils.CircularHitboxCollision(Projectile.Center, rgs, targetHitbox);
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Main.spriteBatch.EnterShaderRegion();
 
             Texture2D noiseTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/VoronoiShapes").Value;

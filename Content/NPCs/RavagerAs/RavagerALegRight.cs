@@ -14,13 +14,11 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
     {
         public override string Texture => CWRConstant.RavagerA + "RavagerALegRight";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             this.HideFromBestiary();
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             NPC.aiStyle = -1;
             NPC.damage = 55;
             NPC.width = 60;
@@ -38,8 +36,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             NPC.alpha = 255;
             NPC.HitSound = RavagerBody.HitSound;
             NPC.DeathSound = RavagerBody.LimbLossSound;
-            if (BossRushEvent.BossRushActive)
-            {
+            if (BossRushEvent.BossRushActive) {
                 NPC.lifeMax = 140000;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
@@ -48,12 +45,10 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             NPC.Calamity().VulnerableToWater = true;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             NPC.damage = 0;
 
-            if (NPC.alpha > 0)
-            {
+            if (NPC.alpha > 0) {
                 NPC.alpha -= 10;
                 if (NPC.alpha < 0)
                     NPC.alpha = 0;
@@ -62,8 +57,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             }
 
             NPC body = CWRUtils.GetNPCInstance((int)NPC.ai[2]);
-            if (body == null)
-            {
+            if (body == null) {
                 NPC.active = false;
                 NPC.life = 0;
                 NPC.checkDead();
@@ -75,30 +69,24 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
 
         public override bool CheckActive() => false;
 
-        public override void HitEffect(NPC.HitInfo hit)
-        {
-            for (int k = 0; k < 3; k++)
-            {
+        public override void HitEffect(NPC.HitInfo hit) {
+            for (int k = 0; k < 3; k++) {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hit.HitDirection, -1f, 0, default, 1f);
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Torch, hit.HitDirection, -1f, 0, default, 1f);
             }
-            if (NPC.life <= 0)
-            {
-                if (Main.netMode != NetmodeID.Server)
-                {
+            if (NPC.life <= 0) {
+                if (Main.netMode != NetmodeID.Server) {
                     //Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ScavengerLegRight").Type, 1f);
                     //Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ScavengerLegRight2").Type, 1f);
                 }
-                for (int k = 0; k < 20; k++)
-                {
+                for (int k = 0; k < 20; k++) {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hit.HitDirection, -1f, 0, default, 1f);
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Torch, hit.HitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
-        {
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) {
             return false;
         }
     }

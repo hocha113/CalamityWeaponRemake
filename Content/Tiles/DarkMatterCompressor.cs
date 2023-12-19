@@ -24,8 +24,7 @@ namespace CalamityWeaponRemake.Content.Tiles
         public const int OriginOffsetY = 1;
         public const int SheetSquare = 18;
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -45,8 +44,7 @@ namespace CalamityWeaponRemake.Content.Tiles
 
         public override bool CanExplode(int i, int j) => false;
 
-        public override bool CreateDust(int i, int j, ref int type)
-        {
+        public override bool CreateDust(int i, int j, ref int type) {
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, DustID.Electric);
             return false;
         }
@@ -56,8 +54,7 @@ namespace CalamityWeaponRemake.Content.Tiles
         public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 
         int frameIndex = 1;
-        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
-        {
+        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch) {
             Tile t = Main.tile[i, j];
             int frameXPos = t.TileFrameX;
             int frameYPos = t.TileFrameY;

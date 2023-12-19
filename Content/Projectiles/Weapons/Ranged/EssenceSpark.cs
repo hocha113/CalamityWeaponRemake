@@ -13,8 +13,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
     {
         public override string Texture => CWRConstant.Projectile_Ranged + "EssenceSpark";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = Projectile.height = 14;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
@@ -25,16 +24,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Projectile.Opacity = MathHelper.Clamp(Projectile.Opacity + 0.1f, 0f, 1f);
             Projectile.rotation += Projectile.velocity.X * 0.025f;
             if (Projectile.velocity.Length() < 35f)
                 Projectile.velocity *= 1.024f;
 
             // Emit dust.
-            for (int i = 0; i < 2; i++)
-            {
+            for (int i = 0; i < 2; i++) {
                 Dust plasma = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.TerraBlade);
                 plasma.scale *= 0.7f;
                 plasma.velocity = plasma.velocity * 0.4f + Main.rand.NextVector2Circular(0.4f, 0.4f);
@@ -52,18 +49,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             //}
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
+        public override Color? GetAlpha(Color lightColor) {
             return new Color(255, 255, 255, 48) * Projectile.Opacity;
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
             Vector2 origin = texture.Size() * 0.5f;
 
-            for (int i = 0; i < 4; i++)
-            {
+            for (int i = 0; i < 4; i++) {
                 Vector2 drawOffset = -Projectile.velocity.SafeNormalize(Vector2.Zero) * i * 12f;
                 Vector2 afterimageDrawPosition = Projectile.Center + drawOffset - Main.screenPosition;
                 Color backAfterimageColor = Projectile.GetAlpha(lightColor) * ((4f - i) / 4f);
@@ -71,8 +65,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             }
 
             Color frontAfterimageColor = Projectile.GetAlpha(lightColor) * 0.2f;
-            for (int i = 0; i < 9; i++)
-            {
+            for (int i = 0; i < 9; i++) {
                 Vector2 drawOffset = (MathHelper.TwoPi * i / 9f + Projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 2f;
                 Vector2 afterimageDrawPosition = Projectile.Center + drawOffset - Main.screenPosition;
                 Main.spriteBatch.Draw(texture, afterimageDrawPosition, null, frontAfterimageColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
@@ -80,8 +73,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             return false;
         }
 
-        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
-        {
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) {
             behindProjectiles.Add(index);
         }
     }

@@ -50,42 +50,35 @@ namespace CalamityWeaponRemake.Content
             if (CWRIDs.OnLoadContentBool) {
                 if (item.createTile != -1 && !CWRIDs.TileToItem.ContainsKey(item.createTile)) {
                     CWRIDs.TileToItem.Add(item.createTile, item.type);
-                }  
+                }
                 if (item.createWall != -1 && !CWRIDs.WallToItem.ContainsKey(item.createWall)) {
                     CWRIDs.WallToItem.Add(item.createWall, item.type);
-                }   
+                }
             }
         }
 
-        public override void NetSend(Item item, BinaryWriter writer)
-        {
+        public override void NetSend(Item item, BinaryWriter writer) {
             base.NetSend(item, writer);
         }
 
-        public override void NetReceive(Item item, BinaryReader reader)
-        {
+        public override void NetReceive(Item item, BinaryReader reader) {
             base.NetReceive(item, reader);
         }
 
-        public override void SaveData(Item item, TagCompound tag)
-        {
+        public override void SaveData(Item item, TagCompound tag) {
             tag.Add("_MeleeCharge", MeleeCharge);
         }
 
-        public override void LoadData(Item item, TagCompound tag)
-        {
+        public override void LoadData(Item item, TagCompound tag) {
             MeleeCharge = tag.GetFloat("_MeleeCharge");
         }
 
-        public override void HoldItem(Item item, Player player)
-        {
+        public override void HoldItem(Item item, Player player) {
             OwnerByDir(item, player);
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
-            if (remakeItem)
-            {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
+            if (remakeItem) {
                 TooltipLine nameLine = tooltips.FirstOrDefault((x) => x.Name == "ItemName" && x.Mod == "Terraria");
                 ApplyNameLineColor(
                     new Color(1f, 0.72f + 0.2f * Main.DiscoG / 255f, 0.45f + 0.5f * Main.DiscoG / 255f)
@@ -96,20 +89,17 @@ namespace CalamityWeaponRemake.Content
             }
         }
 
-        private void OwnerByDir(Item item, Player player)
-        {
-            if (player.whoAmI == Main.myPlayer && item.useStyle == ItemUseStyleID.Swing 
-                && (item.createTile == -1 && item.createWall == -1)  
-                && (player.PressKey() || player.PressKey(false)))
-            {
+        private void OwnerByDir(Item item, Player player) {
+            if (player.whoAmI == Main.myPlayer && item.useStyle == ItemUseStyleID.Swing
+                && (item.createTile == -1 && item.createWall == -1)
+                && (player.PressKey() || player.PressKey(false))) {
                 player.direction = Math.Sign(player.position.To(Main.MouseWorld).X);
             }
         }
 
         private void ApplyNameLineColor(Color color, TooltipLine nameLine) => nameLine.OverrideColor = color;
 
-        public static void AppAwakeningLine(List<TooltipLine> tooltips)
-        {
+        public static void AppAwakeningLine(List<TooltipLine> tooltips) {
             TooltipLine line = new TooltipLine(CWRMod.Instance, "CalamityWeaponRemake",
                     CalamityUtils.ColorMessage(
                         CWRUtils.Translation("- 觉醒 -", "- Awakening -")
@@ -119,61 +109,47 @@ namespace CalamityWeaponRemake.Content
         }
 
         public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source
-            , Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+            , Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             CWRPlayer modPlayer = player.CWR();
             int theReLdamags = damage / 3;
             Vector2 vr = player.Center.To(Main.MouseWorld).UnitVector() * 13;
 
-            if (player.whoAmI == Main.myPlayer)
-            {
-                if (modPlayer.theRelicLuxor == 1)
-                {
-                    if (item.CountsAsClass<MeleeDamageClass>() || item.CountsAsClass<TrueMeleeNoSpeedDamageClass>())
-                    {
+            if (player.whoAmI == Main.myPlayer) {
+                if (modPlayer.theRelicLuxor == 1) {
+                    if (item.CountsAsClass<MeleeDamageClass>() || item.CountsAsClass<TrueMeleeNoSpeedDamageClass>()) {
                         Projectile.NewProjectile(source, position, vr, ModContent.ProjectileType<TheRelicLuxorMelee>(), theReLdamags, 0f, player.whoAmI, 1);
                     }
-                    else if (item.CountsAsClass<ThrowingDamageClass>())
-                    {
+                    else if (item.CountsAsClass<ThrowingDamageClass>()) {
                         Projectile.NewProjectile(source, position, vr, ModContent.ProjectileType<TheRelicLuxorRogue>(), theReLdamags, 0f, player.whoAmI, 0);
                     }
-                    else if (item.CountsAsClass<RangedDamageClass>())
-                    {
+                    else if (item.CountsAsClass<RangedDamageClass>()) {
                         Projectile.NewProjectile(source, position, vr, ModContent.ProjectileType<TheRelicLuxorRanged>(), theReLdamags, 0f, player.whoAmI, 0);
                     }
-                    else if (item.CountsAsClass<MagicDamageClass>())
-                    {
+                    else if (item.CountsAsClass<MagicDamageClass>()) {
                         Projectile.NewProjectile(source, position, vr, ModContent.ProjectileType<TheRelicLuxorMagic>(), theReLdamags, 0f, player.whoAmI, 0);
                     }
                     else if (item.CountsAsClass<SummonDamageClass>()
-                        && player.ownedProjectileCounts[ModContent.ProjectileType<TheRelicLuxorSummon>()] < 3)
-                    {
+                        && player.ownedProjectileCounts[ModContent.ProjectileType<TheRelicLuxorSummon>()] < 3) {
                         Projectile.NewProjectile(source, position, vr, ModContent.ProjectileType<TheRelicLuxorSummon>(), theReLdamags, 0f, player.whoAmI, 0);
                     }
                 }
-                if (modPlayer.theRelicLuxor == 2)
-                {
+                if (modPlayer.theRelicLuxor == 2) {
                     theReLdamags += 15;
 
-                    if (item.CountsAsClass<MeleeDamageClass>())
-                    {
+                    if (item.CountsAsClass<MeleeDamageClass>()) {
                         Projectile.NewProjectile(source, position, vr, ModContent.ProjectileType<TheRelicLuxorMelee>(), theReLdamags, 0f, player.whoAmI, 1);
                     }
-                    else if (item.CountsAsClass<ThrowingDamageClass>())
-                    {
+                    else if (item.CountsAsClass<ThrowingDamageClass>()) {
                         Projectile.NewProjectile(source, position, vr, ModContent.ProjectileType<TheRelicLuxorRogue>(), theReLdamags, 0f, player.whoAmI, 0);
                     }
-                    else if (item.CountsAsClass<RangedDamageClass>())
-                    {
+                    else if (item.CountsAsClass<RangedDamageClass>()) {
                         Projectile.NewProjectile(source, position, vr, ModContent.ProjectileType<TheRelicLuxorRanged>(), theReLdamags, 0f, player.whoAmI, 0);
                     }
-                    else if (item.CountsAsClass<MagicDamageClass>())
-                    {
+                    else if (item.CountsAsClass<MagicDamageClass>()) {
                         Projectile.NewProjectile(source, position, vr, ModContent.ProjectileType<TheRelicLuxorMagic>(), theReLdamags, 0f, player.whoAmI, 0);
                     }
                     else if (item.CountsAsClass<SummonDamageClass>()
-                        && player.ownedProjectileCounts[ModContent.ProjectileType<TheRelicLuxorSummon>()] < 6)
-                    {
+                        && player.ownedProjectileCounts[ModContent.ProjectileType<TheRelicLuxorSummon>()] < 6) {
                         Projectile.NewProjectile(source, position, vr, ModContent.ProjectileType<TheRelicLuxorSummon>(), theReLdamags, 0f, player.whoAmI, 0);
                     }
                 }
@@ -181,14 +157,12 @@ namespace CalamityWeaponRemake.Content
             return base.Shoot(item, player, source, position, velocity, type, damage, knockback);
         }
 
-        public override void OnConsumeItem(Item item, Player player)
-        {
+        public override void OnConsumeItem(Item item, Player player) {
             base.OnConsumeItem(item, player);
 
         }
 
-        public override bool CanUseItem(Item item, Player player)
-        {
+        public override bool CanUseItem(Item item, Player player) {
             if (CWRUtils.RemakeByItem<DeathWhistle>(item))//不管如何，不希望任意两种Boss存在时可以再次使用该物品
             {
                 return !NPC.AnyNPCs(ModContent.NPCType<RavagerBody>())
@@ -199,8 +173,7 @@ namespace CalamityWeaponRemake.Content
             return base.CanUseItem(item, player);
         }
 
-        public override bool? UseItem(Item item, Player player)
-        {
+        public override bool? UseItem(Item item, Player player) {
             //if (CWRUtils.RemakeByItem<DeathWhistle>(item))//这种修改方法会不可避免的调用原行为，导致生成两个甚至多个Boss实体，因而注释
             //{
             //    SoundEngine.PlaySound(SoundID.ScaryScream, player.Center);

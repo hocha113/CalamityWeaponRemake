@@ -18,8 +18,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.width = 60;
             item.height = 66;
             item.damage = 303;
@@ -38,13 +37,11 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             item.shootSpeed = 60f;
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "Terratomere", 3);
         }
 
-        public override bool? UseItem(Item item, Player player)
-        {
+        public override bool? UseItem(Item item, Player player) {
             return player.ownedProjectileCounts[item.shoot] == 0;
         }
     }

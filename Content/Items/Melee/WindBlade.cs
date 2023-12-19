@@ -18,13 +18,11 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public override string Texture => CWRConstant.Cay_Wap_Melee + "WindBlade";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.width = 58;
             Item.damage = 41;
             Item.DamageType = DamageClass.Melee;
@@ -42,17 +40,14 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.shootSpeed = 3f;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage / 2, knockback, player.whoAmI);
-            if (player.altFunctionUse == 2)
-            {
+            if (player.altFunctionUse == 2) {
                 Main.projectile[proj].ai[0] = 1;
                 Main.projectile[proj].timeLeft = 360;
                 Main.projectile[proj].damage = damage / 3;
 
-                for (int i = 0; i <= 360; i += 3)
-                {
+                for (int i = 0; i <= 360; i += 3) {
                     Vector2 vr = new Vector2(3f, 3f).RotatedBy(MathHelper.ToRadians(i));
                     int num = Dust.NewDust(player.Center, player.width, player.height, DustID.Smoke, vr.X, vr.Y, 200, new Color(232, 251, 250, 200), 1.4f);
                     Main.dust[num].noGravity = true;
@@ -63,39 +58,31 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             return false;
         }
 
-        public override bool AltFunctionUse(Player player)
-        {
+        public override bool AltFunctionUse(Player player) {
             return true;
         }
 
-        public override bool? UseItem(Player player)
-        {
-            if (player.altFunctionUse == 2)
-            {
+        public override bool? UseItem(Player player) {
+            if (player.altFunctionUse == 2) {
                 Item.noMelee = true;
             }
-            else
-            {
+            else {
                 Item.noMelee = false;
             }
             return null;
         }
 
-        public override void UseAnimation(Player player)
-        {
+        public override void UseAnimation(Player player) {
             Item.noUseGraphic = false;
             Item.UseSound = SoundID.Item1;
-            if (player.altFunctionUse == 2)
-            {
+            if (player.altFunctionUse == 2) {
                 Item.noUseGraphic = true;
                 Item.UseSound = SoundID.Item60;
             }
         }
 
-        public override void MeleeEffects(Player player, Rectangle hitbox)
-        {
-            if (Main.rand.NextBool(3))
-            {
+        public override void MeleeEffects(Player player, Rectangle hitbox) {
+            if (Main.rand.NextBool(3)) {
                 Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.BlueTorch);
             }
         }

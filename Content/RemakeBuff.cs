@@ -6,10 +6,8 @@ namespace CalamityWeaponRemake.Content
 {
     public class CWRBuff : GlobalBuff
     {
-        public override void Update(int type, Player player, ref int buffIndex)
-        {
-            switch (type)
-            {
+        public override void Update(int type, Player player, ref int buffIndex) {
+            switch (type) {
                 case BuffID.BeetleMight1:
 
                     player.GetAttackSpeed<MeleeDamageClass>() += 0.05f;

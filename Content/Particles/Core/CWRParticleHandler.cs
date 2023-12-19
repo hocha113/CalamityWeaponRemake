@@ -22,13 +22,10 @@ namespace CalamityWeaponRemake.Content.Particles.Core
         private static List<CWRParticle> batchedNonPremultipliedParticles;
         private static List<CWRParticle> batchedAdditiveBlendParticles;
 
-        public static void LoadModParticleInstances(Mod mod)
-        {
+        public static void LoadModParticleInstances(Mod mod) {
             Type baseParticleType = typeof(CWRParticle);
-            foreach (Type type in AssemblyManager.GetLoadableTypes(mod.Code))
-            {
-                if (type.IsSubclassOf(baseParticleType) && !type.IsAbstract && type != baseParticleType)
-                {
+            foreach (Type type in AssemblyManager.GetLoadableTypes(mod.Code)) {
+                if (type.IsSubclassOf(baseParticleType) && !type.IsAbstract && type != baseParticleType) {
                     int ID = particleTypes.Count;
                     particleTypes[type] = ID;
 
@@ -43,8 +40,7 @@ namespace CalamityWeaponRemake.Content.Particles.Core
             }
         }
 
-        internal static void Load()
-        {
+        internal static void Load() {
             particles = new List<CWRParticle>();
             particlesToKill = new List<CWRParticle>();
             particleTypes = new Dictionary<Type, int>();
@@ -58,8 +54,7 @@ namespace CalamityWeaponRemake.Content.Particles.Core
             LoadModParticleInstances(CWRMod.Instance);
         }
 
-        internal static void Unload()
-        {
+        internal static void Unload() {
             particles = null;
             particlesToKill = null;
             particleTypes = null;
@@ -73,8 +68,7 @@ namespace CalamityWeaponRemake.Content.Particles.Core
         /// <summary>
         /// Spawns the particle instance provided into the world. If the particle limit is reached but the particle is marked as important, it will try to replace a non important particle.
         /// </summary>
-        public static void SpawnParticle(CWRParticle particle)
-        {
+        public static void SpawnParticle(CWRParticle particle) {
             if (Main.gamePaused || Main.dedServ || particles == null)
                 return;
 
@@ -85,10 +79,8 @@ namespace CalamityWeaponRemake.Content.Particles.Core
             particle.Type = particleTypes[particle.GetType()];
         }
 
-        public static void Update()
-        {
-            foreach (CWRParticle particle in particles)
-            {
+        public static void Update() {
+            foreach (CWRParticle particle in particles) {
                 if (particle == null)
                     continue;
                 particle.Position += particle.Velocity;
@@ -100,13 +92,11 @@ namespace CalamityWeaponRemake.Content.Particles.Core
             particlesToKill.Clear();
         }
 
-        public static void RemoveParticle(CWRParticle particle)
-        {
+        public static void RemoveParticle(CWRParticle particle) {
             particlesToKill.Add(particle);
         }
 
-        public static void DrawAllParticles(SpriteBatch sb)
-        {
+        public static void DrawAllParticles(SpriteBatch sb) {
             if (particles.Count == 0)
                 return;
 
@@ -116,8 +106,7 @@ namespace CalamityWeaponRemake.Content.Particles.Core
             Main.instance.GraphicsDevice.RasterizerState.ScissorTestEnable = true;
             Main.instance.GraphicsDevice.ScissorRectangle = new Rectangle(0, 0, Main.screenWidth, Main.screenHeight);
 
-            foreach (CWRParticle particle in particles)
-            {
+            foreach (CWRParticle particle in particles) {
                 if (particle == null)
                     continue;
 
@@ -128,16 +117,13 @@ namespace CalamityWeaponRemake.Content.Particles.Core
                 else
                     batchedAlphaBlendParticles.Add(particle);
             }
-            if (batchedAlphaBlendParticles.Count > 0)
-            {
+            if (batchedAlphaBlendParticles.Count > 0) {
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-                foreach (CWRParticle particle in batchedAlphaBlendParticles)
-                {
+                foreach (CWRParticle particle in batchedAlphaBlendParticles) {
                     if (particle.UseCustomDraw)
                         particle.CustomDraw(sb);
-                    else
-                    {
+                    else {
                         Rectangle frame = particleTextures[particle.Type].Frame(1, particle.FrameVariants, 0, particle.Variant);
                         sb.Draw(particleTextures[particle.Type], particle.Position - Main.screenPosition, frame, particle.Color, particle.Rotation, frame.Size() * 0.5f,
                             particle.Scale, SpriteEffects.None, 0f);
@@ -147,20 +133,17 @@ namespace CalamityWeaponRemake.Content.Particles.Core
             }
 
 
-            if (batchedNonPremultipliedParticles.Count > 0)
-            {
+            if (batchedNonPremultipliedParticles.Count > 0) {
                 rasterizer = Main.Rasterizer;
                 rasterizer.ScissorTestEnable = true;
                 Main.instance.GraphicsDevice.RasterizerState.ScissorTestEnable = true;
                 Main.instance.GraphicsDevice.ScissorRectangle = new Rectangle(0, 0, Main.screenWidth, Main.screenHeight);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-                foreach (CWRParticle particle in batchedNonPremultipliedParticles)
-                {
+                foreach (CWRParticle particle in batchedNonPremultipliedParticles) {
                     if (particle.UseCustomDraw)
                         particle.CustomDraw(sb);
-                    else
-                    {
+                    else {
                         Rectangle frame = particleTextures[particle.Type].Frame(1, particle.FrameVariants, 0, particle.Variant);
                         sb.Draw(particleTextures[particle.Type], particle.Position - Main.screenPosition, frame, particle.Color, particle.Rotation, frame.Size() * 0.5f, particle.Scale, SpriteEffects.None, 0f);
                     }
@@ -168,20 +151,17 @@ namespace CalamityWeaponRemake.Content.Particles.Core
                 sb.End();
             }
 
-            if (batchedAdditiveBlendParticles.Count > 0)
-            {
+            if (batchedAdditiveBlendParticles.Count > 0) {
                 rasterizer = Main.Rasterizer;
                 rasterizer.ScissorTestEnable = true;
                 Main.instance.GraphicsDevice.RasterizerState.ScissorTestEnable = true;
                 Main.instance.GraphicsDevice.ScissorRectangle = new Rectangle(0, 0, Main.screenWidth, Main.screenHeight);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-                foreach (CWRParticle particle in batchedAdditiveBlendParticles)
-                {
+                foreach (CWRParticle particle in batchedAdditiveBlendParticles) {
                     if (particle.UseCustomDraw)
                         particle.CustomDraw(sb);
-                    else
-                    {
+                    else {
                         Rectangle frame = particleTextures[particle.Type].Frame(1, particle.FrameVariants, 0, particle.Variant);
                         sb.Draw(particleTextures[particle.Type], particle.Position - Main.screenPosition, frame, particle.Color, particle.Rotation, frame.Size() * 0.5f, particle.Scale, SpriteEffects.None, 0f);
                     }
@@ -200,8 +180,7 @@ namespace CalamityWeaponRemake.Content.Particles.Core
         /// Gives you the amount of particle slots that are available. Useful when you need multiple particles at once to make an effect and dont want it to be only halfway drawn due to a lack of particle slots
         /// </summary>
         /// <returns></returns>
-        public static int FreeSpacesAvailable()
-        {
+        public static int FreeSpacesAvailable() {
             //Safety check
             if (Main.dedServ || particles == null)
                 return 0;

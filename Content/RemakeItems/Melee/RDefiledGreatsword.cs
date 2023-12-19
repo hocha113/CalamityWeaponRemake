@@ -24,8 +24,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.width = 102;
             item.damage = 112;
             item.DamageType = DamageClass.Melee;
@@ -43,25 +42,21 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             item.shootSpeed = 12f;
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "DefiledGreatsword", 3);
         }
 
-        public override void PostDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
-        {
+        public override void PostDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale) {
             if (item.CWR().HoldOwner != null && item.CWR().MeleeCharge > 0) {
                 DrawRageEnergyChargeBar(item.CWR().HoldOwner, item);
             }
         }
 
-        public override void UpdateInventory(Item item, Player player)
-        {
+        public override void UpdateInventory(Item item, Player player) {
             UpdateBar(item);
         }
 
-        public override void HoldItem(Item item, Player player)
-        {
+        public override void HoldItem(Item item, Player player) {
             if (item.CWR().HoldOwner == null) {
                 item.CWR().HoldOwner = player;
             }
@@ -78,8 +73,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             UpdateBar(item);
         }
 
-        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             if (!item.CWR().closeCombat) {
                 item.CWR().MeleeCharge -= damage;
                 if (item.CWR().MeleeCharge < 0) item.CWR().MeleeCharge = 0;
@@ -117,8 +111,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             return false;
         }
 
-        public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone) {
             item.CWR().closeCombat = true;
             float addnum = hit.Damage;
             if (addnum > target.lifeMax)
@@ -157,14 +150,12 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             target.AddBuff(70, 150);
         }
 
-        private static void UpdateBar(Item item)
-        {
+        private static void UpdateBar(Item item) {
             if (item.CWR().MeleeCharge > DefiledGreatsword.DefiledGreatswordMaxRageEnergy)
                 item.CWR().MeleeCharge = DefiledGreatsword.DefiledGreatswordMaxRageEnergy;
         }
 
-        public void DrawRageEnergyChargeBar(Player player, Item item)
-        {
+        public void DrawRageEnergyChargeBar(Player player, Item item) {
             if (player.HeldItem != item) return;
             Texture2D rageEnergyTop = CWRUtils.GetT2DValue(CWRConstant.UI + "RageEnergyTop");
             Texture2D rageEnergyBar = CWRUtils.GetT2DValue(CWRConstant.UI + "RageEnergyBar");

@@ -15,8 +15,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
     {
         public override string Texture => CWRConstant.Placeholder;
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.height = 24;
             Projectile.width = 24;
             Projectile.tileCollide = false;
@@ -28,8 +27,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
             Projectile.localNPCHitCooldown = 15;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             if (Projectile.ai[0] == -1f)
                 return;
 
@@ -39,8 +37,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
             Projectile.ai[1] += MathHelper.Pi / 30f;
             Projectile.Opacity = MathHelper.Clamp(Projectile.ai[1], 0f, 1f);
 
-            if (Projectile.Opacity == 1f && Main.rand.NextBool(15))
-            {
+            if (Projectile.Opacity == 1f && Main.rand.NextBool(15)) {
                 Dust dust = Main.dust[Dust.NewDust(Projectile.Top, 0, 0, DustID.RainbowMk2, 0f, 0f, 100, new Color(150, 100, 255, 255), 1f)];
                 dust.velocity.X = 0f;
                 dust.noGravity = true;
@@ -50,11 +47,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
             }
         }
 
-        public override void OnKill(int timeLeft)
-        {
+        public override void OnKill(int timeLeft) {
             Projectile.Explode();
-            if (Main.netMode != NetmodeID.Server)
-            {
+            if (Main.netMode != NetmodeID.Server) {
                 for (int i = 0; i < 36; i++)//生成这种粒子不是好主意
                 {
                     Vector2 particleSpeed = CWRUtils.GetRandomVevtor(0, 360, Main.rand.Next(6, 9));
@@ -66,8 +61,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             float lerpMult = Utils.GetLerpValue(15f, 30f, Projectile.timeLeft, clamped: true) * Utils.GetLerpValue(240f, 200f, Projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTimeWrappedHourly % 30f / 0.5f * (MathHelper.Pi * 2f) * 3f)) * 0.8f;
 
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/StarProj").Value;

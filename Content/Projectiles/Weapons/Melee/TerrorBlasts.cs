@@ -13,8 +13,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
         public override string Texture => CWRConstant.Placeholder;
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 2;
             Projectile.height = 2;
             Projectile.friendly = true;
@@ -27,35 +26,29 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Projectile.DamageType = DamageClass.Melee;
         }
 
-        public override bool? CanDamage()
-        {
+        public override bool? CanDamage() {
             return true;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             base.AI();
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             return CWRUtils.CircularHitboxCollision(Projectile.Center, 150, targetHitbox);
         }
 
-        public override void OnKill(int timeLeft)
-        {
+        public override void OnKill(int timeLeft) {
             SoundEngine.PlaySound(in SoundID.Item60, Projectile.position);
             Projectile.width = 400;
             Projectile.height = 400;
             Vector2 projCenter = Projectile.position;
 
-            for (int i = 0; i < 6; i++)
-            {
+            for (int i = 0; i < 6; i++) {
                 Dust.NewDust(projCenter, Projectile.width, Projectile.height, DustID.RedTorch, 0f, 0f, 100, default, 1.5f);
             }
 
-            for (int i = 0; i < 66; i++)
-            {
+            for (int i = 0; i < 66; i++) {
                 Vector2 pos = Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * Main.rand.Next(-200, 200) + projCenter;
                 int num = Dust.NewDust(pos, 1, 1, DustID.RedTorch, 0f, 0f, 0, default, 2.5f);
                 Main.dust[num].noGravity = true;

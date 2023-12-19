@@ -203,7 +203,7 @@ namespace CalamityWeaponRemake
             targetNpcTypes10 = new List<int> { AstrumDeusHead, AstrumDeusBody, AstrumDeusTail };
             targetNpcTypes11 = new List<int> { AquaticScourgeHead, AquaticScourgeBody, AquaticScourgeTail };
             targetNpcTypes12 = new List<int> { EidolonWyrmHead, EidolonWyrmBody, EidolonWyrmBodyAlt, EidolonWyrmTail };
-            targetNpcTypes13 = new List<int> { NPCID.MoonLordFreeEye, NPCID.MoonLordCore, NPCID.MoonLordHand, NPCID.MoonLordHead, NPCID.MoonLordLeechBlob};
+            targetNpcTypes13 = new List<int> { NPCID.MoonLordFreeEye, NPCID.MoonLordCore, NPCID.MoonLordHand, NPCID.MoonLordHead, NPCID.MoonLordLeechBlob };
             targetNpcTypes14 = new List<int> { NPCID.EaterofWorldsHead, NPCID.EaterofWorldsBody, NPCID.EaterofWorldsTail };
             targetNpcTypes15 = new List<int> { NPCID.TheDestroyer, NPCID.TheDestroyerBody, NPCID.TheDestroyerTail };
 

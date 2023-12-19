@@ -24,14 +24,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
         public override int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
         public override int ThisTimeValue { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 25;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 16;
             Projectile.height = 16;
             Projectile.scale = 1;
@@ -46,30 +44,25 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             Projectile.localNPCHitCooldown = 12 * Projectile.MaxUpdates;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Projectile.rotation = Projectile.velocity.ToRotation();
             Projectile.velocity += new Vector2(0, 0.1f);
         }
 
-        internal Color ColorFunction(float completionRatio)
-        {
+        internal Color ColorFunction(float completionRatio) {
             float amount = MathHelper.Lerp(0.65f, 1f, (float)Math.Cos((0f - Main.GlobalTimeWrappedHourly) * 3f) * 0.5f + 0.5f);
             float num = Utils.GetLerpValue(1f, 0.64f, completionRatio, clamped: true) * Projectile.Opacity;
             Color value = Color.Lerp(new Color(192, 192, 192), new Color(211, 211, 211), (float)Math.Sin(completionRatio * MathF.PI * 1.6f - Main.GlobalTimeWrappedHourly * 4f) * 0.5f + 0.5f);
             return Color.Lerp(new Color(255, 255, 255), value, amount) * num;
         }
 
-        internal float WidthFunction(float completionRatio)
-        {
+        internal float WidthFunction(float completionRatio) {
             float amount = (float)Math.Pow(1f - completionRatio, 3.0);
             return MathHelper.Lerp(0f, 12f * Projectile.scale * Projectile.Opacity, amount);
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
-            if (TrailDrawer == null)
-            {
+        public override bool PreDraw(ref Color lightColor) {
+            if (TrailDrawer == null) {
                 TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, null, GameShaders.Misc["CalamityMod:TrailStreak"]);
             }
 
@@ -90,10 +83,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             return false;
         }
 
-        public override void OnKill(int timeLeft)
-        {
-            for (int j = 0; j < 10; j++)
-            {
+        public override void OnKill(int timeLeft) {
+            for (int j = 0; j < 10; j++) {
                 int num2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.ShadowbeamStaff, 0f, 0f, 100, default, 2f);
                 Main.dust[num2].noGravity = true;
                 Main.dust[num2].velocity *= 5f;
@@ -102,23 +93,19 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             }
         }
 
-        public override bool ShouldUpdatePosition()
-        {
+        public override bool ShouldUpdatePosition() {
             return true;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             return null;
         }
 
-        public override void OnSpawn(IEntitySource source)
-        {
+        public override void OnSpawn(IEntitySource source) {
 
         }
 
-        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
-        {
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) {
 
         }
     }

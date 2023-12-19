@@ -15,8 +15,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
     {
         public override string Texture => CWRConstant.Item + "Melee/" + "CosmicShiv";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.useStyle = ItemUseStyleID.Rapier;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 15;
@@ -37,18 +36,15 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.CWR().remakeItem = true;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             return true;
         }
 
-        public override bool CanUseItem(Player player)
-        {
+        public override bool CanUseItem(Player player) {
             return true;
         }
 
-        public override bool? UseItem(Player player)
-        {
+        public override bool? UseItem(Player player) {
             return true;
         }
     }

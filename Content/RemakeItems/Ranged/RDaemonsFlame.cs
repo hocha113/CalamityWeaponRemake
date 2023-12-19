@@ -21,8 +21,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.damage = 150;
             item.width = 62;
             item.height = 128;
@@ -44,23 +43,19 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
             item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "DaemonsFlame");
         }
 
-        public override bool? UseItem(Item item, Player player)
-        {
-            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Ranged.DaemonsFlame>(item))
-            {
+        public override bool? UseItem(Item item, Player player) {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Ranged.DaemonsFlame>(item)) {
                 if (player.ownedProjectileCounts[item.shoot] > 0)
                     return false;
             }
             return base.UseItem(item, player);
         }
 
-        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<DaemonsFlameHeldProj>(), damage, knockback, player.whoAmI);
             return false;
         }

@@ -22,14 +22,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailingMode[Type] = 2;
             ProjectileID.Sets.TrailCacheLength[Type] = 28;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 12;
             Projectile.height = 12;
             Projectile.friendly = true;
@@ -42,33 +40,27 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Projectile.localNPCHitCooldown = -1;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Projectile.scale = Utils.GetLerpValue(0f, 8f, Projectile.timeLeft, clamped: true);
         }
 
-        public float SlashWidthFunction(float _)
-        {
+        public float SlashWidthFunction(float _) {
             return Projectile.width * Projectile.scale * Utils.GetLerpValue(0f, 0.1f, _, clamped: true);
         }
 
-        public Color SlashColorFunction(float _)
-        {
+        public Color SlashColorFunction(float _) {
             return Color.Lime * Projectile.Opacity;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
             TargetIndex = target.whoAmI;
             target.CWR().TerratomereBoltOnHitNum++;
             if (target.CWR().TerratomereBoltOnHitNum > 6)
                 target.CWR().TerratomereBoltOnHitNum = 0;
             target.netUpdate = true;
-            if (target.CWR().TerratomereBoltOnHitNum > 5 && Main.player[Projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<TerratomereExplosion>()] <= 3)
-            {
+            if (target.CWR().TerratomereBoltOnHitNum > 5 && Main.player[Projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<TerratomereExplosion>()] <= 3) {
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<TerratomereExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                if (Projectile.timeLeft > 30)
-                {
+                if (Projectile.timeLeft > 30) {
                     Projectile.timeLeft = 30;
                 }
                 Projectile.velocity *= 0.2f;
@@ -77,10 +69,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             }
         }
 
-        public override void OnKill(int timeLeft)
-        {
-            if (Main.myPlayer == Projectile.owner && TargetIndex >= 0)
-            {
+        public override void OnKill(int timeLeft) {
+            if (Main.myPlayer == Projectile.owner && TargetIndex >= 0) {
                 int types = ModContent.ProjectileType<TerratomereSlashCreator>();
                 if (Main.npc[TargetIndex].CWR().TerratomereBoltOnHitNum > 5 && Main.player[Projectile.owner].ownedProjectileCounts[types] < 3)
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Main.npc[TargetIndex].Center, Vector2.Zero
@@ -88,10 +78,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
-            if (SlashDrawer == null)
-            {
+        public override bool PreDraw(ref Color lightColor) {
+            if (SlashDrawer == null) {
                 SlashDrawer = new PrimitiveTrail(SlashWidthFunction, SlashColorFunction, null, GameShaders.Misc["CalamityMod:ExobladePierce"]);
             }
 
@@ -99,18 +87,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             GameShaders.Misc["CalamityMod:ExobladePierce"].UseImage2("Images/Extra_189");
             GameShaders.Misc["CalamityMod:ExobladePierce"].UseColor(Terratomere.TerraColor1);
             GameShaders.Misc["CalamityMod:ExobladePierce"].UseSecondaryColor(Terratomere.TerraColor2);
-            for (int i = 0; i < 4; i++)
-            {
+            for (int i = 0; i < 4; i++) {
                 SlashDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 30);
             }
 
             return false;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
-            if (Projectile.oldPos[0] == Vector2.Zero)
-            {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
+            if (Projectile.oldPos[0] == Vector2.Zero) {
                 return false;
             }
 

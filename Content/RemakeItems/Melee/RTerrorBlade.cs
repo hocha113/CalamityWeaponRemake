@@ -23,8 +23,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.width = 88;
             item.damage = 560;
             item.DamageType = DamageClass.Melee;
@@ -42,28 +41,23 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             item.rare = ModContent.RarityType<PureGreen>();
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
-            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.TerrorBlade>(item))
-            {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.TerrorBlade>(item)) {
                 CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "TerrorBlade", 2);
             }
         }
 
-        public override void PostDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
-        {
+        public override void PostDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale) {
             if (item.CWR().HoldOwner != null && item.CWR().MeleeCharge > 0) {
                 DrawRageEnergyChargeBar(item.CWR().HoldOwner, item);
             }
         }
 
-        public override void UpdateInventory(Item item, Player player)
-        {
+        public override void UpdateInventory(Item item, Player player) {
             UpdateBar(item);
         }
 
-        public override void HoldItem(Item item, Player player)
-        {
+        public override void HoldItem(Item item, Player player) {
             if (item.CWR().HoldOwner == null) {
                 item.CWR().HoldOwner = player;
             }
@@ -84,8 +78,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             }
         }
 
-        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             bool shootBool = false;
             if (!item.CWR().closeCombat) {
                 bool olduseup = item.CWR().MeleeCharge > 0;//这里使用到了效差的流程思想，用于判断能量耗尽的那一刻            
@@ -116,8 +109,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             return shootBool;
         }
 
-        public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone) {
             item.CWR().closeCombat = true;
             target.AddBuff(ModContent.BuffType<SoulBurning>(), 600);
 
@@ -129,14 +121,12 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             }
         }
 
-        private static void UpdateBar(Item item)
-        {
+        private static void UpdateBar(Item item) {
             if (item.CWR().MeleeCharge > TerrorBlade.TerrorBladeMaxRageEnergy)
                 item.CWR().MeleeCharge = TerrorBlade.TerrorBladeMaxRageEnergy;
         }
 
-        public static void DrawRageEnergyChargeBar(Player player, Item item)
-        {
+        public static void DrawRageEnergyChargeBar(Player player, Item item) {
             if (player.HeldItem != item) return;
             Texture2D rageEnergyTop = CWRUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeTop");
             Texture2D rageEnergyBar = CWRUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeBar");

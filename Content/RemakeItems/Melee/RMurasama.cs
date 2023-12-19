@@ -22,8 +22,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.height = 134;
             item.width = 90;
             item.damage = 2222;
@@ -43,23 +42,19 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 14));
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "Murasama", 3);
         }
 
-        public override void HoldItem(Item item, Player player)
-        {
+        public override void HoldItem(Item item, Player player) {
             item.damage = Murasama.GetOnDamage;
         }
 
-        public override bool? CanUseItem(Item item, Player player)
-        {
+        public override bool? CanUseItem(Item item, Player player) {
             return player.ownedProjectileCounts[item.shoot] == 0;
         }
 
-        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             int proj = Projectile.NewProjectile(source, position, velocity, type, Murasama.GetOnDamage, knockback, player.whoAmI, 0f, 0f);
             Main.projectile[proj].scale = Murasama.GetOnScale;
             return false;

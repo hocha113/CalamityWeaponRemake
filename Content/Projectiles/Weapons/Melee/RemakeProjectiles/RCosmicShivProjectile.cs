@@ -13,13 +13,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
     {
         public override string Texture => CWRConstant.Item_Melee + "CosmicShiv";
 
-        public override Action<Projectile> EffectBeforePullback => delegate
-        {
+        public override Action<Projectile> EffectBeforePullback => delegate {
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 14f, ModContent.ProjectileType<RCosmicShivBall>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner);
         };
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.Size = new Vector2(24f);
             Projectile.friendly = true;
             Projectile.penetrate = -1;
@@ -33,8 +31,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             Projectile.ownerHitCheck = true;
         }
 
-        public override void SetVisualOffsets()
-        {
+        public override void SetVisualOffsets() {
             int HalfProjWidth = Projectile.width / 2;
             int HalfProjHeight = Projectile.height / 2;
             DrawOriginOffsetX = 0f;
@@ -42,16 +39,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             DrawOriginOffsetY = -(24 - HalfProjHeight);
         }
 
-        public override void ExtraBehavior()
-        {
+        public override void ExtraBehavior() {
             Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.ShadowbeamStaff);
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
 
-            for (int i = 0; i < 36; i++)
-            {
+            for (int i = 0; i < 36; i++) {
                 int dustID = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height - 16, 173);
                 Dust obj = Main.dust[dustID];
                 obj.velocity *= 3f;
@@ -60,10 +54,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
         }
 
-        public override void OnHitPlayer(Player target, Player.HurtInfo info)
-        {
-            for (int i = 0; i < 36; i++)
-            {
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) {
+            for (int i = 0; i < 36; i++) {
                 int dustID = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height - 16, 173);
                 Dust obj = Main.dust[dustID];
                 obj.velocity *= 3f;

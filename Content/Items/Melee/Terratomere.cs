@@ -36,8 +36,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public override string Texture => CWRConstant.Item_Melee + "Terratomere";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.width = 60;
             Item.height = 66;
             Item.damage = 303;
@@ -57,13 +56,11 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.CWR().remakeItem = true;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             return base.Shoot(player, source, position, velocity, type, damage, knockback);
         }
 
-        public override bool CanUseItem(Player player)
-        {
+        public override bool CanUseItem(Player player) {
             return player.ownedProjectileCounts[Item.shoot] <= 0;
         }
     }

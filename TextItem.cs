@@ -8,12 +8,11 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake
 {
-    internal class TextItem :  ModItem
+    internal class TextItem : ModItem
     {
         public override string Texture => "CalamityWeaponRemake/icon";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.width = 80;
             Item.height = 80;
             Item.damage = 9999;
@@ -30,27 +29,22 @@ namespace CalamityWeaponRemake
             Item.rare = ItemRarityID.Yellow;
         }
 
-        public override void HoldItem(Player player)
-        {
+        public override void HoldItem(Player player) {
             base.HoldItem(player);
         }
 
-        public override bool? UseItem(Player player)
-        {
+        public override bool? UseItem(Player player) {
             return base.UseItem(player);
         }
 
-        public void CedTile()
-        {
+        public void CedTile() {
             int wid = 11;
             int hig = 11;
             Vector2 offset = new Vector2(wid, hig) / -2 * 16;
             Vector2 mouPos = Main.MouseWorld + offset;
             Vector2 landDTIlePos = CWRUtils.WEPosToTilePos(mouPos);
-            for (int y = 0; y < hig; y++)
-            {
-                for (int x = 0; x < wid; x++)
-                {
+            for (int y = 0; y < hig; y++) {
+                for (int x = 0; x < wid; x++) {
                     //CWRUtils.HasSolidTile
                 }
             }

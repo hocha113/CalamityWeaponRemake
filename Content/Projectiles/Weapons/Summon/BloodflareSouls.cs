@@ -12,8 +12,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon
     {
         public override string Texture => CWRConstant.Cay_Proj_Ranged + "BloodflareSoul";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 32;
             Projectile.height = 32;
             Projectile.timeLeft = 120;
@@ -26,26 +25,21 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon
             Projectile.localNPCHitCooldown = -1;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             CWRUtils.ClockFrame(ref Projectile.frameCounter, 5, 3);
             Projectile.alpha += 15;
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            if (Projectile.timeLeft < 60)
-            {
+            if (Projectile.timeLeft < 60) {
                 NPC target = Projectile.Center.InPosClosestNPC(600);
-                if (target != null)
-                {
+                if (target != null) {
                     Projectile.ChasingBehavior2(target.Center, 1.01f, 0.1f);
                 }
             }
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
             SoundEngine.PlaySound(in SoundID.NPCDeath39, Projectile.position);
-            for (float i = 0; i < MathHelper.TwoPi; i += 0.05f)
-            {
+            for (float i = 0; i < MathHelper.TwoPi; i += 0.05f) {
                 Vector2 vr = i.ToRotationVector2() * Main.rand.Next(6, 7);
                 Dust dust = Dust.NewDustDirect(Projectile.position, 32, 32
                 , DustID.Blood, vr.X, vr.Y);
@@ -53,8 +47,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Main.EntitySpriteDraw(
                 mainValue,

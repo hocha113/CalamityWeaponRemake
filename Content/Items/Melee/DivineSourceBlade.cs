@@ -19,8 +19,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public Texture2D Value => CWRUtils.GetT2DValue(Texture);
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.height = 154;
             Item.width = 154;
             Item.damage = 332;
@@ -39,8 +38,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.CWR().remakeItem = true;
         }
 
-        public override void UseStyle(Player player, Rectangle heldItemFrame)
-        {
+        public override void UseStyle(Player player, Rectangle heldItemFrame) {
             float itmeRots = player.itemRotation + (MathHelper.ToRadians(60)) * player.direction;
             player.itemRotation = itmeRots;
 
@@ -49,8 +47,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             player.SetCompositeArmFront(Math.Abs(rots) > 0.01f, Player.CompositeArmStretchAmount.Full, rots);
         }
 
-        public override void UseAnimation(Player player)
-        {
+        public override void UseAnimation(Player player) {
             int types = ModContent.ProjectileType<DivineSourceBeam>();
 
             Vector2 vector2 = player.Center.To(Main.MouseWorld).UnitVector() * 3;
@@ -63,8 +60,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                 , player.whoAmI);
         }
 
-        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
-        {
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale) {
             spriteBatch.Draw(
                 Value,
                 position,
@@ -79,8 +75,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             return false;
         }
 
-        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
-        {
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI) {
             spriteBatch.Draw(
                 Value,
                 Item.Center - Main.screenPosition,
@@ -95,8 +90,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             return false;
         }
 
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             CreateRecipe().
                 AddIngredient<AuricBar>(5).
                 AddIngredient<CalamityMod.Items.Weapons.Melee.Terratomere>().

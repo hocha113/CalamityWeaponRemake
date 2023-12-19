@@ -23,11 +23,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
         private Player Owners => CWRUtils.GetPlayerInstance(Projectile.owner);
         private HeavenfallLongbow HFBow => (HeavenfallLongbow)Owners.HeldItem.ModItem;
         private Vector2 toMou = Vector2.Zero;
-        
+
         private ref float Time => ref Projectile.ai[0];
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 54;
             Projectile.height = 116;
             Projectile.friendly = true;
@@ -38,27 +37,22 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             Projectile.hide = true;
         }
 
-        public override bool ShouldUpdatePosition()
-        {
+        public override bool ShouldUpdatePosition() {
             return false;
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
+        public override void SendExtraAI(BinaryWriter writer) {
             writer.WriteVector2(toMou);
         }
 
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
+        public override void ReceiveExtraAI(BinaryReader reader) {
             toMou = reader.ReadVector2();
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Lighting.AddLight(Projectile.Center, 0f, 0.7f, 0.5f);
 
-            if (Owners == null || Owners.HeldItem?.type != ItemType<HeavenfallLongbow>())
-            {
+            if (Owners == null || Owners.HeldItem?.type != ItemType<HeavenfallLongbow>()) {
                 Projectile.Kill();
                 return;
             }
@@ -70,15 +64,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             Time++;
         }
 
-        public void SpanProj()
-        {
+        public void SpanProj() {
             Vector2 vr = Projectile.rotation.ToRotationVector2();
             int weaponDamage2 = Owners.GetWeaponDamage(Owners.ActiveItem());
             float weaponKnockback2 = Owners.GetWeaponKnockback(Owners.ActiveItem(), Owners.ActiveItem().knockBack);
-            if (Projectile.ai[2] == 0)
-            {
-                if (Time > 10)
-                {
+            if (Projectile.ai[2] == 0) {
+                if (Time > 10) {
                     SoundEngine.PlaySound(HeavenlyGale.FireSound, Projectile.Center);
                     Owners.PickAmmo(Owners.ActiveItem(), out _, out _, out weaponDamage2, out weaponKnockback2, out _);
                     Projectile.NewProjectile(Projectile.parent(), Projectile.Center, vr * 20, ProjectileType<InfiniteArrow>(), weaponDamage2, weaponKnockback2, Owners.whoAmI);
@@ -86,13 +77,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
                     Time = 0;
                 }
             }
-            else
-            {
-                if (Time > 15)
-                {
+            else {
+                if (Time > 15) {
                     SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);
-                    for (int i = 0; i < 5; i++)
-                    {
+                    for (int i = 0; i < 5; i++) {
                         Owners.PickAmmo(Owners.ActiveItem(), out _, out _, out weaponDamage2, out weaponKnockback2, out _);
                         Vector2 spanPos = Projectile.Center + new Vector2(0, -633) + new Vector2(Main.MouseWorld.X - Owners.position.X, 0) * Main.rand.NextFloat(0.3f, 0.45f);
                         Vector2 vr3 = spanPos.To(Main.MouseWorld).UnitVector().RotateRandom(12 * CWRUtils.atoR) * 23;
@@ -104,24 +92,20 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             }
         }
 
-        public void StickToOwner()
-        {
+        public void StickToOwner() {
             HFBow.Item.damage = 9999;
 
             if (HFBow.ChargeValue > 200)
                 HFBow.ChargeValue = 200;
 
-            if (Projectile.IsOwnedByLocalPlayer())
-            {
+            if (Projectile.IsOwnedByLocalPlayer()) {
                 Vector2 oldToMou = toMou;
                 toMou = Owners.Center.To(Main.MouseWorld);
-                if (oldToMou != toMou)
-                {
+                if (oldToMou != toMou) {
                     Projectile.netUpdate = true;
                 }
             }
-            if ((Projectile.ai[2] == 0 && Owners.PressKey()) || (Projectile.ai[2] == 1 && Owners.PressKey(false)))
-            {
+            if ((Projectile.ai[2] == 0 && Owners.PressKey()) || (Projectile.ai[2] == 1 && Owners.PressKey(false))) {
                 Projectile.timeLeft = 2;
                 Owners.itemTime = 2;
                 Owners.itemAnimation = 2;
@@ -135,8 +119,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             Owners.heldProj = Projectile.whoAmI;
         }
 
-        public override void PostDraw(Color lightColor)
-        {
+        public override void PostDraw(Color lightColor) {
             Texture2D mainValue = CWRUtils.GetT2DValue(Texture + "Glow");
             Main.EntitySpriteDraw(
                 mainValue,
@@ -150,8 +133,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
                 );
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Color drawColor2 = CWRUtils.MultiLerpColor(Projectile.ai[0] % 15 / 15f, HeavenfallLongbow.rainbowColors);
             if (HFBow.ChargeValue < 200)
@@ -163,17 +145,17 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
                 slp2 = 0;
 
             Main.spriteBatch.SetAdditiveState();
-            for(int i = 0; i < 8; i++)
-            Main.EntitySpriteDraw(
-                mainValue,
-                Projectile.Center - Main.screenPosition,
-                CWRUtils.GetRec(mainValue),
-                drawColor2,
-                Projectile.rotation,
-                CWRUtils.GetOrig(mainValue),
-                Projectile.scale * (1 + slp2 * 0.08f),
-                Owners.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipVertically
-                );
+            for (int i = 0; i < 8; i++)
+                Main.EntitySpriteDraw(
+                    mainValue,
+                    Projectile.Center - Main.screenPosition,
+                    CWRUtils.GetRec(mainValue),
+                    drawColor2,
+                    Projectile.rotation,
+                    CWRUtils.GetOrig(mainValue),
+                    Projectile.scale * (1 + slp2 * 0.08f),
+                    Owners.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipVertically
+                    );
             Main.spriteBatch.ResetBlendState();
 
             Main.EntitySpriteDraw(
@@ -186,7 +168,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
                 Projectile.scale,
                 Owners.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipVertically
                 );
-            
+
             return false;
         }
 

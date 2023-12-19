@@ -23,8 +23,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
     {
         public override string Texture => CWRConstant.Cay_Wap_Melee + "HolyCollider";
         public new string LocalizationCategory => "Items.Weapons.Melee";
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.width = 94;
             Item.height = 80;
             Item.scale = 1f;
@@ -43,13 +42,10 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.rare = ModContent.RarityType<Turquoise>();
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            for (int i = 0; i < Main.rand.Next(3, 5); i++)
-            {
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
+            for (int i = 0; i < Main.rand.Next(3, 5); i++) {
                 Projectile.NewProjectile(source, player.Center + Main.rand.NextVector2Unit() * Main.rand.Next(342, 468), velocity / 3, ModContent.ProjectileType<HolyColliderHolyFires>(), damage, knockback, player.whoAmI);
-                for (int j = 0; j < 3; j++)
-                {
+                for (int j = 0; j < 3; j++) {
                     Vector2 pos = player.Center + Main.rand.NextVector2Unit() * Main.rand.Next(342, 468);
                     Vector2 particleSpeed = pos.To(player.Center).UnitVector() * 7;
                     CWRParticle energyLeak = new HolyColliderLightParticle(pos, particleSpeed

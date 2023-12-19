@@ -29,8 +29,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
 
         public override string Texture => CWRConstant.Projectile_Melee + "CosmicShivBlade";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 12;
             Projectile.height = 12;
             Projectile.friendly = true;
@@ -42,21 +41,17 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             Projectile.localNPCHitCooldown = 10;
         }
 
-        public int Status
-        {
+        public int Status {
             set => Projectile.ai[2] = value;
             get => (int)Projectile.ai[2];
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Projectile.rotation = Projectile.velocity.ToRotation();
             if (Projectile.timeLeft < 190) Status = 1;
 
-            if (Status == 0)
-            {
-                if (!initialized)
-                {
+            if (Status == 0) {
+                if (!initialized) {
                     target = Projectile.Center.ClosestNPCAt(540f);
                     startingVelocityY = Projectile.velocity.Y;
                     randomAngleDelta = Main.rand.NextFloat(0f, MathF.PI * 2f);
@@ -64,10 +59,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
                 }
 
                 Projectile.localAI[0] += 1f;
-                if (Projectile.localAI[0] > 4f)
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
+                if (Projectile.localAI[0] > 4f) {
+                    for (int i = 0; i < 3; i++) {
                         int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.ShadowbeamStaff, Projectile.direction * 2, 0f, 115, Color.White, 1.3f);
                         Main.dust[num].noGravity = true;
                         Main.dust[num].velocity *= 0f;
@@ -76,38 +69,31 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
                     Projectile.velocity.Y *= 0.965f;
                 }
 
-                if (Projectile.localAI[0] % 30f == 0f)
-                {
+                if (Projectile.localAI[0] % 30f == 0f) {
                     target = Projectile.Center.ClosestNPCAt(540f);
                 }
 
-                if (target != null)
-                {
+                if (target != null) {
                     float num2 = 35f;
                     float num3 = 33.5f;
                     Vector2 vector = Projectile.SafeDirectionTo(target.Center, Vector2.UnitX) * num3;
                     Projectile.velocity = (Projectile.velocity * (num2 - 1f) + vector) / num2;
                 }
-                else
-                {
+                else {
                     Projectile.ai[0] += 1f;
                     Projectile.velocity.Y = startingVelocityY + (float)(Math.Cos(Projectile.ai[0] / 12.0 + randomAngleDelta) * 7.0);
                 }
             }
-            if (Status == 1)
-            {
+            if (Status == 1) {
                 NPC newTarget = Projectile.Center.InPosClosestNPC(9900);
-                if (newTarget != null)
-                {
+                if (newTarget != null) {
                     Projectile.ChasingBehavior(newTarget.Center, 27f, 16);
                 }
             }
         }
 
-        public void ShootCosmicShivBlade(NPC target)
-        {
-            for (int i = 0; i < 6; i++)
-            {
+        public void ShootCosmicShivBlade(NPC target) {
+            for (int i = 0; i < 6; i++) {
                 Vector2 spanPos = target.Center + CWRUtils.GetRandomVevtor(0, 360, CWRUtils.rands.Next(220, 300));
                 Vector2 vr = spanPos.To(Main.MouseWorld).SafeNormalize(Vector2.Zero) * 38f;
                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spanPos, vr, ModContent.ProjectileType<CosmicShivBlade>(), Projectile.damage, Projectile.knockBack * 0.1f, Projectile.owner);
@@ -116,13 +102,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             }
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
             Player Owner = Main.player[Projectile.owner];
             if (Owner.Alives() == false) return;
 
-            if (Owner.ownedProjectileCounts[ModContent.ProjectileType<CosmicRay>()] <= 12)
-            {
+            if (Owner.ownedProjectileCounts[ModContent.ProjectileType<CosmicRay>()] <= 12) {
                 float mode = Owner.Center.To(target.Center).Length() * 0.5f;
                 if (mode > 260) mode = 260;
                 Vector2 spanPos = Owner.Center + (Owner.Center.To(target.Center).ToRotation() + MathHelper.ToRadians(CWRUtils.rands.Next(-45, 45))).ToRotationVector2() * mode;
@@ -136,27 +120,22 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             ShootCosmicShivBlade(target);
         }
 
-        private void CircularDamage(float radius)
-        {
-            if (Projectile.owner != Main.myPlayer)
-            {
+        private void CircularDamage(float radius) {
+            if (Projectile.owner != Main.myPlayer) {
                 return;
             }
 
             Player player = Main.player[Projectile.owner];
-            for (int i = 0; i < Main.npc.Length; i++)
-            {
+            for (int i = 0; i < Main.npc.Length; i++) {
                 NPC nPC = Main.npc[i];
-                if (!nPC.active || nPC.dontTakeDamage || nPC.friendly)
-                {
+                if (!nPC.active || nPC.dontTakeDamage || nPC.friendly) {
                     continue;
                 }
 
                 float value = Vector2.Distance(Projectile.Center, nPC.Hitbox.TopLeft());
                 float value2 = Vector2.Distance(Projectile.Center, nPC.Hitbox.TopRight());
                 float value3 = Vector2.Distance(Projectile.Center, nPC.Hitbox.BottomLeft());
-                if (MathHelper.Min(value2: Vector2.Distance(Projectile.Center, nPC.Hitbox.BottomRight()), value1: MathHelper.Min(MathHelper.Min(value, value2), value3)) <= radius)
-                {
+                if (MathHelper.Min(value2: Vector2.Distance(Projectile.Center, nPC.Hitbox.BottomRight()), value1: MathHelper.Min(MathHelper.Min(value, value2), value3)) <= radius) {
                     int num = (int)(Projectile.damage * 1.8f);
                     bool flag = Main.rand.Next(100) <= player.GetCritChance<MeleeDamageClass>() + 4f;
                     nPC.StrikeNPC(nPC.CalculateHitInfo(num, 0, flag));
@@ -164,14 +143,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             }
         }
 
-        public override void OnKill(int timeLeft)
-        {
+        public override void OnKill(int timeLeft) {
             float num = Main.rand.NextFloat(MathF.PI * 2f);
             int num2 = 5;
             float num3 = 12f;
             float scale = Main.rand.NextFloat(1f, 1.35f);
-            for (float num4 = 0f; num4 < MathF.PI * 2f; num4 += 0.05f)
-            {
+            for (float num4 = 0f; num4 < MathF.PI * 2f; num4 += 0.05f) {
                 Vector2 value = num4.ToRotationVector2() * (2f + (float)(Math.Sin(num + num4 * num2) + 1.0) * num3) * Main.rand.NextFloat(0.95f, 1.05f);
                 Dust.NewDustPerfect(Projectile.Center, 173, value, 0, default, scale).customData = 0.025f;
             }
@@ -179,8 +156,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             CircularDamage(80f);
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Main.EntitySpriteDraw(
                 CWRUtils.GetT2DValue(Texture),
                 CWRUtils.WDEpos(Projectile.Center),

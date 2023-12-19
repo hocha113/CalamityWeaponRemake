@@ -69,7 +69,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             SpanEssStar(42, 0, 79, 0.1f, 3.7f);
         }
 
-        public override bool PreDraw(ref Color lightColor) { 
+        public override bool PreDraw(ref Color lightColor) {
             return false;
         }
     }

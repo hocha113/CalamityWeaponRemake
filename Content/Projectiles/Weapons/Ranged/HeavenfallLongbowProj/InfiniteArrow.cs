@@ -23,14 +23,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
 
         Color chromaColor => CWRUtils.MultiLerpColor(Projectile.ai[0] % 45 / 45f, HeavenfallLongbow.rainbowColors);
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 30;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.height = 54;
             Projectile.width = 54;
             Projectile.tileCollide = false;
@@ -43,18 +41,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             Projectile.localNPCHitCooldown = -1;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
-            
+
             Lighting.AddLight(Projectile.Center, chromaColor.ToVector3() * 1.5f);
             Projectile.velocity += (Projectile.rotation + MathHelper.PiOver2).ToRotationVector2() * 0.1f;
-            if (Projectile.ai[0] == 0)
-            {
+            if (Projectile.ai[0] == 0) {
                 Projectile.ai[1] = Main.rand.Next(30);
             }
-            if (Projectile.ai[0] > 0 && !CWRUtils.isServer)
-            {
+            if (Projectile.ai[0] > 0 && !CWRUtils.isServer) {
                 Color outerSparkColor = chromaColor;
                 float scaleBoost = MathHelper.Clamp(Projectile.ai[1] * 0.005f, 0f, 2f);
                 float outerSparkScale = 3.2f + scaleBoost;
@@ -71,29 +66,23 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
                     SpanStarPrt(chromaColor);
             }
 
-            if (Projectile.ai[0] < 3)
-            {
+            if (Projectile.ai[0] < 3) {
                 Projectile.position += Main.player[Projectile.owner].velocity;
             }
             Projectile.ai[0]++;
             Projectile.ai[1]++;
         }
 
-        public void SpanStarPrt(Color color)
-        {
+        public void SpanStarPrt(Color color) {
             Vector2 vector = Projectile.velocity * 0.75f;
             float slp = Main.rand.NextFloat(0.5f, 0.9f);
             GeneralParticleHandler.SpawnParticle(new FlareShine(Projectile.Center + Main.rand.NextVector2Unit() * 13, vector, Color.White, color, 0f, new Vector2(0.6f, 1f) * slp, new Vector2(1.5f, 2.7f) * slp, 20 + Main.rand.Next(6), 0f, 3f, 0f, Main.rand.Next(7) * 2));
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            if (target.type == ModContent.NPCType<SepulcherHead>() || target.type == ModContent.NPCType<SepulcherBody>() || target.type == ModContent.NPCType<SepulcherTail>())
-            {
-                foreach (NPC targetHead in Main.npc)
-                {
-                    if (targetHead.type == ModContent.NPCType<SepulcherHead>())
-                    {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
+            if (target.type == ModContent.NPCType<SepulcherHead>() || target.type == ModContent.NPCType<SepulcherBody>() || target.type == ModContent.NPCType<SepulcherTail>()) {
+                foreach (NPC targetHead in Main.npc) {
+                    if (targetHead.type == ModContent.NPCType<SepulcherHead>()) {
                         ModNPC modNPC = targetHead.ModNPC;
                         modNPC.NPC.life = 0;
                         modNPC.NPC.checkDead();
@@ -103,27 +92,22 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
                     }
                 }
             }
-            if (Projectile.numHits == 0)
-            {
+            if (Projectile.numHits == 0) {
                 int lightningDamage = (int)(Projectile.damage * 1.3f);
                 Vector2 ownerPos = Main.player[Projectile.owner].Center;
                 Vector2 spanPos = ownerPos + ownerPos.To(target.Center).UnitVector().RotatedBy((120 + Main.rand.Next(120)) * CWRUtils.atoR) * Main.rand.Next(909, 1045);
                 Vector2 vr = (target.Center - spanPos + target.velocity * 7.5f).SafeNormalize(Vector2.UnitY) * 17f;
                 int lightning = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spanPos, vr, ModContent.ProjectileType<HeavenLightning>(), lightningDamage, 0f, Projectile.owner);
-                if (Main.projectile.IndexInRange(lightning))
-                {
+                if (Main.projectile.IndexInRange(lightning)) {
                     Main.projectile[lightning].ai[0] = vr.ToRotation();
                     Main.projectile[lightning].ai[1] = Main.rand.Next(100);
                 }
             }
         }
 
-        public override void OnKill(int timeLeft)
-        {
-            if (Main.netMode != NetmodeID.Server)
-            {
-                for (int i = 0; i < 16; i++)
-                {
+        public override void OnKill(int timeLeft) {
+            if (Main.netMode != NetmodeID.Server) {
+                for (int i = 0; i < 16; i++) {
                     Vector2 particleSpeed = Projectile.velocity * Main.rand.NextFloat(0.5f, 0.7f);
                     Vector2 pos = Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height));
                     CWRParticle energyLeak = new LightParticle(pos, particleSpeed
@@ -134,15 +118,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
                 for (int i = 0; i < 6; i++)
                     GeneralParticleHandler.SpawnParticle(new PulseRing(Projectile.Center + Main.rand.NextVector2Unit() * Main.rand.Next(13, 130), Vector2.Zero, CWRUtils.MultiLerpColor(Main.rand.NextFloat(1), HeavenfallLongbow.rainbowColors), 0.05f, 0.8f, 8));
             }
-            Projectile.Explode(spanSound:false);
+            Projectile.Explode(spanSound: false);
         }
 
         public float PrimitiveWidthFunction(float completionRatio) => Projectile.scale * 30f;
 
         public Color PrimitiveColorFunction(float _) => Color.AliceBlue * Projectile.Opacity;
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             PierceDrawer ??= new(PrimitiveWidthFunction, PrimitiveColorFunction, null, GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"]);
 
             float localIdentityOffset = Projectile.identity * 0.1372f;

@@ -19,26 +19,22 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips
 
         private List<Vector2> whipPoints => Projectile.GetWhipControlPoints();//点集
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.IsAWhip[Type] = true;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.DefaultToWhip();
             Projectile.WhipSettings.Segments = 35;
             Projectile.WhipSettings.RangeMultiplier = 1f;
         }
 
-        private float Time
-        {
+        private float Time {
             get => Projectile.ai[0];
             set => Projectile.ai[0] = value;
         }
 
-        public override void OnSpawn(IEntitySource source)
-        {
+        public override void OnSpawn(IEntitySource source) {
             Projectile.NewProjectile(
                 Projectile.parent(),
                 Projectile.Center,
@@ -51,31 +47,26 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips
                 );
         }
 
-        public override bool PreAI()
-        {
+        public override bool PreAI() {
             return true;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
             Main.player[Projectile.owner].MinionAttackTargetNPC = target.whoAmI;
             Projectile.damage = Projectile.damage / 2;
 
-            if (Projectile.numHits == 0)
-            {
+            if (Projectile.numHits == 0) {
 
             }
         }
 
-        private void DrawLine(List<Vector2> list)
-        {
+        private void DrawLine(List<Vector2> list) {
             Texture2D texture = TextureAssets.FishingLine.Value;
             Rectangle frame = texture.Frame();
             Vector2 origin = new Vector2(frame.Width / 2, 2);
 
             Vector2 pos = list[0];
-            for (int i = 0; i < list.Count - 2; i++)
-            {
+            for (int i = 0; i < list.Count - 2; i++) {
                 Vector2 element = list[i];
                 Vector2 diff = list[i + 1] - element;
 
@@ -89,8 +80,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips
             }
         }//绘制连接线
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             DrawLine(whipPoints);
 
             SpriteEffects flip = Projectile.spriteDirection < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -100,16 +90,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips
 
             Vector2 pos = whipPoints[0];
 
-            for (int i = 0; i < whipPoints.Count - 1; i++)
-            {
+            for (int i = 0; i < whipPoints.Count - 1; i++) {
                 Rectangle frame = new Rectangle(0, 0, 42, 66);
 
                 Vector2 origin = new Vector2(21, 33);
                 float scale = 1;
                 float offsetRots = 0;
 
-                if (i == whipPoints.Count - 2)
-                {
+                if (i == whipPoints.Count - 2) {
                     frame.Y = 134;
                     frame.Height = 96;
                     origin = new Vector2(20, 20);
@@ -117,23 +105,19 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips
                     float t = Time / timeToFlyOut;
                     scale = MathHelper.Lerp(1.05f, 2f, Utils.GetLerpValue(0.1f, 0.7f, t, true) * Utils.GetLerpValue(0.9f, 0.7f, t, true));
                 }
-                else if (i > 0)
-                {
+                else if (i > 0) {
                     int count = i % 3;
-                    if (count == 0)
-                    {
+                    if (count == 0) {
                         frame.Y = 102;
                         frame.Height = 30;
                         origin = new Vector2(20, 18);
                     }
-                    if (count == 1)
-                    {
+                    if (count == 1) {
                         frame.Y = 68;
                         frame.Height = 32;
                         origin = new Vector2(20, 18);
                     }
-                    if (count == 2)
-                    {
+                    if (count == 2) {
                         frame.Y = 68;
                         frame.Height = 32;
                         origin = new Vector2(20, 18);
@@ -160,14 +144,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips
 
             public override string Texture => CWRConstant.Placeholder;
 
-            public override void SetStaticDefaults()
-            {
+            public override void SetStaticDefaults() {
                 ProjectileID.Sets.TrailCacheLength[Projectile.type] = 15;
                 ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             }
 
-            public override void SetDefaults()
-            {
+            public override void SetDefaults() {
                 Projectile.width = 6;
                 Projectile.height = 6;
                 Projectile.scale = 1;
@@ -182,20 +164,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips
 
             public int fowerIndex { get => (int)Projectile.ai[0]; set => Projectile.ai[0] = value; }
 
-            public override void AI()
-            {
+            public override void AI() {
                 Projectile ownProj = CWRUtils.GetProjectileInstance(fowerIndex);
-                if (ownProj != null)
-                {
+                if (ownProj != null) {
                     List<Vector2> toPos = ownProj.GetWhipControlPoints();
                     int index = toPos.Count - 2;
-                    if (index < toPos.Count && index >= 0)
-                    {
+                    if (index < toPos.Count && index >= 0) {
                         float rot = toPos[toPos.Count - 3].To(toPos[toPos.Count - 2]).ToRotation();
                         Projectile.velocity = Projectile.Center.To(toPos[toPos.Count - 2]) + rot.ToRotationVector2() * 62;
 
-                        if (Main.netMode != NetmodeID.Server)
-                        {
+                        if (Main.netMode != NetmodeID.Server) {
                             //for (int i = 0; i < 10; i++)
                             //{
                             //    Vector2 center = Projectile.Center + Main.rand.NextVector2Circular(50f, 10f);
@@ -212,13 +190,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips
                 else Projectile.Kill();
             }
 
-            public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-            {
+            public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
                 return false;
             }
 
-            internal Color ColorFunction(float completionRatio)
-            {
+            internal Color ColorFunction(float completionRatio) {
                 float amount = MathHelper.Lerp(0.65f, 1f, (float)Math.Cos((0f - Main.GlobalTimeWrappedHourly) * 3f) * 0.5f + 0.5f);
                 float num = Utils.GetLerpValue(1f, 0.64f, completionRatio, clamped: true) * Projectile.Opacity;
 
@@ -227,16 +203,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips
                 return Color.Lerp(new Color(255, 248, 220), value, amount) * num;
             }
 
-            internal float WidthFunction(float completionRatio)
-            {
+            internal float WidthFunction(float completionRatio) {
                 float amount = (float)Math.Pow(1f - completionRatio, 3.0);
                 return MathHelper.Lerp(0f, 62f * Projectile.scale * Projectile.Opacity, amount);
             }
 
-            public override bool PreDraw(ref Color lightColor)
-            {
-                if (TrailDrawer == null)
-                {
+            public override bool PreDraw(ref Color lightColor) {
+                if (TrailDrawer == null) {
                     TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, null, GameShaders.Misc["CalamityMod:TrailStreak"]);
                 }
 

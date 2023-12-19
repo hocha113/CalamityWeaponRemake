@@ -11,8 +11,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
         public override string Texture => "CalamityMod/Projectiles/Magic/TradewindsProjectile";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 14;
             Projectile.height = 14;
             Projectile.friendly = true;
@@ -29,63 +28,49 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
         private Vector2 hitOffsetVr = Vector2.Zero;
         private float hitOffsetRot = 0;
 
-        public override void AI()
-        {
+        public override void AI() {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            if (Status == 0)
-            {
+            if (Status == 0) {
                 Projectile.velocity += new Vector2(0, 0.1f);
             }
-            if (Status == 1)
-            {
+            if (Status == 1) {
                 Projectile.velocity *= 1.02f;
                 NPC target = Projectile.Center.InPosClosestNPC(300);
-                if (target != null)
-                {
+                if (target != null) {
                     Vector2 vr = Projectile.ChasingBehavior(target.Center, Projectile.velocity.Length());
                 }
             }
-            if (Status == 2)
-            {
+            if (Status == 2) {
                 Projectile.penetrate = -1;
-                if (Projectile.timeLeft <= 60)
-                {
+                if (Projectile.timeLeft <= 60) {
                     Projectile.tileCollide = true;
                 }
-                if (Behavior == 1)
-                {
+                if (Behavior == 1) {
                     NPC hitTarget = CWRUtils.GetNPCInstance((int)Projectile.localAI[0]);
-                    if (hitTarget != null)
-                    {
+                    if (hitTarget != null) {
                         Projectile.velocity = Vector2.Zero;
                         Projectile.Center = hitTarget.Center + hitOffsetVr;
                         Projectile.rotation = hitOffsetRot;
                     }
                 }
-                if (Projectile.localAI[0] != 0)
-                {
+                if (Projectile.localAI[0] != 0) {
                     Projectile.velocity *= 0.97f;
                 }
             }
-            if (Status == 3)
-            {
+            if (Status == 3) {
                 Projectile.scale *= 1.01f;
                 Projectile.velocity *= 1.01f;
                 Projectile.alpha -= 30;
-                if (Projectile.numHits > 2)
-                {
+                if (Projectile.numHits > 2) {
                     Projectile.Kill();
                 }
             }
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            if (Status == 2)
-            {
-                if (Behavior == 0)
-                {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
+            if (Status == 2) {
+                if (Behavior == 0) {
                     Projectile.localAI[0] = target.whoAmI;
                     Projectile.usesLocalNPCImmunity = true;
                     Projectile.localNPCHitCooldown = 20;
@@ -98,14 +83,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             }
         }
 
-        public override void OnKill(int timeLeft)
-        {
-            for (int i = 0; i < 10; i++)
-            {
+        public override void OnKill(int timeLeft) {
+            for (int i = 0; i < 10; i++) {
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 64, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f);
             }
-            if (Status == 2)
-            {
+            if (Status == 2) {
                 Lighting.AddLight(Projectile.Center, Color.Gold.ToVector3());
             }
         }

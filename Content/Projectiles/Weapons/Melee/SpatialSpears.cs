@@ -15,8 +15,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
         public override string Texture => CWRConstant.Placeholder;
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 10;
             Projectile.height = 10;
             Projectile.alpha = 0;
@@ -33,19 +32,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
         public int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
         public int Time { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
 
-        public override void AI()
-        {
+        public override void AI() {
             Projectile.rotation = Projectile.velocity.ToRotation();
 
-            if (Status == 0)
-            {
+            if (Status == 0) {
                 Lighting.AddLight(Projectile.Center, 0.05f, 1f, 0.05f);
 
                 Projectile.velocity *= 1.02f;
-                if (Projectile.timeLeft == 80 && Projectile.IsOwnedByLocalPlayer())
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
+                if (Projectile.timeLeft == 80 && Projectile.IsOwnedByLocalPlayer()) {
+                    for (int i = 0; i < 3; i++) {
                         Vector2 vr = Projectile.velocity.RotatedBy(MathHelper.ToRadians(10 - 10 * i)) * 0.75f;
                         Projectile.NewProjectile(
                             Projectile.parent(),
@@ -60,13 +55,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                     }
                 }
             }
-            if (Status == 1)
-            {
+            if (Status == 1) {
                 Lighting.AddLight(Projectile.Center, 0.85f, 0.05f, 0.05f);
-                if (Projectile.timeLeft == 60 && Projectile.IsOwnedByLocalPlayer())
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
+                if (Projectile.timeLeft == 60 && Projectile.IsOwnedByLocalPlayer()) {
+                    for (int i = 0; i < 3; i++) {
                         Vector2 vr = Projectile.velocity.RotatedBy(MathHelper.ToRadians(10 - 10 * i)) * 0.75f;
                         Projectile.NewProjectile(
                             Projectile.parent(),
@@ -80,20 +72,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                             );
                     }
                 }
-                if (Projectile.timeLeft < 60)
-                {
+                if (Projectile.timeLeft < 60) {
                     Projectile.velocity *= 0.99f;
                 }
             }
-            if (Status == 2)
-            {
+            if (Status == 2) {
                 Lighting.AddLight(Projectile.Center, 0.05f, 1f, 0.75f);
 
 
-                if (Projectile.timeLeft == 60 && Projectile.IsOwnedByLocalPlayer())
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
+                if (Projectile.timeLeft == 60 && Projectile.IsOwnedByLocalPlayer()) {
+                    for (int i = 0; i < 3; i++) {
                         Vector2 vr = Projectile.velocity.RotatedBy(MathHelper.ToRadians(10 - 10 * i)) * 0.75f;
                         Projectile.NewProjectile(
                             Projectile.parent(),
@@ -107,22 +95,18 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                             );
                     }
                 }
-                if (Projectile.timeLeft < 60)
-                {
+                if (Projectile.timeLeft < 60) {
                     Projectile.velocity *= 0.99f;
                 }
             }
-            if (Status == 3)
-            {
+            if (Status == 3) {
                 Lighting.AddLight(Projectile.Center, 0.55f, 1f, 0.05f);
 
                 Projectile.velocity *= 0.98f;
             }
 
-            if (Main.rand.NextBool(8))
-            {
-                switch (Projectile.ai[0])
-                {
+            if (Main.rand.NextBool(8)) {
+                switch (Projectile.ai[0]) {
                     case 0:
                         Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height
                             , DustID.TerraBlade, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f);
@@ -151,12 +135,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             CWRUtils.GetT2DValue(CWRConstant.Projectile_Melee + "SpatialSpear3")
         };
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D value = textures[(int)Projectile.ai[0]];
             Color color = lightColor;
-            switch (Projectile.ai[0])
-            {
+            switch (Projectile.ai[0]) {
                 case 0:
                     color = Color.Gold;
                     break;
@@ -184,11 +166,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             return false;
         }
 
-        public override void OnKill(int timeLeft)
-        {
+        public override void OnKill(int timeLeft) {
             SoundEngine.PlaySound(in SoundID.Item10, Projectile.position);
-            for (int i = 4; i < 12; i++)
-            {
+            for (int i = 4; i < 12; i++) {
                 float num = Projectile.oldVelocity.X * (30f / i);
                 float num2 = Projectile.oldVelocity.Y * (30f / i);
                 int num3 = Dust.NewDust(new Vector2(Projectile.oldPosition.X - num, Projectile.oldPosition.Y - num2), 8, 8, 107, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.8f);

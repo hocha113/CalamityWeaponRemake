@@ -22,8 +22,7 @@ namespace CalamityWeaponRemake.Content.Particles
         public float followingRateRatio;
         public Entity entity;
 
-        public LightParticle(Vector2 position, Vector2 velocity, float scale, Color color, int lifetime, float opacity = 1f, float squishStrenght = 1f, float maxSquish = 3f, float hueShift = 0f, Entity _entity = null, float _followingRateRatio = 0.9f)
-        {
+        public LightParticle(Vector2 position, Vector2 velocity, float scale, Color color, int lifetime, float opacity = 1f, float squishStrenght = 1f, float maxSquish = 3f, float hueShift = 0f, Entity _entity = null, float _followingRateRatio = 0.9f) {
             Position = position;
             Velocity = velocity;
             Scale = scale;
@@ -38,8 +37,7 @@ namespace CalamityWeaponRemake.Content.Particles
             followingRateRatio = _followingRateRatio;
         }
 
-        public override void Update()
-        {
+        public override void Update() {
             Velocity *= (LifetimeCompletion >= 0.34f) ? 0.93f : 1.02f;
 
             Opacity = LifetimeCompletion > 0.5f ? ((float)Math.Sin(LifetimeCompletion * MathHelper.Pi) * 0.2f) + 0.8f : (float)Math.Sin(LifetimeCompletion * MathHelper.Pi);
@@ -47,14 +45,12 @@ namespace CalamityWeaponRemake.Content.Particles
 
             Color = Main.hslToRgb(Main.rgbToHsl(Color).X + HueShift, Main.rgbToHsl(Color).Y, Main.rgbToHsl(Color).Z);
 
-            if (entity != null && entity.active)
-            {
+            if (entity != null && entity.active) {
                 Position += entity.velocity * followingRateRatio;
             }
         }
 
-        public override void CustomDraw(SpriteBatch spriteBatch)
-        {
+        public override void CustomDraw(SpriteBatch spriteBatch) {
             Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Particles/Light").Value;
             Texture2D bloomTex = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle").Value;
 

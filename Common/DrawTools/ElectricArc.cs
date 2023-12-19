@@ -18,8 +18,7 @@ namespace CalamityWeaponRemake.Common.DrawTools
         public override bool SetLifetime => true;
         public override string Texture => "CalamityMod/ExtraTextures/SmallGreyscaleCircle";
 
-        public CWRElectricArc(Vector2 position, Vector2 velocity, Color color, float scale, int lifeTime)
-        {
+        public CWRElectricArc(Vector2 position, Vector2 velocity, Color color, float scale, int lifeTime) {
             Position = position;
             Velocity = velocity;
             Color = color;
@@ -27,8 +26,7 @@ namespace CalamityWeaponRemake.Common.DrawTools
             Lifetime = lifeTime;
         }
 
-        public override void Update()
-        {
+        public override void Update() {
             Vector2 perlinValue = Position * 0.1f;
             Vector2 perlinOffset = (CalamityUtils.PerlinNoise2D(perlinValue.X, perlinValue.Y, 4, ID) * MathHelper.Pi * 3f).ToRotationVector2() * 2f;
             Velocity = (Velocity + perlinOffset).ClampMagnitude(4f, 9f);
@@ -38,8 +36,7 @@ namespace CalamityWeaponRemake.Common.DrawTools
             TrailPositions[0] = Position;
         }
 
-        public override void CustomDraw(SpriteBatch spriteBatch)
-        {
+        public override void CustomDraw(SpriteBatch spriteBatch) {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 scale = Vector2.One * Scale * 11f / texture.Size() * 0.5f;
             Vector2 origin = texture.Size() * 0.5f;
@@ -49,8 +46,7 @@ namespace CalamityWeaponRemake.Common.DrawTools
             if (timeLeft < trailCount)
                 trailCount = timeLeft;
             float opacity = Utils.GetLerpValue(0f, 16f, timeLeft, true);
-            for (int i = 1; i < trailCount; i++)
-            {
+            for (int i = 1; i < trailCount; i++) {
                 Vector2 position = TrailPositions[i];
                 position = Vector2.Lerp(position, TrailPositions[i - 1], 0.9f);
                 float rotation = (TrailPositions[i - 1] - position).ToRotation();

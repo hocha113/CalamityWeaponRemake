@@ -22,8 +22,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 60;
             Projectile.height = 144;
             Projectile.friendly = true;
@@ -37,8 +36,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Projectile.localNPCHitCooldown = 10;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Player owner = CWRUtils.GetPlayerInstance(Projectile.owner);
             if (owner != null) Projectile.position += owner.velocity;
             Projectile.Opacity = Utils.GetLerpValue(Projectile.localAI[0], 26f, Projectile.timeLeft, clamped: true);
@@ -46,31 +44,25 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Projectile.scale *= 1.03f;
         }
 
-        public float SlashWidthFunction(float completionRatio)
-        {
+        public float SlashWidthFunction(float completionRatio) {
             return Projectile.scale * 50f;
         }
 
-        public Color SlashColorFunction(float completionRatio)
-        {
+        public Color SlashColorFunction(float completionRatio) {
             if (Projectile.ai[1] == 0)
                 return Color.Lime * Utils.GetLerpValue(0.07f, 0.57f, completionRatio, clamped: true) * Projectile.Opacity;
 
-            else
-            {
+            else {
                 float sengs = MathF.Sin(completionRatio * MathF.PI);
-                if (completionRatio < 0.4f)
-                {
+                if (completionRatio < 0.4f) {
                     sengs = MathF.Pow(completionRatio, 3) * 13;
                 }
                 return Color.Lime * sengs * Projectile.Opacity;
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
-            if (SlashDrawer == null)
-            {
+        public override bool PreDraw(ref Color lightColor) {
+            if (SlashDrawer == null) {
                 SlashDrawer = new PrimitiveTrail(SlashWidthFunction, SlashColorFunction, null, GameShaders.Misc["CalamityMod:ExobladeSlash"]);
             }
 
@@ -81,13 +73,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             if (ControlPoints == null)
                 return false;
 
-            for (int i = 0; i < ControlPoints.Length; i++)
-            {
+            for (int i = 0; i < ControlPoints.Length; i++) {
                 list.Add(ControlPoints[i] + ControlPoints[i].SafeNormalize(Vector2.Zero) * (Projectile.scale - 1f) * 70f);
             }
 
-            for (int j = 0; j < 3; j++)
-            {
+            for (int j = 0; j < 3; j++) {
                 SlashDrawer.Draw(list, Projectile.Center - Main.screenPosition, 65);
             }
 
@@ -95,13 +85,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             return false;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             bool collBool = false;
             float point = 0;
             Vector2 starPos = Projectile.Center;
-            for (int i = 0; i < 20; i++)
-            {
+            for (int i = 0; i < 20; i++) {
                 collBool = Collision.CheckAABBvLineCollision(
                 targetHitbox.TopLeft(),
                 targetHitbox.Size(),

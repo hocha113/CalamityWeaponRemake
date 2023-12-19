@@ -19,8 +19,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.width = 42;
             item.damage = 32;
             item.DamageType = DamageClass.Melee;
@@ -37,8 +36,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             item.shootSpeed = 7f;
         }
 
-        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             item.initialize();
             item.CWR().ai[0]++;
             if (item.CWR().ai[0] > 3) {
@@ -61,8 +59,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             return false;
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "BurntSienna");
         }
     }

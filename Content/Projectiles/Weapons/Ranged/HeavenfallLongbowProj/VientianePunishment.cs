@@ -85,20 +85,17 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
 
         private Vector2[] toTargetPath = new Vector2[62];
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
+        public override void SendExtraAI(BinaryWriter writer) {
             writer.WriteVector2(MousPos);
             writer.Write(Index);
         }
 
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
+        public override void ReceiveExtraAI(BinaryReader reader) {
             MousPos = reader.ReadVector2();
             Index = reader.ReadInt32();
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 4;
             Projectile.height = 4;
             Projectile.friendly = true;
@@ -109,17 +106,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             Projectile.timeLeft = 320;
         }
 
-        public override void AI()
-        {
-            if (Time == 0)
-            {
-                
+        public override void AI() {
+            if (Time == 0) {
+
                 if (!CWRUtils.isServer)
                     GetColorDate();
             }
 
-            if (Projectile.IsOwnedByLocalPlayer())
-            {
+            if (Projectile.IsOwnedByLocalPlayer()) {
                 oldMousPos = MousPos;
                 MousPos = Main.MouseWorld;
                 if (oldMousPos != MousPos)
@@ -133,10 +127,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
 
             if (Time >= 120)//一个攻击的阈值限定，如果大于该阈值，那么就会开始攻击
             {
-                if (Time == 120)
-                {
-                    if (Index == 0)
-                    {
+                if (Time == 120) {
+                    if (Index == 0) {
                         SoundEngine.PlaySound(new SoundStyle(CWRConstant.Sound + "Pedestruct"), Projectile.Center);
                         HeavenfallLongbow.Obliterate(OrigPos);
                         SpanInfiniteRune(OrigPos, 500, 1.5f, 2, HeavenfallLongbow.rainbowColors);
@@ -144,14 +136,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
                     SpanInfiniteRune(Projectile.Center, 100, 0.5f, 0.5f, VientianeColors);
                 }
 
-                if (Time < 300)
-                {
+                if (Time < 300) {
                     TrailWig += 2;
                     if (TrailWig > 32)
                         TrailWig = 32;
                 }
-                else
-                {
+                else {
                     TrailWig -= 2;
                     if (TrailWig < 0)
                         TrailWig = 0;
@@ -159,16 +149,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
 
                 float stepSize = toMou.Length() / 62f;
                 Vector2 rotToVr = Projectile.rotation.ToRotationVector2() * stepSize;
-                for (int i = 0; i < toTargetPath.Length; i++)
-                {
+                for (int i = 0; i < toTargetPath.Length; i++) {
                     toTargetPath[i] = Projectile.Center + rotToVr * i;
                 }
             }
             else//否则，让万象跟随玩家鼠标
             {
                 OrigPos = MousPos;
-                if (Main.rand.NextBool(2) && !CWRUtils.isServer)
-                {
+                if (Main.rand.NextBool(2) && !CWRUtils.isServer) {
                     Vector2 pos = Projectile.Center + Main.rand.NextVector2Unit() * 120;
                     Vector2 particleSpeed = pos.To(Projectile.Center).UnitVector() * 3;
                     Color color = CWRUtils.MultiLerpColor(Main.rand.NextFloat(), VientianeColors);
@@ -186,14 +174,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             Time++;
         }
 
-        public void SpanInfiniteRune(Vector2 orig, int maxNum, float prtslp, float slp, Color[] colors)
-        {
+        public void SpanInfiniteRune(Vector2 orig, int maxNum, float prtslp, float slp, Color[] colors) {
             SoundEngine.PlaySound(CommonCalamitySounds.PlasmaBoltSound, Projectile.Center);
             float rot = 0;
-            if (!CWRUtils.isServer)
-            {
-                for (int j = 0; j < maxNum; j++)
-                {
+            if (!CWRUtils.isServer) {
+                for (int j = 0; j < maxNum; j++) {
                     rot += MathHelper.TwoPi / maxNum;
                     float scale = 2f / (3f - (float)Math.Cos(2 * rot)) * slp;
                     float outwardMultiplier = MathHelper.Lerp(4f, 220f, Utils.GetLerpValue(0f, 120f, Time, true));
@@ -208,13 +193,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             }
         }
 
-        public override void OnKill(int timeLeft)
-        {
-            if (!CWRUtils.isServer)
-            {
+        public override void OnKill(int timeLeft) {
+            if (!CWRUtils.isServer) {
                 Texture2D value = CWRUtils.GetT2DValue(CWRConstant.Cay_Wap_Ranged + VientianeTex[(int)Projectile.ai[0]]);
-                for (int i = 0; i < 16; i++)
-                {
+                for (int i = 0; i < 16; i++) {
                     CWRParticle energyLeak = new LightParticle(Projectile.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(value.Width), new Vector2(0, -7)
                     , Main.rand.NextFloat(0.3f, 0.7f), vientianeColor, 60, 1, 1.5f, hueShift: 0.0f, _entity: null, _followingRateRatio: 1);
                     CWRParticleHandler.SpawnParticle(energyLeak);
@@ -222,41 +204,35 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             }
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
-            if (Index == 0 && Time > 120)
-            {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
+            if (Index == 0 && Time > 120) {
                 return CWRUtils.CircularHitboxCollision(OrigPos, 300, targetHitbox);
             }
             return base.Colliding(projHitbox, targetHitbox);
         }
 
-        public void GetColorDate()
-        {
+        public void GetColorDate() {
             Texture2D tex = CWRUtils.GetT2DValue(CWRConstant.Cay_Wap_Ranged + VientianeTex[(int)Projectile.ai[0]]);
             Color[] colors = new Color[tex.Width * tex.Height];
             tex.GetData(colors);
             List<Color> nonTransparentColors = new List<Color>();
-            foreach (Color color in colors){
-                if ((color.A > 0 || color.R > 0 || color.G > 0 || color.B > 0) && (color != Color.White && color != Color.Black)){
+            foreach (Color color in colors) {
+                if ((color.A > 0 || color.R > 0 || color.G > 0 || color.B > 0) && (color != Color.White && color != Color.Black)) {
                     nonTransparentColors.Add(color);
                 }
             }
             VientianeColors = nonTransparentColors.ToArray();
         }
 
-        public float PrimitiveWidthFunction(float completionRatio)
-        {
+        public float PrimitiveWidthFunction(float completionRatio) {
             return CalamityUtils.Convert01To010(completionRatio) * Projectile.scale * TrailWig;
         }
 
-        public Color PrimitiveColorFunction(float completionRatio)
-        {
+        public Color PrimitiveColorFunction(float completionRatio) {
             return vientianeColor;
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             if (LightningDrawer is null)
                 LightningDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, PrimitiveTrail.RigidPointRetreivalFunction, GameShaders.Misc["CalamityMod:HeavenlyGaleLightningArc"]);
 

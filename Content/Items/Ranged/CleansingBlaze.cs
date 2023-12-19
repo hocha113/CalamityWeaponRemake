@@ -19,8 +19,7 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
     {
         public override string Texture => CWRConstant.Cay_Wap_Ranged + "CleansingBlaze";
         public new string LocalizationCategory => "Items.Weapons.Ranged";
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.damage = 130;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 64;
@@ -39,16 +38,13 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
             Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
-        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-        {
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) {
             Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/CleansingBlazeGlow").Value);
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             int num6 = Main.rand.Next(2, 4);
-            for (int index = 0; index < num6; ++index)
-            {
+            for (int index = 0; index < num6; ++index) {
                 float SpeedX = velocity.X + (float)Main.rand.Next(-15, 16) * 0.05f;
                 float SpeedY = velocity.Y + (float)Main.rand.Next(-15, 16) * 0.05f;
                 Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0f, 0f);
@@ -56,13 +52,11 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
             return false;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
+        public override Vector2? HoldoutOffset() {
             return new Vector2(-5, 0);
         }
 
-        public override bool CanConsumeAmmo(Item ammo, Player player)
-        {
+        public override bool CanConsumeAmmo(Item ammo, Player player) {
             if (Main.rand.Next(0, 100) < 90)
                 return false;
             return true;

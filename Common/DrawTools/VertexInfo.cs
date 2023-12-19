@@ -26,8 +26,7 @@ namespace CalamityWeaponRemake.Common.DrawTools
             /// </summary>
             public Vector3 TexCoord;
 
-            public CustomVertexInfo(Vector2 position, Color color, Vector3 texCoord)
-            {
+            public CustomVertexInfo(Vector2 position, Color color, Vector3 texCoord) {
                 Position = position;
                 Color = color;
                 TexCoord = texCoord;
@@ -47,14 +46,12 @@ namespace CalamityWeaponRemake.Common.DrawTools
             public Vector2 Position;
             public Color Color;
             public Vector3 TexCoord;
-            public EEVertexInfo(Vector2 position, Vector3 texCoord, Color color)
-            {
+            public EEVertexInfo(Vector2 position, Vector3 texCoord, Color color) {
                 Position = position;
                 TexCoord = texCoord;
                 Color = color;
             }
-            public VertexDeclaration VertexDeclaration
-            {
+            public VertexDeclaration VertexDeclaration {
                 get => _vertexDeclaration;
             }
         }
@@ -70,14 +67,12 @@ namespace CalamityWeaponRemake.Common.DrawTools
             public Vector2 Position;
             public Color Color;
             public Vector3 TexCoord;
-            public Vertex(Vector2 position, Vector3 texCoord, Color color)
-            {
+            public Vertex(Vector2 position, Vector3 texCoord, Color color) {
                 Position = position;
                 TexCoord = texCoord;
                 Color = color;
             }
-            public VertexDeclaration VertexDeclaration
-            {
+            public VertexDeclaration VertexDeclaration {
                 get => _vertexDeclaration;
             }
         }

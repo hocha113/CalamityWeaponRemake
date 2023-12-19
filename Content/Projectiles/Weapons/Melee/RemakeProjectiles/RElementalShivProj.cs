@@ -15,13 +15,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
 
         public override string Texture => "CalamityMod/Items/Weapons/Melee/ElementalShiv";
 
-        public override Action<Projectile> EffectBeforePullback => delegate
-        {
+        public override Action<Projectile> EffectBeforePullback => delegate {
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 14f, ModContent.ProjectileType<ElementBallShivs>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner);
         };
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.Size = new Vector2(22f);
             Projectile.friendly = true;
             Projectile.penetrate = -1;
@@ -37,8 +35,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             Projectile.localNPCHitCooldown = 8;
         }
 
-        public override void SetVisualOffsets()
-        {
+        public override void SetVisualOffsets() {
             int ofsX = Projectile.width / 2;
             int ofsY = Projectile.height / 2;
             DrawOriginOffsetX = 0f;
@@ -46,10 +43,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             DrawOriginOffsetY = -(22 - ofsY);
         }
 
-        public override void ExtraBehavior()
-        {
-            if (Main.rand.NextBool(5))
-            {
+        public override void ExtraBehavior() {
+            if (Main.rand.NextBool(5)) {
                 int num = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 66, Projectile.direction * 2, 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.3f);
                 Main.dust[num].velocity *= 0.2f;
                 Main.dust[num].noGravity = true;

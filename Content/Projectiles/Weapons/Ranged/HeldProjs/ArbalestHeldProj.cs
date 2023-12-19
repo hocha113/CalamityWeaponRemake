@@ -15,8 +15,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
     {
         public override string Texture => CWRConstant.Cay_Wap_Ranged + "Arbalest";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 32;
             Projectile.height = 32;
             Projectile.scale = 1;
@@ -37,33 +36,27 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
         private Vector2 toMou = Vector2.Zero;
         private Item arbalest => Owner.HeldItem;
 
-        public override void OnSpawn(IEntitySource source)
-        {
+        public override void OnSpawn(IEntitySource source) {
             base.OnSpawn(source);
         }
 
-        public override void OnKill(int timeLeft)
-        {
+        public override void OnKill(int timeLeft) {
             base.OnKill(timeLeft);
         }
 
-        public override bool ShouldUpdatePosition()
-        {
+        public override bool ShouldUpdatePosition() {
             return false;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             if (!Owner.Alives() || arbalest.type != ModContent.ItemType<Items.Ranged.Arbalest>()
-                && arbalest.type != ModContent.ItemType<CalamityMod.Items.Weapons.Ranged.Arbalest>())
-            {
+                && arbalest.type != ModContent.ItemType<CalamityMod.Items.Weapons.Ranged.Arbalest>()) {
                 Projectile.Kill();
                 return;
             }
 
             Projectile.Center = Owner.Center + toMou.UnitVector() * 13;
-            if (Projectile.IsOwnedByLocalPlayer())
-            {
+            if (Projectile.IsOwnedByLocalPlayer()) {
                 StickToOwner();
                 if (Status == 0)
                     SpanProj();
@@ -74,26 +67,21 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
             Time2++;
         }
 
-        public void SpanProj()
-        {
+        public void SpanProj() {
             int ArrowTypes = ProjectileID.WoodenArrowFriendly;
             float scaleFactor11 = 14f;
             int weaponDamage2 = Owner.GetWeaponDamage(Owner.ActiveItem());
             float weaponKnockback2 = Owner.ActiveItem().knockBack;
 
-            if (Time > 20 && Time < 50 && Owner.PressKey())
-            {
-                if (Time2 % 10 == 0)
-                {
+            if (Time > 20 && Time < 50 && Owner.PressKey()) {
+                if (Time2 % 10 == 0) {
                     bool haveAmmo = Owner.PickAmmo(Owner.ActiveItem(), out ArrowTypes, out scaleFactor11, out weaponDamage2, out weaponKnockback2, out _);
                     weaponKnockback2 = Owner.GetWeaponKnockback(Owner.ActiveItem(), weaponKnockback2);
-                    if (haveAmmo)
-                    {
+                    if (haveAmmo) {
                         SoundEngine.PlaySound(in SoundID.Item5, Owner.Center);
                         int randShootNum = Main.rand.Next(4, 6);
                         Vector2 spanPos = Owner.Center + toMou.UnitVector() * 53;
-                        for (int i = 0; i < randShootNum; i++)
-                        {
+                        for (int i = 0; i < randShootNum; i++) {
                             Vector2 vr = (toMou.ToRotation() + MathHelper.ToRadians(Main.rand.NextFloat(-5, 5))).ToRotationVector2() * Main.rand.Next(17, 27);
                             int ammo = Projectile.NewProjectile(
                                 Owner.parent(),
@@ -118,21 +106,17 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
                 Time = 0;
         }
 
-        public void SpanProj2()
-        {
+        public void SpanProj2() {
             int ArrowTypes = ProjectileID.WoodenArrowFriendly;
             float scaleFactor11 = 14f;
             int weaponDamage2 = Owner.GetWeaponDamage(Owner.ActiveItem());
             float weaponKnockback2 = Owner.ActiveItem().knockBack;
 
-            if (Time >= 30 && Time <= 60 && Owner.PressKey(false))
-            {
-                if (Time2 % 5 == 0)
-                {
+            if (Time >= 30 && Time <= 60 && Owner.PressKey(false)) {
+                if (Time2 % 5 == 0) {
                     bool haveAmmo = Owner.PickAmmo(Owner.ActiveItem(), out ArrowTypes, out scaleFactor11, out weaponDamage2, out weaponKnockback2, out _);
                     weaponKnockback2 = Owner.GetWeaponKnockback(Owner.ActiveItem(), weaponKnockback2);
-                    if (haveAmmo)
-                    {
+                    if (haveAmmo) {
                         Vector2 spanPos = Owner.Center + toMou.UnitVector() * 53;
                         int ammo = Projectile.NewProjectile(
                                 Owner.parent(),
@@ -150,17 +134,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
                         Main.projectile[ammo].rotation = Projectile.rotation + MathHelper.PiOver2;
                         Main.projectile[ammo].scale = 1.5f;
                     }
-                    
+
                 }
             }
             if (Time > 60)
                 Time = 0;
         }
 
-        public void StickToOwner()
-        {
-            if (Owner.PressKey() || Owner.PressKey(false))
-            {
+        public void StickToOwner() {
+            if (Owner.PressKey() || Owner.PressKey(false)) {
                 toMou = Owner.Center.To(Main.MouseWorld);
                 Projectile.rotation = toMou.ToRotation();
                 Owner.SetDummyItemTime(2);
@@ -170,13 +152,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
             Owner.heldProj = Projectile.whoAmI;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             return false;
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             if (Owner == null) return false;
 
             SpriteEffects spriteEffects = toMou.X > 0 ? SpriteEffects.None : SpriteEffects.FlipVertically;

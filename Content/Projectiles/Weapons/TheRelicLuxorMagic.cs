@@ -16,14 +16,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons
 
         public override string Texture => CWRConstant.Projectile + "TheRelicLuxorMagicProj";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailingMode[Type] = 2;
             ProjectileID.Sets.TrailCacheLength[Type] = 12;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 18;
             Projectile.height = 18;
             Projectile.friendly = true;
@@ -36,32 +34,26 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons
             Projectile.localNPCHitCooldown = -1;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Projectile.rotation = Projectile.velocity.ToRotation();
             Lighting.AddLight(Projectile.Center + Projectile.velocity * 5, Color.Gold.ToVector3());
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
             base.OnHitNPC(target, hit, damageDone);
         }
 
-        internal Color ColorFunction(float completionRatio)
-        {
+        internal Color ColorFunction(float completionRatio) {
             return Color.Gold;
         }
 
-        internal float WidthFunction(float completionRatio)
-        {
+        internal float WidthFunction(float completionRatio) {
             float amount = MathF.Pow(1f - completionRatio, 2.0f);
             return MathHelper.Lerp(0f, 22f * Projectile.scale, amount);
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
-            if (TrailDrawer == null)
-            {
+        public override bool PreDraw(ref Color lightColor) {
+            if (TrailDrawer == null) {
                 TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, null, GameShaders.Misc["CalamityMod:TrailStreak"]);
             }
 

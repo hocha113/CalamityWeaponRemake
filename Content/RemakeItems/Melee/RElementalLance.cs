@@ -19,13 +19,11 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[ModContent.ItemType<CalamityMod.Items.Weapons.Melee.ElementalLance>()] = true;
         }
 
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.width = 88;
             item.damage = 160;
             item.DamageType = DamageClass.Melee;
@@ -45,26 +43,22 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             item.shootSpeed = 12f;
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "ElementalLance", 2);
         }
 
-        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (player.altFunctionUse == 2)
                 Main.projectile[proj].ai[1] = 1;
             return false;
         }
 
-        public override bool? AltFunctionUse(Item item, Player player)
-        {
+        public override bool? AltFunctionUse(Item item, Player player) {
             return true;
         }
 
-        public override bool? UseItem(Item item, Player player)
-        {
+        public override bool? UseItem(Item item, Player player) {
             return player.ownedProjectileCounts[item.shoot] == 0;
         }
     }

@@ -15,22 +15,18 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips
 
         private List<Vector2> whipPoints => Projectile.GetWhipControlPoints();
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.IsAWhip[Type] = true;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.DefaultToWhip();
             Projectile.WhipSettings.Segments = 20;
             Projectile.WhipSettings.RangeMultiplier = 0.8f;
         }
 
-        public override bool PreAI()
-        {
-            if (whipPoints.Count - 2 >= 0 && whipPoints.Count - 2 < whipPoints.Count)
-            {
+        public override bool PreAI() {
+            if (whipPoints.Count - 2 >= 0 && whipPoints.Count - 2 < whipPoints.Count) {
                 Vector2 pos = whipPoints[whipPoints.Count - 2];
                 int num = Dust.NewDust(pos, Projectile.width, Projectile.height, DustID.RainbowTorch, Projectile.direction * 2, 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.3f);
                 Main.dust[num].noGravity = true;
@@ -39,20 +35,17 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips
             return true;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
             base.OnHitNPC(target, hit, damageDone);
         }
 
-        private void DrawLine(List<Vector2> list)
-        {
+        private void DrawLine(List<Vector2> list) {
             Texture2D texture = TextureAssets.FishingLine.Value;
             Rectangle frame = texture.Frame();
             Vector2 origin = new Vector2(frame.Width / 2, 2);
 
             Vector2 pos = list[0];
-            for (int i = 0; i < list.Count - 2; i++)
-            {
+            for (int i = 0; i < list.Count - 2; i++) {
                 Vector2 element = list[i];
                 Vector2 diff = list[i + 1] - element;
 
@@ -66,8 +59,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips
             }
         }//绘制连接线
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             DrawLine(whipPoints);
             SpriteEffects flip = Projectile.spriteDirection < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             Texture2D texture = CWRUtils.GetT2DValue(Texture);
@@ -75,8 +67,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips
 
             Vector2 pos = whipPoints[0];
 
-            for (int i = 0; i < whipPoints.Count - 1; i++)
-            {
+            for (int i = 0; i < whipPoints.Count - 1; i++) {
                 Rectangle frame = new Rectangle(0, 0, 30, 42);
 
                 Vector2 origin = new Vector2(15, 20);
@@ -84,8 +75,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips
 
                 int count = i % 4;
 
-                switch (count)
-                {
+                switch (count) {
                     case 0:
                         frame.Y = 44;
                         frame.Height = 14;
@@ -108,15 +98,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon.Whips
                         break;
                 }
 
-                if (i == whipPoints.Count - 2)
-                {
+                if (i == whipPoints.Count - 2) {
                     frame.Y = 108;
                     frame.Height = 20;
                     origin = new Vector2(15, 10);
                 }
 
-                if (i == 0)
-                {
+                if (i == 0) {
                     frame = new Rectangle(0, 0, 30, 42);
                     origin = new Vector2(15, 20);
                 }

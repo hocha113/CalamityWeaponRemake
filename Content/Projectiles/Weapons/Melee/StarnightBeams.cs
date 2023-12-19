@@ -12,14 +12,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
     {
         public override string Texture => CWRConstant.Cay_Proj_Melee + "StarnightBeam";
         public new string LocalizationCategory => "Projectiles.Melee";
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 14;
             Projectile.height = 14;
             Projectile.aiStyle = ProjAIStyleID.Beam;
@@ -30,20 +28,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             AIType = ProjectileID.LightBeam;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Lighting.AddLight(Projectile.Center, 0.4f, 0f, 0.4f);
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
+        public override Color? GetAlpha(Color lightColor) {
             return new Color(200, 200, 200, Projectile.alpha);
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
-            if (Projectile.timeLeft > 595)
-            {
+        public override bool PreDraw(ref Color lightColor) {
+            if (Projectile.timeLeft > 595) {
                 return false;
             }
 
@@ -51,12 +45,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             return false;
         }
 
-        public override void OnKill(int timeLeft)
-        {
+        public override void OnKill(int timeLeft) {
             _ = SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
             int inc;
-            for (int i = 4; i < 31; i = inc + 1)
-            {
+            for (int i = 4; i < 31; i = inc + 1) {
                 float projOldX = Projectile.oldVelocity.X * (30f / i);
                 float projOldY = Projectile.oldVelocity.Y * (30f / i);
                 int starnight = Dust.NewDust(new Vector2(Projectile.oldPosition.X - projOldX, Projectile.oldPosition.Y - projOldY), 8, 8, DustID.PinkFairy, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.8f);
@@ -69,8 +61,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             }
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
             target.AddBuff(BuffID.Frostburn2, 120);
         }
     }

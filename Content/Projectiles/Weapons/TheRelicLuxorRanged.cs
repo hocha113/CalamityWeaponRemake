@@ -14,14 +14,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons
 
         public override string Texture => CWRConstant.Projectile + "TheRelicLuxorRangedProj";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 14;
             Projectile.height = 14;
             Projectile.friendly = true;
@@ -31,10 +29,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons
             Projectile.timeLeft = 180;
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            if (Projectile.timeLeft < 85)
-            {
+        public override Color? GetAlpha(Color lightColor) {
+            if (Projectile.timeLeft < 85) {
                 byte b2 = (byte)(Projectile.timeLeft * 3);
                 byte a2 = (byte)(100f * (b2 / 255f));
                 return new Color(b2, b2, b2, a2);
@@ -42,24 +38,19 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons
             return new Color(255, 255, 255, 100);
         }
 
-        public override void AI()
-        {
-            if (Projectile.localAI[0] == 0f)
-            {
+        public override void AI() {
+            if (Projectile.localAI[0] == 0f) {
                 Projectile.scale -= 0.01f;
                 Projectile.alpha += 15;
-                if (Projectile.alpha >= 250)
-                {
+                if (Projectile.alpha >= 250) {
                     Projectile.alpha = 255;
                     Projectile.localAI[0] = 1f;
                 }
             }
-            else if (Projectile.localAI[0] == 1f)
-            {
+            else if (Projectile.localAI[0] == 1f) {
                 Projectile.scale += 0.01f;
                 Projectile.alpha -= 15;
-                if (Projectile.alpha <= 0)
-                {
+                if (Projectile.alpha <= 0) {
                     Projectile.alpha = 0;
                     Projectile.localAI[0] = 0f;
                 }
@@ -67,16 +58,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             Projectile.velocity *= 1.01f;
             Projectile.localAI[1] += 1f;
-            if (Projectile.timeLeft % 20 == 0 || Projectile.localAI[1] == 3f)
-            {
+            if (Projectile.timeLeft % 20 == 0 || Projectile.localAI[1] == 3f) {
                 SpanDust();
             }
         }
 
-        public void SpanDust()
-        {
-            for (int i = 0; i < 12; i++)
-            {
+        public void SpanDust() {
+            for (int i = 0; i < 12; i++) {
                 Vector2 offset = Vector2.UnitX * (0f - Projectile.width) / 2f;
                 offset += -Vector2.UnitY.RotatedBy(i * CWRUtils.PiOver6) * new Vector2(8f, 16f);
                 offset = offset.RotatedBy(Projectile.rotation - MathHelper.PiOver2);
@@ -89,8 +77,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons
             }
         }
 
-        public override void OnKill(int timeLeft)
-        {
+        public override void OnKill(int timeLeft) {
             Projectile.ExpandHitboxBy(16);
             Projectile.maxPenetrate = Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
@@ -98,8 +85,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons
             Projectile.Damage();
             SoundEngine.PlaySound(in SoundID.Item92, Projectile.position);
             int dustAmt = Main.rand.Next(10, 20);
-            for (int d = 0; d < dustAmt; d++)
-            {
+            for (int d = 0; d < dustAmt; d++) {
                 int electric = Dust.NewDust(Projectile.Center - Projectile.velocity / 2f, 0, 0, DustID.IceTorch, 0f, 0f, 100, default, 2f);
                 Dust obj = Main.dust[electric];
                 obj.velocity *= 2f;
@@ -107,8 +93,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }

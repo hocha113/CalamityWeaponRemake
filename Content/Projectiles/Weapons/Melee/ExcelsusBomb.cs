@@ -13,8 +13,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
     {
         public override string Texture => CWRConstant.Projectile_Melee + "StreamGouge";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 32;
             Projectile.height = 32;
             Projectile.friendly = true;
@@ -26,12 +25,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Projectile.MaxUpdates = 5;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Projectile.rotation = Projectile.velocity.ToRotation();
             SpanDust();
-            if (Main.rand.NextBool(8))
-            {
+            if (Main.rand.NextBool(8)) {
                 SpanDust();
                 //Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height
                 //    , Main.rand.NextBool(3) ? 56 : 242, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
@@ -40,13 +37,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             }
         }
 
-        public void SpanDust()
-        {
-            for (int i = 0; i < 1; i++)
-            {
+        public void SpanDust() {
+            for (int i = 0; i < 1; i++) {
                 int dustType = Main.rand.NextBool(3) ? 56 : 242;
-                if (Main.rand.NextBool())
-                {
+                if (Main.rand.NextBool()) {
                     Vector2 vector3 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
                     Dust obj3 = Main.dust[Dust.NewDust(Projectile.Center - vector3 * 30f, 0, 0, dustType)];
                     obj3.noGravity = true;
@@ -64,8 +58,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                     obj3.customData = Projectile;
                     obj3.color = Color.Crimson;
                 }
-                else
-                {
+                else {
                     Vector2 vector4 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
                     Dust obj4 = Main.dust[Dust.NewDust(Projectile.Center - vector4 * 30f, 0, 0, dustType)];
                     obj4.noGravity = true;
@@ -78,26 +71,22 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             }
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
             Lighting.AddLight(Projectile.position, Color.Blue.ToVector3());
             base.OnHitNPC(target, hit, damageDone);
         }
 
-        public override void OnKill(int timeLeft)
-        {
+        public override void OnKill(int timeLeft) {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
             Lighting.AddLight(Projectile.position, Color.Blue.ToVector3() * 3);
             Projectile.width = 600;
             Projectile.height = 600;
             Projectile.Center = Projectile.position;
             Projectile.Damage();
-            for (int j = 0; j < 3; j++)
-            {
+            for (int j = 0; j < 3; j++) {
                 int dustType = Main.rand.NextBool(3) ? 56 : 242;
                 float scale = Main.rand.NextFloat(1f, 1.35f);
-                for (float spikeAngle = 0f; spikeAngle < MathHelper.TwoPi; spikeAngle += 0.15f)
-                {
+                for (float spikeAngle = 0f; spikeAngle < MathHelper.TwoPi; spikeAngle += 0.15f) {
                     Vector2 offset = spikeAngle.ToRotationVector2() * Main.rand.NextFloat(3.95f, 7.05f);
                     Dust dust = Dust.NewDustPerfect(Projectile.Center
                         + CWRUtils.GetRandomVevtor(0, 360, Main.rand.Next(16, 220))
@@ -107,8 +96,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                     dust.scale *= dustType == 56 ? 0.5f : 1;
                 }
 
-                if (Main.netMode != NetmodeID.Server)
-                {
+                if (Main.netMode != NetmodeID.Server) {
                     for (int i = 0; i < 10; i++)//生成这种粒子不是好主意
                     {
                         Vector2 particleSpeed = CWRUtils.GetRandomVevtor(60, 120, -8 * (i / 20f));
@@ -121,8 +109,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Main.EntitySpriteDraw(
                 mainValue,

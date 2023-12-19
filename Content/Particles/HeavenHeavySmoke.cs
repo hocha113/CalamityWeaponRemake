@@ -32,8 +32,7 @@ namespace CalamityWeaponRemake.Content.Particles
         private Player player;
         static int FrameAmount = 6;
 
-        public HeavenHeavySmoke(Vector2 position, Vector2 velocity, Color color, int lifetime, float scale, float opacity, float rotationSpeed = 0f, bool glowing = false, float hueshift = 0f, bool required = false, Player player = null)
-        {
+        public HeavenHeavySmoke(Vector2 position, Vector2 velocity, Color color, int lifetime, float scale, float opacity, float rotationSpeed = 0f, bool glowing = false, float hueshift = 0f, bool required = false, Player player = null) {
             Position = position;
             Velocity = velocity;
             Color = color;
@@ -49,8 +48,7 @@ namespace CalamityWeaponRemake.Content.Particles
             sengs = Main.rand.Next(30);
         }
 
-        public override void Update()
-        {
+        public override void Update() {
             if (Time / (float)Lifetime < 0.2f)
                 Scale += 0.01f;
             else
@@ -63,12 +61,11 @@ namespace CalamityWeaponRemake.Content.Particles
             float opacity = Utils.GetLerpValue(1f, 0.85f, LifetimeCompletion, true);
             Color *= opacity;
             if (player != null)
-            Position += player.velocity;
+                Position += player.velocity;
             sengs++;
         }
 
-        public override void CustomDraw(SpriteBatch spriteBatch)
-        {
+        public override void CustomDraw(SpriteBatch spriteBatch) {
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             int animationFrame = (int)Math.Floor(Time / ((float)(Lifetime / (float)FrameAmount)));
             Rectangle frame = new Rectangle(80 * Variant, 80 * animationFrame, 80, 80);

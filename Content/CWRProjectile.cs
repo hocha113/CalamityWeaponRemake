@@ -31,53 +31,45 @@ namespace CalamityWeaponRemake.Content
 
         public byte SpanTypes;
 
-        public override void SetDefaults(Projectile projectile)
-        {
+        public override void SetDefaults(Projectile projectile) {
             base.SetDefaults(projectile);
-            if (projectile.type == ModContent.ProjectileType<HolyColliderHolyFire>())
-            {
-                projectile.damage = 0;
-                projectile.Kill();
-                return;
+        }
+
+        public override void OnSpawn(Projectile projectile, IEntitySource source) {
+            if (CWRConstant.ForceReplaceResetContent) {
+                if (projectile.type == ModContent.ProjectileType<HolyColliderHolyFire>()
+                    || projectile.type == ModContent.ProjectileType<EssenceFlame2>()) {
+                    projectile.damage = 0;
+                    projectile.active = false;
+                    return;
+                }
             }
         }
 
-        public override void OnSpawn(Projectile projectile, IEntitySource source)
-        {
-            
-        }
-
-        public override void AI(Projectile projectile)
-        {
+        public override void AI(Projectile projectile) {
             base.AI(projectile);
         }
 
-        public override bool PreAI(Projectile projectile)
-        {
+        public override bool PreAI(Projectile projectile) {
             return base.PreAI(projectile);
         }
 
-        public override void PostAI(Projectile projectile)
-        {
+        public override void PostAI(Projectile projectile) {
             base.PostAI(projectile);
         }
 
-        public override void OnHitPlayer(Projectile projectile, Player target, Player.HurtInfo info)
-        {
+        public override void OnHitPlayer(Projectile projectile, Player target, Player.HurtInfo info) {
             base.OnHitPlayer(projectile, target, info);
         }
 
-        public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(Projectile projectile, NPC target, NPC.HitInfo hit, int damageDone) {
             Player player = Main.player[projectile.owner];
-            if (SpanTypes == (byte)SpanTypesEnum.DeadWing)
-            {
+            if (SpanTypes == (byte)SpanTypesEnum.DeadWing) {
                 int types = ModContent.ProjectileType<DeadWave>();
 
                 if (player.Center.To(target.Center).LengthSquared() < 600 * 600
                     && projectile.type != types
-                    && projectile.numHits == 0)
-                {
+                    && projectile.numHits == 0) {
                     Vector2 vr = player.Center.To(Main.MouseWorld)
                         .RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(-15, 15))).UnitVector() * Main.rand.Next(7, 9);
                     Vector2 pos = player.Center + vr * 10;
@@ -93,8 +85,7 @@ namespace CalamityWeaponRemake.Content
                 }
             }
 
-            if (SpanTypes == (byte)SpanTypesEnum.ClaretCannon)
-            {
+            if (SpanTypes == (byte)SpanTypesEnum.ClaretCannon) {
                 Projectile projectile1 = Projectile.NewProjectileDirect(
                         CWRUtils.parent(player),
                         target.position,
@@ -105,8 +96,7 @@ namespace CalamityWeaponRemake.Content
                         projectile.owner
                         );
                 BloodVerdict bloodVerdict = projectile1.ModProjectile as BloodVerdict;
-                if (bloodVerdict != null)
-                {
+                if (bloodVerdict != null) {
                     bloodVerdict.offsetVr = new Vector2(Main.rand.Next(target.width), Main.rand.Next(target.height));
                     bloodVerdict.Projectile.ai[1] = target.whoAmI;
                     Vector2[] vrs = new Vector2[3];
@@ -116,24 +106,20 @@ namespace CalamityWeaponRemake.Content
                 }
             }
 
-            if (projectile.DamageType == DamageClass.Summon && target.CWR().WhipHitNum > 0)
-            {
+            if (projectile.DamageType == DamageClass.Summon && target.CWR().WhipHitNum > 0) {
                 CWRNpc npc = target.CWR();
                 WhipHitTypeEnum wTypes = (WhipHitTypeEnum)npc.WhipHitType;
-                switch (wTypes)
-                {
+                switch (wTypes) {
                     case WhipHitTypeEnum.WhiplashGalactica:
                         if ((
                             (projectile.numHits % 3 == 0 && projectile.minion == true)
                             || (projectile.numHits == 0 && projectile.minion == false)
                             )
                             && projectile.type != ModContent.ProjectileType<CosmicFire>()
-                            )
-                        {
+                            ) {
                             float randRot = Main.rand.NextFloat(MathHelper.TwoPi);
 
-                            for (int i = 0; i < 3; i++)
-                            {
+                            for (int i = 0; i < 3; i++) {
                                 Vector2 vr = (MathHelper.TwoPi / 3 * i + randRot).ToRotationVector2() * 10;
                                 int proj = Projectile.NewProjectile(
                                     CWRUtils.parent(projectile),
@@ -174,34 +160,27 @@ namespace CalamityWeaponRemake.Content
                     npc.WhipHitNum--;
             }
 
-            if (projectile.type == ModContent.ProjectileType<ExoVortex>())
-            {
+            if (projectile.type == ModContent.ProjectileType<ExoVortex>()) {
                 ExoVortexOnHitDeBug(target);
             }
         }
 
-        public override bool PreDraw(Projectile projectile, ref Color lightColor)
-        {
-            if (projectile.type == ModContent.ProjectileType<ThanatosLaser>())
-            {
+        public override bool PreDraw(Projectile projectile, ref Color lightColor) {
+            if (projectile.type == ModContent.ProjectileType<ThanatosLaser>()) {
                 ThanatosLaserDrawDeBug(projectile, ref lightColor);
             }
             return base.PreDraw(projectile, ref lightColor);
         }
 
-        private void ExoVortexOnHitDeBug(NPC npc)
-        {
-            if (npc.type == ModContent.NPCType<BrimstoneHeart>())
-            {
+        private void ExoVortexOnHitDeBug(NPC npc) {
+            if (npc.type == ModContent.NPCType<BrimstoneHeart>()) {
                 return;
             }
         }
 
-        private bool ThanatosLaserDrawDeBug(Projectile projectile, ref Color lightColor)
-        {
+        private bool ThanatosLaserDrawDeBug(Projectile projectile, ref Color lightColor) {
             ThanatosLaser thanatosLaser = projectile.ModProjectile as ThanatosLaser;
-            if (thanatosLaser.TelegraphDelay >= ThanatosLaser.TelegraphTotalTime)
-            {
+            if (thanatosLaser.TelegraphDelay >= ThanatosLaser.TelegraphTotalTime) {
                 lightColor.R = (byte)(255 * projectile.Opacity);
                 lightColor.G = (byte)(255 * projectile.Opacity);
                 lightColor.B = (byte)(255 * projectile.Opacity);

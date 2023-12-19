@@ -22,14 +22,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
 
         Color chromaColor => CWRUtils.MultiLerpColor(Projectile.ai[0] % 35 / 35f, HeavenfallLongbow.rainbowColors);
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.height = 24;
             Projectile.width = 24;
             Projectile.tileCollide = false;
@@ -42,18 +40,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             Projectile.localNPCHitCooldown = 7 * Projectile.MaxUpdates;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Lighting.AddLight(Projectile.Center, chromaColor.ToVector3());
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             NPC target = Projectile.Center.InPosClosestNPC(1300);
-            if (target != null && Projectile.ai[0] > 30)
-            {
+            if (target != null && Projectile.ai[0] > 30) {
                 Projectile.ChasingBehavior2(target.Center, 1, 0.3f);
             }
 
-            if (!CWRUtils.isServer && Main.rand.NextBool(2))
-            {
+            if (!CWRUtils.isServer && Main.rand.NextBool(2)) {
                 Vector2 vector = Projectile.velocity * 1.05f;
                 float slp = Main.rand.NextFloat(0.5f, 0.9f);
                 CWRParticleHandler.SpawnParticle(new HeavenStarParticle(Projectile.Center, vector, Color.White
@@ -64,10 +59,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             Projectile.ai[0]++;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            for (int i = 0; i < 3; i++)
-            {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
+            for (int i = 0; i < 3; i++) {
                 float slp = Main.rand.NextFloat(0.5f, 1.2f);
                 CWRParticleHandler.SpawnParticle(new StarPulseRing(target.Center + Main.rand.NextVector2Unit() * Main.rand.Next(13, 330), Vector2.Zero, CWRUtils.MultiLerpColor(Main.rand.NextFloat(1), HeavenfallLongbow.rainbowColors), 0.05f * slp, 0.8f * slp, 8));
             }
@@ -76,8 +69,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
                 Projectile.timeLeft = 0;
         }
 
-        public override void OnKill(int timeLeft)
-        {
+        public override void OnKill(int timeLeft) {
             Projectile.Explode(300);
         }
 
@@ -85,8 +77,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
 
         public Color PrimitiveColorFunction(float _) => CalamityUtils.MulticolorLerp((Main.GlobalTimeWrappedHourly * 2f + Projectile.identity * 0.1372f) % 1f, HeavenfallLongbow.rainbowColors) * Projectile.Opacity * (Projectile.timeLeft / 30f);
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             PierceDrawer ??= new(PrimitiveWidthFunction, PrimitiveColorFunction, null, GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"]);
 
             float localIdentityOffset = Projectile.identity * 0.1372f;

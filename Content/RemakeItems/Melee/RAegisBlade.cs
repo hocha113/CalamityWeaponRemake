@@ -19,8 +19,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.width = 72;
             item.height = 72;
             item.scale = 0.9f;
@@ -38,17 +37,14 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             item.rare = ItemRarityID.Yellow;
         }
 
-        public override bool? CanUseItem(Item item, Player player)
-        {
-            if (player.altFunctionUse == 2)
-            {
+        public override bool? CanUseItem(Item item, Player player) {
+            if (player.altFunctionUse == 2) {
                 item.noUseGraphic = true;
                 item.noMelee = true;
                 item.UseSound = SoundID.Item73;
                 item.shoot = ModContent.ProjectileType<AegisBladeProj>();
             }
-            else
-            {
+            else {
                 item.noUseGraphic = false;
                 item.noMelee = false;
                 item.UseSound = SoundID.Item73;
@@ -57,23 +53,19 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             return player.ownedProjectileCounts[ModContent.ProjectileType<AegisBladeProj>()] == 0;
         }
 
-        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             int damages = damage;
-            if (player.altFunctionUse == 2)
-            {
+            if (player.altFunctionUse == 2) {
                 damages = (int)(damage * 1.3f);
             }
-            else
-            {
+            else {
                 damages = (int)(damage * 0.3f);
             }
             _ = Projectile.NewProjectile(source, position, velocity, item.shoot, damages, knockback, player.whoAmI);
             return false;
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "AegisBlade", 2);
         }
     }

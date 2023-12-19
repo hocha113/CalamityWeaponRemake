@@ -21,13 +21,11 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[ModContent.ItemType<CalamityMod.Items.Weapons.Melee.Excelsus>()] = true;
         }
 
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.width = 78;
             item.damage = 250;
             item.DamageType = DamageClass.Melee;
@@ -45,16 +43,13 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             item.shootSpeed = 12f;
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
-            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.Excelsus>(item))
-            {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.Excelsus>(item)) {
                 CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "Excelsus", 2);
             }
         }
 
-        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             if (player.altFunctionUse == 2) {
                 Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<ExcelsusBomb>(), damage * 3, knockback, player.whoAmI);
             }
@@ -80,19 +75,16 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             return false;
         }
 
-        public override bool? AltFunctionUse(Item item, Player player)
-        {
+        public override bool? AltFunctionUse(Item item, Player player) {
             return true;
         }
 
-        public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone) {
             Projectile.NewProjectile(player.GetSource_ItemUse(item), target.Center, Vector2.Zero, ModContent.ProjectileType<LaserFountains>()
                     , item.damage, 0f, player.whoAmI, target.whoAmI);
         }
 
-        public override void OnHitPvp(Item item, Player player, Player target, Player.HurtInfo hurtInfo)
-        {
+        public override void OnHitPvp(Item item, Player player, Player target, Player.HurtInfo hurtInfo) {
             Projectile.NewProjectile(player.GetSource_ItemUse(item), target.Center, Vector2.Zero, ModContent.ProjectileType<LaserFountains>()
                      , item.damage / 2, 0f, player.whoAmI, target.whoAmI);
         }

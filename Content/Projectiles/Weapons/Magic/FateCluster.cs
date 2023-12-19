@@ -12,8 +12,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic
     {
         public override string Texture => CWRConstant.Cay_Proj_Magic + "FatesRevealFlame";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 32;
             Projectile.height = 32;
             Projectile.friendly = true;
@@ -28,41 +27,33 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic
             Projectile.localNPCHitCooldown = -1;
         }
 
-        public override void OnSpawn(IEntitySource source)
-        {
+        public override void OnSpawn(IEntitySource source) {
             Projectile.frameCounter = Main.rand.Next(4);
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             CWRUtils.ClockFrame(ref Projectile.frameCounter, 5, 3);
             Projectile.rotation = Projectile.velocity.ToRotation();
-            if (Projectile.ai[0] == 0)
-            {
+            if (Projectile.ai[0] == 0) {
                 NPC target = Projectile.Center.InPosClosestNPC(300);
 
-                if (target != null)
-                {
+                if (target != null) {
                     Projectile.ChasingBehavior2(target.Center, 1.01f, 0.25f);
                 }
             }
-            if (Projectile.ai[0] == 1)
-            {
+            if (Projectile.ai[0] == 1) {
                 NPC target = Projectile.Center.InPosClosestNPC(600);
 
-                if (target != null)
-                {
+                if (target != null) {
                     Projectile.ChasingBehavior2(target.Center, 1, 0.05f);
                 }
             }
         }
 
-        public override void OnKill(int timeLeft)
-        {
+        public override void OnKill(int timeLeft) {
             Projectile.Explode(64);
 
-            for (int i = 0; i <= 360; i += 3)
-            {
+            for (int i = 0; i <= 360; i += 3) {
                 Vector2 vr = new Vector2(3f, 3f).RotatedBy(MathHelper.ToRadians(i));
                 int num = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height
                     , DustID.RedTorch, vr.X, vr.Y, 200, new Color(232, 251, 250, 200), 1.4f);
@@ -72,8 +63,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Main.EntitySpriteDraw(
                 mainValue,

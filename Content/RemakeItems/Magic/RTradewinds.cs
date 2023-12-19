@@ -20,13 +20,11 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Magic
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[ModContent.ItemType<CalamityMod.Items.Weapons.Magic.Tradewinds>()] = true;
         }
 
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.damage = 25;
             item.DamageType = DamageClass.Magic;
             item.mana = 5;
@@ -45,13 +43,11 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Magic
             item.shootSpeed = 20f;
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "Tradewinds");
         }
 
-        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (player.altFunctionUse == 2) {
                 Main.projectile[proj].ai[0] = 2;
@@ -69,8 +65,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Magic
             return false;
         }
 
-        public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
-        {
+        public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
             item.useTime = 12;
             item.useAnimation = 12;
             if (player.altFunctionUse == 2) {
@@ -80,8 +75,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Magic
             }
         }
 
-        public override bool? AltFunctionUse(Item item, Player player)
-        {
+        public override bool? AltFunctionUse(Item item, Player player) {
             return true;
         }
     }

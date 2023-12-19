@@ -13,8 +13,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
     {
         public override string Texture => CWRConstant.Projectile_Ranged + "AnnihilatingUniverseProj/" + "DivineDevourerIllusionHead";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.height = 54;
             Projectile.width = 54;
             Projectile.tileCollide = false;
@@ -28,16 +27,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
 
         private Vector2 targetPos;
 
-        public override void AI()
-        {
-            if (Projectile.ai[0] == 0 && Projectile.IsOwnedByLocalPlayer())
-            {
+        public override void AI() {
+            if (Projectile.ai[0] == 0 && Projectile.IsOwnedByLocalPlayer()) {
                 targetPos = Main.player[Projectile.owner].Center;
                 int index = Projectile.whoAmI;
                 int maxnum = (int)Projectile.ai[1];
-                for (int i = 0; i < maxnum; i++)
-                {
-                    int types = i == (maxnum - 1) ? ModContent.ProjectileType<DivineDevourerIllusionTail>() 
+                for (int i = 0; i < maxnum; i++) {
+                    int types = i == (maxnum - 1) ? ModContent.ProjectileType<DivineDevourerIllusionTail>()
                         : ModContent.ProjectileType<DivineDevourerIllusionBody>();
                     int proj = Projectile.NewProjectile(Projectile.parent(), Projectile.Center, Vector2.Zero
                         , types, Projectile.damage / 2, Projectile.knockBack / 2, Projectile.owner, ai1: index);
@@ -48,16 +44,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
                 Projectile.ai[0] = 1;
             }
             NPC target = Projectile.Center.InPosClosestNPC(1900);
-            if (target != null)
-            {
+            if (target != null) {
                 Projectile.ChasingBehavior2(target.Center, 1, 0.2f);
             }
             Projectile.ChasingBehavior2(targetPos, 1.001f, 0.15f);
             Projectile.rotation = Projectile.velocity.ToRotation();
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D head = CWRUtils.GetT2DValue(Texture);
             Main.spriteBatch.SetAdditiveState();
 

@@ -20,14 +20,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
 
         public PrimitiveTrail PierceDrawer = null;
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.height = 54;
             Projectile.width = 54;
             Projectile.tileCollide = false;
@@ -40,32 +38,25 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
             Projectile.localNPCHitCooldown = -1;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
             Color color = Color.Lerp(Color.Cyan, Color.White, Main.rand.NextFloat(0.3f, 0.64f));
             Lighting.AddLight(Projectile.Center, color.ToVector3());
             Projectile.velocity += (Projectile.rotation + MathHelper.PiOver2).ToRotationVector2() * 0.1f;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            if (Projectile.numHits == 0)
-            {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
+            if (Projectile.numHits == 0) {
                 StreamBeams.StarRT(Projectile, target);
-                if (Main.rand.NextBool(3))
-                {
+                if (Main.rand.NextBool(3)) {
                     int proj = Projectile.NewProjectile(Projectile.parent(), Projectile.Center + Projectile.Center.To(target.Center) / 2, Vector2.Zero
                     , ModContent.ProjectileType<CelestialDevourer>(), Projectile.damage / 2, 0, Projectile.owner);
                     Main.projectile[proj].scale = 0.3f;
                 }
             }
-            if (target.type == ModContent.NPCType<SepulcherHead>() || target.type == ModContent.NPCType<SepulcherBody>() || target.type == ModContent.NPCType<SepulcherTail>())
-            {
-                foreach (NPC targetHead in Main.npc)
-                {
-                    if (targetHead.type == ModContent.NPCType<SepulcherHead>())
-                    {
+            if (target.type == ModContent.NPCType<SepulcherHead>() || target.type == ModContent.NPCType<SepulcherBody>() || target.type == ModContent.NPCType<SepulcherTail>()) {
+                foreach (NPC targetHead in Main.npc) {
+                    if (targetHead.type == ModContent.NPCType<SepulcherHead>()) {
                         ModNPC modNPC = targetHead.ModNPC;
                         modNPC.NPC.life = 0;
                         modNPC.NPC.checkDead();
@@ -77,12 +68,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
             }
         }
 
-        public override void OnKill(int timeLeft)
-        {
-            if (Main.netMode != NetmodeID.Server)
-            {
-                for (int i = 0; i < 16; i++)
-                {
+        public override void OnKill(int timeLeft) {
+            if (Main.netMode != NetmodeID.Server) {
+                for (int i = 0; i < 16; i++) {
                     Vector2 particleSpeed = Projectile.velocity * Main.rand.NextFloat(0.5f, 0.7f);
                     Vector2 pos = Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height));
                     CWRParticle energyLeak = new LightParticle(pos, particleSpeed
@@ -95,9 +83,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
         public float PrimitiveWidthFunction(float completionRatio) => Projectile.scale * 30f;
 
         public Color PrimitiveColorFunction(float _) => Color.AliceBlue * Projectile.Opacity;
-        
-        public override bool PreDraw(ref Color lightColor)
-        {
+
+        public override bool PreDraw(ref Color lightColor) {
             PierceDrawer ??= new(PrimitiveWidthFunction, PrimitiveColorFunction, null, GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"]);
 
             float localIdentityOffset = Projectile.identity * 0.1372f;

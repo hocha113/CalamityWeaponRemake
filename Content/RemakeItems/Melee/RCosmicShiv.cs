@@ -19,8 +19,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.useStyle = ItemUseStyleID.Rapier;
             item.DamageType = DamageClass.Melee;
             item.useAnimation = 15;
@@ -39,8 +38,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             item.rare = ModContent.RarityType<DarkBlue>();
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "CosmicShiv", 2);
         }
     }

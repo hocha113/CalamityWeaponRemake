@@ -9,12 +9,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 {
     internal class ElementalSpike : ModProjectile
     {
-        public override string Texture
-        {
-            get
-            {
-                switch (Status)
-                {
+        public override string Texture {
+            get {
+                switch (Status) {
                     case 0:
                         return CWRConstant.Projectile_Melee + "Spikes/" + "RedsSpike";
                     case 1:
@@ -27,14 +24,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             }
         }
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailingMode[Type] = 2;
             ProjectileID.Sets.TrailCacheLength[Type] = 8;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 48;
             Projectile.height = 48;
             Projectile.scale = 1.5f;
@@ -52,13 +47,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
         public ref float Status => ref Projectile.ai[0];
 
-        public override void AI()
-        {
+        public override void AI() {
             NPC target = CWRUtils.GetNPCInstance((int)Projectile.ai[1]);
             Projectile.rotation = Projectile.velocity.ToRotation();
 
-            if (target != null && Projectile.timeLeft < 220)
-            {
+            if (target != null && Projectile.timeLeft < 220) {
                 Vector2 toTarget = Projectile.Center.To(target.Center);
                 Projectile.EntityToRot(toTarget.ToRotation(), 0.1f);
                 Projectile.velocity = Projectile.rotation.ToRotationVector2() * Projectile.velocity.Length();
@@ -66,15 +59,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             }
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
             base.OnHitNPC(target, hit, damageDone);
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            if (Projectile.timeLeft < 35)
-            {
+        public override Color? GetAlpha(Color lightColor) {
+            if (Projectile.timeLeft < 35) {
                 byte b = (byte)(Projectile.timeLeft * 3);
                 byte alpha = (byte)(100f * (b / 255f));
                 return new Color(b, b, b, alpha);
@@ -83,8 +73,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             return new Color(255, 255, 255, 100);
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Main.EntitySpriteDraw(
                 mainValue,
@@ -101,8 +90,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.AnisotropicWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
-            for (int i = 0; i < Projectile.oldPos.Length; i++)
-            {
+            for (int i = 0; i < Projectile.oldPos.Length; i++) {
                 Main.EntitySpriteDraw(
                 mainValue,
                 CWRUtils.WDEpos(Projectile.oldPos[i] + Projectile.Center - Projectile.position),

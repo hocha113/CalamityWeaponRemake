@@ -17,8 +17,7 @@ namespace CalamityWeaponRemake.Content.Particles
 
         public override string Texture => "CalamityMod/Projectiles/StarProj";
 
-        public HeavenfallStarParticle(Vector2 relativePosition, Vector2 velocity, bool affectedByGravity, int lifetime, float scale, Color color)
-        {
+        public HeavenfallStarParticle(Vector2 relativePosition, Vector2 velocity, bool affectedByGravity, int lifetime, float scale, Color color) {
             Position = relativePosition;
             Velocity = velocity;
             AffectedByGravity = affectedByGravity;
@@ -27,21 +26,18 @@ namespace CalamityWeaponRemake.Content.Particles
             Color = InitialColor = color;
         }
 
-        public override void Update()
-        {
+        public override void Update() {
             Scale *= 0.95f;
             Color = Color.Lerp(InitialColor, Color.Transparent, (float)Math.Pow(LifetimeCompletion, 3D));
             Velocity *= 0.95f;
-            if (Velocity.Length() < 12f && AffectedByGravity)
-            {
+            if (Velocity.Length() < 12f && AffectedByGravity) {
                 Velocity.X *= 0.94f;
                 Velocity.Y += 0.25f;
             }
             Rotation = Velocity.ToRotation() + MathHelper.PiOver2;
         }
 
-        public override void CustomDraw(SpriteBatch spriteBatch)
-        {
+        public override void CustomDraw(SpriteBatch spriteBatch) {
             Vector2 scale = new Vector2(0.5f, 1.6f) * Scale;
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
 

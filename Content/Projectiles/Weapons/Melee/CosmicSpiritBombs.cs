@@ -32,7 +32,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Projectile.tileCollide = false;
             Projectile.timeLeft = 150;
             Projectile.DamageType = DamageClass.Melee;
-            
+
         }
 
         public override void AI() {

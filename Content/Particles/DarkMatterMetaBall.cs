@@ -88,8 +88,8 @@ namespace CalamityWeaponRemake.Content.Particles
                 Vector2 drawPosition = particle.Center - Main.screenPosition;
                 Vector2 origin = tex.Size() * 0.5f;
                 Vector2 scale = Vector2.One * particle.Size / tex.Size();
-                for(int i = 0; i < 15; i++)
-                    Main.spriteBatch.Draw(tex, drawPosition, null, Color.White, Main.GameUpdateCount / 10f + i * 0.01f, origin, scale, SpriteEffects.None, 0f);               
+                for (int i = 0; i < 15; i++)
+                    Main.spriteBatch.Draw(tex, drawPosition, null, Color.White, Main.GameUpdateCount / 10f + i * 0.01f, origin, scale, SpriteEffects.None, 0f);
             }
         }
     }

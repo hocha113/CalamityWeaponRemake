@@ -7,8 +7,7 @@ namespace CalamityWeaponRemake.Common
 {
     internal class LocalizationRewriter : ModSystem
     {
-        public override void PostSetupContent()
-        {
+        public override void PostSetupContent() {
 #if DEBUG
             MethodInfo refreshInfo = typeof(LocalizationLoader).GetMethod("UpdateLocalizationFilesForMod", BindingFlags.NonPublic | BindingFlags.Static, new Type[] { typeof(Mod), typeof(string), typeof(GameCulture) });
             refreshInfo.Invoke(null, new object[] { Mod, null, Language.ActiveCulture });
@@ -18,8 +17,7 @@ namespace CalamityWeaponRemake.Common
 
     internal static class LocalizationRoundabout
     {
-        public static void SetDefault(this LocalizedText text, string value)
-        {
+        public static void SetDefault(this LocalizedText text, string value) {
 #if DEBUG
             PropertyInfo valueProp = typeof(LocalizedText).GetProperty("Value", BindingFlags.Public | BindingFlags.Instance);
 

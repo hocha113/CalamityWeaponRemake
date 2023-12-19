@@ -18,13 +18,11 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
     {
         public override string Texture => CWRConstant.Item + "Ranged/" + "DragonsBreathRifle";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.damage = 328;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 124;
@@ -46,27 +44,22 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
         }
 
-        public override bool AltFunctionUse(Player player)
-        {
+        public override bool AltFunctionUse(Player player) {
             return true;
         }
 
         int dbpType => ModContent.ProjectileType<DragonsBreathRifleHeldProj>();
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            if (player.ownedProjectileCounts[dbpType] == 0)
-            {
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
+            if (player.ownedProjectileCounts[dbpType] == 0) {
                 int proj = Projectile.NewProjectile(CWRUtils.parent(player), position, velocity, dbpType, damage, knockback, player.whoAmI);
-                if (player.altFunctionUse == 2)
-                {
+                if (player.altFunctionUse == 2) {
                     Main.projectile[proj].ai[0] = 1;
                 }
             }
             return false;
         }
 
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             CreateRecipe().
                 AddIngredient<AuricBar>(5).
                 AddIngredient<CalamityMod.Items.Weapons.Ranged.TheSevensStriker>().

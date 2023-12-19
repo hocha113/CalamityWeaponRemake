@@ -12,8 +12,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
     {
         public override string Texture => CWRConstant.Projectile_Ranged + "GunCasing";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 4;
             Projectile.height = 4;
             Projectile.damage = 10;
@@ -30,8 +29,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
 
         public int Time { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
 
-        public override void AI()
-        {
+        public override void AI() {
             Time++;
             Projectile.rotation += MathHelper.ToRadians(Projectile.velocity.X * 13);
             Projectile.velocity += new Vector2(0, 0.1f);
@@ -40,8 +38,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
                 Dust.NewDust(Projectile.Center, 3, 3, DustID.Smoke, Projectile.velocity.X, Projectile.velocity.Y);
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D mainValue = GetT2DValue(Texture);
 
             Main.EntitySpriteDraw(

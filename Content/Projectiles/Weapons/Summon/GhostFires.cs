@@ -18,15 +18,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon
 
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = Projectile.height = 16;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
@@ -38,56 +36,44 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon
             Projectile.DamageType = DamageClass.Summon;
         }
 
-        public override bool? CanDamage()
-        {
-            if (!ableToHit)
-            {
+        public override bool? CanDamage() {
+            if (!ableToHit) {
                 return false;
             }
 
             return null;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Player player = Main.player[Projectile.owner];
             Projectile.localAI[0] += 1f / (Projectile.extraUpdates + 1);
-            if (Projectile.penetrate < 200)
-            {
-                if (Projectile.timeLeft > 60)
-                {
+            if (Projectile.penetrate < 200) {
+                if (Projectile.timeLeft > 60) {
                     Projectile.timeLeft = 60;
                 }
 
                 Projectile.velocity *= 0.88f;
             }
-            else if (Projectile.localAI[0] < 60f)
-            {
+            else if (Projectile.localAI[0] < 60f) {
                 Projectile.velocity *= 0.93f;
             }
-            else
-            {
+            else {
                 FindTarget(player);
             }
 
-            if (Projectile.timeLeft <= 20)
-            {
+            if (Projectile.timeLeft <= 20) {
                 ableToHit = false;
             }
         }
 
-        public void FindTarget(Player player)
-        {
+        public void FindTarget(Player player) {
             float num = 3000f;
             bool flag = false;
-            if (player.HasMinionAttackTargetNPC)
-            {
+            if (player.HasMinionAttackTargetNPC) {
                 NPC nPC = Main.npc[player.MinionAttackTargetNPC];
-                if (nPC.CanBeChasedBy(Projectile))
-                {
+                if (nPC.CanBeChasedBy(Projectile)) {
                     float num2 = Vector2.Distance(nPC.Center, Projectile.Center);
-                    if (num2 < num)
-                    {
+                    if (num2 < num) {
                         num = num2;
                         flag = true;
                         target = nPC;
@@ -95,16 +81,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon
                 }
             }
 
-            if (!flag)
-            {
-                for (int i = 0; i < Main.maxNPCs; i++)
-                {
+            if (!flag) {
+                for (int i = 0; i < Main.maxNPCs; i++) {
                     NPC nPC2 = Main.npc[i];
-                    if (nPC2.CanBeChasedBy(Projectile))
-                    {
+                    if (nPC2.CanBeChasedBy(Projectile)) {
                         float num3 = Vector2.Distance(nPC2.Center, Projectile.Center);
-                        if (num3 < num)
-                        {
+                        if (num3 < num) {
                             num = num3;
                             flag = true;
                             target = nPC2;
@@ -113,26 +95,21 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon
                 }
             }
 
-            if (!flag)
-            {
+            if (!flag) {
                 Projectile.velocity *= 0.98f;
             }
-            else
-            {
+            else {
                 KillTheThing(target);
             }
         }
 
-        public void KillTheThing(NPC npc)
-        {
+        public void KillTheThing(NPC npc) {
             Projectile.velocity = Projectile.SuperhomeTowardsTarget(npc, 50f / (Projectile.extraUpdates + 1), 60f / (Projectile.extraUpdates + 1), 1f / (Projectile.extraUpdates + 1));
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D value = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SmallGreyscaleCircle").Value;
-            for (int i = 0; i < Projectile.oldPos.Length; i++)
-            {
+            for (int i = 0; i < Projectile.oldPos.Length; i++) {
                 float amount = MathF.Cos(Projectile.timeLeft / 32f + Main.GlobalTimeWrappedHourly / 20f + i / (float)Projectile.oldPos.Length * MathF.PI) * 0.5f + 0.5f;
                 Color color = Color.Lerp(Color.Cyan, Color.LightBlue, amount) * 0.4f;
                 color.A = 0;
@@ -141,8 +118,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon
                 Color color3 = color * 0.5f;
                 float num = 0.9f + 0.15f * MathF.Cos(Main.GlobalTimeWrappedHourly % 60f * MathHelper.TwoPi);
                 num *= MathHelper.Lerp(0.15f, 1f, 1f - i / (float)Projectile.oldPos.Length);
-                if (Projectile.timeLeft <= 60)
-                {
+                if (Projectile.timeLeft <= 60) {
                     num *= Projectile.timeLeft / 60f;
                 }
 

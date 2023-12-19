@@ -18,8 +18,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
 
         public override string Texture => CWRConstant.Cay_Proj_Melee + "Yoyos/" + "AirSpinnerYoyo";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 60f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 320f;
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 16f;
@@ -27,8 +26,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.aiStyle = 99;
             Projectile.width = 16;
             Projectile.height = 16;
@@ -43,32 +41,25 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
         private int Time;
         private int Time2;
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
+        public override void SendExtraAI(BinaryWriter writer) {
             writer.Write(Time);
         }
 
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
+        public override void ReceiveExtraAI(BinaryReader reader) {
             Time = reader.ReadInt32();
         }
 
-        public override void AI()
-        {
-            if ((Projectile.position - Main.player[Projectile.owner].position).Length() > 3200f)
-            {
+        public override void AI() {
+            if ((Projectile.position - Main.player[Projectile.owner].position).Length() > 3200f) {
                 Projectile.Kill();
             }
 
             NPC target = Projectile.Center.InPosClosestNPC(600);
             int types = ModContent.ProjectileType<Feathers>();
-            if (target != null && Time % 30 == 0 && Projectile.IsOwnedByLocalPlayer() && CWRUtils.GetPlayerInstance(Projectile.owner)?.ownedProjectileCounts[types] < 12)
-            {
+            if (target != null && Time % 30 == 0 && Projectile.IsOwnedByLocalPlayer() && CWRUtils.GetPlayerInstance(Projectile.owner)?.ownedProjectileCounts[types] < 12) {
                 Time2++;
-                if (Time2 > 5)
-                {
-                    for (int i = 0; i < 6; i++)
-                    {
+                if (Time2 > 5) {
+                    for (int i = 0; i < 6; i++) {
                         int proj = Projectile.NewProjectile(
                             Projectile.parent(),
                             Projectile.Center,
@@ -84,8 +75,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
                     }
                     Time2 = 0;
                 }
-                else
-                {
+                else {
                     Projectile.NewProjectile(
                             Projectile.parent(),
                             Projectile.Center,
@@ -102,13 +92,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             Time++;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
             base.OnHitNPC(target, hit, damageDone);
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor);
             return false;
         }

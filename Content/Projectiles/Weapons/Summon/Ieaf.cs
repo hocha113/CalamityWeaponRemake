@@ -9,8 +9,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon
     {
         public override string Texture => CWRConstant.Projectile + "Ieaf";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 16;
             Projectile.height = 16;
             Projectile.friendly = true;
@@ -21,18 +20,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Summon
             Projectile.localNPCHitCooldown = 12;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             base.AI();
         }
 
-        public override bool? CanHitNPC(NPC target)
-        {
+        public override bool? CanHitNPC(NPC target) {
             return base.CanHitNPC(target);
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             return false;
         }
     }

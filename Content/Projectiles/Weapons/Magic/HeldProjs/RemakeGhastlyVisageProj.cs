@@ -25,8 +25,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic.HeldProjs
 
         public override string Texture => CWRConstant.Item_Magic + "GhastlyVisage";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 26;
             Projectile.height = 32;
             Projectile.friendly = true;
@@ -37,60 +36,50 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic.HeldProjs
             Projectile.hide = true;
         }
 
-        public override bool ShouldUpdatePosition()
-        {
+        public override bool ShouldUpdatePosition() {
             return false;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Lighting.AddLight(Projectile.Center, 0.65f, 0f, 0.1f);
             CWRUtils.ClockFrame(ref Projectile.frameCounter, 6, 3);
 
-            if (!Owner.Alives())
-            {
+            if (!Owner.Alives()) {
                 Projectile.Kill();
                 return;
             }
 
             ObeyOwner();
 
-            if (Projectile.IsOwnedByLocalPlayer())
-            {
+            if (Projectile.IsOwnedByLocalPlayer()) {
                 SpanProj();
             }
 
             Time++;
         }
 
-        public void ObeyOwner()
-        {
+        public void ObeyOwner() {
             Owner.heldProj = Projectile.whoAmI;
             Owner.direction = Projectile.direction = Math.Sign(toMou.X);
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
             Projectile.Center = Owner.Center + new Vector2(Owner.direction * 16, 0);
-            if (Owner.PressKey())
-            {
+            if (Owner.PressKey()) {
                 Projectile.timeLeft = 2;
             }
-            else
-            {
+            else {
                 Projectile.Kill();
             }
         }
 
-        public void SpanProj()
-        {
+        public void SpanProj() {
             int type = ModContent.ProjectileType<GhastlyBlasts>();
-            if (Time % 15 == 0 && Owner.statMana >= Owner.ActiveItem().mana)
-            {
+            if (Time % 15 == 0 && Owner.statMana >= Owner.ActiveItem().mana) {
                 SoundEngine.PlaySound(in SoundID.Item117, Projectile.position);
                 Owner.statMana -= Owner.ActiveItem().mana;
                 if (Owner.statMana < 0)
                     Owner.statMana = 0;
-                for (int i = 0; i < Main.rand.Next(2, 4); i++)
-                {
+                for (int i = 0; i < Main.rand.Next(2, 4); i++) {
                     Projectile.NewProjectile(
                     Owner.parent(),
                     Projectile.Center,
@@ -102,8 +91,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic.HeldProjs
                     );
                 }
             }
-            if (Time % 5 == 0)
-            {
+            if (Time % 5 == 0) {
                 Vector2 vr = CWRUtils.GetRandomVevtor(-120, -60, 3);
                 Projectile.NewProjectile(
                     Owner.parent(),
@@ -118,8 +106,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic.HeldProjs
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Main.EntitySpriteDraw(
                 mainValue,
@@ -134,8 +121,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic.HeldProjs
             return false;
         }
 
-        public override bool? CanDamage()
-        {
+        public override bool? CanDamage() {
             return false;
         }
     }

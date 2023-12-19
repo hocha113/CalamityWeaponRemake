@@ -13,14 +13,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons
     {
         public override string Texture => CWRConstant.Projectile + "TheRelicLuxorMeleeProj";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailingMode[Type] = 2;
             ProjectileID.Sets.TrailCacheLength[Type] = 8;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 20;
             Projectile.height = 20;
             Projectile.friendly = true;
@@ -36,25 +34,20 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons
         public int Status { get => (int)Projectile.ai[0]; set => Projectile.ai[0] = value; }
         public int OwnerIndex { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
 
-        public override void AI()
-        {
-            if (Status == 0)
-            {
+        public override void AI() {
+            if (Status == 0) {
                 Projectile ownerProj = CWRUtils.GetProjectileInstance(OwnerIndex);
-                if (ownerProj != null && Projectile.timeLeft >= 270)
-                {
+                if (ownerProj != null && Projectile.timeLeft >= 270) {
                     Projectile.velocity = Projectile.Center.To(ownerProj.Center);
                 }
-                else
-                {
+                else {
                     if (Projectile.timeLeft < 120)
                         Projectile.velocity *= 0.99f;
                     else if (Projectile.velocity.LengthSquared() < 25 * 25)
                         Projectile.velocity *= 1.02f;
                 }
             }
-            if (Status == 1)
-            {
+            if (Status == 1) {
 
             }
 
@@ -63,20 +56,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons
                 Projectile.rotation += 0.15f;
             Lighting.AddLight(Projectile.Center, Color.Red.ToVector3());
 
-            if (Projectile.timeLeft >= 270)
-            {
+            if (Projectile.timeLeft >= 270) {
                 Projectile.alpha += 10;
             }
-            if (Projectile.timeLeft <= 30)
-            {
+            if (Projectile.timeLeft <= 30) {
                 Projectile.alpha -= 10;
             }
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            for (int i = 0; i < 12; i++)
-            {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
+            for (int i = 0; i < 12; i++) {
                 Vector2 vr = Vector2.UnitX * (0f - Projectile.width) / 2f;
                 vr += -Vector2.UnitY.RotatedBy(i * CWRUtils.PiOver6) * new Vector2(8f, 16f);
                 vr = vr.RotatedBy(Projectile.rotation - MathHelper.PiOver2);
@@ -90,8 +79,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D texture = CWRUtils.GetT2DValue(Texture);
             Color color = Color.White;
             float alp = Projectile.alpha / 255f;
@@ -127,8 +115,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons
         }
 
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles
-            , List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
-        {
+            , List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) {
             overPlayers.Add(index);
         }
     }

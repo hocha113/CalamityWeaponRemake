@@ -27,8 +27,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
         private ref float Time => ref Projectile.ai[0];
         private ref float Time2 => ref Projectile.ai[1];
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 54;
             Projectile.height = 116;
             Projectile.friendly = true;
@@ -39,27 +38,22 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
             Projectile.hide = true;
         }
 
-        public override bool ShouldUpdatePosition()
-        {
+        public override bool ShouldUpdatePosition() {
             return false;
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
+        public override void SendExtraAI(BinaryWriter writer) {
             writer.WriteVector2(toMou);
         }
 
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
+        public override void ReceiveExtraAI(BinaryReader reader) {
             toMou = reader.ReadVector2();
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Lighting.AddLight(Projectile.Center, 0f, 0.7f, 0.5f);
-            
-            if (Owners == null)
-            {
+
+            if (Owners == null) {
                 Projectile.Kill();
                 return;
             }
@@ -70,54 +64,43 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
             Time2++;
         }
 
-        public void SpanProj()
-        {
+        public void SpanProj() {
             int weaponDamage2 = Owners.GetWeaponDamage(Owners.ActiveItem());
             float weaponKnockback2 = Owners.ActiveItem().knockBack;
-            if (Projectile.ai[2] == 0)
-            {
-                if (Time > 30)
-                {
+            if (Projectile.ai[2] == 0) {
+                if (Time > 30) {
                     SoundEngine.PlaySound(HeavenlyGale.FireSound, Projectile.Center);
                     bool haveAmmo = Owners.PickAmmo(Owners.ActiveItem(), out _, out _, out weaponDamage2, out weaponKnockback2, out _);
                     weaponKnockback2 = Owners.GetWeaponKnockback(Owners.ActiveItem(), weaponKnockback2);
                     Time2 = 0;
                     Time = 0;
                 }
-                if (Time2 % 5 == 0 && Time2 > 0 && Time2 < 20)
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
+                if (Time2 % 5 == 0 && Time2 > 0 && Time2 < 20) {
+                    for (int i = 0; i < 3; i++) {
                         Vector2 offset = (Projectile.rotation + Main.rand.Next(-35, 35) * CWRUtils.atoR).ToRotationVector2() * 56;
                         Projectile.NewProjectile(Projectile.parent(), Projectile.Center + offset, Projectile.rotation.ToRotationVector2() * (15 + i)
                         , ModContent.ProjectileType<CelestialObliterationArrow>(), weaponDamage2, weaponKnockback2, Owners.whoAmI);
                     }
                 }
             }
-            else
-            {
+            else {
                 int types = ModContent.ProjectileType<CosmicEddies>();
-                if (!Main.projectile.Any((Projectile n) => n.Alives() && n.ai[2] == 0 && n.type == types))
-                {
+                if (!Main.projectile.Any((Projectile n) => n.Alives() && n.ai[2] == 0 && n.type == types)) {
                     Projectile.NewProjectile(Projectile.parent(), Projectile.Center, Projectile.rotation.ToRotationVector2() * 15
                         , types, (int)(weaponDamage2 * 1.25f), weaponKnockback2, Owners.whoAmI, Projectile.whoAmI);
                 }
             }
         }
 
-        public void StickToOwner()
-        {
-            if (Projectile.IsOwnedByLocalPlayer())
-            {
+        public void StickToOwner() {
+            if (Projectile.IsOwnedByLocalPlayer()) {
                 Vector2 oldToMou = toMou;
                 toMou = Owners.Center.To(Main.MouseWorld);
-                if (oldToMou != toMou)
-                {
+                if (oldToMou != toMou) {
                     Projectile.netUpdate = true;
                 }
             }
-            if ((Projectile.ai[2] == 0 && Owners.PressKey()) || (Projectile.ai[2] == 1 && Owners.PressKey(false)))
-            {
+            if ((Projectile.ai[2] == 0 && Owners.PressKey()) || (Projectile.ai[2] == 1 && Owners.PressKey(false))) {
                 Projectile.timeLeft = 2;
                 Owners.itemTime = 2;
                 Owners.itemAnimation = 2;
@@ -131,8 +114,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
             Owners.heldProj = Projectile.whoAmI;
         }
 
-        public override void PostDraw(Color lightColor)
-        {
+        public override void PostDraw(Color lightColor) {
             CWRUtils.ClockFrame(ref Projectile.frameCounter, 5, 3);
             Texture2D mainValue = CWRUtils.GetT2DValue(Texture + "Glow");
             Main.EntitySpriteDraw(
@@ -147,8 +129,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
                 );
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Main.EntitySpriteDraw(
                 mainValue,

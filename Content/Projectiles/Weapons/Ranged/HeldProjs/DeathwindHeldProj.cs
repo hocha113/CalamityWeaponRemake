@@ -15,8 +15,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
     {
         public override string Texture => CWRConstant.Cay_Wap_Ranged + "Deathwind";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 32;
             Projectile.height = 32;
             Projectile.scale = 1;
@@ -37,41 +36,34 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
         private Vector2 toMou = Vector2.Zero;
         private Item deathwind => Owner.HeldItem;
 
-        public override void OnSpawn(IEntitySource source)
-        {
+        public override void OnSpawn(IEntitySource source) {
             Time2 = 10;
         }
 
-        public override void OnKill(int timeLeft)
-        {
+        public override void OnKill(int timeLeft) {
             base.OnKill(timeLeft);
         }
 
-        public override bool ShouldUpdatePosition()
-        {
+        public override bool ShouldUpdatePosition() {
             return false;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             if (!Owner.Alives() || deathwind.type != ModContent.ItemType<Items.Ranged.Deathwind>()
-                && deathwind.type != ModContent.ItemType<CalamityMod.Items.Weapons.Ranged.Deathwind>())
-            {
+                && deathwind.type != ModContent.ItemType<CalamityMod.Items.Weapons.Ranged.Deathwind>()) {
                 Projectile.Kill();
                 return;
             }
 
             Projectile.Center = Owner.Center + Projectile.rotation.ToRotationVector2() * 13;
-            if (Projectile.IsOwnedByLocalPlayer())
-            {
+            if (Projectile.IsOwnedByLocalPlayer()) {
                 StickToOwner();
                 SpanProj();
             }
             Time++;
         }
 
-        public void SpanProj()
-        {
+        public void SpanProj() {
             int ArrowTypes = ProjectileID.WoodenArrowFriendly;
             float scaleFactor11 = 14f;
             int weaponDamage2 = Owner.GetWeaponDamage(Owner.ActiveItem());
@@ -79,15 +71,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
             bool haveAmmo = Owner.PickAmmo(Owner.ActiveItem(), out ArrowTypes, out scaleFactor11, out weaponDamage2, out weaponKnockback2, out _, Main.rand.NextBool(3));
             weaponKnockback2 = Owner.GetWeaponKnockback(Owner.ActiveItem(), weaponKnockback2);
 
-            if (haveAmmo)
-            {
-                if (Time % deathwind.useTime == 0)
-                {
-                    if (CalamityUtils.CheckWoodenAmmo(ArrowTypes, Owner))
-                    {
+            if (haveAmmo) {
+                if (Time % deathwind.useTime == 0) {
+                    if (CalamityUtils.CheckWoodenAmmo(ArrowTypes, Owner)) {
                         SoundEngine.PlaySound(SoundID.Item12, Projectile.Center);
-                        for (int i = 0; i < 3; i++)
-                        {
+                        for (int i = 0; i < 3; i++) {
                             int ammo = Projectile.NewProjectile(
                                     Owner.parent(),
                                     Projectile.Center,
@@ -101,11 +89,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
                             Main.projectile[ammo].rotation = Projectile.rotation + MathHelper.ToRadians(5 - 5 * i);
                         }
                     }
-                    else
-                    {
+                    else {
                         SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);
-                        for (int i = 0; i < 3; i++)
-                        {
+                        for (int i = 0; i < 3; i++) {
                             int ammo = Projectile.NewProjectile(
                                     Owner.parent(),
                                     Projectile.Center,
@@ -122,10 +108,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
                     }
                 }
 
-                if (Time2 > 0 && Time % 5 == 0 && !CalamityUtils.CheckWoodenAmmo(ArrowTypes, Owner))
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
+                if (Time2 > 0 && Time % 5 == 0 && !CalamityUtils.CheckWoodenAmmo(ArrowTypes, Owner)) {
+                    for (int i = 0; i < 3; i++) {
                         Vector2 vr = (Projectile.rotation + MathHelper.ToRadians(5 - 5 * i)).ToRotationVector2();
                         int ammo = Projectile.NewProjectile(
                                 Owner.parent(),
@@ -145,10 +129,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
             }
         }
 
-        public void StickToOwner()
-        {
-            if (Owner.PressKey())
-            {
+        public void StickToOwner() {
+            if (Owner.PressKey()) {
                 toMou = Owner.Center.To(Main.MouseWorld);
                 if (Owner.ownedProjectileCounts[ModContent.ProjectileType<DeathLaser>()] == 0)
                     Projectile.rotation = toMou.ToRotation();
@@ -159,13 +141,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
             Owner.heldProj = Projectile.whoAmI;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             return false;
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             if (Owner == null) return false;
 
             SpriteEffects spriteEffects = toMou.X > 0 ? SpriteEffects.None : SpriteEffects.FlipVertically;

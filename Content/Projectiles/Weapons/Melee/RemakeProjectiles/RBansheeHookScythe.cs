@@ -11,14 +11,12 @@ public class RBansheeHookScythe : ModProjectile
 {
     public override string Texture => CWRConstant.Projectile_Melee + "BansheeHookScythe";
 
-    public override void SetStaticDefaults()
-    {
+    public override void SetStaticDefaults() {
         ProjectileID.Sets.TrailingMode[Type] = 2;
         ProjectileID.Sets.TrailCacheLength[Type] = 8;
     }
 
-    public override void SetDefaults()
-    {
+    public override void SetDefaults() {
         Projectile.width = 38;
         Projectile.height = 38;
         Projectile.scale = 1.5f;
@@ -33,29 +31,24 @@ public class RBansheeHookScythe : ModProjectile
         Projectile.localNPCHitCooldown = 20;
     }
 
-    public override void AI()
-    {
+    public override void AI() {
         Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.6f / 255f, 0f, 0f);
         Projectile.ai[0] += MathHelper.ToRadians(35);
         NPC target = Projectile.Center.InPosClosestNPC(600);
-        if (Projectile.timeLeft < 65 && target != null)
-        {
+        if (Projectile.timeLeft < 65 && target != null) {
             Vector2 toTarget = Projectile.Center.To(target.Center).UnitVector();
             Projectile.EntityToRot(toTarget.ToRotation(), 0.07f);
             Projectile.velocity = Projectile.rotation.ToRotationVector2() * 15;
         }
     }
 
-    public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-    {
+    public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
         Projectile.velocity *= 0.95f;
         Projectile.damage -= 25;
     }
 
-    public override Color? GetAlpha(Color lightColor)
-    {
-        if (Projectile.timeLeft < 85)
-        {
+    public override Color? GetAlpha(Color lightColor) {
+        if (Projectile.timeLeft < 85) {
             byte b = (byte)(Projectile.timeLeft * 3);
             byte alpha = (byte)(100f * (b / 255f));
             return new Color(b, b, b, alpha);
@@ -64,8 +57,7 @@ public class RBansheeHookScythe : ModProjectile
         return new Color(255, 255, 255, 100);
     }
 
-    public override bool PreDraw(ref Color lightColor)
-    {
+    public override bool PreDraw(ref Color lightColor) {
         Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
         float alp = Projectile.timeLeft / 30f;
         if (alp > 1) alp = 1;
@@ -82,8 +74,7 @@ public class RBansheeHookScythe : ModProjectile
             0
             );
 
-        for (int i = 0; i < Projectile.oldPos.Length; i++)
-        {
+        for (int i = 0; i < Projectile.oldPos.Length; i++) {
             float alp2 = 1 - i / (float)Projectile.oldPos.Length;
             float slp = 1 - i / (float)Projectile.oldPos.Length * 0.5f;
             Main.EntitySpriteDraw(

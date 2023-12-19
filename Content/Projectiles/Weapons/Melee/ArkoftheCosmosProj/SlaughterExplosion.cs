@@ -10,8 +10,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
     {
         public override string Texture => CWRConstant.Projectile_Melee + "SlaughterExplosion";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 120;
             Projectile.height = 120;
             Projectile.friendly = true;
@@ -26,13 +25,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             Projectile.scale = 0.7f;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             CWRUtils.ClockFrame(ref Projectile.frameCounter, 10, 5);
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Color color = Color.White;
             if (Projectile.ai[0] == 1) color = Color.Red;

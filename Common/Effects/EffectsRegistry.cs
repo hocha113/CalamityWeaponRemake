@@ -15,14 +15,12 @@ namespace CalamityWeaponRemake.Common.Effects
         public static Effect ColourModulationShader;
         public static Effect MetaballEdgeShader;
 
-        public static void LoadEffects()
-        {
+        public static void LoadEffects() {
             var assets = CWRMod.Instance.Assets;
             LoadRegularShaders(assets);
         }
 
-        public static void LoadRegularShaders(AssetRepository assets)
-        {
+        public static void LoadRegularShaders(AssetRepository assets) {
             Ref<Effect> kevinLightningShader = new(assets.Request<Effect>(CWRConstant.noEffects + "KevinLightningShader", AssetRequestMode.ImmediateLoad).Value);
             GameShaders.Misc["CalamityWeaponRemake:KevinLightning"] = new MiscShaderData(kevinLightningShader, "UpdatePass");
 

@@ -15,14 +15,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
     {
         public override string Texture => CWRConstant.Projectile_Melee + "RedLightningFeather";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailingMode[Type] = 2;
             ProjectileID.Sets.TrailCacheLength[Type] = 8;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 38;
             Projectile.height = 38;
             Projectile.alpha = 100;
@@ -39,72 +37,57 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
         public int Status { get => (int)Projectile.ai[0]; set => Projectile.ai[0] = value; }
         public int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
         public int ThisTimeValue { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
-        public Vector2 DashVr
-        {
-            set
-            {
+        public Vector2 DashVr {
+            set {
                 Projectile.localAI[0] = value.X;
                 Projectile.localAI[1] = value.Y;
             }
-            get
-            {
+            get {
                 return new Vector2(Projectile.localAI[0], Projectile.localAI[1]);
             }
         }
 
-        public override void OnKill(int timeLeft)
-        {
-            if (Main.netMode != NetmodeID.Server)
-            {
-                for (int i = 0; i < 16; i++)
-                {
+        public override void OnKill(int timeLeft) {
+            if (Main.netMode != NetmodeID.Server) {
+                for (int i = 0; i < 16; i++) {
                     Vector2 particleSpeed = Projectile.velocity * Main.rand.NextFloat(0.7f, 0.9f);
                     Vector2 pos = Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height));
                     CWRParticle energyLeak = new LightParticle(pos, particleSpeed
-                        , Main.rand.NextFloat(0.2f, 0.5f), Main.rand.NextBool(2)? Color.Red : Color.Gold, 30, 1, 1.5f, hueShift: 0.0f);
+                        , Main.rand.NextFloat(0.2f, 0.5f), Main.rand.NextBool(2) ? Color.Red : Color.Gold, 30, 1, 1.5f, hueShift: 0.0f);
                     CWRParticleHandler.SpawnParticle(energyLeak);
                 }
             }
         }
 
-        public override void OnSpawn(IEntitySource source)
-        {
+        public override void OnSpawn(IEntitySource source) {
 
         }
 
-        public override bool ShouldUpdatePosition()
-        {
+        public override bool ShouldUpdatePosition() {
             return true;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Projectile.rotation = Projectile.velocity.ToRotation();
             CWRUtils.ClockFrame(ref Projectile.frameCounter, 5, 3);
 
-            if (Status == 0)
-            {
-                if (Projectile.timeLeft < 60)
-                {
+            if (Status == 0) {
+                if (Projectile.timeLeft < 60) {
                     NPC target = Projectile.Center.InPosClosestNPC(900, false);
-                    if (target != null && Behavior == 0)
-                    {
+                    if (target != null && Behavior == 0) {
                         Behavior = 1;
                     }
-                    if (Behavior == 1)
-                    {
+                    if (Behavior == 1) {
                         DashVr = Projectile.Center.To(target.Center).UnitVector() * 37;
                         Behavior = 2;
                     }
-                    if (Behavior == 2)
-                    {
+                    if (Behavior == 2) {
                         Projectile.velocity = DashVr;
                     }
                 }
             }
 
-            if (Main.netMode != NetmodeID.Server)
-            {
+            if (Main.netMode != NetmodeID.Server) {
                 Vector2 particleSpeed = Projectile.velocity * Main.rand.NextFloat(0.7f, 0.9f);
                 Vector2 pos = Projectile.Center + Main.rand.NextVector2Unit() * Main.rand.Next(16) + Projectile.velocity;
                 CWRParticle energyLeak = new LightParticle(pos, particleSpeed
@@ -113,13 +96,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             }
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             return null;
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Main.EntitySpriteDraw(
                 mainValue,
@@ -135,8 +116,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             return false;
         }
 
-        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
-        {
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) {
 
         }
     }

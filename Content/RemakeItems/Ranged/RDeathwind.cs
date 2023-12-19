@@ -21,8 +21,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.damage = 248;
             item.DamageType = DamageClass.Ranged;
             item.width = 40;
@@ -42,13 +41,11 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Ranged
             item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "Deathwind", 2);
         }
 
-        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             item.initialize();
             item.CWR().ai[1] = type;
             if (player.ownedProjectileCounts[ModContent.ProjectileType<DeathwindHeldProj>()] <= 0) {

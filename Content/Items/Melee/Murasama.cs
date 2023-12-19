@@ -19,10 +19,8 @@ namespace CalamityWeaponRemake.Content.Items.Melee
     internal class Murasama : ModItem
     {
         public override string Texture => CWRConstant.Cay_Wap_Melee + "Murasama";
-        public static int GetOnDamage
-        {
-            get
-            {
+        public static int GetOnDamage {
+            get {
                 int damages = 11;
                 if (DownedBossSystem.downedAquaticScourgeAcidRain)
                     damages = 23;
@@ -41,10 +39,8 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                 return damages;
             }
         }
-        public static float GetOnScale
-        {
-            get
-            {
+        public static float GetOnScale {
+            get {
                 float slp = 0.5f;
                 if (DownedBossSystem.downedAquaticScourgeAcidRain)
                     slp = 0.75f;
@@ -73,14 +69,12 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         public static readonly SoundStyle InorganicHit = new("CalamityMod/Sounds/Item/MurasamaHitInorganic") { Volume = 0.55f };
         public static readonly SoundStyle Swing = new("CalamityMod/Sounds/Item/MurasamaSwing") { Volume = 0.2f };
         public static readonly SoundStyle BigSwing = new("CalamityMod/Sounds/Item/MurasamaBigSwing") { Volume = 0.25f };
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(2, 13));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.height = 134;
             Item.width = 90;
             Item.damage = 2222;
@@ -100,24 +94,20 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 14));
         }
 
-        public override void HoldItem(Player player)
-        {
-             Item.damage = GetOnDamage;
+        public override void HoldItem(Player player) {
+            Item.damage = GetOnDamage;
         }
 
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 61;
 
-        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
-        {
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale) {
             Texture2D texture;
 
-            if (IDUnlocked(Main.LocalPlayer))
-            {
+            if (IDUnlocked(Main.LocalPlayer)) {
                 texture = ModContent.Request<Texture2D>(Texture).Value;
                 spriteBatch.Draw(texture, position, Item.GetCurrentFrame(ref frame, ref frameCounter, 2, 13), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
             }
-            else
-            {
+            else {
                 texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/MurasamaSheathed").Value;
                 spriteBatch.Draw(texture, position, null, Color.White, 0f, origin, scale, SpriteEffects.None, 0);
             }
@@ -125,41 +115,35 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             return false;
         }
 
-        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
-        {
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI) {
             Texture2D texture;
 
-            if (IDUnlocked(Main.LocalPlayer))
-            {
+            if (IDUnlocked(Main.LocalPlayer)) {
                 texture = ModContent.Request<Texture2D>(Texture).Value;
                 spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 2, 13), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
             }
-            else
-            {
+            else {
                 texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/MurasamaSheathed").Value;
                 spriteBatch.Draw(texture, Item.position - Main.screenPosition, null, lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
             }
             return false;
         }
 
-        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-        {
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) {
             if (!IDUnlocked(Main.LocalPlayer))
                 return;
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/MurasamaGlow").Value;
             spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 2, 13, false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             int proj = Projectile.NewProjectile(source, position, velocity, type, GetOnDamage, knockback, player.whoAmI, 0f, 0f);
             Main.projectile[proj].scale = GetOnScale;
             return false;
         }
 
 
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             CreateRecipe()
                 .AddIngredient<CalamityMod.Items.Weapons.Melee.Murasama>()
                 .Register();

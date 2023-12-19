@@ -17,10 +17,8 @@ namespace CalamityWeaponRemake.Content
 
     public static class WhipHitDate
     {
-        public static Texture2D Tex(WhipHitTypeEnum hitType)
-        {
-            switch (hitType)
-            {
+        public static Texture2D Tex(WhipHitTypeEnum hitType) {
+            switch (hitType) {
                 case WhipHitTypeEnum.ElementWhip:
                     return CWRUtils.GetT2DValue(ModContent.GetInstance<ElementWhip>().Texture);
                 case WhipHitTypeEnum.BleedingScourge:

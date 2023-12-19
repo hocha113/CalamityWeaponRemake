@@ -18,14 +18,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
         public new string LocalizationCategory => "Projectiles.Melee";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 13;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 20;
             Projectile.height = 20;
             Projectile.friendly = true;
@@ -36,17 +34,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Projectile.MaxUpdates = 2;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Lighting.AddLight(Projectile.Center, 0.25f, 0.25f, 0f);
             Projectile.rotation += 1f;
             Projectile.alpha -= 25;
-            if (Projectile.alpha < 0)
-            {
+            if (Projectile.alpha < 0) {
                 Projectile.alpha = 0;
             }
-            if (Projectile.localAI[0] == 0f)
-            {
+            if (Projectile.localAI[0] == 0f) {
                 _ = SoundEngine.PlaySound(SoundID.Item73, Projectile.position);
                 Projectile.localAI[0] += 1f;
             }
@@ -59,11 +54,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                 Projectile.ChasingBehavior2(npc.Center, 1, 0.035f);
         }
 
-        public override void OnKill(int timeLeft)
-        {
+        public override void OnKill(int timeLeft) {
             Projectile.Explode(32, SoundID.Item20);
-            for (int d = 0; d <= 30; d++)
-            {
+            for (int d = 0; d <= 30; d++) {
                 float num463 = Main.rand.Next(-10, 11);
                 float num464 = Main.rand.Next(-10, 11);
                 float speed = Main.rand.Next(3, 9);
@@ -82,10 +75,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                 dust.velocity.Y = num464;
             }
             int flameAmt = Main.rand.Next(2, 4);
-            if (Projectile.owner == Main.myPlayer)
-            {
-                for (int i = 0; i < flameAmt; i++)
-                {
+            if (Projectile.owner == Main.myPlayer) {
+                for (int i = 0; i < flameAmt; i++) {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                     _ = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<AegisFlame>(), (int)(Projectile.damage * 0.75), 0f, Projectile.owner, 0f, 0f);
                 }
@@ -98,8 +89,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
         public Color PrimitiveColorFunction(float _) => Color.Gold * Projectile.Opacity;
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             PierceAfterimageDrawer ??= new(PrimitiveWidthFunction, PrimitiveColorFunction, null, GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"]);
 
             float localIdentityOffset = Projectile.identity * 0.1372f;

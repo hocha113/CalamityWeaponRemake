@@ -15,14 +15,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
 
         public override string Texture => CWRConstant.Projectile_Melee + "TerrorBeam";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 16;
             Projectile.height = 16;
             Projectile.friendly = true;
@@ -35,20 +33,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             Projectile.localNPCHitCooldown = 10;
         }
 
-        private void SpawnTerrorBlast()
-        {
+        private void SpawnTerrorBlast() {
             int type = ModContent.ProjectileType<TerrorBlasts>();
             int damage = (int)(Projectile.damage * 0.3f);
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, type, damage, Projectile.knockBack, Projectile.owner);
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (Projectile.ai[0] == 0)
-            {
+        public override bool OnTileCollide(Vector2 oldVelocity) {
+            if (Projectile.ai[0] == 0) {
                 Projectile.numHits++;
-                if (Projectile.IsOwnedByLocalPlayer() && Projectile.numHits < 6 && Projectile.ai[0] == 0)
-                {
+                if (Projectile.IsOwnedByLocalPlayer() && Projectile.numHits < 6 && Projectile.ai[0] == 0) {
                     SpawnTerrorBlast();
                 }
 
@@ -58,17 +52,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
                 if (Projectile.velocity.Y != oldVelocity.Y)
                     Projectile.velocity.Y = -oldVelocity.Y;
 
-                if (Projectile.numHits > 12)
-                {
+                if (Projectile.numHits > 12) {
                     Projectile.Kill();
                 }
 
                 return false;
             }
-            else
-            {
-                for (int i = 0; i < 3; i++)
-                {
+            else {
+                for (int i = 0; i < 3; i++) {
                     Vector2 pos = Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * Main.rand.Next(-200, 200) + Projectile.position;
                     int num = Dust.NewDust(pos, 1, 1, DustID.RedTorch, 0f, 0f, 0, default, 2.5f);
                     Main.dust[num].noGravity = true;
@@ -86,19 +77,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             }
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            if (Projectile.IsOwnedByLocalPlayer())
-            {
-                switch (Projectile.ai[0])
-                {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
+            if (Projectile.IsOwnedByLocalPlayer()) {
+                switch (Projectile.ai[0]) {
                     case 0:
                         Projectile.localAI[0] = 1f;
                         SpawnTerrorBlast();
                         break;
                     case 1:
-                        if (Projectile.numHits == 0)
-                        {
+                        if (Projectile.numHits == 0) {
                             Vector2 toTarget = Main.player[Projectile.owner].Center.To(target.Center);
                             float rot = toTarget.ToRotation();
                             float offsetrot = MathHelper.ToRadians(35);
@@ -122,8 +109,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
 
                         break;
                     case 2:
-                        switch (Projectile.ai[1])
-                        {
+                        switch (Projectile.ai[1]) {
                             case 0:
                                 break;
                             case 1:
@@ -136,38 +122,30 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             }
         }
 
-        public override void AI()
-        {
-            if (Projectile.localAI[1] == 0f)
-            {
+        public override void AI() {
+            if (Projectile.localAI[1] == 0f) {
                 SoundEngine.PlaySound(in SoundID.Item60, Projectile.position);
                 Projectile.localAI[1] += 1f;
             }
 
             Projectile.alpha -= 40;
-            if (Projectile.alpha < 0)
-            {
+            if (Projectile.alpha < 0) {
                 Projectile.alpha = 0;
             }
 
-            if (Projectile.ai[0] == 1)
-            {
+            if (Projectile.ai[0] == 1) {
                 Projectile.velocity *= 1.002f;
             }
-            if (Projectile.ai[0] == 2)
-            {
-                if (Projectile.tileCollide)
-                {
+            if (Projectile.ai[0] == 2) {
+                if (Projectile.tileCollide) {
                     Projectile.tileCollide = false;
                 }
-                if (Projectile.numHits > 2)
-                {
+                if (Projectile.numHits > 2) {
                     Projectile.Kill();
                 }
 
                 NPC target = Projectile.Center.InPosClosestNPC(600);
-                if (target != null && Projectile.timeLeft < 470)
-                {
+                if (target != null && Projectile.timeLeft < 470) {
                     Projectile.ChasingBehavior(target.Center, Projectile.velocity.Length());
                     Projectile.velocity *= 1.007f;
                 }
@@ -176,17 +154,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            switch (Projectile.ai[0])
-            {
+        public override Color? GetAlpha(Color lightColor) {
+            switch (Projectile.ai[0]) {
                 case 0:
                     return new Color(255, 0, 0, Projectile.alpha);
                 case 1:
                     return new Color(225, 140, 150, Projectile.alpha);
                 case 2:
-                    switch (Projectile.ai[1])
-                    {
+                    switch (Projectile.ai[1]) {
                         case 0:
                             return new Color(25, 140, 250, Projectile.alpha);
                         case 1:
@@ -200,10 +175,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
 
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
-            if (Projectile.timeLeft > 595)
-            {
+        public override bool PreDraw(ref Color lightColor) {
+            if (Projectile.timeLeft > 595) {
                 return false;
             }
 
@@ -211,10 +184,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             return false;
         }
 
-        public override void OnKill(int timeLeft)
-        {
-            if (Projectile.localAI[0] == 0f && Projectile.ai[0] == 0)
-            {
+        public override void OnKill(int timeLeft) {
+            if (Projectile.localAI[0] == 0f && Projectile.ai[0] == 0) {
                 SpawnTerrorBlast();
             }
         }

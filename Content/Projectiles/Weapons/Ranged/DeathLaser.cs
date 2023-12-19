@@ -14,13 +14,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
         public override string Texture => CWRConstant.Projectile + "RayBeam";
         private Player Owner => Main.player[Projectile.owner];
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.DrawScreenCheckFluff[Type] = 5000;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 32;
             Projectile.height = 32;
             Projectile.scale = 1;
@@ -38,14 +36,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
         public int HeldProj { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
         public int Time { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
         private ref float wit => ref Projectile.localAI[0];
-        public float Leng
-        {
+        public float Leng {
             get => Projectile.localAI[1];
             set => Projectile.localAI[1] = value;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             if (Leng == 0)
                 Leng = 5000;
             Projectile.alpha += 15;
@@ -55,18 +51,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
 
             wit = (10 - Projectile.timeLeft) / 15f;
 
-            if (Status == 0)
-            {
+            if (Status == 0) {
                 Projectile heldBow = CWRUtils.GetProjectileInstance(HeldProj);
-                if (!Owner.Alives() || !(heldBow != null && heldBow.type == ModContent.ProjectileType<DeathwindHeldProj>()))
-                {
+                if (!Owner.Alives() || !(heldBow != null && heldBow.type == ModContent.ProjectileType<DeathwindHeldProj>())) {
                     Projectile.Kill();
                     return;
                 }
                 Projectile.Center = heldBow.Center;
 
-                for (int i = 0; i < 100; i++)
-                {
+                for (int i = 0; i < 100; i++) {
                     Vector2 offsetPos = toRot * i * 16;
                     Lighting.AddLight(ordPos + offsetPos, 0.4f, 0.2f, 0.4f);
                     Dust obj = Main.dust[Dust.NewDust(Projectile.position + offsetPos, 26, 26
@@ -82,8 +75,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             Time++;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             float point = 0f;
             return Collision.CheckAABBvLineCollision(
                         targetHitbox.TopLeft(),
@@ -95,8 +87,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
                     );
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D body = CWRUtils.GetT2DValue(Texture + "Body");
             Texture2D head = CWRUtils.GetT2DValue(Texture + "Head");
             Texture2D dons = CWRUtils.GetT2DValue(Texture + "Don");

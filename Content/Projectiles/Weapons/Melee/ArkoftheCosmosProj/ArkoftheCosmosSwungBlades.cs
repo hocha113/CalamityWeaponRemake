@@ -66,15 +66,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
 
         public float MaxSwingTime => SwirlSwing ? 55 : 35;
 
-        public int SwingDirection
-        {
-            get
-            {
+        public int SwingDirection {
+            get {
                 float combo = Combo;
-                if (combo != 0f)
-                {
-                    if (combo == 1f)
-                    {
+                if (combo != 0f) {
+                    if (combo == 1f) {
                         return -1 * Math.Sign(direction.X);
                     }
 
@@ -95,12 +91,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
 
         public ref float HasFired => ref Projectile.localAI[0];
 
-        private bool OwnerCanShoot
-        {
-            get
-            {
-                if (Owner.channel && !Owner.noItems && !Owner.CCed)
-                {
+        private bool OwnerCanShoot {
+            get {
+                if (Owner.channel && !Owner.noItems && !Owner.CCed) {
                     //需要考虑到，这个弹幕会被重制物品发射。也会被原模组物品发射
                     return Owner.HeldItem.type == ModContent.ItemType<ArkoftheCosmos>()
                         || Owner.HeldItem.type == ModContent.ItemType<CalamityMod.Items.Weapons.Melee.ArkoftheCosmos>();
@@ -110,12 +103,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             }
         }
 
-        public bool Thrown
-        {
-            get
-            {
-                if (Combo != 2f)
-                {
+        public bool Thrown {
+            get {
+                if (Combo != 2f) {
                     return Combo == 3f;
                 }
 
@@ -137,14 +127,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
 
         private ArkoftheCosmos arkoftheCosmos => Owner.HeldItem.ModItem as ArkoftheCosmos;
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.width = Projectile.height = 60;
             Projectile.width = Projectile.height = 60;
@@ -156,14 +144,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             Projectile.localNPCHitCooldown = Thrown ? 10 : (int)MaxSwingTime;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             float num = 172f * Projectile.scale;
-            if (Thrown)
-            {
+            if (Thrown) {
                 bool flag = Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center - Vector2.One * num / 2f, Vector2.One * num);
-                if (Combo == 2f)
-                {
+                if (Combo == 2f) {
                     return flag;
                 }
 
@@ -177,37 +162,29 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + vector2, Owner.Center + vector2 + Projectile.rotation.ToRotationVector2() * num, 24f, ref collisionPoint);
         }
 
-        internal float SwingRatio()
-        {
+        internal float SwingRatio() {
             return CalamityUtils.PiecewiseAnimation(SwingCompletion, anticipation, thrust, hold);
         }
 
-        internal float SwirlRatio()
-        {
+        internal float SwirlRatio() {
             return CalamityUtils.PiecewiseAnimation(SwingCompletion, startup, swing);
         }
 
-        internal float ThrowRatio()
-        {
+        internal float ThrowRatio() {
             return CalamityUtils.PiecewiseAnimation(ThrowCompletion, shoot, remain, retract);
         }
 
-        internal float ThrowScaleRatio()
-        {
+        internal float ThrowScaleRatio() {
             return CalamityUtils.PiecewiseAnimation(ThrowCompletion, sizeCurve);
         }
 
         /// <summary>
         /// 发射旋转星弹幕
         /// </summary>
-        public void ShootConstellations(int mode = 0)
-        {
-            if (shootBool)
-            {
-                if (mode == 0)
-                {
-                    for (int i = 0; i < 7; i++)
-                    {
+        public void ShootConstellations(int mode = 0) {
+            if (shootBool) {
+                if (mode == 0) {
+                    for (int i = 0; i < 7; i++) {
                         if (3 == i) continue;
 
                         Vector2 toMou = Owner.Center.To(Main.MouseWorld);
@@ -226,13 +203,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
                         .timeLeft = 100;
                     }
                 }
-                if (mode == 1)
-                {
-                    if (arkoftheCosmos.Charge > 0)
-                    {
+                if (mode == 1) {
+                    if (arkoftheCosmos.Charge > 0) {
                         float randomRotOffset = Main.rand.NextFloat(MathHelper.TwoPi);
-                        for (int i = 0; i < 13; i++)
-                        {
+                        for (int i = 0; i < 13; i++) {
                             Vector2 vr = (MathHelper.TwoPi / 13 * i + randomRotOffset).ToRotationVector2();
                             Projectile.NewProjectileDirect(
                             Projectile.GetSource_FromThis(),
@@ -252,22 +226,18 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             shootBool = false;
         }
 
-        public override void AI()
-        {
-            if (Owner == null)
-            {
+        public override void AI() {
+            if (Owner == null) {
                 Projectile.Kill();
                 return;
             }
 
-            if (arkoftheCosmos == null)
-            {
+            if (arkoftheCosmos == null) {
                 Projectile.Kill();
                 return;
             }
 
-            if (!initialized)
-            {
+            if (!initialized) {
                 Projectile.timeLeft = Thrown ? 140 : (int)MaxSwingTime;
                 SoundStyle style = Charge > 0f || Thrown ? CommonCalamitySounds.LouderPhantomPhoenix : SoundID.Item71;
                 SoundEngine.PlaySound(in style, Projectile.Center);
@@ -275,8 +245,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
                 direction.Normalize();
                 Projectile.velocity = direction;
                 Projectile.rotation = direction.ToRotation();
-                if (SwirlSwing)
-                {
+                if (SwirlSwing) {
                     Projectile.localNPCHitCooldown = (int)(Projectile.localNPCHitCooldown / 4f);
                 }
 
@@ -285,18 +254,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
                 Projectile.netSpam = 0;
             }
 
-            if (!Thrown)
-            {
+            if (!Thrown) {
                 Projectile.Center = Owner.Center + DistanceFromPlayer;
-                if (!SwirlSwing)
-                {
+                if (!SwirlSwing) {
                     float offsetRot = MathHelper.Lerp(SwingWidth / 2f * SwingDirection, (0f - SwingWidth) / 2f * SwingDirection, SwingRatio());
                     if (Projectile.IsOwnedByLocalPlayer())
                         ShootConstellations(0);
                     Projectile.rotation = Projectile.velocity.ToRotation() + offsetRot;
                 }
-                else
-                {
+                else {
                     float value = MathF.PI * 3f / 4f * SwingDirection;
                     float value2 = -7.46128273f * SwingDirection;
                     Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.Lerp(value, value2, SwirlRatio());
@@ -307,10 +273,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
 
                 Projectile.scale = 1.2f + (float)Math.Sin(SwingRatio() * MathF.PI) * 0.6f + Charge / 10f * 0.2f;
             }
-            else
-            {
-                if (Math.Abs(ThrowCompletion - 0.2f + 0.1f) <= 0.005f && ChanceMissed == 0f && Projectile.IsOwnedByLocalPlayer())
-                {
+            else {
+                if (Math.Abs(ThrowCompletion - 0.2f + 0.1f) <= 0.005f && ChanceMissed == 0f && Projectile.IsOwnedByLocalPlayer()) {
                     GeneralParticleHandler.SpawnParticle(new PulseRing(Projectile.Center, Vector2.Zero, Color.OrangeRed, 0.05f, 1.8f, 8));
                     SoundEngine.PlaySound(in SoundID.Item4);
                     Projectile.NewProjectileDirect(
@@ -340,34 +304,27 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
 
                 Projectile.rotation -= 213f / 904f;
                 Projectile.scale = 1f + ThrowScaleRatio() * 0.5f;
-                if (Math.Abs(ThrowCompletion - 0.75f) <= 0.005f)
-                {
+                if (Math.Abs(ThrowCompletion - 0.75f) <= 0.005f) {
                     direction = Projectile.Center - Owner.Center;
                 }
 
-                if (ThrowCompletion > 0.75f)
-                {
+                if (ThrowCompletion > 0.75f) {
                     Projectile.Center = Owner.Center + direction * ThrowRatio();
                 }
 
-                if (!OwnerCanShoot && Combo == 2f && ThrowCompletion >= 0.1f && ThrowCompletion < 0.75f && ChanceMissed == 0f)
-                {
+                if (!OwnerCanShoot && Combo == 2f && ThrowCompletion >= 0.1f && ThrowCompletion < 0.75f && ChanceMissed == 0f) {
                     GeneralParticleHandler.SpawnParticle(new GenericSparkle(Projectile.Center, Owner.velocity - Projectile.velocity.SafeNormalize(Vector2.Zero), Color.White, Color.OrangeRed, Main.rand.NextFloat(1f, 2f), 10 + Main.rand.Next(10), 0.1f, 3f));
-                    if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3f)
-                    {
+                    if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3f) {
                         Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3f;
                     }
 
-                    if (Owner.whoAmI == Main.myPlayer)
-                    {
+                    if (Owner.whoAmI == Main.myPlayer) {
                         float num = MathF.PI * 2f * Main.rand.NextFloat();
-                        for (int i = 0; i < 3; i++)
-                        {
+                        for (int i = 0; i < 3; i++) {
                             Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center + (MathF.PI * 2f * (i / 3f) + num).ToRotationVector2() * 30f, (MathF.PI * 2f * (i / 3f) + num).ToRotationVector2() * 20f, ModContent.ProjectileType<EonBolt>(), (int)(ArkoftheCosmos.SnapBoltsDamageMultiplier * Projectile.damage), 0f, Owner.whoAmI, 0.55f, MathF.PI / 20f).timeLeft = 100;
                         }
 
-                        for (int j = 0; j < Main.maxNPCs; j++)
-                        {
+                        for (int j = 0; j < Main.maxNPCs; j++) {
                             Projectile.localNPCImmunity[j] = 0;
                         }
                     }
@@ -378,13 +335,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
                     Projectile.timeLeft = (int)SnapEndTime;
                     Projectile.localNPCHitCooldown = (int)SnapEndTime;
                 }
-                else if (!OwnerCanShoot && Combo == 2f && ChanceMissed == 0f)
-                {
+                else if (!OwnerCanShoot && Combo == 2f && ChanceMissed == 0f) {
                     ChanceMissed = 1f;
                 }
 
-                if (Combo == 3f)
-                {
+                if (Combo == 3f) {
                     float num2 = MathHelper.Lerp(1f, 0.8f, 1f - (float)Math.Sqrt(1f - (float)Math.Pow(SnapEndCompletion, 2.0)));
                     Projectile.Center = Owner.Center + direction * num2;
                     Projectile.scale = 1.5f;
@@ -399,27 +354,22 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             Owner.heldProj = Projectile.whoAmI;
             Owner.direction = Math.Sign(Projectile.velocity.X);
             Owner.itemRotation = Projectile.rotation;
-            if (Owner.direction != 1)
-            {
+            if (Owner.direction != 1) {
                 Owner.itemRotation -= MathF.PI;
             }
 
             Owner.itemRotation = MathHelper.WrapAngle(Owner.itemRotation);
         }
 
-        public void DoParticleEffects(bool swirlSwing)
-        {
-            if (swirlSwing)
-            {
+        public void DoParticleEffects(bool swirlSwing) {
+            if (swirlSwing) {
                 Projectile.scale = 1.6f + (float)Math.Sin(SwirlRatio() * MathF.PI) * 1f + Charge / 10f * 0.05f;
                 Color color = Color.Chocolate * (MathHelper.Clamp((float)Math.Sin((SwirlRatio() - 0.2f) * MathF.PI), 0f, 1f) * 0.8f);
-                if (smear == null)
-                {
+                if (smear == null) {
                     smear = new CircularSmearSmokeyVFX(Owner.Center, color, Projectile.rotation, Projectile.scale * 2.4f);
                     GeneralParticleHandler.SpawnParticle(smear);
                 }
-                else
-                {
+                else {
                     smear.Rotation = Projectile.rotation + MathF.PI / 4f + (Owner.direction < 0 ? MathF.PI : 0f);
                     smear.Time = 0;
                     smear.Position = Owner.Center;
@@ -427,8 +377,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
                     smear.Color = color;
                 }
 
-                if (Main.rand.NextBool())
-                {
+                if (Main.rand.NextBool()) {
                     float num = Projectile.scale * 78f;
                     Vector2 vector = Main.rand.NextVector2Circular(num, num);
                     Vector2 vector2 = vector.RotatedBy(MathF.PI / 2f * Owner.direction).SafeNormalize(Vector2.Zero) * 2f * (1f + vector.Length() / 15f);
@@ -437,18 +386,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
 
                 float num2 = MathHelper.Clamp(MathHelper.Clamp((float)Math.Sin((SwirlRatio() - 0.2f) * MathF.PI), 0f, 1f) * 2f, 0f, 1f) * 0.25f;
                 float num3 = MathHelper.Clamp(MathHelper.Clamp((float)Math.Sin((SwirlRatio() - 0.2f) * MathF.PI), 0f, 1f), 0f, 1f);
-                if (!Main.rand.NextBool())
-                {
+                if (!Main.rand.NextBool()) {
                     return;
                 }
 
-                for (float num4 = 0f; num4 <= 1f; num4 += 0.5f)
-                {
+                for (float num4 = 0f; num4 <= 1f; num4 += 0.5f) {
                     Vector2 position = Owner.Center + Projectile.rotation.ToRotationVector2() * (30f + 50f * num4) * Projectile.scale + Projectile.rotation.ToRotationVector2().RotatedBy(-1.5707963705062866) * 30f * num3 * Main.rand.NextFloat();
                     Vector2 velocity = Projectile.rotation.ToRotationVector2().RotatedBy(-MathF.PI / 2f * Owner.direction) * 20f * num3 + Owner.velocity;
                     GeneralParticleHandler.SpawnParticle(new HeavySmokeParticle(position, velocity, Color.Lerp(Color.DodgerBlue, Color.MediumVioletRed, num4), 6 + Main.rand.Next(5), num3 * Main.rand.NextFloat(2.8f, 3.1f), num2 + Main.rand.NextFloat(0f, 0.2f), 0f, glowing: false, 0f, required: true));
-                    if (Main.rand.NextBool(3))
-                    {
+                    if (Main.rand.NextBool(3)) {
                         GeneralParticleHandler.SpawnParticle(new HeavySmokeParticle(position, velocity, Main.rand.NextBool(5) ? Color.Gold : Color.Chocolate, 5, num3 * Main.rand.NextFloat(2f, 2.4f), num2 * 2.5f, 0f, glowing: true, 0.004f, required: true));
                     }
                 }
@@ -458,21 +404,17 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
 
             Color color2 = Main.hslToRgb((SwingTimer - MaxSwingTime * 0.5f) / (MaxSwingTime * 0.5f) * 0.15f, 1f, 0.8f);
             float num5 = (Combo == 3f ? (float)Math.Sin(SnapEndCompletion * (MathF.PI / 2f) + MathF.PI / 2f) : (float)Math.Sin(ThrowCompletion * MathF.PI)) * 0.5f;
-            if (smear == null)
-            {
-                if (Charge <= 0f)
-                {
+            if (smear == null) {
+                if (Charge <= 0f) {
                     smear = new TrientCircularSmear(Projectile.Center, color2 * num5, Projectile.rotation, Projectile.scale * 1.7f);
                 }
-                else
-                {
+                else {
                     smear = new CircularSmearSmokeyVFX(Projectile.Center, color2 * num5, Projectile.rotation, Projectile.scale * 1.7f);
                 }
 
                 GeneralParticleHandler.SpawnParticle(smear);
             }
-            else
-            {
+            else {
                 smear.Rotation = Projectile.rotation - MathF.PI * 7f / 8f;
                 smear.Time = 0;
                 smear.Position = Projectile.Center;
@@ -480,13 +422,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
                 smear.Color = color2 * num5;
             }
 
-            if (Combo != 2f)
-            {
+            if (Combo != 2f) {
                 return;
             }
 
-            if (Main.rand.NextBool())
-            {
+            if (Main.rand.NextBool()) {
                 float num6 = Projectile.scale * 78f;
                 Vector2 vector3 = Main.rand.NextVector2Circular(num6, num6);
                 Vector2 vector4 = vector3.RotatedBy(-1.5707963705062866).SafeNormalize(Vector2.Zero) * 2f * (1f + vector3.Length() / 15f);
@@ -496,62 +436,49 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
 
             num5 = 0.25f;
             float num7 = 0.7f;
-            if (!Main.rand.NextBool())
-            {
+            if (!Main.rand.NextBool()) {
                 return;
             }
 
-            for (float num8 = 0.5f; num8 <= 1f; num8 += 0.5f)
-            {
+            for (float num8 = 0.5f; num8 <= 1f; num8 += 0.5f) {
                 Vector2 position2 = Projectile.Center + Projectile.rotation.ToRotationVector2() * (60f * num8) * Projectile.scale + Projectile.rotation.ToRotationVector2().RotatedBy(-1.5707963705062866) * 30f * num7 * Main.rand.NextFloat();
                 Vector2 velocity2 = Projectile.rotation.ToRotationVector2().RotatedBy(1.5707963705062866) * 20f * num7 + Owner.velocity;
                 GeneralParticleHandler.SpawnParticle(new HeavySmokeParticle(position2, velocity2, Color.Lerp(Color.DodgerBlue, Color.MediumVioletRed, num8), 10 + Main.rand.Next(5), num7 * Main.rand.NextFloat(2.8f, 3.1f), num5 + Main.rand.NextFloat(0f, 0.2f), 0f, glowing: false, 0f, required: true));
-                if (Main.rand.NextBool(3))
-                {
+                if (Main.rand.NextBool(3)) {
                     GeneralParticleHandler.SpawnParticle(new HeavySmokeParticle(position2, velocity2, Main.rand.Next(5) == 0 ? Color.Gold : Color.Chocolate, 7, num7 * Main.rand.NextFloat(2f, 2.4f), num5 * 2.5f, 0f, glowing: true, 0.004f, required: true));
                 }
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            if (Combo == 3f)
-            {
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) {
+            if (Combo == 3f) {
                 modifiers.SourceDamage *= CalamityMod.Items.Weapons.Melee.ArkoftheElements.snapDamageMultiplier;
             }
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            for (int i = 0; i < 5; i++)
-            {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
+            for (int i = 0; i < 5; i++) {
                 Vector2 velocity = (target.Center - Projectile.Center).SafeNormalize(Vector2.One).RotatedByRandom(0.62831854820251465) * Main.rand.NextFloat(3.6f, 8f);
                 GeneralParticleHandler.SpawnParticle(new SquishyLightParticle(target.Center, velocity, Main.rand.NextFloat(0.3f, 0.6f), Color.OrangeRed, 60, 2f, 2.5f, 3f, 0.06f));
             }
 
-            if (Combo != 3f)
-            {
+            if (Combo != 3f) {
                 return;
             }
 
             SoundStyle style = CommonCalamitySounds.ScissorGuillotineSnapSound;
             style.Volume = CommonCalamitySounds.ScissorGuillotineSnapSound.Volume * 1.3f;
             SoundEngine.PlaySound(in style, Projectile.Center);
-            if (Charge <= 1f)
-            {
-                if (arkoftheCosmos != null)
-                {
+            if (Charge <= 1f) {
+                if (arkoftheCosmos != null) {
                     arkoftheCosmos.Charge = 2f;
                 }
             }
         }
 
-        public override void OnKill(int timeLeft)
-        {
-            if (Combo == 3f)
-            {
-                if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3f)
-                {
+        public override void OnKill(int timeLeft) {
+            if (Combo == 3f) {
+                if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3f) {
                     Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3f;
                 }
 
@@ -564,33 +491,26 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
-            if (!Thrown)
-            {
-                if (Charge > 0f)
-                {
+        public override bool PreDraw(ref Color lightColor) {
+            if (!Thrown) {
+                if (Charge > 0f) {
                     DrawSwungScissors(lightColor);
                 }
-                else
-                {
+                else {
                     DrawSingleSwungScissorBlade(lightColor);
                 }
             }
-            else if (Charge > 0f)
-            {
+            else if (Charge > 0f) {
                 DrawThrownScissors(lightColor);
             }
-            else
-            {
+            else {
                 DrawSingleThrownScissorBlade(lightColor);
             }
 
             return false;
         }
 
-        public void DrawSingleSwungScissorBlade(Color lightColor)
-        {
+        public void DrawSingleSwungScissorBlade(Color lightColor) {
             Texture2D value = ModContent.Request<Texture2D>(Combo == 0f ? "CalamityMod/Projectiles/Melee/SunderingScissorsRight" : "CalamityMod/Projectiles/Melee/SunderingScissorsLeft").Value;
             Texture2D value2 = ModContent.Request<Texture2D>(Combo == 0f ? "CalamityMod/Projectiles/Melee/SunderingScissorsRightGlow" : "CalamityMod/Projectiles/Melee/SunderingScissorsLeftGlow").Value;
             bool flag = Owner.direction < 0;
@@ -601,10 +521,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             float rotation2 = Projectile.rotation + num2 + num;
             Vector2 origin = new Vector2(flag ? value.Width : 0f, value.Height);
             Vector2 position = Owner.Center + rotation.ToRotationVector2() * 10f - Main.screenPosition;
-            if (CalamityConfig.Instance.Afterimages && SwingTimer > ProjectileID.Sets.TrailCacheLength[Projectile.type] && Combo == 0f)
-            {
-                for (int i = 1; i < Projectile.oldRot.Length; i++)
-                {
+            if (CalamityConfig.Instance.Afterimages && SwingTimer > ProjectileID.Sets.TrailCacheLength[Projectile.type] && Combo == 0f) {
+                for (int i = 1; i < Projectile.oldRot.Length; i++) {
                     Color color = Main.hslToRgb(i / (float)Projectile.oldRot.Length * 0.1f, 1f, 0.6f + (Charge > 0f ? 0.3f : 0f));
                     float rotation3 = Projectile.oldRot[i] + num2 + num;
                     Main.spriteBatch.Draw(value2, position, null, color * 0.05f, rotation3, origin, Projectile.scale - 0.2f * (i / (float)Projectile.oldRot.Length), effects, 0f);
@@ -613,8 +531,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
 
             Main.EntitySpriteDraw(value, position, null, lightColor, rotation2, origin, Projectile.scale, effects);
             Main.EntitySpriteDraw(value2, position, null, Color.Lerp(lightColor, Color.White, 0.75f), rotation2, origin, Projectile.scale, effects);
-            if (SwingCompletion > 0.5f && Combo == 0f)
-            {
+            if (SwingCompletion > 0.5f && Combo == 0f) {
                 Texture2D value3 = ModContent.Request<Texture2D>("CalamityMod/Particles/TrientCircularSmear").Value;
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -627,8 +544,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             }
         }
 
-        public void DrawSwungScissors(Color lightColor)
-        {
+        public void DrawSwungScissors(Color lightColor) {
             Texture2D value = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/SunderingScissorsLeft").Value;
             Texture2D value2 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/SunderingScissorsLeftGlow").Value;
             Texture2D value3 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/SunderingScissorsRight").Value;
@@ -643,11 +559,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             Vector2 position = Owner.Center + rotation.ToRotationVector2() * 10f - Main.screenPosition;
             Vector2 origin2 = new Vector2(flag ? 90f : 44f, 86f);
             Vector2 position2 = Owner.Center + rotation.ToRotationVector2() * 10f + (rotation.ToRotationVector2() * 56f + (rotation - MathF.PI / 2f).ToRotationVector2() * 11f * Owner.direction) * Projectile.scale - Main.screenPosition;
-            if (CalamityConfig.Instance.Afterimages && SwingTimer > ProjectileID.Sets.TrailCacheLength[Projectile.type])
-            {
+            if (CalamityConfig.Instance.Afterimages && SwingTimer > ProjectileID.Sets.TrailCacheLength[Projectile.type]) {
                 Texture2D value5 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/SunderingScissorsGlow").Value;
-                for (int i = 1; i < Projectile.oldRot.Length; i++)
-                {
+                for (int i = 1; i < Projectile.oldRot.Length; i++) {
                     Color color = Main.hslToRgb(i / (float)Projectile.oldRot.Length * 0.1f, 1f, 0.6f + (Charge > 0f ? 0.3f : 0f));
                     float rotation3 = Projectile.oldRot[i] + num2 + num;
                     Main.EntitySpriteDraw(value5, position, null, color * 0.15f, rotation3, origin, Projectile.scale - 0.2f * (i / (float)Projectile.oldRot.Length), effects);
@@ -658,8 +572,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             Main.EntitySpriteDraw(value4, position2, null, Color.Lerp(lightColor, Color.White, 0.75f), rotation2, origin2, Projectile.scale, effects);
             Main.EntitySpriteDraw(value, position, null, lightColor, rotation2, origin, Projectile.scale, effects);
             Main.EntitySpriteDraw(value2, position, null, Color.Lerp(lightColor, Color.White, 0.75f), rotation2, origin, Projectile.scale, effects);
-            if (SwingCompletion > 0.5f && Combo == 0f)
-            {
+            if (SwingCompletion > 0.5f && Combo == 0f) {
                 Texture2D value6 = ModContent.Request<Texture2D>("CalamityMod/Particles/TrientCircularSmear").Value;
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -672,12 +585,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             }
         }
 
-        public void DrawSingleThrownScissorBlade(Color lightColor)
-        {
+        public void DrawSingleThrownScissorBlade(Color lightColor) {
             Texture2D value = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/SunderingScissorsLeft").Value;
             Texture2D value2 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/SunderingScissorsLeftGlow").Value;
-            if (Combo == 3f)
-            {
+            if (Combo == 3f) {
                 Texture2D value3 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/SunderingScissorsRight").Value;
                 Texture2D value4 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/SunderingScissorsRightGlow").Value;
                 Vector2 vector = Vector2.SmoothStep(Owner.Center, Projectile.Center, MathHelper.Clamp(SnapEndCompletion + 0.25f, 0f, 1f));
@@ -694,8 +605,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             Main.EntitySpriteDraw(value2, center - Main.screenPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), rotation2, origin2, Projectile.scale, SpriteEffects.None);
         }
 
-        public void DrawThrownScissors(Color lightColor)
-        {
+        public void DrawThrownScissors(Color lightColor) {
             Texture2D value = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/SunderingScissorsLeft").Value;
             Texture2D value2 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/SunderingScissorsLeftGlow").Value;
             Texture2D value3 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/SunderingScissorsRight").Value;
@@ -705,8 +615,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             float rotation = Projectile.rotation + MathF.PI / 4f;
             Vector2 origin2 = new Vector2(44f, 86f);
             float rotation2 = Projectile.rotation + MathHelper.Lerp(MathF.PI / 4f, MathF.PI * 133f / 200f, MathHelper.Clamp(ThrowCompletion * 2f, 0f, 1f));
-            if (Combo == 3f)
-            {
+            if (Combo == 3f) {
                 rotation2 = Projectile.rotation + MathHelper.Lerp(MathF.PI * 133f / 200f, MathF.PI / 4f, MathHelper.Clamp(SnapEndCompletion + 0.5f, 0f, 1f));
             }
 
@@ -716,16 +625,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             Main.EntitySpriteDraw(value2, center - Main.screenPosition, null, Color.Lerp(lightColor, Color.White, 0.75f), rotation, origin, Projectile.scale, SpriteEffects.None);
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
+        public override void SendExtraAI(BinaryWriter writer) {
             writer.Write(initialized);
             writer.WriteVector2(direction);
             writer.Write(ChanceMissed);
             writer.Write(ThrowReach);
         }
 
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
+        public override void ReceiveExtraAI(BinaryReader reader) {
             initialized = reader.ReadBoolean();
             direction = reader.ReadVector2();
             ChanceMissed = reader.ReadSingle();

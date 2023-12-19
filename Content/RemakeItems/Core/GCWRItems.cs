@@ -15,18 +15,22 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
     internal class GCWRItems : GlobalItem
     {
         public static void ProcessRemakeAction(Item item, Action<BaseRItem> action) {
-            foreach (BaseRItem rItem in CWRMod.RItemInstances) {
-                if (rItem.TargetID == item.type && CWRConstant.ForceReplaceResetContent) {
-                    action(rItem);
+            if (CWRConstant.ForceReplaceResetContent) {
+                foreach (BaseRItem rItem in CWRMod.RItemInstances) {
+                    if (rItem.SetReadonlyTargetID == item.type) {
+                        action(rItem);
+                    }
                 }
             }
         }
 
         public static bool? ProcessRemakeAction(Item item, Func<BaseRItem, bool?> action) {
             bool? result = null;
-            foreach (BaseRItem rItem in CWRMod.RItemInstances) {
-                if (rItem.TargetID == item.type && CWRConstant.ForceReplaceResetContent) {
-                    result = action(rItem);
+            if (CWRConstant.ForceReplaceResetContent) {
+                foreach (BaseRItem rItem in CWRMod.RItemInstances) {
+                    if (rItem.SetReadonlyTargetID == item.type) {
+                        result = action(rItem);
+                    }
                 }
             }
             return result;
@@ -168,7 +172,8 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
 
         public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
             base.ModifyShootStats(item, player, ref position, ref velocity, ref type, ref damage, ref knockback);
-            ShootStats stats = new ShootStats{
+            ShootStats stats = new ShootStats
+            {
                 Position = position,
                 Velocity = velocity,
                 Type = type,

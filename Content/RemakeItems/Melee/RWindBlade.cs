@@ -19,13 +19,11 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[ModContent.ItemType<CalamityMod.Items.Weapons.Melee.WindBlade>()] = true;
         }
 
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.width = 58;
             item.damage = 41;
             item.DamageType = DamageClass.Melee;
@@ -43,13 +41,11 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             item.shootSpeed = 3f;
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "WindBlade");
         }
 
-        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage / 2, knockback, player.whoAmI);
             if (player.altFunctionUse == 2) {
                 Main.projectile[proj].ai[0] = 1;
@@ -67,8 +63,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             return false;
         }
 
-        public override bool? UseItem(Item item, Player player)
-        {
+        public override bool? UseItem(Item item, Player player) {
             if (player.altFunctionUse == 2) {
                 item.noMelee = true;
             }
@@ -78,8 +73,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             return base.UseItem(item, player);
         }
 
-        public override void UseAnimation(Item item, Player player)
-        {
+        public override void UseAnimation(Item item, Player player) {
             item.noUseGraphic = false;
             item.UseSound = SoundID.Item1;
             if (player.altFunctionUse == 2) {
@@ -88,8 +82,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             }
         }
 
-        public override bool? AltFunctionUse(Item item, Player player)
-        {
+        public override bool? AltFunctionUse(Item item, Player player) {
             return true;
         }
     }

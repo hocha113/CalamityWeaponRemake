@@ -20,8 +20,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Magic
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.damage = 69;
             item.DamageType = DamageClass.Magic;
             item.noUseGraphic = true;
@@ -40,18 +39,15 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Magic
             item.rare = ModContent.RarityType<PureGreen>();
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "GhastlyVisage");
         }
 
-        public override void OnConsumeMana(Item item, Player player, int manaConsumed)
-        {
+        public override void OnConsumeMana(Item item, Player player, int manaConsumed) {
             player.statMana += manaConsumed;
         }
 
-        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<RemakeGhastlyVisageProj>(), damage, knockback, player.whoAmI);
             return false;
         }

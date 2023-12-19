@@ -15,8 +15,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
     {
         public override string Texture => CWRConstant.Item + "Melee/" + "CometQuasher";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.width = 46;
             Item.height = 62;
             Item.scale = 1.5f;
@@ -36,40 +35,33 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.CWR().remakeItem = true;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             float num116 = base.Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, reverseRotation: true);
             float num117 = Main.mouseX + Main.screenPosition.X - vector2.X;
             float num118 = Main.mouseY + Main.screenPosition.Y - vector2.Y;
-            if (player.gravDir == -1f)
-            {
+            if (player.gravDir == -1f) {
                 num118 = Main.screenPosition.Y + Main.screenHeight - Main.mouseY - vector2.Y;
             }
             float num119 = (float)Math.Sqrt(num117 * num117 + num118 * num118);
-            if ((float.IsNaN(num117) && float.IsNaN(num118)) || (num117 == 0f && num118 == 0f))
-            {
+            if ((float.IsNaN(num117) && float.IsNaN(num118)) || (num117 == 0f && num118 == 0f)) {
                 num117 = player.direction;
                 num118 = 0f;
                 num119 = num116;
             }
-            else
-            {
+            else {
                 num119 = num116 / num119;
             }
-            for (int num113 = 0; num113 < 2; num113++)
-            {
+            for (int num113 = 0; num113 < 2; num113++) {
                 vector2 = new Vector2(player.position.X + player.width * 0.5f + Main.rand.Next(201) * (0f - player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
                 vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
                 vector2.Y -= 100 * num113;
                 num117 = Main.mouseX + Main.screenPosition.X - vector2.X + Main.rand.Next(-40, 41) * 0.03f;
                 num118 = Main.mouseY + Main.screenPosition.Y - vector2.Y;
-                if (num118 < 0f)
-                {
+                if (num118 < 0f) {
                     num118 *= -1f;
                 }
-                if (num118 < 20f)
-                {
+                if (num118 < 20f) {
                     num118 = 20f;
                 }
                 num119 = (float)Math.Sqrt(num117 * num117 + num118 * num118);
@@ -85,15 +77,12 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             return base.Shoot(player, source, position, velocity, type, damage, knockback);
         }
 
-        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers)
-        {
+        public override void ModifyHitNPC(Player player, NPC target, ref NPC.HitModifiers modifiers) {
             modifiers.CritDamage *= 0.5f;
         }
 
-        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            for (int i = 0; i < 3; i++)
-            {
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone) {
+            for (int i = 0; i < 3; i++) {
                 Vector2 offsetVr = CWRUtils.GetRandomVevtor(-75, -105, Main.rand.Next(500, 600));
                 Vector2 spanPos = target.Center + offsetVr;
                 Vector2 vr = offsetVr.UnitVector() * -17;
@@ -102,41 +91,34 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             }
         }
 
-        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
-        {
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo) {
             IEntitySource source = player.GetSource_ItemUse(base.Item);
             float num116 = base.Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, reverseRotation: true);
             float num117 = Main.mouseX + Main.screenPosition.X - vector2.X;
             float num118 = Main.mouseY + Main.screenPosition.Y - vector2.Y;
-            if (player.gravDir == -1f)
-            {
+            if (player.gravDir == -1f) {
                 num118 = Main.screenPosition.Y + Main.screenHeight - Main.mouseY - vector2.Y;
             }
             float num119 = (float)Math.Sqrt(num117 * num117 + num118 * num118);
-            if ((float.IsNaN(num117) && float.IsNaN(num118)) || (num117 == 0f && num118 == 0f))
-            {
+            if ((float.IsNaN(num117) && float.IsNaN(num118)) || (num117 == 0f && num118 == 0f)) {
                 num117 = player.direction;
                 num118 = 0f;
                 num119 = num116;
             }
-            else
-            {
+            else {
                 num119 = num116 / num119;
             }
-            for (int num113 = 0; num113 < 2; num113++)
-            {
+            for (int num113 = 0; num113 < 2; num113++) {
                 vector2 = new Vector2(player.position.X + player.width * 0.5f + Main.rand.Next(201) * (0f - player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
                 vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
                 vector2.Y -= 100 * num113;
                 num117 = Main.mouseX + Main.screenPosition.X - vector2.X + Main.rand.Next(-40, 41) * 0.03f;
                 num118 = Main.mouseY + Main.screenPosition.Y - vector2.Y;
-                if (num118 < 0f)
-                {
+                if (num118 < 0f) {
                     num118 *= -1f;
                 }
-                if (num118 < 20f)
-                {
+                if (num118 < 20f) {
                     num118 = 20f;
                 }
                 num119 = (float)Math.Sqrt(num117 * num117 + num118 * num118);
@@ -150,10 +132,8 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             }
         }
 
-        public override void MeleeEffects(Player player, Rectangle hitbox)
-        {
-            if (Main.rand.NextBool(3))
-            {
+        public override void MeleeEffects(Player player, Rectangle hitbox) {
+            if (Main.rand.NextBool(3)) {
                 Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 6);
             }
         }

@@ -22,13 +22,11 @@ namespace CalamityWeaponRemake.Content.Items.Magic
 
         public override string Texture => CWRConstant.Cay_Wap_Magic + "DeathhailStaff";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             Item.staff[Item.type] = true;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.damage = 328;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 16;
@@ -47,13 +45,11 @@ namespace CalamityWeaponRemake.Content.Items.Magic
             Item.shootSpeed = 18f;
         }
 
-        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-        {
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) {
             Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/DeathhailStaffGlow").Value);
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             int myPlayer = Main.myPlayer;
             float shootSpeed = Item.shootSpeed;
             float baseKnockback = knockback;
@@ -63,38 +59,32 @@ namespace CalamityWeaponRemake.Content.Items.Magic
             _ = Main.MouseWorld - vector;
             float num = Main.mouseX + Main.screenPosition.X - vector.X;
             float num2 = Main.mouseY + Main.screenPosition.Y - vector.Y;
-            if (player.gravDir == -1f)
-            {
+            if (player.gravDir == -1f) {
                 num2 = Main.screenPosition.Y + Main.screenHeight - Main.mouseY - vector.Y;
             }
 
             float num3 = (float)Math.Sqrt(num * num + num2 * num2);
-            if ((float.IsNaN(num) && float.IsNaN(num2)) || (num == 0f && num2 == 0f))
-            {
+            if ((float.IsNaN(num) && float.IsNaN(num2)) || (num == 0f && num2 == 0f)) {
                 num = player.direction;
                 num2 = 0f;
                 num3 = shootSpeed;
             }
-            else
-            {
+            else {
                 num3 = shootSpeed / num3;
             }
 
             int num4 = 2;
-            for (int i = 0; i < num4; i++)
-            {
+            for (int i = 0; i < num4; i++) {
                 vector = new Vector2(player.position.X + player.width * 0.5f + Main.rand.Next(91) * (0f - player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
                 vector.X = (vector.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
                 vector.Y -= 100 * i;
                 num = Main.mouseX + Main.screenPosition.X - vector.X;
                 num2 = Main.mouseY + Main.screenPosition.Y - vector.Y;
-                if (num2 < 0f)
-                {
+                if (num2 < 0f) {
                     num2 *= -1f;
                 }
 
-                if (num2 < 20f)
-                {
+                if (num2 < 20f) {
                     num2 = 20f;
                 }
 

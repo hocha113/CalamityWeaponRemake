@@ -32,8 +32,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 60;
             Projectile.height = 144;
             Projectile.friendly = true;
@@ -50,26 +49,22 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
         public override void OnSpawn(IEntitySource source)
             => Projectile.rotation = Projectile.velocity.X > 0 ? -160 : 90;
 
-        public IEnumerable<Vector2> GenerateSlashPoints(bool dir)
-        {
+        public IEnumerable<Vector2> GenerateSlashPoints(bool dir) {
             float starRot = StarRot;
             float endRot = EndRot;
-            if (dir)
-            {
+            if (dir) {
                 starRot = LStarRot;
                 endRot = LEndRot + 30 * CWRUtils.atoR;
             }
 
-            for (int i = 0; i < 30; i++)
-            {
+            for (int i = 0; i < 30; i++) {
                 float completion = MathHelper.Lerp(endRot + Projectile.rotation.AtoR(), starRot + Projectile.rotation.AtoR(), i / 30f);
                 completion *= Math.Sign(Projectile.velocity.X) * -1;
                 yield return completion.ToRotationVector2() * 84f;
             }
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             if (owner != null)
                 Projectile.position += owner.velocity;
             Projectile.Opacity = Utils.GetLerpValue(Projectile.localAI[0], 26f, Projectile.timeLeft, clamped: true);
@@ -78,31 +73,25 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Projectile.rotation -= 5f;
         }
 
-        public float SlashWidthFunction(float completionRatio)
-        {
+        public float SlashWidthFunction(float completionRatio) {
             return Projectile.scale * 50f;
         }
 
-        public Color SlashColorFunction(float completionRatio)
-        {
+        public Color SlashColorFunction(float completionRatio) {
             if (Projectile.ai[1] == 0)
                 return Color.Lime * Utils.GetLerpValue(0.07f, 0.57f, completionRatio, clamped: true) * Projectile.Opacity;
 
-            else
-            {
+            else {
                 float sengs = MathF.Sin(completionRatio * MathF.PI);
-                if (completionRatio < 0.4f)
-                {
+                if (completionRatio < 0.4f) {
                     sengs = MathF.Pow(completionRatio, 3) * 13;
                 }
                 return Color.Lime * sengs * Projectile.Opacity;
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
-            if (SlashDrawer == null)
-            {
+        public override bool PreDraw(ref Color lightColor) {
+            if (SlashDrawer == null) {
                 SlashDrawer = new PrimitiveTrail(SlashWidthFunction, SlashColorFunction, null, GameShaders.Misc["CalamityMod:ExobladeSlash"]);
             }
 
@@ -112,13 +101,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
             ControlPoints = GenerateSlashPoints(Projectile.velocity.X < 0).ToArray();
 
-            for (int i = 0; i < ControlPoints.Length; i++)
-            {
+            for (int i = 0; i < ControlPoints.Length; i++) {
                 list.Add(ControlPoints[i] + ControlPoints[i].SafeNormalize(Vector2.Zero) * (Projectile.scale - 1f) * 70f);
             }
 
-            for (int j = 0; j < 3; j++)
-            {
+            for (int j = 0; j < 3; j++) {
                 SlashDrawer.Draw(list, Projectile.Center - Main.screenPosition, 65);
             }
 
@@ -126,13 +113,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             return false;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             bool collBool = false;
             float point = 0;
             Vector2 starPos = Projectile.Center;
-            for (int i = 0; i < 20; i++)
-            {
+            for (int i = 0; i < 20; i++) {
                 Vector2 endPos = Projectile.Center + MathHelper.ToRadians(-160 + 11 * i).ToRotationVector2() * Projectile.scale * 120;
                 if (Projectile.velocity.X < 0)
                     endPos = Projectile.Center + MathHelper.ToRadians(20 - 11 * i).ToRotationVector2() * Projectile.scale * 120;

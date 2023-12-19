@@ -57,8 +57,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
 
         public Player target = null;
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             Main.npcFrameCount[NPC.type] = 7;
             NPCID.Sets.TrailCacheLength[NPC.type] = 13;
             NPCID.Sets.TrailingMode[NPC.type] = 3;
@@ -74,8 +73,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.lavaImmune = true;
             NPC.noGravity = true;
@@ -104,15 +102,13 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             Music = 78;//这个音乐是占位使用——谁让它这么酷呢？
         }
 
-        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
-        {
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment) {
             NPC.LifeMaxNERB(1250000, 1854000, 5460000);
             NPC.lifeMax += numPlayers * 500000;
             NPC.damage = (int)(NPC.damage * NPC.GetExpertDamageMultiplier());
         }
 
-        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
-        {
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry) {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
@@ -120,8 +116,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             });
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
+        public override void SendExtraAI(BinaryWriter writer) {
             writer.Write(NPC.dontTakeDamage);
             writer.Write(velocityY);
             writer.Write(NPC.localAI[0]);
@@ -130,8 +125,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
                 writer.Write(NPC.Calamity().newAI[i]);
         }
 
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
+        public override void ReceiveExtraAI(BinaryReader reader) {
             NPC.dontTakeDamage = reader.ReadBoolean();
             velocityY = reader.ReadSingle();
             NPC.localAI[0] = reader.ReadSingle();
@@ -140,8 +134,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
                 NPC.Calamity().newAI[i] = reader.ReadSingle();
         }
 
-        public override void FindFrame(int frameHeight)
-        {
+        public override void FindFrame(int frameHeight) {
             if (NPC.IsABestiaryIconDummy)
                 NPC.Opacity = 1f;
 
@@ -154,8 +147,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
         /// <summary>
         /// 添加光量效果
         /// </summary>
-        public void BossLight()
-        {
+        public void BossLight() {
             // 大团灯火
             Lighting.AddLight((int)(NPC.Center.X - 110f) / 16, (int)(NPC.Center.Y - 30f) / 16, 0f, 0.5f, 2f);
             Lighting.AddLight((int)(NPC.Center.X + 110f) / 16, (int)(NPC.Center.Y - 30f) / 16, 0f, 0.5f, 2f);
@@ -165,10 +157,8 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             Lighting.AddLight((int)(NPC.Center.X + 40f) / 16, (int)(NPC.Center.Y - 60f) / 16, 0f, 0.25f, 1f);
         }
 
-        public void SpanLightDust()
-        {
-            if (Main.netMode != NetmodeID.Server)
-            {
+        public void SpanLightDust() {
+            if (Main.netMode != NetmodeID.Server) {
                 for (int i = 0; i < 10; i++)//生成这种粒子不是好主意
                 {
                     Vector2 particleSpeed = GetRandomVevtor(60, 120, -8 * (i / 20f));
@@ -180,8 +170,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             }
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             CalamityGlobalNPC modNPC = NPC.Calamity();
 
             bool bossRush = BossRushEvent.BossRushActive;
@@ -196,14 +185,12 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             SpanLightDust();
             SpanBodyOvers();
 
-            if (!target.Alives())
-            {
+            if (!target.Alives()) {
 
             }
         }
 
-        public void SpanBodyOvers()
-        {
+        public void SpanBodyOvers() {
             if (NPC.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)//生成子实体的行为不能在客户端上运行
             {
                 NPC.localAI[0] = 1f;
@@ -215,13 +202,11 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             }
         }
 
-        public override void HitEffect(NPC.HitInfo hit)
-        {
+        public override void HitEffect(NPC.HitInfo hit) {
 
         }
 
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-        {
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot) {
             Vector2 npcCenter = NPC.Center;
 
             // NOTE: Right and left hitboxes are interchangeable, each hitbox is the same size and is located to the right or left of the center hitbox.
@@ -286,43 +271,36 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             return insideLeftHitbox || insideBodyHitbox || insideRightHitbox;
         }
 
-        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
-        {
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo) {
             if (hurtInfo.Damage > 0)
                 target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 480, true);
         }
 
         public override void BossLoot(ref string name, ref int potionType) => potionType = ItemID.GreaterHealingPotion;
 
-        public override void OnKill()
-        {
+        public override void OnKill() {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
             DownedBossSystem.downedRavager = true;
             CalamityNetcode.SyncWorld();
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
+        public override void ModifyNPCLoot(NPCLoot npcLoot) {
 
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
-        {
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) {
             DrawClaw(spriteBatch, drawColor);
             DrawBody(spriteBatch, drawColor);
             return false;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
-        {
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) {
             DrawLeg(spriteBatch, drawColor);
             DrawHead(spriteBatch, drawColor);
         }
 
-        private void DrawHead(SpriteBatch spriteBatch, Color drawColor)
-        {
-            if (aHeadActive)
-            {
+        private void DrawHead(SpriteBatch spriteBatch, Color drawColor) {
+            if (aHeadActive) {
                 NPC heads = Main.npc[aHead];
                 Texture2D headValue = GetT2DValue(heads.ModNPC.Texture);
                 Texture2D headGlow = GetT2DValue(heads.ModNPC.Texture + "Glow");
@@ -351,8 +329,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
                     0
                     );
 
-                for (int i = 0; i < heads.oldPos.Length; i++)
-                {
+                for (int i = 0; i < heads.oldPos.Length; i++) {
                     spriteBatch.Draw(
                         headGlow,
                         heads.oldPos[i] + heads.netOffset - Main.screenPosition,
@@ -368,8 +345,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             }
         }
 
-        private void DrawBody(SpriteBatch spriteBatch, Color drawColor)
-        {
+        private void DrawBody(SpriteBatch spriteBatch, Color drawColor) {
             Texture2D mainValue = GetT2DValue(Texture);
             //Texture2D glow = GetT2DValue(CWRConstant.RavagerA + "");
 
@@ -398,10 +374,8 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             //        );
         }
 
-        private void DrawLeg(SpriteBatch spriteBatch, Color drawColor)
-        {
-            if (aLegLeftActive)
-            {
+        private void DrawLeg(SpriteBatch spriteBatch, Color drawColor) {
+            if (aLegLeftActive) {
                 NPC lg = Main.npc[aLegLeft];
                 Texture2D value = GetT2DValue(lg.ModNPC.Texture);
                 spriteBatch.Draw(
@@ -416,8 +390,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
                     0
                     );
             }
-            if (aLegRightActive)
-            {
+            if (aLegRightActive) {
                 NPC rg = Main.npc[aLegRight];
                 Texture2D value = GetT2DValue(rg.ModNPC.Texture);
                 spriteBatch.Draw(
@@ -434,10 +407,8 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             }
         }
 
-        private void DrawClaw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            if (aClawLeftActive)
-            {
+        private void DrawClaw(SpriteBatch spriteBatch, Color drawColor) {
+            if (aClawLeftActive) {
                 NPC lc = Main.npc[aClawLeft];
                 RavagerAClawLeft ravagerAClawLeft = lc.ModNPC as RavagerAClawLeft;
                 Texture2D value = GetT2DValue(ravagerAClawLeft.Texture);
@@ -454,8 +425,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
                     0
                     );
             }
-            if (aClawRightActive)
-            {
+            if (aClawRightActive) {
                 NPC rc = Main.npc[aClawRight];
                 Texture2D value = GetT2DValue(rc.ModNPC.Texture);
                 DrawChain(spriteBatch, NPC.Center + new Vector2(120f, 50f), rc.Center);
@@ -473,8 +443,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             }
         }
 
-        private void DrawChain(SpriteBatch spriteBatch, Vector2 startPoint, Vector2 endPoint)
-        {
+        private void DrawChain(SpriteBatch spriteBatch, Vector2 startPoint, Vector2 endPoint) {
             Texture2D value = GetT2DValue(CWRConstant.RavagerA + "RavagerAChain");
             Vector2 toEndVr = startPoint.To(endPoint);
             float lengs = toEndVr.Length();

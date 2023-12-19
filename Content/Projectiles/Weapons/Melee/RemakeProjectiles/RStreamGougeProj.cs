@@ -35,14 +35,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
 
         public override string Texture => CWRConstant.Projectile_Melee + "StreamGougeProj";
 
-        public override Action<Projectile> EffectBeforeReelback => delegate
-        {
+        public override Action<Projectile> EffectBeforeReelback => delegate {
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0.8f
                 , ModContent.ProjectileType<StreamBeams>(), Projectile.damage, Projectile.knockBack * 0.85f, Projectile.owner);
         };
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = Projectile.height = 40;
             Projectile.DamageType = ModContent.GetInstance<TrueMeleeDamageClass>();
             Projectile.timeLeft = 90;
@@ -56,53 +54,43 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             Projectile.localNPCHitCooldown = 4;
         }
 
-        public override void OnSpawn(IEntitySource source)
-        {
+        public override void OnSpawn(IEntitySource source) {
             base.OnSpawn(source);
         }
 
-        public override void OnKill(int timeLeft)
-        {
+        public override void OnKill(int timeLeft) {
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
+        public override void SendExtraAI(BinaryWriter writer) {
             writer.Write(Time);
             writer.Write(Projectile.localAI[1]);
         }
 
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
+        public override void ReceiveExtraAI(BinaryReader reader) {
             Time = reader.ReadInt32();
             Projectile.localAI[1] = reader.ReadInt32();
         }
 
-        public override void AI()
-        {
-            
+        public override void AI() {
+
             if (Projectile.localAI[1] == 0)
                 base.AI();
-            if (Projectile.localAI[1] == 1)
-            {
+            if (Projectile.localAI[1] == 1) {
                 Projectile.MaxUpdates = 2;
-                if (Time == 0f)
-                {
+                if (Time == 0f) {
                     SoundEngine.PlaySound(in CommonCalamitySounds.MeatySlashSound, Projectile.Center);
                 }
 
-                if (InitialDirection == 0f)
-                {
+                if (InitialDirection == 0f) {
                     InitialDirection = Projectile.velocity.ToRotation();
                     SpinDirection = Main.rand.NextBool().ToDirectionInt();
                     Projectile.netUpdate = true;
                 }
-                else
-                {
+                else {
                     float num = (float)Math.Sin(Time / 3f) * 15f;
                     float num2 = MathHelper.Lerp(-10f, num + 90f, Utils.GetLerpValue(0f, 24f, Time - 45, clamped: true));
                     Projectile.velocity = InitialDirection.ToRotationVector2() * num2;
-                    if (Projectile.IsOwnedByLocalPlayer())
-                    {
+                    if (Projectile.IsOwnedByLocalPlayer()) {
                         InitialDirection = Owner.Center.To(Main.MouseWorld).ToRotation();
                         #region 添加随行激光的设计好坏性存疑，所以暂且注释这段代码
                         //Projectile ray = AiBehavior.GetProjectileInstance((int)Projectile.localAI[2]);
@@ -129,8 +117,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
 
                 Projectile.rotation = (float)Math.Pow(SpinCompletion, 0.82) * MathF.PI * SpinDirection * 4f + InitialDirection - MathF.PI / 4f + MathF.PI;
                 DeterminePlayerVariables();
-                if (Projectile.IsOwnedByLocalPlayer() && Time >= 69 && Time % 9 == 8f)
-                {
+                if (Projectile.IsOwnedByLocalPlayer() && Time >= 69 && Time % 9 == 8f) {
                     Vector2 vector = Main.MouseWorld + Main.rand.NextVector2Unit() * Main.rand.NextFloat(50f, 140f);
                     Vector2 velocity = vector.To(Main.MouseWorld).UnitVector();
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector, velocity, ModContent.ProjectileType<StreamGougePortal>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
@@ -140,27 +127,22 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             }
         }
 
-        public void DeterminePlayerVariables()
-        {
+        public void DeterminePlayerVariables() {
             Owner.direction = (Math.Cos(Projectile.rotation - MathF.PI + MathF.PI / 4f) > 0.0).ToDirectionInt();
             Owner.heldProj = Projectile.whoAmI;
             Owner.itemTime = Owner.itemAnimation = 2;
             Owner.itemRotation = CalamityUtils.WrapAngle90Degrees(MathHelper.WrapAngle(Projectile.rotation - MathF.PI + MathF.PI / 4f));
             Projectile.Center = Owner.Center;
             Projectile.timeLeft = 2;
-            if (!Owner.PressKey(false))
-            {
+            if (!Owner.PressKey(false)) {
                 Projectile.Kill();
             }
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
             float tomousRot = Owner.Center.To(Main.MouseWorld).ToRotation();
-            if (Projectile.numHits == 0)
-            {
-                for (int i = 0; i < 2; i++)
-                {
+            if (Projectile.numHits == 0) {
+                for (int i = 0; i < 2; i++) {
                     Vector2 spanPos = (tomousRot + MathHelper.ToRadians(120 + Main.rand.Next(6) * 20)).ToRotationVector2() * 280 + Owner.Center;
                     Vector2 vr = spanPos.To(target.Center).UnitVector() * 16;
                     int proj = Projectile.NewProjectile(
@@ -175,13 +157,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
                     Main.projectile[proj].timeLeft = 90;
                 }
             }
-            
+
 
             StreamBeams.StarRT(Projectile, target);
         }
 
-        public void DrawPortal(Vector2 drawPosition, float opacity)
-        {
+        public void DrawPortal(Vector2 drawPosition, float opacity) {
             Texture2D value = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/StreamGougePortal").Value;
             Vector2 origin = value.Size() * 0.5f;
             Color white = Color.White;
@@ -197,29 +178,22 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             Main.spriteBatch.ModifyBlendState(BlendState.AlphaBlend);
         }
 
-        public override void PostDraw(Color lightColor)
-        {
-            if (SpearAiType == SpearType.TypicalSpear && Projectile.localAI[1] == 0)
-            {
+        public override void PostDraw(Color lightColor) {
+            if (SpearAiType == SpearType.TypicalSpear && Projectile.localAI[1] == 0) {
                 Main.EntitySpriteDraw(ModContent.Request<Texture2D>(CWRConstant.Projectile_Melee + "StreamGougeGlow").Value, Projectile.Center - Main.screenPosition, origin: Vector2.Zero, sourceRectangle: null, color: Color.White, rotation: Projectile.rotation, scale: Projectile.scale, effects: SpriteEffects.None);
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
-            if (Projectile.localAI[1] == 0)
-            {
+        public override bool PreDraw(ref Color lightColor) {
+            if (Projectile.localAI[1] == 0) {
                 base.PreDraw(ref lightColor);
             }
-            if (Projectile.localAI[1] == 1)
-            {
-                if (SpinCompletion >= 0f && SpinCompletion < 1f)
-                {
+            if (Projectile.localAI[1] == 1) {
+                if (SpinCompletion >= 0f && SpinCompletion < 1f) {
                     Texture2D value = ModContent.Request<Texture2D>("CalamityMod/Particles/SemiCircularSmear").Value;
                     Main.spriteBatch.EnterShaderRegion(BlendState.Additive);
                     float num = Projectile.rotation - MathF.PI / 5f;
-                    if (SpinDirection == -1f)
-                    {
+                    if (SpinDirection == -1f) {
                         num += MathF.PI;
                     }
 
@@ -231,8 +205,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
                 bool num2 = lerpValue >= 1f;
                 Vector2 vector = Owner.Center + InitialDirection.ToRotationVector2() * 130f - Main.screenPosition;
                 Texture2D value2 = ModContent.Request<Texture2D>(Texture).Value;
-                if (num2)
-                {
+                if (num2) {
                     Main.spriteBatch.EnterShaderRegion();
                     Vector2 value3 = vector + Main.screenPosition - Projectile.Center;
                     Vector2 vector2 = Projectile.rotation.ToRotationVector2() * Utils.GetLerpValue(0f, 24f, Time - 45, clamped: true) * 80f;
@@ -247,8 +220,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
                 }
 
                 Main.EntitySpriteDraw(position: Projectile.Center - Main.screenPosition, origin: value2.Size() * 0.5f, texture: value2, sourceRectangle: null, color: Projectile.GetAlpha(lightColor), rotation: Projectile.rotation, scale: 1f, effects: SpriteEffects.None);
-                if (num2)
-                {
+                if (num2) {
                     Main.spriteBatch.ExitShaderRegion();
                 }
 

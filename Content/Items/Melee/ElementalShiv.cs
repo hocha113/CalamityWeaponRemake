@@ -12,8 +12,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public override string Texture => CWRConstant.Cay_Wap_Melee + "ElementalShiv";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.width = 44;
             Item.height = 44;
             Item.noMelee = true;
@@ -31,8 +30,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.rare = ItemRarityID.Purple;
         }
 
-        public override bool MeleePrefix()
-        {
+        public override bool MeleePrefix() {
             return true;
         }
     }

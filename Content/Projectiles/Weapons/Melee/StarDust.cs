@@ -13,13 +13,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
     {
         public override string Texture => CWRConstant.Placeholder;
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
 
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 12;
             Projectile.height = 12;
             Projectile.friendly = true;
@@ -35,52 +33,43 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
         public override int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
         public override int ThisTimeValue { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
 
-        public override void OnKill(int timeLeft)
-        {
+        public override void OnKill(int timeLeft) {
             Lighting.AddLight(Projectile.Center, new Vector3(92, 58, 156));
         }
 
-        public override void OnSpawn(IEntitySource source)
-        {
+        public override void OnSpawn(IEntitySource source) {
             Lighting.AddLight(Projectile.Center, new Vector3(92, 58, 156));
         }
 
-        public override bool ShouldUpdatePosition()
-        {
+        public override bool ShouldUpdatePosition() {
             return true;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Projectile target = CWRUtils.GetProjectileInstance(Behavior);
-            if (target.Alives() == false)
-            {
+            if (target.Alives() == false) {
                 Projectile.Kill();
                 return;
             }
             Projectile.ChasingBehavior(target.Center, 23, 16);
             if (Projectile.Center.To(target.Center).LengthSquared() < 16 * 16) Projectile.Kill();
 
-            for (int i = 0; i < 3; i++)
-            {
+            for (int i = 0; i < 3; i++) {
                 int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.ShadowbeamStaff, Projectile.direction * 2, 0f, 115, Color.White, 1.3f);
                 Main.dust[num].noGravity = true;
                 Main.dust[num].velocity *= 0f;
             }
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             return false;
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             return false;
         }
 
-        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
-        {
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) {
 
         }
     }

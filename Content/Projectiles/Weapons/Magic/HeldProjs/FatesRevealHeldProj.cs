@@ -21,8 +21,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic.HeldProjs
 
         private ref float Time => ref Projectile.ai[0];
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 26;
             Projectile.height = 32;
             Projectile.friendly = true;
@@ -33,15 +32,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic.HeldProjs
             Projectile.hide = true;
         }
 
-        public override bool ShouldUpdatePosition()
-        {
+        public override bool ShouldUpdatePosition() {
             return false;//同其他的手持弹幕一样，不希望该实体受到速度更新的影响，这往往会导致一些出乎意料的效果
         }
 
-        public override void AI()
-        {
-            if (Owner == null)
-            {
+        public override void AI() {
+            if (Owner == null) {
                 Projectile.Kill();
                 return;
             }
@@ -54,32 +50,26 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic.HeldProjs
             Time++;
         }
 
-        public void ObeyOwner()
-        {
+        public void ObeyOwner() {
             Owner.heldProj = Projectile.whoAmI;
             Owner.direction = Projectile.direction = Math.Sign(toMou.X);
 
             Projectile.Center = Owner.Center + toMou.UnitVector() * 53;
             Projectile.rotation = toMou.ToRotation();
 
-            if (Owner.PressKey())
-            {
+            if (Owner.PressKey()) {
                 Projectile.timeLeft = 2;
             }
-            else
-            {
+            else {
                 Projectile.Kill();
             }
         }
 
-        public void SpanProj()
-        {
+        public void SpanProj() {
             int type = ModContent.ProjectileType<HatredFire>();
-            if (Time % 35 == 0)
-            {
+            if (Time % 35 == 0) {
                 SoundEngine.PlaySound(in SoundID.Item117, Projectile.position);
-                for (int i = 0; i < Main.rand.Next(2, 4); i++)
-                {
+                for (int i = 0; i < Main.rand.Next(2, 4); i++) {
                     Projectile.NewProjectile(
                     Owner.parent(),
                     Projectile.Center,
@@ -92,8 +82,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic.HeldProjs
                 }
             }
 
-            if (Time % 5 == 0)
-            {
+            if (Time % 5 == 0) {
                 Vector2 vr = CWRUtils.GetRandomVevtor(-120, -60, 3);
                 Projectile.NewProjectile(
                     Owner.parent(),
@@ -108,8 +97,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic.HeldProjs
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Main.EntitySpriteDraw(
                 mainValue,
@@ -124,16 +112,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Magic.HeldProjs
             return false;
         }
 
-        public override bool? CanDamage()
-        {
+        public override bool? CanDamage() {
             return false;
         }
 
         public override void DrawBehind
             (int index, List<int> behindNPCsAndTiles
             , List<int> behindNPCs, List<int> behindProjectiles
-            , List<int> overPlayers, List<int> overWiresUI)
-        {
+            , List<int> overPlayers, List<int> overWiresUI) {
             overPlayers.Add(index);
         }
     }

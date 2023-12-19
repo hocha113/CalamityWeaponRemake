@@ -17,7 +17,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetDefaults(Item item){
+        public override void SetDefaults(Item item) {
             item.width = 28;
             item.height = 28;
             item.DamageType = DamageClass.MeleeNoSpeed;
@@ -37,7 +37,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             item.value = CalamityGlobalItem.Rarity3BuyPrice;
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips){
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "AirSpinner", 2);
         }
     }

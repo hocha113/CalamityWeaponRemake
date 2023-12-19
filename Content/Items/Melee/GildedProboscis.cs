@@ -20,14 +20,12 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public override string Texture => CWRConstant.Item_Melee + "GildedProboscis";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ItemID.Sets.Spears[Type] = true;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.width = 66;
             Item.damage = 315;
             Item.DamageType = ModContent.GetInstance<TrueMeleeDamageClass>();
@@ -48,24 +46,20 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.CWR().remakeItem = true;
         }
 
-        public override bool AltFunctionUse(Player player)
-        {
+        public override bool AltFunctionUse(Player player) {
             return true;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
-            if (player.altFunctionUse == 2)
-            {
+            if (player.altFunctionUse == 2) {
                 SoundEngine.PlaySound(in CommonCalamitySounds.MeatySlashSound, player.Center);
                 Main.projectile[proj].ai[1] = 1;
             }
             return false;
         }
 
-        public override bool CanUseItem(Player player)
-        {
+        public override bool CanUseItem(Player player) {
             return player.ownedProjectileCounts[Item.shoot] <= 0;
         }
     }

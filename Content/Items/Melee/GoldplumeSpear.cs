@@ -18,14 +18,12 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public override string Texture => CWRConstant.Cay_Wap_Melee + "GoldplumeSpear";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ItemID.Sets.Spears[Item.type] = true;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.width = 54;
             Item.damage = 24;
             Item.DamageType = DamageClass.Melee;
@@ -45,24 +43,20 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.shootSpeed = 8f;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
-            if (player.altFunctionUse == 2)
-            {
+            if (player.altFunctionUse == 2) {
                 Main.projectile[proj].ai[1] = 1;
                 Main.projectile[proj].rotation = player.Center.To(Main.MouseWorld).ToRotation();
             }
             return false;
         }
 
-        public override bool CanUseItem(Player player)
-        {
+        public override bool CanUseItem(Player player) {
             return player.ownedProjectileCounts[Item.shoot] <= 0;
         }
 
-        public override bool AltFunctionUse(Player player)
-        {
+        public override bool AltFunctionUse(Player player) {
             return true;
         }
     }

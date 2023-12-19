@@ -22,13 +22,11 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public new string LocalizationCategory => "Items.Weapons.Melee";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.damage = 1075;
             Item.knockBack = 7.5f;
             Item.useAnimation = (Item.useTime = 25);
@@ -47,11 +45,9 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.rare = ModContent.RarityType<Violet>();
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
-            if (player.altFunctionUse == 2)
-            {
+            if (player.altFunctionUse == 2) {
                 SoundEngine.PlaySound(in CommonCalamitySounds.MeatySlashSound, player.Center);
                 Main.projectile[proj].ai[1] = 1;
                 Main.projectile[proj].scale = 0.5f;
@@ -59,13 +55,11 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             return false;
         }
 
-        public override bool AltFunctionUse(Player player)
-        {
+        public override bool AltFunctionUse(Player player) {
             return true;
         }
 
-        public override bool CanUseItem(Player player)
-        {
+        public override bool CanUseItem(Player player) {
             return player.ownedProjectileCounts[Item.shoot] <= 0;
         }
     }

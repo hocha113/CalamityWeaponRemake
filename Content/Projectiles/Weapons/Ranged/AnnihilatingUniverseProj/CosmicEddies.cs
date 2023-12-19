@@ -24,8 +24,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
 
         SoundStyle modSoundtyle;
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.height = 24;
             Projectile.width = 24;
             Projectile.tileCollide = false;
@@ -37,18 +36,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
             Projectile.localNPCHitCooldown = 15;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Player player = CWRUtils.GetPlayerInstance(Projectile.owner);
             Projectile ownerProj = CWRUtils.GetProjectileInstance((int)Projectile.ai[0]);
-            if (!player.Alives())
-            {
+            if (!player.Alives()) {
                 Projectile.Kill();
                 return;
             }
 
-            if (player.PressKey(false) && ownerProj.Alives() && Projectile.ai[2] == 0)
-            {
+            if (player.PressKey(false) && ownerProj.Alives() && Projectile.ai[2] == 0) {
                 if (Projectile.ai[1] == 0)
                     Projectile.rotation = ownerProj.rotation;
                 Projectile.ai[1]++;
@@ -59,34 +55,28 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
                 Projectile.velocity = Projectile.Center.To(targetPos);
                 Projectile.EntityToRot(ownerProj.rotation, 0.1f);
 
-                if (Projectile.ai[1] % 100 == 0 && Projectile.ai[1] > 0 && Projectile.ai[1] < 600 && Projectile.IsOwnedByLocalPlayer())
-                {
+                if (Projectile.ai[1] % 100 == 0 && Projectile.ai[1] > 0 && Projectile.ai[1] < 600 && Projectile.IsOwnedByLocalPlayer()) {
                     Projectile.NewProjectile(Projectile.parent(), Projectile.Center, Projectile.Center.To(Main.MouseWorld).UnitVector() * 23
                     , ModContent.ProjectileType<DivineDevourerIllusionHead>(), Projectile.damage / 2, 3, Projectile.owner, ai1: Projectile.ai[1] / 20);
                 }
             }
-            else
-            {
+            else {
                 Projectile.ai[2]++;
                 Projectile.damage = Projectile.originalDamage + (int)Projectile.ai[1] * 5;
-                
-                if (Projectile.timeLeft <= Projectile.ai[1] + 30)
-                {
-                    
+
+                if (Projectile.timeLeft <= Projectile.ai[1] + 30) {
+
                     NPC target = Projectile.Center.InPosClosestNPC(1900);
-                    if (target != null)
-                    {
+                    if (target != null) {
                         Projectile.ChasingBehavior2(target.Center, 1, 0.1f);
                     }
                 }
                 else
                     Projectile.velocity = Projectile.rotation.ToRotationVector2() * 22;
             }
-            if (Main.netMode != NetmodeID.Server)
-            {
+            if (Main.netMode != NetmodeID.Server) {
                 int maxdustnum = (int)(Projectile.ai[1] / 40f);
-                for (int i = 0; i < maxdustnum; i++)
-                {
+                for (int i = 0; i < maxdustnum; i++) {
                     Vector2 pos = Projectile.Center + Main.rand.NextVector2Unit() * Main.rand.Next((int)rgs);
                     Vector2 particleSpeed = pos.To(Projectile.Center + Projectile.velocity).UnitVector() * Main.rand.NextFloat(5.5f, 7.7f);
                     CWRParticle energyLeak = new LightParticle(pos, particleSpeed
@@ -95,29 +85,24 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUn
                 }
 
                 modSoundtyle = ModSound.BlackHole;
-                if (!SoundEngine.TryGetActiveSound(soundSlot, out var activeSoundTwister))
-                {
+                if (!SoundEngine.TryGetActiveSound(soundSlot, out var activeSoundTwister)) {
                     soundSlot = SoundEngine.PlaySound(modSoundtyle, Projectile.Center);
                 }
-                else
-                {
+                else {
                     // 如果声音正在播放，则更新声音的位置以匹配弹丸的当前位置。
                     activeSoundTwister.Position = Projectile.position;
                 }
             }
-            if (Projectile.timeLeft < 60)
-            {
+            if (Projectile.timeLeft < 60) {
                 Projectile.scale = Projectile.timeLeft / 60f;
             }
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             return CWRUtils.CircularHitboxCollision(Projectile.Center, rgs, targetHitbox);
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Main.spriteBatch.EnterShaderRegion();
 
             Texture2D noiseTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/VoronoiShapes").Value;

@@ -27,7 +27,7 @@ namespace CalamityWeaponRemake.Content.Items.Tools
             Item.consumable = true;
             Item.width = 24;
             Item.height = 24;
-            Item.rare = ItemRarityID.Purple; 
+            Item.rare = ItemRarityID.Purple;
         }
 
         public override void UpdateInventory(Player player) {
@@ -58,7 +58,7 @@ namespace CalamityWeaponRemake.Content.Items.Tools
                     Item dorpItemValue = new Item(types);
                     dorpItemValue.stack = items.Count;
                     if (dorpItemValue != null)
-                    dorpItems.Add(dorpItemValue);
+                        dorpItems.Add(dorpItemValue);
                 }
             }
         }
@@ -88,11 +88,11 @@ namespace CalamityWeaponRemake.Content.Items.Tools
             if (line.Name == "ItemName" && line.Mod == "Terraria") {
                 Color rarityColor = Main.DiscoColor;
                 Vector2 basePosition = Main.MouseWorld - Main.screenPosition + new Vector2(23, 23);
-                for(int i = 0; i < dorpItems.Count; i++) {
+                for (int i = 0; i < dorpItems.Count; i++) {
                     Item item = dorpItems[i];
                     string text = item.HoverName;
                     ChatManager.DrawColorCodedString(Main.spriteBatch, line.Font, text, basePosition + new Vector2(0, 22 * i + 66), Color.White, 0f, Vector2.Zero, Vector2.One * 0.9f);
-                } 
+                }
             }
             return true;
         }

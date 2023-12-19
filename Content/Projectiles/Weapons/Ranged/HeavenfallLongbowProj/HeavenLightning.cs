@@ -39,15 +39,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
 
         public virtual float LightningTurnRandomnessFactor { get; } = 2f;
         public override string Texture => "CalamityMod/Projectiles/LightningProj";
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.DrawScreenCheckFluff[Type] = 10000;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 50;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 22;
             Projectile.height = 22;
             Projectile.alpha = 255;
@@ -62,20 +60,17 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             Projectile.timeLeft = Projectile.MaxUpdates * Lifetime;
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
+        public override void SendExtraAI(BinaryWriter writer) {
             writer.Write(AccumulatedXMovementSpeeds);
             writer.Write(BranchingIteration);
         }
 
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
+        public override void ReceiveExtraAI(BinaryReader reader) {
             AccumulatedXMovementSpeeds = reader.ReadSingle();
             BranchingIteration = reader.ReadSingle();
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Projectile.frameCounter++;
             Projectile.oldPos[1] = Projectile.oldPos[0];
 
@@ -84,13 +79,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             Projectile.scale = Projectile.Opacity;
 
             Lighting.AddLight(Projectile.Center, Color.White.ToVector3());
-            if (Projectile.frameCounter >= Projectile.extraUpdates * 2)
-            {
+            if (Projectile.frameCounter >= Projectile.extraUpdates * 2) {
                 Projectile.frameCounter = 0;
             }
 
-            if (!CWRUtils.isServer)
-            {
+            if (!CWRUtils.isServer) {
                 Color outerSparkColor = chromaColor;
                 float scaleBoost = MathHelper.Clamp(Projectile.ai[1] * 0.005f, 0f, 2f);
                 float outerSparkScale = 1.3f + scaleBoost;
@@ -108,21 +101,18 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
 
         public float PrimitiveWidthFunction(float completionRatio) => CalamityUtils.Convert01To010(completionRatio) * Projectile.scale * Projectile.width;
 
-        public Color PrimitiveColorFunction(float completionRatio)
-        {
+        public Color PrimitiveColorFunction(float completionRatio) {
             float colorInterpolant = (float)Math.Sin(Projectile.identity / 3f + completionRatio * 20f + Main.GlobalTimeWrappedHourly * 1.1f) * 0.5f + 0.5f;
             Color color = CalamityUtils.MulticolorLerp(colorInterpolant, Color.Red, Color.Orange, Color.Yellow, Color.Green, Color.Blue, Color.Indigo, Color.Violet);
             return color;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             List<Vector2> checkPoints = Projectile.oldPos.Where(oldPos => oldPos != Vector2.Zero).ToList();
             if (checkPoints.Count <= 2)
                 return false;
 
-            for (int i = 0; i < checkPoints.Count - 1; i++)
-            {
+            for (int i = 0; i < checkPoints.Count - 1; i++) {
                 float _ = 0f;
                 float width = PrimitiveWidthFunction(i / (float)checkPoints.Count);
                 if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), checkPoints[i], checkPoints[i + 1], width * 0.8f, ref _))
@@ -131,8 +121,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             return false;
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             if (LightningDrawer is null)
                 LightningDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, PrimitiveTrail.RigidPointRetreivalFunction, GameShaders.Misc["CalamityMod:HeavenlyGaleLightningArc"]);
 

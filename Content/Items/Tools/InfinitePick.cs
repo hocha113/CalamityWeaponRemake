@@ -74,7 +74,7 @@ namespace CalamityWeaponRemake.Content.Items.Tools
                 Item.useAnimation = Item.useTime = 30;
             }
 
-            
+
             return base.UseItem(player);
         }
 

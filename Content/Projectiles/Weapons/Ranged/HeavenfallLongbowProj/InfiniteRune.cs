@@ -12,14 +12,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
         public new string LocalizationCategory => "Projectiles.Magic";
         public override string Texture => CWRConstant.Placeholder;
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 63;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 44;
             Projectile.height = 44;
             Projectile.tileCollide = false;
@@ -28,14 +26,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             Projectile.penetrate = -1;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Projectile.Explode(1600, spanSound: false);
             Projectile.Kill();
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             return false;
         }
     }

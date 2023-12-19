@@ -14,13 +14,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
         public override string Texture => CWRConstant.Projectile + "RayBeam";
         private Player Owner => Main.player[Projectile.owner];
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.DrawScreenCheckFluff[Type] = 5000;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 32;
             Projectile.height = 32;
             Projectile.scale = 1;
@@ -40,28 +38,23 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
         private Vector2 targetPos = Vector2.Zero;
         private Vector2 newTargetPos = Vector2.Zero;
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
+        public override void SendExtraAI(BinaryWriter writer) {
             writer.Write(targetPos.X);
             writer.Write(targetPos.Y);
         }
 
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
+        public override void ReceiveExtraAI(BinaryReader reader) {
             targetPos.X = reader.ReadSingle();
             targetPos.Y = reader.ReadSingle();
         }
 
-        public override void AI()
-        {
-            if (!Owner.Alives())
-            {
+        public override void AI() {
+            if (!Owner.Alives()) {
                 Projectile.Kill();
                 return;
             }
             Vector2 offsetToVr = (MathHelper.ToRadians(Time * 7) + MathHelper.TwoPi / 5f * Projectile.localAI[1]).ToRotationVector2();
-            if (Projectile.IsOwnedByLocalPlayer())
-            {
+            if (Projectile.IsOwnedByLocalPlayer()) {
                 float wit = Projectile.Center.To(Main.MouseWorld).Length() / 10;
                 if (wit > 64) wit = 64;
                 targetPos = Main.MouseWorld + offsetToVr * wit;
@@ -80,8 +73,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Time++;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             float point = 0f;
             return Collision.CheckAABBvLineCollision(
                         targetHitbox.TopLeft(),
@@ -93,15 +85,13 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                     );
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D body = CWRUtils.GetT2DValue(Texture + "Body");
             Texture2D head = CWRUtils.GetT2DValue(Texture + "Head");
             Texture2D dons = CWRUtils.GetT2DValue(Texture + "Don");
             Color color = Color.White;
             float lerps = MathF.Sin(MathHelper.ToRadians(Time * Status));
-            switch (Status)
-            {
+            switch (Status) {
                 case 0:
                     color = Color.Lerp(new Color(255, 127, 80), Color.White, lerps);
                     break;

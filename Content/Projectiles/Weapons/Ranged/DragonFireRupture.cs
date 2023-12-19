@@ -13,8 +13,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
     {
         public override string Texture => CWRConstant.Projectile_Ranged + "FireCrossburst";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 40;
             Projectile.height = 40;
             Projectile.damage = 100;
@@ -34,50 +33,40 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
         public int ThisTimeValue { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
 
         bool upPos = false;
-        public override bool ShouldUpdatePosition()
-        {
+        public override bool ShouldUpdatePosition() {
             return upPos;
         }
 
         List<Vector2> randomOffsetVr = new List<Vector2>();
-        public override void OnSpawn(IEntitySource source)
-        {
+        public override void OnSpawn(IEntitySource source) {
             Behavior++;
             Projectile.rotation = Projectile.velocity.ToRotation();
             Projectile.localAI[2] = Projectile.velocity.Length();
 
-            if (!Main.dedServ)
-            {
+            if (!Main.dedServ) {
                 Projectile.frameCounter += Main.rand.Next(6);
-                for (int i = 0; i < 6; i++)
-                {
+                for (int i = 0; i < 6; i++) {
                     randomOffsetVr.Add(CWRUtils.GetRandomVevtor(0, 360, Main.rand.NextFloat(16, 80)));
                 }
-                for (int i = 0; i < 6; i++)
-                {
+                for (int i = 0; i < 6; i++) {
                     Vector2 spanPos = randomOffsetVr[i] + Projectile.Center;
                     ncbs.Add(new ncb(spanPos, Main.rand.Next(6)));
                 }
             }
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             ThisTimeValue++;
             NPC target = Projectile.Center.InPosClosestNPC(360);
 
-            if (target != null)
-            {
+            if (target != null) {
                 Vector2 toTarget = Projectile.Center.To(target.Center);
                 Projectile.EntityToRot(toTarget.ToRotation(), 0.1f);
             }
 
-            if (Status == 0)
-            {
-                if (ThisTimeValue > 5)
-                {
-                    if (Behavior < 12 && Projectile.IsOwnedByLocalPlayer())
-                    {
+            if (Status == 0) {
+                if (ThisTimeValue > 5) {
+                    if (Behavior < 12 && Projectile.IsOwnedByLocalPlayer()) {
                         Vector2 spanPos = Projectile.Center + Projectile.rotation.ToRotationVector2() * 160;
                         Projectile.NewProjectile(
                             Projectile.parent(),
@@ -94,8 +83,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
                 }
 
             }
-            if (Status == 1)
-            {
+            if (Status == 1) {
                 upPos = true;
                 Projectile.velocity = Projectile.rotation.ToRotationVector2() * Projectile.localAI[2];
                 Projectile.localAI[2] *= 0.98f;
@@ -104,14 +92,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             Lighting.AddLight(Projectile.Center, Color.Gold.ToVector3() * 3);
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             return CWRUtils.CircularHitboxCollision(Projectile.Center, 72, targetHitbox);
         }
 
         int dorFireType => ModContent.BuffType<Dragonfire>();
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
             Projectile.damage -= 15;
             Projectile.timeLeft -= 10;
             Projectile.localNPCHitCooldown += 10;
@@ -119,8 +105,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             base.OnHitNPC(target, hit, damageDone);
         }
 
-        public override void OnHitPlayer(Player target, Player.HurtInfo info)
-        {
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) {
             Projectile.damage -= 55;
             Projectile.timeLeft -= 15;
             Projectile.localNPCHitCooldown += 30;
@@ -133,8 +118,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             public Vector2 pos;
             public int frame;
 
-            public ncb(Vector2 overPos, int overFrame)
-            {
+            public ncb(Vector2 overPos, int overFrame) {
                 pos = overPos;
                 frame = overFrame;
             }
@@ -142,14 +126,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
 
         List<ncb> ncbs = new List<ncb>();
 
-        public override void PostDraw(Color lightColor)
-        {
+        public override void PostDraw(Color lightColor) {
             CWRUtils.ClockFrame(ref Projectile.frameCounter, 4, 6);
 
-            for (int i = 0; i < 6; i++)
-            {
-                if (i >= 0 && i < ncbs.Count)
-                {
+            for (int i = 0; i < 6; i++) {
+                if (i >= 0 && i < ncbs.Count) {
                     ncb _ncb = ncbs[i];
                     CWRUtils.ClockFrame(ref _ncb.frame, 4, 6);
                     _ncb.pos = Projectile.Center + randomOffsetVr[i];
@@ -158,8 +139,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             float slp = Projectile.timeLeft / 60f;
             if (slp > 1) slp = 1;
@@ -176,10 +156,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
                 0
                 );
 
-            for (int j = 0; j < 6; j++)
-            {
-                if (j >= 0 && j < ncbs.Count)
-                {
+            for (int j = 0; j < 6; j++) {
+                if (j >= 0 && j < ncbs.Count) {
                     ncb _ncb = ncbs[j];
                     Main.EntitySpriteDraw(
                     mainValue,

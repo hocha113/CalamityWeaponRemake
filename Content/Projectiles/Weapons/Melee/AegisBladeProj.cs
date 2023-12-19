@@ -15,14 +15,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
     {
         public override string Texture => CWRConstant.Cay_Wap_Melee + "AegisBlade";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 13;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 32;
             Projectile.height = 32;
             Projectile.friendly = true;
@@ -33,29 +31,24 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Projectile.timeLeft = 600;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             if (Projectile.ai[1] != 1)
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
-            if (Projectile.ai[0] == 0)
-            {
+            if (Projectile.ai[0] == 0) {
                 Projectile.velocity = new Vector2(0, -12);
             }
-            if (Projectile.ai[1] == 0)
-            {
+            if (Projectile.ai[1] == 0) {
                 Projectile.scale += 0.01f;
                 Projectile.velocity *= 0.97f;
                 Projectile.position += Main.player[Projectile.owner].velocity;
-                if (Projectile.velocity.LengthSquared() < 9)
-                {
+                if (Projectile.velocity.LengthSquared() < 9) {
                     Projectile.ai[1] = 1;
                     Projectile.ai[0] = 1;
                     Projectile.netUpdate = true;
                 }
             }
-            if (Projectile.ai[1] == 1)
-            {
-                if (Projectile.scale < 3){
+            if (Projectile.ai[1] == 1) {
+                if (Projectile.scale < 3) {
                     Projectile.scale += 0.02f;
                     if (!CWRUtils.isServer) {
                         for (int i = 0; i < 6; i++) {
@@ -79,7 +72,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                         }
                     }
                 }
-                
+
                 Projectile.velocity = Vector2.Zero;
                 Projectile.damage += 35;
                 Projectile.rotation += 0.2f;
@@ -90,23 +83,19 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                         Projectile.ai[0] = 55;
                     }
                 }
-                if (Projectile.ai[0] > 60 || !Main.player[Projectile.owner].PressKey(false))
-                {
+                if (Projectile.ai[0] > 60 || !Main.player[Projectile.owner].PressKey(false)) {
                     Projectile.ai[1] = 2;
                     Projectile.netUpdate = true;
                 }
             }
-            if (Projectile.ai[1] == 2)
-            {
+            if (Projectile.ai[1] == 2) {
                 NPC npc = Projectile.Center.InPosClosestNPC(6000);
-                if (npc != null)
-                {
+                if (npc != null) {
                     Projectile.ChasingBehavior(npc.Center, 56);
                     Projectile.penetrate = 1;
                     Projectile.netUpdate = true;
                 }
-                else
-                {
+                else {
                     Projectile.Kill();
                 }
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
@@ -114,14 +103,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Projectile.ai[0]++;
         }
 
-        public override void OnKill(int timeLeft)
-        {
+        public override void OnKill(int timeLeft) {
             Projectile.damage = Projectile.originalDamage;
             Projectile.Explode(1200);
-            if (!CWRUtils.isServer)
-            {
-                for (int i = 0; i < 156; i++)
-                {
+            if (!CWRUtils.isServer) {
+                for (int i = 0; i < 156; i++) {
                     Vector2 pos = Projectile.Center;
                     Vector2 particleSpeed = Main.rand.NextVector2Unit() * Main.rand.Next(13, 34);
                     CWRParticle energyLeak = new LightParticle(pos, particleSpeed
@@ -129,25 +115,20 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                     CWRParticleHandler.SpawnParticle(energyLeak);
                 }
             }
-            if (Projectile.IsOwnedByLocalPlayer())
-            {
-                for (int i = 0; i < 12; i++)
-                {
+            if (Projectile.IsOwnedByLocalPlayer()) {
+                for (int i = 0; i < 12; i++) {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + velocity.UnitVector() * 13, velocity, ModContent.ProjectileType<AegisFlame>(), (int)(Projectile.damage * 0.5), 0f, Projectile.owner, 0f, 0f);
                 }
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D value = CWRUtils.GetT2DValue(Texture);
             Main.EntitySpriteDraw(value, Projectile.Center - Main.screenPosition, null, Color.White
                 , Projectile.rotation, value.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
-            if (Projectile.ai[1] == 2)
-            {
-                for (int i = 0; i < Projectile.oldPos.Length; i++)
-                {
+            if (Projectile.ai[1] == 2) {
+                for (int i = 0; i < Projectile.oldPos.Length; i++) {
                     Main.EntitySpriteDraw(value, Projectile.oldPos[i] - Main.screenPosition + Projectile.Size / 2, null, Color.White * (1 - i * 0.1f)
                     , Projectile.rotation, value.Size() / 2, Projectile.scale - i * 0.1f, SpriteEffects.None, 0);
                 }

@@ -23,13 +23,11 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
 
         NPC body => CWRUtils.GetNPCInstance((int)NPC.ai[2]);
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             this.HideFromBestiary();
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             NPC.aiStyle = -1;
             NPC.damage = 50;
             NPC.width = 80;
@@ -47,13 +45,11 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             NPC.alpha = 255;
             NPC.HitSound = RavagerBody.HitSound;
             NPC.DeathSound = null;
-            if (DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive)
-            {
+            if (DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive) {
                 NPC.defense *= 2;
                 NPC.lifeMax *= 4;
             }
-            if (BossRushEvent.BossRushActive)
-            {
+            if (BossRushEvent.BossRushActive) {
                 NPC.lifeMax = 45000;
             }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
@@ -62,10 +58,8 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
             NPC.Calamity().VulnerableToWater = true;
         }
 
-        public override void AI()
-        {
-            if (body == null)
-            {
+        public override void AI() {
+            if (body == null) {
                 NPC.active = false;
                 NPC.life = 0;
                 NPC.checkDead();
@@ -83,16 +77,14 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
 
             NPC.Center = body.Center + new Vector2(1f, -20f);
 
-            if (NPC.alpha > 0)
-            {
+            if (NPC.alpha > 0) {
                 NPC.alpha -= 10;
                 if (NPC.alpha < 0)
                     NPC.alpha = 0;
             }
 
             NPC.ai[1] += 1f;
-            if (NPC.ai[1] >= (death ? 420f : 480f))
-            {
+            if (NPC.ai[1] >= (death ? 420f : 480f)) {
                 SoundEngine.PlaySound(MissileSound, NPC.Center);
 
                 // Get a target
@@ -106,8 +98,7 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
                 NPC.ai[1] = 0f;
                 int type = ModContent.ProjectileType<ScavengerNuke>();
                 int damage = NPC.GetProjectileDamage(type);
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
+                if (Main.netMode != NetmodeID.MultiplayerClient) {
                     Vector2 shootFromVector = new Vector2(NPC.Center.X, NPC.Center.Y - 20f);
                     Vector2 velocity = new Vector2(0f, -15f);
                     int nuke = Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFromVector, velocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, NPC.target, 0f);
@@ -118,33 +109,27 @@ namespace CalamityWeaponRemake.Content.NPCs.RavagerAs
 
         public override bool CheckActive() => false;
 
-        public override void HitEffect(NPC.HitInfo hit)
-        {
-            if (body == null)
-            {
+        public override void HitEffect(NPC.HitInfo hit) {
+            if (body == null) {
                 NPC.active = false;
                 NPC.life = 0;
                 NPC.checkDead();
                 return;
             }
 
-            if (NPC.life > 0)
-            {
+            if (NPC.life > 0) {
                 int num285 = 0;
-                while ((double)num285 < hit.Damage / (double)NPC.lifeMax * 100.0)
-                {
+                while ((double)num285 < hit.Damage / (double)NPC.lifeMax * 100.0) {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, (float)hit.HitDirection, -1f, 0, default, 1f);
                     num285++;
                 }
             }
-            else if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
+            else if (Main.netMode != NetmodeID.MultiplayerClient) {
                 NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.position.Y + NPC.height, ModContent.NPCType<RavagerAHead2>(), NPC.whoAmI, ai2: body.whoAmI);
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
-        {
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) {
             return false;
         }
     }

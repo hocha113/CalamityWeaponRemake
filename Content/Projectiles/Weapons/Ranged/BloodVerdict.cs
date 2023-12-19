@@ -16,14 +16,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
         public Vector2 offsetVr;
         public Vector2[] effusionDirection;
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 30;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 14;
             Projectile.height = 14;
             Projectile.friendly = true;
@@ -31,27 +29,22 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             Projectile.penetrate = -1;
         }
 
-        public override void AI()
-        {
-            if (Projectile.ai[2] == 0)
-            {
+        public override void AI() {
+            if (Projectile.ai[2] == 0) {
                 NPC npc = CWRUtils.GetNPCInstance((int)Fuerrs);
-                if (npc == null || effusionDirection == null)
-                {
+                if (npc == null || effusionDirection == null) {
                     Projectile.Kill();
                     return;
                 }
 
                 Projectile.Center = npc.position + offsetVr;
-                if (Time % 5 == 0 && Projectile.IsOwnedByLocalPlayer())
-                {
+                if (Time % 5 == 0 && Projectile.IsOwnedByLocalPlayer()) {
                     int num = Main.player[Projectile.owner].ownedProjectileCounts[Type];
                     int projTime = 35 - num / 10;
                     if (projTime < 5)
                         projTime = 5;
 
-                    for (int i = 0; i < 3; i++)
-                    {
+                    for (int i = 0; i < 3; i++) {
                         Vector2 vr = effusionDirection[i];
                         int proj = Projectile.NewProjectile(
                             Projectile.parent(),
@@ -70,8 +63,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
                     }
                 }
             }
-            if (Projectile.ai[2] == 1)
-            {
+            if (Projectile.ai[2] == 1) {
                 Projectile.velocity.Y += 0.5f;
                 //for(int i = 0; i < Projectile.oldPos.Length; i++)
                 //{
@@ -84,18 +76,15 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             Time++;
         }
 
-        public override bool? CanHitNPC(NPC target)
-        {
+        public override bool? CanHitNPC(NPC target) {
             return Main.rand.NextBool(26);
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             return Projectile.ai[2] == 0 ? false : null;
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             return false;
         }
     }

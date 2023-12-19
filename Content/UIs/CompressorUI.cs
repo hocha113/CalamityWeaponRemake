@@ -19,28 +19,23 @@ namespace CalamityWeaponRemake.Content.UIs
 
         public Rectangle FinishedSlot;
 
-        public void Load()
-        {
+        public void Load() {
             instance = this;
         }
 
-        public void Initialize()
-        {
-            if (DrawPos == Vector2.Zero)
-            {
+        public void Initialize() {
+            if (DrawPos == Vector2.Zero) {
                 DrawPos = new Vector2(Main.screenWidth - Panel.Width, Main.screenHeight - Panel.Height + 130) / 2;
                 MaterialSlotRec = new Rectangle((int)(DrawPos.X + 38), (int)(DrawPos.Y + 34), 18, 18);
                 FinishedSlot = new Rectangle((int)(DrawPos.X + 113), (int)(DrawPos.Y + 31), 26, 26);
             }
         }
 
-        public void Update()
-        {
+        public void Update() {
             Initialize();
         }
 
-        public void Draw(SpriteBatch spriteBatch)
-        {
+        public void Draw(SpriteBatch spriteBatch) {
             if (Panel == null) {
                 Panel = CWRUtils.GetT2DValue("CalamityWeaponRemake/Assets/UIs/CompressorPanel", true);
                 Bar = CWRUtils.GetT2DValue("CalamityWeaponRemake/Assets/UIs/CompressorBar", true);

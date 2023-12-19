@@ -20,8 +20,7 @@ namespace CalamityWeaponRemake.Content.Particles
         private float opacity;
         private Color BaseColor;
 
-        public StarPulseRing(Vector2 position, Vector2 velocity, Color color, float originalScale, float finalScale, int lifeTime)
-        {
+        public StarPulseRing(Vector2 position, Vector2 velocity, Color color, float originalScale, float finalScale, int lifeTime) {
             Position = position;
             Velocity = velocity;
             BaseColor = color;
@@ -32,8 +31,7 @@ namespace CalamityWeaponRemake.Content.Particles
             Rotation = Main.rand.NextFloat(MathHelper.TwoPi);
         }
 
-        public override void Update()
-        {
+        public override void Update() {
             float pulseProgress = PiecewiseAnimation(LifetimeCompletion, new CurveSegment[] { new CurveSegment(EasingType.PolyOut, 0f, 0f, 1f, 4) });
             Scale = MathHelper.Lerp(OriginalScale, FinalScale, pulseProgress);
 
@@ -43,8 +41,7 @@ namespace CalamityWeaponRemake.Content.Particles
             Velocity *= 0.95f;
         }
 
-        public override void CustomDraw(SpriteBatch spriteBatch)
-        {
+        public override void CustomDraw(SpriteBatch spriteBatch) {
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 pos = Position - Main.screenPosition;
             spriteBatch.Draw(tex, pos, null, Color * opacity, Rotation, tex.Size() / 2f, Scale, SpriteEffects.None, 0);
@@ -56,10 +53,9 @@ namespace CalamityWeaponRemake.Content.Particles
             spriteBatch.Draw(star, pos, null, Color, 0, star.Size() / 2f, Scale * 3, SpriteEffects.None, 0);
         }
 
-        public override void CustomDraw(SpriteBatch spriteBatch, Vector2 basePosition)
-        {
+        public override void CustomDraw(SpriteBatch spriteBatch, Vector2 basePosition) {
             Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Particles/HollowCircleHardEdge").Value;
-            
+
         }
     }
 }

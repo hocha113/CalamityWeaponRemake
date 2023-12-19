@@ -20,8 +20,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Magic
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.damage = 56;
             item.DamageType = DamageClass.Magic;
             item.mana = 20;
@@ -41,13 +40,11 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Magic
             item.rare = ModContent.RarityType<PureGreen>();
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "FatesReveal");
         }
 
-        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             if (player.ownedProjectileCounts[ModContent.ProjectileType<FatesRevealHeldProj>()] <= 0)
                 Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<FatesRevealHeldProj>(), damage, knockback, player.whoAmI);
             return false;

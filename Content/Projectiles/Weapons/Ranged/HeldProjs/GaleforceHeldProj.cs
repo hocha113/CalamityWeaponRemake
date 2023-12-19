@@ -16,8 +16,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
     {
         public override string Texture => CWRConstant.Cay_Wap_Ranged + "Galeforce";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 32;
             Projectile.height = 32;
             Projectile.scale = 1;
@@ -38,33 +37,27 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
         private Vector2 toMou = Vector2.Zero;
         private Item galeforce => Owner.HeldItem;
 
-        public override bool ShouldUpdatePosition()
-        {
+        public override bool ShouldUpdatePosition() {
             return false;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             if (!Owner.Alives() || galeforce.type != ModContent.ItemType<Items.Ranged.Galeforce>()
-                && galeforce.type != ModContent.ItemType<CalamityMod.Items.Weapons.Ranged.Galeforce>())
-            {
+                && galeforce.type != ModContent.ItemType<CalamityMod.Items.Weapons.Ranged.Galeforce>()) {
                 Projectile.Kill();
                 return;
             }
 
             Projectile.Center = Owner.Center + toMou.UnitVector() * 13;
-            if (Projectile.IsOwnedByLocalPlayer())
-            {
+            if (Projectile.IsOwnedByLocalPlayer()) {
                 StickToOwner();
                 SpanProj();
             }
             Time++;
         }
 
-        public void StickToOwner()
-        {
-            if (Owner.PressKey() || Owner.PressKey(false))
-            {
+        public void StickToOwner() {
+            if (Owner.PressKey() || Owner.PressKey(false)) {
                 toMou = Owner.Center.To(Main.MouseWorld);
                 Projectile.rotation = toMou.ToRotation();
                 Owner.SetDummyItemTime(2);
@@ -76,8 +69,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
             Owner.heldProj = Projectile.whoAmI;
         }
 
-        public void SpanProj()
-        {
+        public void SpanProj() {
             Vector2 vr = Projectile.rotation.ToRotationVector2() * galeforce.shootSpeed;
             bool fire = Time % galeforce.useTime == 0;
             int ArrowTypes = ProjectileID.WoodenArrowFriendly;
@@ -86,12 +78,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
             float weaponKnockback2 = Owner.ActiveItem().knockBack;
             bool haveAmmo = Owner.PickAmmo(Owner.ActiveItem(), out ArrowTypes, out scaleFactor11, out weaponDamage2, out weaponKnockback2, out _, !fire);
             weaponKnockback2 = Owner.GetWeaponKnockback(Owner.ActiveItem(), weaponKnockback2);
-            if (haveAmmo)
-            {
-                if (Owner.altFunctionUse == 2)
-                {
-                    if (Time % 5 == 0)
-                    {
+            if (haveAmmo) {
+                if (Owner.altFunctionUse == 2) {
+                    if (Time % 5 == 0) {
                         SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);
                         vr *= 0.5f;
                         int ammo = Projectile.NewProjectile(
@@ -105,10 +94,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
                                     );
                     }
                 }
-                else
-                {
-                    if (fire)
-                    {
+                else {
+                    if (fire) {
                         SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);
                         Projectile.NewProjectile(
                                     Owner.parent(),
@@ -120,8 +107,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
                                     Projectile.owner
                                     );
 
-                        for (int i = -8; i <= 8; i += 8)
-                        {
+                        for (int i = -8; i <= 8; i += 8) {
                             Vector2 velocity2 = vr.RotatedBy(MathHelper.ToRadians(i));
                             Projectile.NewProjectile(Owner.parent()
                                 , Projectile.Center, velocity2, ModContent.ProjectileType<FeatherLarge>()
@@ -133,13 +119,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
 
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             return false;
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             if (Owner == null) return false;
 
             SpriteEffects spriteEffects = toMou.X > 0 ? SpriteEffects.None : SpriteEffects.FlipVertically;

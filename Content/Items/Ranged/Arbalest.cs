@@ -23,13 +23,11 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
 
         public override string Texture => CWRConstant.Cay_Wap_Ranged + "Arbalest";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.damage = 28;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 82;
@@ -50,40 +48,33 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override void ModifyWeaponCrit(Player player, ref float crit)
-        {
+        public override void ModifyWeaponCrit(Player player, ref float crit) {
             crit += 20f;
         }
 
-        public override void HoldItem(Player player)
-        {
+        public override void HoldItem(Player player) {
             Item.initialize();
             Projectile heldProj = CWRUtils.GetProjectileInstance((int)Item.CWR().ai[0]);
-            if (heldProj != null && heldProj.type == ModContent.ProjectileType<ArbalestHeldProj>())
-            {
+            if (heldProj != null && heldProj.type == ModContent.ProjectileType<ArbalestHeldProj>()) {
                 heldProj.localAI[1] = Item.CWR().ai[1];
             }
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             Item.initialize();
             Item.CWR().ai[1] = type;
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<ArbalestHeldProj>()] <= 0)
-            {
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<ArbalestHeldProj>()] <= 0) {
                 Item.CWR().ai[0] = Projectile.NewProjectile(source, position, Vector2.Zero
                 , ModContent.ProjectileType<ArbalestHeldProj>()
                 , damage, knockback, player.whoAmI);
-                if (player.altFunctionUse == 2)
-                {
+                if (player.altFunctionUse == 2) {
                     Main.projectile[(int)Item.CWR().ai[0]].ai[0] = 1;
                 }
             }
             return false;
         }
 
-        public override bool AltFunctionUse(Player player)
-        {
+        public override bool AltFunctionUse(Player player) {
             return true;
         }
     }

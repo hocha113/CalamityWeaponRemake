@@ -26,14 +26,12 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ItemID.Sets.Spears[TargetID] = true;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[TargetID] = true;
         }
 
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.width = 120;
             item.damage = 220;
             item.noMelee = true;
@@ -53,21 +51,18 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             item.rare = ModContent.RarityType<PureGreen>();
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "BansheeHook");
         }
 
-        public override bool? AltFunctionUse(Item item, Player player)
-        {
+        public override bool? AltFunctionUse(Item item, Player player) {
             if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.BansheeHook>(item))
                 return true;
             return base.AltFunctionUse(item, player);
         }
 
         public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source
-            , Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+            , Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             float num82 = Main.mouseX + Main.screenPosition.X - position.X;
             float num83 = Main.mouseY + Main.screenPosition.Y - position.Y;
             if (player.gravDir == -1f) {

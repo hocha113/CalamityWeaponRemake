@@ -21,8 +21,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.width = 46;
             item.height = 62;
             item.scale = 1.5f;
@@ -41,8 +40,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             item.shootSpeed = 9f;
         }
 
-        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             float num116 = item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, reverseRotation: true);
             float num117 = Main.mouseX + Main.screenPosition.X - vector2.X;
@@ -86,16 +84,13 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             return null;
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
-            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.CometQuasher>(item))
-            {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
+            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.CometQuasher>(item)) {
                 CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "CometQuasher");
             }
         }
 
-        public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone) {
             for (int i = 0; i < 3; i++) {
                 Vector2 offsetVr = CWRUtils.GetRandomVevtor(-75, -105, Main.rand.Next(500, 600));
                 Vector2 spanPos = target.Center + offsetVr;

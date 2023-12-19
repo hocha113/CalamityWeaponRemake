@@ -20,15 +20,13 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         public const int AuraBaseDamage = 100;
         public const int AuraMaxDamage = 220;
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ItemID.Sets.Yoyo[Item.type] = true;
             ItemID.Sets.GamepadExtraRange[Item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.width = 58;
             Item.height = 50;
             Item.DamageType = DamageClass.MeleeNoSpeed;

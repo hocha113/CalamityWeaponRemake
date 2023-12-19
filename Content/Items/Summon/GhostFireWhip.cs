@@ -9,14 +9,12 @@ namespace CalamityWeaponRemake.Content.Items.Summon
     {
         public override string Texture => CWRConstant.Item_Summon + "GhostFireWhip";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.DefaultToWhip(ModContent.ProjectileType<GhostFireWhipProjectile>(), 522, 1, 12, 30);
             Item.rare = ItemRarityID.Purple;
         }
 
-        public override bool MeleePrefix()
-        {
+        public override bool MeleePrefix() {
             return true;
         }
     }

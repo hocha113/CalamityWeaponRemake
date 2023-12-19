@@ -13,8 +13,7 @@ namespace CalamityWeaponRemake.Content.Items.Placeable
     {
         public override string Texture => CWRConstant.Asset + "Items/Placeable/" + "TransmutationOfMatterItem";
         public new string LocalizationCategory => "Items.Placeables";
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.width = 26;
             Item.height = 26;
             Item.maxStack = 1;
@@ -29,8 +28,7 @@ namespace CalamityWeaponRemake.Content.Items.Placeable
             Item.value = Terraria.Item.buyPrice(gold: 16);
         }
 
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             CreateRecipe()
                 .AddIngredient<ShadowspecBar>(25)
                 .AddIngredient<DraedonsForge>()

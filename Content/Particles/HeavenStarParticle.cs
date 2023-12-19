@@ -26,8 +26,7 @@ namespace CalamityWeaponRemake.Content.Particles
         private int SpawnDelay;
         private float RotationalSpeed;
 
-        public HeavenStarParticle(Vector2 position, Vector2 velocity, Color color, Color bloom, float angle, Vector2 scale, Vector2 finalScale, int lifeTime, float rotationSpeed = 0f, float bloomScale = 1f, float hueShift = 0f, int spawnDelay = 0, float rotationalSpeed = 0)
-        {
+        public HeavenStarParticle(Vector2 position, Vector2 velocity, Color color, Color bloom, float angle, Vector2 scale, Vector2 finalScale, int lifeTime, float rotationSpeed = 0f, float bloomScale = 1f, float hueShift = 0f, int spawnDelay = 0, float rotationalSpeed = 0) {
             Position = position;
             Velocity = velocity;
             Color = color;
@@ -46,10 +45,8 @@ namespace CalamityWeaponRemake.Content.Particles
             RotationalSpeed = rotationalSpeed;
         }
 
-        public override void Update()
-        {
-            if (SpawnDelay > 0)
-            {
+        public override void Update() {
+            if (SpawnDelay > 0) {
                 Time--;
                 Position -= Velocity;
                 SpawnDelay--;
@@ -67,8 +64,7 @@ namespace CalamityWeaponRemake.Content.Particles
             Lighting.AddLight(Position, LightColor.R / 255f, LightColor.G / 255f, LightColor.B / 255f);
         }
 
-        public override void CustomDraw(SpriteBatch spriteBatch)
-        {
+        public override void CustomDraw(SpriteBatch spriteBatch) {
             if (SpawnDelay > 0)
                 return;
             Texture2D sparkTexture = ModContent.Request<Texture2D>(Texture).Value;

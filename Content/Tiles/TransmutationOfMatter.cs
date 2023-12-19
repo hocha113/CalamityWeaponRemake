@@ -19,6 +19,8 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Items.Materials;
 using FTile = CalamityMod.Items.Placeables.Furniture.CraftingStations;
 using System.Collections.Generic;
+using CalamityWeaponRemake.Content.TileEntitys;
+using CalamityWeaponRemake.Content.UIs.SupertableUIs;
 
 namespace CalamityWeaponRemake.Content.Tiles
 {
@@ -31,8 +33,7 @@ namespace CalamityWeaponRemake.Content.Tiles
         public const int OriginOffsetY = 1;
         public const int SheetSquare = 18;
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -45,7 +46,9 @@ namespace CalamityWeaponRemake.Content.Tiles
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
             TileObjectData.newTile.LavaDeath = false;
-
+            ModTileEntity te = ModContent.GetInstance<TransmutationOfMatterEntity>();
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(te.Hook_AfterPlacement, -1, 0, true);
+            TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(67, 72, 81), CalamityUtils.GetItemName<TransmutationOfMatterItem>());
             AnimationFrameHeight = 68;
@@ -78,8 +81,7 @@ namespace CalamityWeaponRemake.Content.Tiles
 
         public override bool CanExplode(int i, int j) => false;
 
-        public override bool CreateDust(int i, int j, ref int type)
-        {
+        public override bool CreateDust(int i, int j, ref int type) {
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, DustID.Electric);
             return false;
         }
@@ -88,15 +90,19 @@ namespace CalamityWeaponRemake.Content.Tiles
 
         public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 
-        public override bool RightClick(int i, int j)
-        {
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) {
+            SupertableUI.instance.Active = false;
+            ModContent.GetInstance<TransmutationOfMatterEntity>().Kill(i, j);
+        }
+
+        public override bool RightClick(int i, int j) {
+            SupertableUI.instance.Active = !SupertableUI.instance.Active;
             Recipe.FindRecipes();
             return true;
         }
 
         int frameIndex = 1;
-        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
-        {
+        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch) {
             Tile t = Main.tile[i, j];
             int frameXPos = t.TileFrameX;
             int frameYPos = t.TileFrameY;

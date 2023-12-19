@@ -28,13 +28,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
 
         public float SwingCompletionAtStartOfTrail => MathHelper.Clamp(SwingCompletion - 0.2f, SwingCompletionRatio, 1f);
 
-        public float SwordRotation
-        {
-            get
-            {
+        public float SwordRotation {
+            get {
                 float num = InitialRotation + GetSwingOffsetAngle(SwingCompletion) * Projectile.spriteDirection + MathF.PI / 4f;
-                if (Projectile.spriteDirection == -1)
-                {
+                if (Projectile.spriteDirection == -1) {
                     num += MathF.PI / 2f;
                 }
 
@@ -62,19 +59,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
 
         public override string Texture => CWRConstant.Item_Melee + "Terratomere";
 
-        public static float GetSwingOffsetAngle(float completion)
-        {
+        public static float GetSwingOffsetAngle(float completion) {
             return CalamityUtils.PiecewiseAnimation(completion, AnticipationWait, Anticipation, Swing, Recovery);
         }
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailingMode[Type] = 2;
             ProjectileID.Sets.TrailCacheLength[Type] = 100;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 60;
             Projectile.height = 66;
             Projectile.friendly = true;
@@ -89,15 +83,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             Projectile.noEnchantmentVisuals = true;
         }
 
-        public override bool ShouldUpdatePosition()
-        {
+        public override bool ShouldUpdatePosition() {
             return false;
         }
 
-        public override void AI()
-        {
-            if (InitialRotation == 0f)
-            {
+        public override void AI() {
+            if (InitialRotation == 0f) {
                 InitialRotation = Projectile.velocity.ToRotation();
                 Projectile.netUpdate = true;
             }
@@ -106,8 +97,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             AdjustPlayerValues();
             StickToOwner();
             CreateProjectiles();
-            if (SwingCompletion > SwingCompletionRatio + 0.2f && SwingCompletion < RecoveryCompletionRatio)
-            {
+            if (SwingCompletion > SwingCompletionRatio + 0.2f && SwingCompletion < RecoveryCompletionRatio) {
                 CreateSlashSparkleDust();
             }
 
@@ -115,8 +105,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             Time += 1f;
         }
 
-        public void AdjustPlayerValues()
-        {
+        public void AdjustPlayerValues() {
             Projectile.spriteDirection = Projectile.direction = Direction;
             Owner.heldProj = Projectile.whoAmI;
             Owner.itemTime = 2;
@@ -126,52 +115,43 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             Owner.SetCompositeArmFront(Math.Abs(num) > 0.01f, Player.CompositeArmStretchAmount.Full, num);
         }
 
-        public void StickToOwner()
-        {
+        public void StickToOwner() {
             Projectile.Center = Owner.Center;
             Owner.heldProj = Projectile.whoAmI;
             Owner.SetDummyItemTime(2);
             Owner.direction = Direction;
         }
 
-        public void CreateProjectiles()
-        {
-            if (Time == (int)(83f * (SwingCompletionRatio + 0.15f)))
-            {
+        public void CreateProjectiles() {
+            if (Time == (int)(83f * (SwingCompletionRatio + 0.15f))) {
                 SoundEngine.PlaySound(in Terratomere.SwingSound, Projectile.Center);
             }
 
-            if (Main.myPlayer == Projectile.owner && Time == (int)(83f * (SwingCompletionRatio + 0.34f)))
-            {
+            if (Main.myPlayer == Projectile.owner && Time == (int)(83f * (SwingCompletionRatio + 0.34f))) {
                 Vector2 vector = Projectile.SafeDirectionTo(Main.MouseWorld) * Owner.ActiveItem().shootSpeed;
-                if (vector.AngleBetween(InitialRotation.ToRotationVector2()) > 1.456f)
-                {
+                if (vector.AngleBetween(InitialRotation.ToRotationVector2()) > 1.456f) {
                     vector = InitialRotation.ToRotationVector2() * vector.Length();
                 }
 
-                for (int i = 0; i < 3; i++)
-                {
+                for (int i = 0; i < 3; i++) {
                     Vector2 vr = Owner.Center.To(Main.MouseWorld).UnitVector().RotatedBy(MathHelper.ToRadians(-10 + 10 * i));
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - vector * 0.4f, vr * 15,
                         ModContent.ProjectileType<TerratomereBolts>(), (int)(Projectile.damage * 0.4f), Projectile.knockBack, Projectile.owner);
                 }
             }
 
-            if (Main.myPlayer == Projectile.owner && Time == (int)(83f * RecoveryCompletionRatio) + 5f)
-            {
+            if (Main.myPlayer == Projectile.owner && Time == (int)(83f * RecoveryCompletionRatio) + 5f) {
                 Vector2 vector2 = InitialRotation.ToRotationVector2() * Owner.ActiveItem().shootSpeed / 6f;
                 Vector2 position = Projectile.Center + vector2.SafeNormalize(Vector2.UnitY) * 64f;
                 int num = Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, vector2, ModContent.ProjectileType<TerratomereBeams>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                if (Main.projectile.IndexInRange(num))
-                {
+                if (Main.projectile.IndexInRange(num)) {
                     Main.projectile[num].ai[0] = (Direction == 1f).ToInt();
                     Main.projectile[num].ModProjectile<TerratomereBeams>().ControlPoints = GenerateSlashPoints().ToArray();
                 }
             }
         }
 
-        public void CreateSlashSparkleDust()
-        {
+        public void CreateSlashSparkleDust() {
             Vector2 vector = InitialRotation.ToRotationVector2();
             Vector2 position = Projectile.Center + (GetSwingOffsetAngle(SwingCompletion) * Direction + InitialRotation).ToRotationVector2() * Main.rand.NextFloat(8f, 66f) + vector * 76f;
             int type = Main.rand.NextBool() ? 267 : 264;
@@ -185,36 +165,29 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             dust.noGravity = true;
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
+        public override Color? GetAlpha(Color lightColor) {
             return Color.White * Projectile.Opacity;
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             DrawSlash();
             DrawBlade(lightColor);
             return false;
         }
 
-        public float SlashWidthFunction(float completionRatio)
-        {
+        public float SlashWidthFunction(float completionRatio) {
             return Projectile.scale * 22f;
         }
 
-        public Color SlashColorFunction(float completionRatio)
-        {
+        public Color SlashColorFunction(float completionRatio) {
             return Color.Lime * Utils.GetLerpValue(0.9f, 0.4f, completionRatio, clamped: true) * Projectile.Opacity;
         }
 
-        public IEnumerable<Vector2> GenerateSlashPoints()
-        {
-            for (int i = 0; i < 20; i++)
-            {
+        public IEnumerable<Vector2> GenerateSlashPoints() {
+            for (int i = 0; i < 20; i++) {
                 float completion = MathHelper.Lerp(SwingCompletion, SwingCompletionAtStartOfTrail, i / 20f);
                 float offsetRot = Math.Abs(Projectile.oldRot[0] - Projectile.oldRot[1]) * 0.8f;
-                if (SwingCompletion > RecoveryCompletionRatio)
-                {
+                if (SwingCompletion > RecoveryCompletionRatio) {
                     offsetRot = 0.21f;
                 }
 
@@ -223,30 +196,25 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             }
         }
 
-        public void DrawSlash()
-        {
-            if (SlashDrawer == null)
-            {
+        public void DrawSlash() {
+            if (SlashDrawer == null) {
                 SlashDrawer = new PrimitiveTrail(SlashWidthFunction, SlashColorFunction, null, GameShaders.Misc["CalamityMod:ExobladeSlash"]);
             }
 
             Main.spriteBatch.EnterShaderRegion();
             TerratomereHoldoutProj.PrepareSlashShader(Direction == 1);
-            if (SwingCompletionAtStartOfTrail > SwingCompletionRatio)
-            {
+            if (SwingCompletionAtStartOfTrail > SwingCompletionRatio) {
                 SlashDrawer.Draw(GenerateSlashPoints(), Projectile.Center - Main.screenPosition, 95);
             }
 
             Main.spriteBatch.ExitShaderRegion();
         }
 
-        public void DrawBlade(Color lightColor)
-        {
+        public void DrawBlade(Color lightColor) {
             Texture2D value = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 position = Projectile.Center - Main.screenPosition;
             Vector2 origin = value.Size() * Vector2.UnitY;
-            if (Projectile.spriteDirection == -1)
-            {
+            if (Projectile.spriteDirection == -1) {
                 origin.X += value.Width;
             }
 
@@ -254,33 +222,27 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             Main.spriteBatch.Draw(value, position, null, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, effects, 0f);
         }
 
-        public void OnHitHealEffect()
-        {
-            if (!Owner.moonLeech)
-            {
+        public void OnHitHealEffect() {
+            if (!Owner.moonLeech) {
                 Owner.statLife += 4;
                 Owner.HealEffect(4);
             }
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             float collisionPoint = 0f;
             Vector2 vector = (InitialRotation + GetSwingOffsetAngle(SwingCompletion)).ToRotationVector2() * new Vector2(Projectile.spriteDirection, 1f);
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + vector * Projectile.height * Projectile.scale, Projectile.width * 0.25f, ref collisionPoint);
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
-            if (target.canGhostHeal)
-            {
+            if (target.canGhostHeal) {
                 OnHitHealEffect();
             }
 
             int num = ModContent.ProjectileType<TerratomereSlashCreator>();
-            if (Owner.ownedProjectileCounts[num] < 2)
-            {
+            if (Owner.ownedProjectileCounts[num] < 2) {
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, num, Projectile.damage, Projectile.knockBack, Projectile.owner, target.whoAmI, Main.rand.NextFloat(MathF.PI * 2f));
                 Owner.ownedProjectileCounts[num]++;
             }
@@ -299,8 +261,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             //}
         }
 
-        public override void OnHitPlayer(Player target, Player.HurtInfo info)
-        {
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) {
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
             OnHitHealEffect();
         }

@@ -226,7 +226,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// 修改玩家捕获的鱼的数量
         /// </summary>
         public virtual void CaughtFishStack(int type, ref int stack) {
-            
+
         }
         /// <summary>
         /// 这个物品在使用时是否会被消耗
@@ -241,7 +241,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="item"></param>
         /// <param name="player"></param>
         public virtual void HoldItem(Item item, Player player) {
-            
+
         }
         /// <summary>
         /// 用于在手持时修改该物品的动画
@@ -249,7 +249,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="item"></param>
         /// <param name="player"></param>
         public virtual void HoldItemFrame(Item item, Player player) {
-            
+
         }
         /// <summary>
         /// 用于加载物品的自定义额外数据
@@ -257,7 +257,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="item"></param>
         /// <param name="tag"></param>
         public virtual void LoadData(Item item, TagCompound tag) {
-            
+
         }
         /// <summary>
         /// 挥舞该物品时会调用该方法，一般用于给物品创建近战特殊效果
@@ -266,7 +266,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="player"></param>
         /// <param name="hitbox"></param>
         public virtual void MeleeEffects(Item item, Player player, Rectangle hitbox) {
-            
+
         }
         /// <summary>
         /// 当物品击中NPC时，用于修改造成的伤害数据
@@ -276,7 +276,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="target"></param>
         /// <param name="modifiers"></param>
         public virtual void ModifyHitNPC(Item item, Player player, NPC target, ref NPC.HitModifiers modifiers) {
-            
+
         }
         /// <summary>
         /// 当物品击中目标玩家时，用于修改造成的伤害数据
@@ -286,7 +286,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="target"></param>
         /// <param name="modifiers"></param>
         public virtual void ModifyHitPvp(Item item, Player player, Player target, ref Player.HurtModifiers modifiers) {
-            
+
         }
         /// <summary>
         /// 用于添加该物品的战利品池内容
@@ -294,7 +294,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="item"></param>
         /// <param name="itemLoot"></param>
         public virtual void ModifyItemLoot(Item item, ItemLoot itemLoot) {
-            
+
         }
         /// <summary>
         /// 用于动态修改该物品的体积大小，这一般直接关联影响其碰撞箱体
@@ -303,7 +303,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="player"></param>
         /// <param name="scale"></param>
         public virtual void ModifyItemScale(Item item, Player player, ref float scale) {
-            
+
         }
         /// <summary>
         /// 用于动态修改该物品的使用魔耗
@@ -313,7 +313,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="reduce"></param>
         /// <param name="mult"></param>
         public virtual void ModifyManaCost(Item item, Player player, ref float reduce, ref float mult) {
-            
+
         }
 
         public class ShootStats
@@ -348,7 +348,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="damage"></param>
         /// <param name="knockback"></param>
         public virtual void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
-            
+
         }
         /// <summary>
         /// 修改该物品的介绍栏位
@@ -356,7 +356,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="item"></param>
         /// <param name="tooltips"></param>
         public virtual void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
-            
+
         }
         /// <summary>
         /// 修改物品暴击
@@ -365,7 +365,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="player"></param>
         /// <param name="crit"></param>
         public virtual void ModifyWeaponCrit(Item item, Player player, ref float crit) {
-            
+
         }
         /// <summary>
         /// 修改物品伤害数据
@@ -374,7 +374,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="player"></param>
         /// <param name="crit"></param>
         public virtual void ModifyWeaponDamage(Item item, Player player, ref StatModifier damage) {
-            
+
         }
         /// <summary>
         /// 修改物品击退数据
@@ -383,7 +383,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="player"></param>
         /// <param name="crit"></param>
         public virtual void ModifyWeaponKnockback(Item item, Player player, ref StatModifier knockback) {
-            
+
         }
         /// <summary>
         /// 当武器消耗弹药时让一些事情发生
@@ -392,7 +392,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="ammo"></param>
         /// <param name="player"></param>
         public virtual void OnConsumeAmmo(Item weapon, Item ammo, Player player) {
-            
+
         }
         /// <summary>
         /// 当武器消耗弹药时让一些事情发生
@@ -401,7 +401,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="ammo"></param>
         /// <param name="player"></param>
         public virtual void OnConsumedAsAmmo(Item ammo, Item weapon, Player player) {
-            
+
         }
         /// <summary>
         /// 让这个物品被消耗时让一些事情发生
@@ -409,7 +409,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="item"></param>
         /// <param name="player"></param>
         public virtual void OnConsumeItem(Item item, Player player) {
-            
+
         }
         /// <summary>
         /// 让这个物品消耗魔力时让一些事情发生，进行消耗玩家魔力的修改
@@ -417,7 +417,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="item"></param>
         /// <param name="player"></param>
         public virtual void OnConsumeMana(Item item, Player player, int manaConsumed) {
-            
+
         }
         /// <summary>
         /// 击中NPC时会发生的事情
@@ -428,7 +428,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="hit"></param>
         /// <param name="damageDone"></param>
         public virtual void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone) {
-            
+
         }
         /// <summary>
         /// 击中目标玩家时会发生的事情
@@ -438,7 +438,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="target"></param>
         /// <param name="hurtInfo"></param>
         public virtual void OnHitPvp(Item item, Player player, Player target, Player.HurtInfo hurtInfo) {
-            
+
         }
         /// <summary>
         /// 当玩家魔力值不够时仍旧试图使用物品时让一些事情发生
@@ -447,7 +447,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="player"></param>
         /// <param name="neededMana"></param>
         public virtual void OnMissingMana(Item item, Player player, int neededMana) {
-            
+
         }
         /// <summary>
         /// 允许这个物品在被玩家拾取时做出一些特殊的事情
@@ -464,7 +464,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="item"></param>
         /// <param name="source"></param>
         public virtual void OnSpawn(Item item, IEntitySource source) {
-            
+
         }
         /// <summary>
         /// 当物品堆叠到一起时，让一些事情发生，这个钩子函数会在物品从开始堆叠到完成堆叠为一个新的物品的过程中调用
@@ -473,7 +473,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="source">源物品</param>
         /// <param name="numToTransfer">堆叠的数量</param>
         public virtual void OnStack(Item destination, Item source, int numToTransfer) {
-            
+
         }
         /// <summary>
         /// 用根据使用的弹药来修改弹药的各种属性
@@ -486,7 +486,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="damage"></param>
         /// <param name="knockback"></param>
         public virtual void PickAmmo(Item weapon, Item ammo, Player player, ref int type, ref float speed, ref StatModifier damage, ref float knockback) {
-            
+
         }
         /// <summary>
         /// 右键该物品时让一些事情发生
@@ -494,7 +494,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="item"></param>
         /// <param name="player"></param>
         public virtual void RightClick(Item item, Player player) {
-            
+
         }
         /// <summary>
         /// 保存该物品的一些自定义特殊数据
@@ -502,14 +502,14 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="item"></param>
         /// <param name="tag"></param>
         public virtual void SaveData(Item item, TagCompound tag) {
-            
+
         }
         /// <summary>
         /// 创建这个物品时设置他的各种实例
         /// </summary>
         /// <param name="item"></param>
         public virtual void SetDefaults(Item item) {
-            
+
         }
         /// <summary>
         /// 该物品在进行射击行为时会调用的方法，返回返回<see langword="false"/>将阻止对物品的射击行为
@@ -533,7 +533,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="source"></param>
         /// <param name="numToTransfer"></param>
         public virtual void SplitStack(Item destination, Item source, int numToTransfer) {
-            
+
         }
         /// <summary>
         /// 这个物品在玩家库存中会执行的函数
@@ -542,7 +542,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="gravity"></param>
         /// <param name="maxFallSpeed"></param>
         public virtual void Update(Item item, ref float gravity, ref float maxFallSpeed) {
-            
+
         }
         /// <summary>
         /// 该饰品被玩家装备时会执行的函数
@@ -551,7 +551,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="player"></param>
         /// <param name="hideVisual"></param>
         public virtual void UpdateAccessory(Item item, Player player, bool hideVisual) {
-            
+
         }
         /// <summary>
         /// 这个物品在玩家库存中会执行的函数
@@ -559,7 +559,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="item"></param>
         /// <param name="player"></param>
         public virtual void UpdateInventory(Item item, Player player) {
-            
+
         }
         /// <summary>
         /// 当物品的使用动画开始时会执行的函数
@@ -567,7 +567,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="item"></param>
         /// <param name="player"></param>
         public virtual void UseAnimation(Item item, Player player) {
-            
+
         }
         /// <summary>
         /// 使用物品时会调用的函数
@@ -585,7 +585,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="player"></param>
         /// <returns>返回默认值<see langword="null"/>会继续执行该物品的原默认方法</returns>
         public virtual void UseItemFrame(Item item, Player player) {
-            
+
         }
         /// <summary>
         /// 用于修改近战物品的使用碰撞箱体
@@ -595,7 +595,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="hitbox"></param>
         /// <param name="noHitbox"></param>
         public virtual void UseItemHitbox(Item item, Player player, ref Rectangle hitbox, ref bool noHitbox) {
-            
+
         }
         /// <summary>
         /// 修改物品使用过程中的位置和中心偏移
@@ -604,7 +604,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="player"></param>
         /// <param name="heldItemFrame"></param>
         public virtual void UseStyle(Item item, Player player, Rectangle heldItemFrame) {
-            
+
         }
         /// <summary>
         /// 修改翅膀的各种移动数据
@@ -617,7 +617,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         /// <param name="maxAscentMultiplier"></param>
         /// <param name="constantAscend"></param>
         public virtual void VerticalWingSpeeds(Item item, Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend) {
-            
+
         }
         /// <summary>
         /// 当玩家按下Up键时让一些翅膀事件发生

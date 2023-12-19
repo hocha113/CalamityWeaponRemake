@@ -7,6 +7,7 @@ using CalamityWeaponRemake.Content.Tiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
@@ -25,54 +26,40 @@ namespace CalamityWeaponRemake.Content.Items.Materials
     {
         public override string Texture => CWRConstant.Item + "Materials/InfiniteIngot";
         public new string LocalizationCategory => "Items.Materials";
-        public float QFH
-        {
-            get
-            {
-                bool hasMod(string name)
-                {
-                    return Instance.LoadMods.Any((Mod mod) => mod.Name == name);
-                }
-                float sengs = 1;
+        public float QFH {
+            get {
+                const float baseBonus = 1.0f;
+                var modBonuses = new Dictionary<string, float>{
+                    {"LightAndDarknessMod", 0.1f},
+                    {"DDmod", 0.1f},
+                    {"MaxStackExtra", 0.1f},
+                    {"Wild", 0.1f},
+                    {"Coralite", 0.1f},
+                    {"AncientsAwakened", 0.1f},
+                    {"NoxusBoss", 0.25f},
+                    {"FargowiltasSouls", 0.25f},
+                    {"MagicBuilder", 0.25f},
+                    {"CalamityPostMLBoots", 0.25f},
+                    {"仆从暴击", 0.25f}
+                };
                 float overMdgs = Instance.LoadMods.Count / 10f;
-                if (overMdgs < 0.5f)
-                    overMdgs = 0;
-                sengs += overMdgs;
-                if (hasMod("LightAndDarknessMod"))
-                    sengs += 0.1f;
-                if (hasMod("DDmod"))
-                    sengs += 0.1f;
-                if (hasMod("MaxStackExtra"))
-                    sengs += 0.1f;
-                if (hasMod("Wild"))
-                    sengs += 0.1f;
-                if (hasMod("Coralite"))
-                    sengs += 0.1f;
-                if (hasMod("AncientsAwakened"))
-                    sengs += 0.1f;
-                if (hasMod("NoxusBoss"))
-                    sengs += 0.25f;
-                if (hasMod("FargowiltasSouls"))
-                    sengs += 0.25f;
-                if (hasMod("MagicBuilder"))
-                    sengs += 0.25f;
-                if (hasMod("CalamityPostMLBoots"))
-                    sengs += 0.25f;
-                if (hasMod("仆从暴击"))
-                    sengs += 0.25f;
-                return sengs;
+                overMdgs = overMdgs < 0.5f ? 0 : overMdgs;
+                float totalBonus = modBonuses.Sum(pair => hasMod(pair.Key) ? pair.Value : 0);
+                return baseBonus + overMdgs + totalBonus;
             }
         }
-        public override void SetStaticDefaults()
-        {
+        private bool hasMod(string name) {
+            return Instance.LoadMods.Any(mod => mod.Name == name);
+        }
+
+        public override void SetStaticDefaults() {
             Item.ResearchUnlockCount = 9999;
             ItemID.Sets.SortingPriorityMaterials[Type] = 114;
             ItemID.Sets.AnimatesAsSoul[Type] = true;
             Main.RegisterItemAnimation(Type, new DrawAnimationVertical(6, 12));
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.width = Item.height = 25;
             Item.maxStack = 99;
             Item.rare = ModContent.RarityType<HotPink>();
@@ -80,13 +67,11 @@ namespace CalamityWeaponRemake.Content.Items.Materials
             Item.useAnimation = Item.useTime = 15;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<InfiniteIngotTile>();          
+            Item.createTile = ModContent.TileType<InfiniteIngotTile>();
         }
 
-        public override bool PreDrawTooltipLine(DrawableTooltipLine line, ref int yOffset)
-        {    
-            if (line.Name == "ItemName" && line.Mod == "Terraria")
-            {
+        public override bool PreDrawTooltipLine(DrawableTooltipLine line, ref int yOffset) {
+            if (line.Name == "ItemName" && line.Mod == "Terraria") {
                 Vector2 basePosition = Main.MouseWorld - Main.screenPosition + new Vector2(23, 23);
                 string text = Language.GetTextValue("Mods.CalamityWeaponRemake.Items.InfiniteIngot.DisplayName");
                 drawColorText(Main.spriteBatch, line, text, basePosition);
@@ -98,18 +83,17 @@ namespace CalamityWeaponRemake.Content.Items.Materials
         public static void drawColorText(SpriteBatch sb, DrawableTooltipLine line, string text, Vector2 basePosition) {
             EffectsRegistry.ColourModulationShader.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.25f);
             Main.instance.GraphicsDevice.Textures[1] = EffectsRegistry.Ticoninfinity;
-                ChatManager.DrawColorCodedString(sb, line.Font, text, basePosition, Color.White, 0f, Vector2.Zero, new Vector2(1.1f, 1.1f));
+            ChatManager.DrawColorCodedString(sb, line.Font, text, basePosition, Color.White, 0f, Vector2.Zero, new Vector2(1.1f, 1.1f));
             sb.End();
             sb.Begin(SpriteSortMode.Immediate, sb.GraphicsDevice.BlendState, sb.GraphicsDevice.SamplerStates[0],
                 sb.GraphicsDevice.DepthStencilState, sb.GraphicsDevice.RasterizerState, EffectsRegistry.ColourModulationShader, Main.UIScaleMatrix);
-                ChatManager.DrawColorCodedString(sb, line.Font, text, basePosition, Color.White, 0f, Vector2.Zero, new Vector2(1.1f, 1.1f));
+            ChatManager.DrawColorCodedString(sb, line.Font, text, basePosition, Color.White, 0f, Vector2.Zero, new Vector2(1.1f, 1.1f));
             sb.End();
             sb.Begin(SpriteSortMode.Deferred, sb.GraphicsDevice.BlendState, sb.GraphicsDevice.SamplerStates[0],
                 sb.GraphicsDevice.DepthStencilState, sb.GraphicsDevice.RasterizerState, null, Main.UIScaleMatrix);
         }
 
-        public override void AddRecipes()
-        {
+        public override void AddRecipes() {
             int QFD(int num) => (int)(num * QFH);
             CreateRecipe()
                 .AddIngredient<AerialiteBar>(QFD(150))//水华锭

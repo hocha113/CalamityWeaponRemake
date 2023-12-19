@@ -23,13 +23,11 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[ModContent.ItemType<CalamityMod.Items.Weapons.Melee.DragonRage>()] = true;
         }
 
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.damage = 1075;
             item.knockBack = 7.5f;
             item.useAnimation = (item.useTime = 25);
@@ -48,13 +46,11 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             item.rare = ModContent.RarityType<Violet>();
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "DragonRage", 2);
         }
 
-        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (player.altFunctionUse == 2) {
                 SoundEngine.PlaySound(in CommonCalamitySounds.MeatySlashSound, player.Center);
@@ -64,13 +60,11 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             return false;
         }
 
-        public override bool? AltFunctionUse(Item item, Player player)
-        {
+        public override bool? AltFunctionUse(Item item, Player player) {
             return true;
         }
 
-        public override bool? UseItem(Item item, Player player)
-        {
+        public override bool? UseItem(Item item, Player player) {
             return player.ownedProjectileCounts[item.shoot] == 0;
         }
     }

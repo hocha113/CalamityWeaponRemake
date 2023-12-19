@@ -9,14 +9,12 @@ namespace CalamityWeaponRemake.Content.Items.Summon
     {
         public override string Texture => CWRConstant.Item_Summon + "AzureDragonRage";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.DefaultToWhip(ModContent.ProjectileType<AzureDragonRageProjectile>(), 272, 2.5f, 13, 35);
             Item.rare = ItemRarityID.Purple;
         }
 
-        public override bool MeleePrefix()
-        {
+        public override bool MeleePrefix() {
             return true;
         }
     }

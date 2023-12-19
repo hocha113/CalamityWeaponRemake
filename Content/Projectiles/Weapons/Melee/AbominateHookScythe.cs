@@ -11,14 +11,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
     {
         public override string Texture => CWRConstant.Projectile_Melee + "BansheeHookScythe";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailingMode[Type] = 2;
             ProjectileID.Sets.TrailCacheLength[Type] = 8;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 38;
             Projectile.height = 38;
             Projectile.scale = 1f;
@@ -35,41 +33,32 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
         public Vector2 DashVr = Vector2.Zero;
         public ref float Time => ref Projectile.localAI[0];
-        public override void AI()
-        {
+        public override void AI() {
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.6f / 255f, 0f, 0f);
             Projectile.localAI[0] += MathHelper.ToRadians(35);
 
-            if (Projectile.ai[0] == 0)
-            {
+            if (Projectile.ai[0] == 0) {
                 Projectile.velocity *= 0.95f;
             }
-            if (Projectile.ai[0] == 1)
-            {
+            if (Projectile.ai[0] == 1) {
                 NPC target = CWRUtils.GetNPCInstance((int)Projectile.ai[2]);
-                if (target != null)
-                {
-                    if (Projectile.ai[1] == 0)
-                    {
+                if (target != null) {
+                    if (Projectile.ai[1] == 0) {
                         DashVr = Projectile.Center.To(target.Center);
                         Projectile.ai[1] = 1;
                         Time = 0;
                     }
-                    if (Projectile.ai[1] == 1)
-                    {
+                    if (Projectile.ai[1] == 1) {
                         Projectile.velocity = DashVr.UnitVector() * 32;
-                        if (Time > 20)
-                        {
+                        if (Time > 20) {
                             Projectile.ai[1] = 0;
                             Time = 0;
                         }
                     }
                     Projectile.localAI[1] = target.lifeMax;
                 }
-                else
-                {
-                    if (Projectile.IsOwnedByLocalPlayer())
-                    {
+                else {
+                    if (Projectile.IsOwnedByLocalPlayer()) {
                         Vector2 spanPos = Projectile.Center;
                         Projectile.NewProjectile(
                             Projectile.parent(),
@@ -89,10 +78,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Time++;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            if (Main.rand.NextBool(5) && Projectile.numHits < 5)
-            {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
+            if (Main.rand.NextBool(5) && Projectile.numHits < 5) {
                 Vector2 offset = CWRUtils.GetRandomVevtor(70, 110, Main.rand.Next(500, 600));
                 Vector2 spanPos = target.Center + offset;
                 int status = Main.rand.Next(3);
@@ -113,10 +100,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                 Projectile.ai[2] = target.whoAmI;
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            if (Projectile.timeLeft < 85)
-            {
+        public override Color? GetAlpha(Color lightColor) {
+            if (Projectile.timeLeft < 85) {
                 byte b = (byte)(Projectile.timeLeft * 3);
                 byte alpha = (byte)(100f * (b / 255f));
                 return new Color(b, b, b, alpha);
@@ -125,8 +110,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             return new Color(255, 255, 255, 100);
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Main.EntitySpriteDraw(
                 mainValue,

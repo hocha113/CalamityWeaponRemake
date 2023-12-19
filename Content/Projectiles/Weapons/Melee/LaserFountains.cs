@@ -12,8 +12,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
     {
         public override string Texture => CWRConstant.Placeholder;
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 4;
             Projectile.height = 4;
             Projectile.friendly = true;
@@ -27,11 +26,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
         public ref float Time => ref Projectile.ai[0];
         public ref float Fower => ref Projectile.ai[1];
 
-        public override void AI()
-        {
+        public override void AI() {
             int types = ModContent.ProjectileType<DeathLaser>();
-            if (Time > 0 && Time % 12 == 0 && Main.player[Projectile.owner].ownedProjectileCounts[types] <= 13)
-            {
+            if (Time > 0 && Time % 12 == 0 && Main.player[Projectile.owner].ownedProjectileCounts[types] <= 13) {
                 SoundEngine.PlaySound(in SoundID.Item12, Projectile.position);
                 Vector2 vr = CWRUtils.GetRandomVevtor(0, 360, Main.rand.Next(760, 920));
                 int proj = Projectile.NewProjectile(

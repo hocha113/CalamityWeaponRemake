@@ -19,8 +19,7 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
     {
         public override string Texture => CWRConstant.Cay_Wap_Ranged + "DaemonsFlame";
         public new string LocalizationCategory => "Items.Weapons.Ranged";
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.damage = 150;
             Item.width = 62;
             Item.height = 128;
@@ -47,13 +46,11 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
 
         public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.NextBool(3) && player.ownedProjectileCounts[Item.shoot] > 0;
 
-        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-        {
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) {
             Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/DaemonsFlameGlow").Value);
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<DaemonsFlameHeldProj>(), damage, knockback, player.whoAmI);
             return false;
         }

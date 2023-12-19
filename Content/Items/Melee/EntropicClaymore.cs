@@ -21,8 +21,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public static readonly SoundStyle SwingSound = SoundID.Item1;
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.damage = 122;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 78;
@@ -41,13 +40,11 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.CWR().remakeItem = true;
         }
 
-        public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
-        {
+        public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox) {
             hitbox = CalamityUtils.FixSwingHitbox(118f, 118f);
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             Item.initialize();
             Item.CWR().ai[0]++;
             if (Item.CWR().ai[0] > 2)
@@ -67,10 +64,8 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             return false;
         }
 
-        public override void MeleeEffects(Player player, Rectangle hitbox)
-        {
-            if (Main.rand.NextBool(3))
-            {
+        public override void MeleeEffects(Player player, Rectangle hitbox) {
+            if (Main.rand.NextBool(3)) {
                 Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 27);
             }
         }

@@ -42,8 +42,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
         // Ensures that the main AI only runs once per frame, despite the projectile's multiple updates
         private const int UpdatesPerFrame = 3;
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 800f;
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 60f / UpdatesPerFrame;
@@ -52,20 +51,17 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
+        public override void SendExtraAI(BinaryWriter writer) {
             writer.Write(AuraFrame);
             writer.Write(AuraCharge);
         }
 
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
+        public override void ReceiveExtraAI(BinaryReader reader) {
             AuraFrame = reader.ReadInt32();
             AuraCharge = reader.ReadSingle();
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.aiStyle = ProjAIStyleID.Yoyo;
             Projectile.width = Projectile.height = 20;
             Projectile.friendly = true;
@@ -77,8 +73,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             Projectile.localNPCHitCooldown = 6 * UpdatesPerFrame;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             if ((Projectile.position - Main.player[Projectile.owner].position).Length() > 3200f) //200 blocks
                 Projectile.Kill();
 
@@ -87,8 +82,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
                 return;
 
             // Produces golden dust constantly while in flight. This helps light the yoyo.
-            if (Main.rand.NextBool())
-            {
+            if (Main.rand.NextBool()) {
                 int dustType = Main.rand.NextBool(3) ? 244 : 246;
                 float scale = 0.8f + Main.rand.NextFloat(0.6f);
                 int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType);
@@ -113,19 +107,16 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
                 AuraCharge = MaxCharge;
 
             // If the aura is large enough to be considered "on", draw it, make sound and damage enemies
-            if (AuraCharge > MinAuraRadius)
-            {
+            if (AuraCharge > MinAuraRadius) {
                 float auraRadius = AuraCharge > MaxAuraRadius ? MaxAuraRadius : AuraCharge;
                 DrawRedLightningAura(auraRadius);
 
-                if (Projectile.soundDelay == 0)
-                {
+                if (Projectile.soundDelay == 0) {
                     Projectile.soundDelay = 22;
                     SoundEngine.PlaySound(SoundID.Item93, Projectile.Center);
                 }
 
-                if (AuraFrame % AuraLocalIFrames == 0)
-                {
+                if (AuraFrame % AuraLocalIFrames == 0) {
                     // The aura's direct damage scales with its charge and with melee stats.
                     float chargeRatio = AuraCharge / MaxCharge;
                     int auraDamage = Oracle.AuraBaseDamage + (int)(chargeRatio * (Oracle.AuraMaxDamage - Oracle.AuraBaseDamage));
@@ -138,14 +129,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             AuraFrame = (AuraFrame + 1) % AuraLocalIFrames;
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
             // On hit effects do not apply if no damage was done.
             if (hit.Damage <= 0)
                 return;
@@ -159,8 +148,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
         }
 
         // Uses dust type 260, which lives for an extremely short amount of time
-        private void DrawRedLightningAura(float radius)
-        {
+        private void DrawRedLightningAura(float radius) {
             // Light emits from the yoyo itself while the aura is active, eventually becoming insanely bright
             float brightness = radius * 0.03f;
             Lighting.AddLight(Projectile.Center, brightness, 0.2f * brightness, 0.1f * brightness);
@@ -173,8 +161,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             // Incrementally rotate the vector as a ring of dust is drawn
             Vector2 dustOffset = new Vector2(radius, 0f);
             dustOffset = dustOffset.RotatedByRandom(MathHelper.TwoPi);
-            for (int i = 0; i < numDust; ++i)
-            {
+            for (int i = 0; i < numDust; ++i) {
                 dustOffset = dustOffset.RotatedBy(angleIncrement);
                 int dustType = 260;
                 float scale = 1.6f + Main.rand.NextFloat(0.9f);
@@ -187,8 +174,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             }
 
             // Rarely, draw some "arcs" which are lines of dust to the edge
-            if (Main.rand.NextBool(30))
-            {
+            if (Main.rand.NextBool(30)) {
                 int numArcs = 3;
                 float arcDustDensity = 0.6f;
                 if (Main.rand.NextBool())
@@ -198,11 +184,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
 
                 Vector2 radiusVec = new Vector2(radius, 0f);
                 int dustPerArc = (int)(arcDustDensity * radius);
-                for (int i = 0; i < numArcs; ++i)
-                {
+                for (int i = 0; i < numArcs; ++i) {
                     radiusVec = radiusVec.RotatedByRandom(MathHelper.TwoPi);
-                    for (int j = 0; j < dustPerArc; ++j)
-                    {
+                    for (int j = 0; j < dustPerArc; ++j) {
                         Vector2 partialRadius = (float)j / dustPerArc * radiusVec;
                         int dustType = 260;
                         float scale = 1.6f + Main.rand.NextFloat(0.9f);
@@ -220,14 +204,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             }
         }
 
-        private void DealAuraDamage(float radius, int baseDamage)
-        {
+        private void DealAuraDamage(float radius, int baseDamage) {
             if (Projectile.owner != Main.myPlayer)
                 return;
             Player owner = Main.player[Projectile.owner];
 
-            for (int i = 0; i < Main.maxNPCs; ++i)
-            {
+            for (int i = 0; i < Main.maxNPCs; ++i) {
                 NPC target = Main.npc[i];
                 if (!target.active || target.dontTakeDamage || target.friendly)
                     continue;
@@ -241,11 +223,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
                 dist = MathHelper.Min(dist, d3);
                 dist = MathHelper.Min(dist, d4);
 
-                if (dist <= radius)
-                {
+                if (dist <= radius) {
                     int finalDamage = (int)owner.GetTotalDamage<MeleeDamageClass>().ApplyTo(baseDamage);
-                    if (Projectile.owner == Main.myPlayer)
-                    {
+                    if (Projectile.owner == Main.myPlayer) {
                         Projectile p = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), finalDamage, 0f, Projectile.owner, i);
                         if (p.whoAmI.WithinBounds(Main.maxProjectiles))
                             p.DamageType = DamageClass.MeleeNoSpeed;
@@ -254,8 +234,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             }
         }
 
-        private void FireAuricOrbs()
-        {
+        private void FireAuricOrbs() {
             // Play a sound when orbs are fired
             SoundEngine.PlaySound(SoundID.Item92, Projectile.Center);
 
@@ -267,8 +246,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             float spinOffsetAngle = MathHelper.Pi / (2f * numOrbs);
             Vector2 posVec = new Vector2(2f, 0f).RotatedByRandom(MathHelper.TwoPi);
 
-            for (int i = 0; i < numOrbs; ++i)
-            {
+            for (int i = 0; i < numOrbs; ++i) {
                 posVec = posVec.RotatedBy(angleVariance);
                 Vector2 velocity = new Vector2(posVec.X, posVec.Y).RotatedBy(spinOffsetAngle);
                 velocity.Normalize();

@@ -13,13 +13,11 @@ namespace CalamityWeaponRemake.Common.Effects
 
         public static event RenderTargetUpdateDelegate RenderTargetUpdateLoopEvent;
 
-        public override void OnModLoad()
-        {
+        public override void OnModLoad() {
             Main.OnPreDraw += HandleTargetUpdateLoop;
         }
 
-        public override void OnModUnload()
-        {
+        public override void OnModUnload() {
             Main.OnPreDraw -= HandleTargetUpdateLoop;
         }
 

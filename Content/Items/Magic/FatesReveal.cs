@@ -21,13 +21,11 @@ namespace CalamityWeaponRemake.Content.Items.Magic
 
         public override string Texture => CWRConstant.Cay_Wap_Magic + "FatesReveal";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             Item.staff[Item.type] = true;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.damage = 56;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 20;
@@ -47,13 +45,11 @@ namespace CalamityWeaponRemake.Content.Items.Magic
             Item.rare = ModContent.RarityType<PureGreen>();
         }
 
-        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-        {
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) {
             Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/FatesRevealGlow").Value);
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             if (player.ownedProjectileCounts[Item.shoot] <= 0)
                 Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             return false;

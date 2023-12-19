@@ -7,18 +7,15 @@ namespace CalamityWeaponRemake.Content
     {
         public static bool TitleMusicBoxEasterEgg = true;
 
-        public override void ClearWorld()
-        {
+        public override void ClearWorld() {
             TitleMusicBoxEasterEgg = true;
         }
 
-        public override void SaveWorldData(TagCompound tag)
-        {
+        public override void SaveWorldData(TagCompound tag) {
             tag.Add("_TitleMusicBoxEasterEgg", TitleMusicBoxEasterEgg);
         }
 
-        public override void LoadWorldData(TagCompound tag)
-        {
+        public override void LoadWorldData(TagCompound tag) {
             TitleMusicBoxEasterEgg = tag.GetBool("_TitleMusicBoxEasterEgg");
         }
     }

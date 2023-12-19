@@ -14,14 +14,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
         public override string Texture => CWRConstant.Placeholder;
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 25;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 32;
             Projectile.height = 32;
             Projectile.friendly = true;
@@ -34,29 +32,24 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Projectile.DamageType = DamageClass.Melee;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Player owners = CWRUtils.GetPlayerInstance(Projectile.owner);
-            if (owners == null)
-            {
+            if (owners == null) {
                 Projectile.Kill();
                 return;
             }
             Projectile.Center = owners.itemLocation + (owners.itemRotation - MathHelper.ToRadians(80)).ToRotationVector2() * Projectile.ai[0];
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
 
         }
 
-        public override void OnKill(int timeLeft)
-        {
+        public override void OnKill(int timeLeft) {
             base.OnKill(timeLeft);
         }
 
-        internal Color ColorFunction(float completionRatio)
-        {
+        internal Color ColorFunction(float completionRatio) {
             float amount = MathHelper.Lerp(0.65f, 1f, (float)Math.Cos((0f - Main.GlobalTimeWrappedHourly) * 3f) * 0.5f + 0.5f);
             float num = Utils.GetLerpValue(1f, 0.64f, completionRatio, clamped: true) * Projectile.Opacity;
 
@@ -65,14 +58,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             return Color.Lerp(new Color(255, 248, 220), value, amount) * num;
         }
 
-        internal float WidthFunction(float completionRatio)
-        {
+        internal float WidthFunction(float completionRatio) {
             float amount = (float)Math.Pow(1f - completionRatio, 3.0);
             return MathHelper.Lerp(0f, 42f * Projectile.scale * Projectile.Opacity, amount);
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             //if (TrailDrawer == null)
             //{
             //    TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, null, GameShaders.Misc["CalamityMod:TrailStreak"]);

@@ -13,14 +13,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
         public override string Texture => CWRConstant.Projectile_Melee + "BlazingPhantomBlade";
         public new string LocalizationCategory => "Projectiles.Melee";
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 50;
             Projectile.height = 50;
             Projectile.alpha = 100;
@@ -36,17 +34,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Projectile.rotation = Main.rand.NextFloat(MathHelper.TwoPi);
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Lighting.AddLight(Projectile.Center, 0.25f, 0.25f, 0f);
             Projectile.rotation += 0.5f;
             Projectile.velocity *= 1.01f;
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            if (Projectile.timeLeft < 85)
-            {
+        public override Color? GetAlpha(Color lightColor) {
+            if (Projectile.timeLeft < 85) {
                 byte b = (byte)(Projectile.timeLeft * 3);
                 byte alpha = (byte)(100f * (b / 255f));
                 return new Color(b, b, b, alpha);
@@ -55,14 +50,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             return new Color(255, 255, 255, 100);
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor);
             return false;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
     }

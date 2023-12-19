@@ -15,14 +15,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
         public int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
         public int Time { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
 
-        public override void SetStaticDefaults()
-        {
+        public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 16;
             Projectile.height = 16;
             Projectile.scale = 1;
@@ -37,8 +35,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
             Projectile.localNPCHitCooldown = -1;
         }
 
-        public override void AI()
-        {
+        public override void AI() {
             Projectile.rotation = Projectile.velocity.ToRotation();
             Projectile.scale += 0.01f;
             if (Projectile.timeLeft < 200)
@@ -47,8 +44,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
                 Projectile.Kill();
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             Vector2 overs = Projectile.velocity.GetNormalVector();
             float wit = 30 * Projectile.scale;
             float point = 0;
@@ -57,8 +53,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
                 Projectile.Center + overs * wit, Projectile.Center + overs * -wit, 3, ref point);
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             Texture2D value = ModContent.Request<Texture2D>(Texture).Value;
             float alp = Projectile.alpha / 255f;
             Color colors = Color.Lerp(Color.White, new Color(22, 72, 252), alp) * alp;

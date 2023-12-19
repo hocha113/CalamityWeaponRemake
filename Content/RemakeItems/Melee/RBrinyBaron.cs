@@ -21,8 +21,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         public override void Load() {
             SetReadonlyTargetID = TargetID;
         }
-        public override void SetDefaults(Item item)
-        {
+        public override void SetDefaults(Item item) {
             item.damage = 110;
             item.knockBack = 2f;
             item.useAnimation = item.useTime = 15;
@@ -39,21 +38,18 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             item.rare = ItemRarityID.Yellow;
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
             CWRUtils.OnModifyTooltips(CWRMod.Instance, item, tooltips, "BrinyBaron", 2);
         }
 
-        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             player.AddBuff(BuffID.Wet, 180);
             Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(10)), type, damage, knockback, player.whoAmI);
             Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(-10)), type, damage, knockback, player.whoAmI);
             return true;
         }
 
-        public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
-        {
+        public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) {
             if (player.altFunctionUse == 2) {
                 damage = (int)(player.GetTotalDamage(DamageClass.Melee).ApplyTo(item.OriginalDamage) * 0.2f);
                 type = ModContent.ProjectileType<Razorwind>();
@@ -63,8 +59,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             }
         }
 
-        public override void ModifyHitNPC(Item item, Player player, NPC target, ref NPC.HitModifiers modifiers)
-        {
+        public override void ModifyHitNPC(Item item, Player player, NPC target, ref NPC.HitModifiers modifiers) {
             target.AddBuff(BuffID.Wet, 120);
             int newDef = target.defDefense - 3;
             if (newDef < 0) newDef = 0;
@@ -72,8 +67,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             modifiers.CritDamage *= 0.5f;
         }
 
-        public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone) {
             Vector2 speed = CWRUtils.RandomBooleanValue(2, 1, true) ? new Vector2(16, 0) : new Vector2(-16, 0);
             if (Main.projectile.Count(n => n.active && n.type == ModContent.ProjectileType<SeaBlueBrinySpout>() && n.ai[1] == 1) <= 2) {
                 int proj = Projectile.NewProjectile(Common.CWRUtils.parent(player), target.Center, speed, ModContent.ProjectileType<SeaBlueBrinySpout>(), item.damage, item.knockBack, player.whoAmI);
@@ -82,8 +76,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             }
         }
 
-        public override bool? UseItem(Item item, Player player)
-        {
+        public override bool? UseItem(Item item, Player player) {
             if (player.altFunctionUse == 2) {
                 item.noMelee = true;
             }
@@ -93,8 +86,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
             return null;
         }
 
-        public override void UseAnimation(Item item, Player player)
-        {
+        public override void UseAnimation(Item item, Player player) {
             item.noUseGraphic = false;
             item.UseSound = SoundID.Item1;
             if (player.altFunctionUse == 2) {

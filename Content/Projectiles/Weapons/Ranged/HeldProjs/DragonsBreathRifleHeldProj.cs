@@ -18,8 +18,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
     {
         public override string Texture => CWRConstant.Item_Ranged + "DragonsBreathRifle";
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.width = 32;
             Projectile.height = 32;
             Projectile.scale = 1;
@@ -36,25 +35,21 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
         public int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
         public int ThisTimeValue { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
 
-        public override void OnKill(int timeLeft)
-        {
+        public override void OnKill(int timeLeft) {
             if (Owner != null && Projectile.IsOwnedByLocalPlayer())
                 Projectile.rotation = Owner.Center.To(Main.MouseWorld).ToRotation();
         }
 
-        public override void OnSpawn(IEntitySource source)
-        {
+        public override void OnSpawn(IEntitySource source) {
             if (Owner != null && Projectile.IsOwnedByLocalPlayer())
                 Projectile.rotation = Owner.Center.To(Main.MouseWorld).ToRotation();
         }
 
-        public override bool ShouldUpdatePosition()
-        {
+        public override bool ShouldUpdatePosition() {
             return false;
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
+        public override void SendExtraAI(BinaryWriter writer) {
             writer.Write(Projectile.localAI[0]);
             writer.Write(Projectile.localAI[1]);
             writer.Write(Projectile.localAI[2]);
@@ -63,8 +58,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
             writer.Write(spanSmogsBool);
         }
 
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
+        public override void ReceiveExtraAI(BinaryReader reader) {
             Projectile.localAI[0] = reader.ReadInt32();
             Projectile.localAI[1] = reader.ReadInt32();
             Projectile.localAI[2] = reader.ReadInt32();
@@ -77,27 +71,21 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
         Vector2 toMou = Vector2.Zero;
         Vector2 oldMou = Vector2.Zero;
         bool spanSmogsBool = false;
-        public override void AI()
-        {
+        public override void AI() {
             ThisTimeValue++;
             Projectile.localAI[0]++;
-            if (Owner == null)
-            {
+            if (Owner == null) {
                 Projectile.Kill();
                 return;
             }
-            else
-            {
-                if (Projectile.IsOwnedByLocalPlayer())
-                {
-                    if (Status == 0)
-                    {
+            else {
+                if (Projectile.IsOwnedByLocalPlayer()) {
+                    if (Status == 0) {
                         if (Projectile.owner != Main.myPlayer) return;
                         if (PlayerInput.Triggers.Current.MouseLeft) Projectile.timeLeft = 2;
                         else Projectile.Kill();
                     }
-                    if (Status == 1)
-                    {
+                    if (Status == 1) {
                         if (Projectile.owner != Main.myPlayer) return;
                         if (PlayerInput.Triggers.Current.MouseRight) Projectile.timeLeft = 2;
                         else Projectile.Kill();
@@ -105,10 +93,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
                 }
             }
 
-            if (Projectile.IsOwnedByLocalPlayer())
-            {
-                if (oldMou != Main.MouseWorld)
-                {
+            if (Projectile.IsOwnedByLocalPlayer()) {
+                if (oldMou != Main.MouseWorld) {
                     toMou = Owner.Center.To(Main.MouseWorld);
                     Projectile.netUpdate = true;
                     oldMou = Main.MouseWorld;
@@ -125,24 +111,18 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
             Vector2 offset = rotOffset;
             Vector2 shootPos = Projectile.Center + Projectile.rotation.ToRotationVector2() * 146;
 
-            if (Status == 0)
-            {
-                if (ThisTimeValue % 60 == 0)
-                {
+            if (Status == 0) {
+                if (ThisTimeValue % 60 == 0) {
                     Projectile.localAI[2] = 0;
                 }
 
-                if (ThisTimeValue % 30 == 0 && ThisTimeValue % 60 != 0 && !Main.dedServ)
-                {
+                if (ThisTimeValue % 30 == 0 && ThisTimeValue % 60 != 0 && !Main.dedServ) {
                     SoundEngine.PlaySound(ModSound.loadTheRounds, Projectile.Center);
                 }
 
-                if (Projectile.localAI[0] % 6 == 0 && Projectile.localAI[2] < 3)
-                {
-                    for (int i = 0; i < 2; i++)
-                    {
-                        if (Projectile.IsOwnedByLocalPlayer())
-                        {
+                if (Projectile.localAI[0] % 6 == 0 && Projectile.localAI[2] < 3) {
+                    for (int i = 0; i < 2; i++) {
+                        if (Projectile.IsOwnedByLocalPlayer()) {
                             Vector2 vr = (Projectile.rotation - MathHelper.ToRadians(Main.rand.NextFloat(80, 100)) * Owner.direction).ToRotationVector2() * Main.rand.NextFloat(3, 7) + Owner.velocity;
                             Projectile.NewProjectile(Projectile.parent(), Projectile.Center, vr, ModContent.ProjectileType<GunCasing>(), 10, Projectile.knockBack, Owner.whoAmI);
                         }
@@ -157,10 +137,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
                     Projectile.netUpdate = true;
                 }
             }
-            if (Status == 1)
-            {
-                if (ThisTimeValue % 30 == 0)
-                {
+            if (Status == 1) {
+                if (ThisTimeValue % 30 == 0) {
                     spanSmogsBool = true;
                     SpawnDragonsBreathDust(shootPos, speed);
                     SpawnSomgDust(shootPos, speed);
@@ -173,9 +151,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
 
         int fireType => ModContent.ProjectileType<DragonsBreathRound>();
         int fireCross => ModContent.ProjectileType<DragonFireRupture>();
-        
-        public void ShootFire(Vector2 shootPos)
-        {
+
+        public void ShootFire(Vector2 shootPos) {
             if (Main.myPlayer != Projectile.owner) return;
 
             int AmmoTypes = ProjectileID.WoodenArrowFriendly;
@@ -185,10 +162,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
             bool haveAmmo = Owner.PickAmmo(Owner.ActiveItem(), out AmmoTypes, out scaleFactor11, out weaponDamage2, out weaponKnockback2, out _, Main.rand.NextBool(3));
             weaponKnockback2 = Owner.GetWeaponKnockback(Owner.ActiveItem(), weaponKnockback2);
 
-            if (haveAmmo)
-            {
-                for (int i = 0; i < 6; i++)
-                {
+            if (haveAmmo) {
+                for (int i = 0; i < 6; i++) {
                     float angleOffset = MathHelper.ToRadians(-3 + i);
                     Vector2 rotatedVel = (Projectile.rotation + angleOffset).ToRotationVector2() * 13f;
                     Projectile.NewProjectile(Owner.parent(), shootPos, rotatedVel, AmmoTypes, weaponDamage2, weaponKnockback2, Owner.whoAmI);
@@ -197,28 +172,23 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
             }
         }
 
-        public void ShootFire2(Vector2 shootPos)
-        {
+        public void ShootFire2(Vector2 shootPos) {
             if (Main.myPlayer != Projectile.owner) return;
 
-            for (int i = 0; i < 3; i++)
-            {
+            for (int i = 0; i < 3; i++) {
                 float angleOffset = MathHelper.ToRadians(-6 + i * 6);
                 Vector2 rotatedVel = (Projectile.rotation + angleOffset).ToRotationVector2() * 13f;
                 Projectile.NewProjectile(Projectile.parent(), shootPos, rotatedVel, fireCross, (int)(Projectile.damage * 0.75f), Projectile.knockBack, Owner.whoAmI);
             }
         }
 
-        private void SpawnDragonsBreathDust(Vector2 pos, Vector2 velocity, int splNum = 1)
-        {
+        private void SpawnDragonsBreathDust(Vector2 pos, Vector2 velocity, int splNum = 1) {
             if (Main.myPlayer != Projectile.owner) return;
 
             pos += velocity.SafeNormalize(Vector2.Zero) * Projectile.width * Projectile.scale * 0.71f;
-            for (int i = 0; i < 30 * splNum; i++)
-            {
+            for (int i = 0; i < 30 * splNum; i++) {
                 int dustID;
-                switch (Main.rand.Next(6))
-                {
+                switch (Main.rand.Next(6)) {
                     case 0:
                         dustID = 262;
                         break;
@@ -235,8 +205,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
                 Vector2 dustVel = new Vector2(num, 0f).RotatedBy((double)velocity.ToRotation(), default);
                 dustVel = dustVel.RotatedBy(0f - angleRandom);
                 dustVel = dustVel.RotatedByRandom(2f * angleRandom);
-                if (Main.rand.NextBool(4))
-                {
+                if (Main.rand.NextBool(4)) {
                     dustVel = Vector2.Lerp(dustVel, -Vector2.UnitY * dustVel.Length(), Main.rand.NextFloat(0.6f, 0.85f)) * 0.9f;
                 }
                 float scale = Main.rand.NextFloat(0.5f, 1.5f);
@@ -246,14 +215,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
             }
         }
 
-        private void SpawnSomgDust(Vector2 pos, Vector2 velocity)
-        {
+        private void SpawnSomgDust(Vector2 pos, Vector2 velocity) {
             if (Main.myPlayer != Projectile.owner) return;
 
             Dust.NewDust(pos, 16, 16, DustID.Smoke);
 
-            for (int i = 0; i < 66; i++)
-            {
+            for (int i = 0; i < 66; i++) {
                 Vector2 vr = (velocity.ToRotation() + MathHelper.ToRadians(Main.rand.NextFloat(-15, 15))).ToRotationVector2() * Main.rand.Next(3, 16);
                 Dust.NewDust(pos, 3, 3, DustID.Smoke, vr.X, vr.Y, 15);
                 int dust = Dust.NewDust(pos, 3, 3, DustID.AmberBolt, vr.X, vr.Y, 15);
@@ -261,13 +228,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
             }
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             return false;
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
+        public override bool PreDraw(ref Color lightColor) {
             if (Owner == null) return false;
 
             SpriteEffects spriteEffects = toMou.X > 0 ? SpriteEffects.None : SpriteEffects.FlipVertically;

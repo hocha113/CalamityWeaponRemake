@@ -8,38 +8,31 @@ namespace CalamityWeaponRemake.Common.Effects
     {
         private RenderTarget2D target;
 
-        internal bool WaitingForFirstInitialization
-        {
+        internal bool WaitingForFirstInitialization {
             get;
             private set;
         } = true;
 
-        internal RenderTargetCreationCondition CreationCondition
-        {
+        internal RenderTargetCreationCondition CreationCondition {
             get;
             private set;
         }
 
         public bool IsUninitialized => target is null || target.IsDisposed;
 
-        public bool IsDisposed
-        {
+        public bool IsDisposed {
             get;
             private set;
         }
 
-        public bool ShouldResetUponScreenResize
-        {
+        public bool ShouldResetUponScreenResize {
             get;
             private set;
         }
 
-        public RenderTarget2D Target
-        {
-            get
-            {
-                if (IsUninitialized)
-                {
+        public RenderTarget2D Target {
+            get {
+                if (IsUninitialized) {
                     target = CreationCondition(Main.screenWidth, Main.screenHeight);
                     WaitingForFirstInitialization = false;
                 }
@@ -55,15 +48,13 @@ namespace CalamityWeaponRemake.Common.Effects
 
         public delegate RenderTarget2D RenderTargetCreationCondition(int screenWidth, int screenHeight);
 
-        public ManagedRenderTarget(bool shouldResetUponScreenResize, RenderTargetCreationCondition creationCondition)
-        {
+        public ManagedRenderTarget(bool shouldResetUponScreenResize, RenderTargetCreationCondition creationCondition) {
             ShouldResetUponScreenResize = shouldResetUponScreenResize;
             CreationCondition = creationCondition;
             RenderTargetManager.ManagedTargets.Add(this);
         }
 
-        public void Dispose()
-        {
+        public void Dispose() {
             if (IsDisposed)
                 return;
 
@@ -72,8 +63,7 @@ namespace CalamityWeaponRemake.Common.Effects
             GC.SuppressFinalize(this);
         }
 
-        public void Recreate(int screenWidth, int screenHeight)
-        {
+        public void Recreate(int screenWidth, int screenHeight) {
             Dispose();
             IsDisposed = false;
 

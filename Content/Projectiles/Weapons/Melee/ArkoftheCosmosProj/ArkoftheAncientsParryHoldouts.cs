@@ -47,8 +47,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
 
         public Player Owner => Main.player[Projectile.owner];
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.width = Projectile.height = 75;
             Projectile.width = Projectile.height = 75;
@@ -58,23 +57,19 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             Projectile.noEnchantmentVisuals = true;
         }
 
-        public override bool? CanDamage()
-        {
+        public override bool? CanDamage() {
             return Timer <= ParryTime && AlreadyParried == 0f;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             float collisionPoint = 0f;
             float num = 142f * Projectile.scale;
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + Projectile.velocity * num, 44f, ref collisionPoint);
         }
 
-        public void GeneralParryEffects()
-        {
+        public void GeneralParryEffects() {
             ArkoftheCosmos arkoftheCosmos = Owner.HeldItem.ModItem as ArkoftheCosmos;
-            if (arkoftheCosmos != null)
-            {
+            if (arkoftheCosmos != null) {
                 arkoftheCosmos.Charge = 10f;
                 arkoftheCosmos.Combo = 0f;
             }
@@ -84,8 +79,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             style.Volume = CommonCalamitySounds.ScissorGuillotineSnapSound.Volume * 1.3f;
             SoundEngine.PlaySound(in style, Projectile.Center);
             CombatText.NewText(Projectile.Hitbox, new Color(111, 247, 200), CalamityUtils.GetTextValue("Misc.ArkParry"), dramatic: true);
-            for (int i = 0; i < 5; i++)
-            {
+            for (int i = 0; i < 5; i++) {
                 Vector2 vector = Main.rand.NextVector2Circular(Owner.Hitbox.Width * 2f, Owner.Hitbox.Height * 1.2f);
                 float num = Main.rand.NextFloat(0.5f, 1.4f);
                 GeneralParticleHandler.SpawnParticle(new FlareShine(Owner.Center + vector, vector * 0.01f, Color.White, Color.Red, 0f, new Vector2(0.6f, 1f) * num, new Vector2(1.5f, 2.7f) * num, 20 + Main.rand.Next(6), 0f, 3f, 0f, Main.rand.Next(7) * 2));
@@ -94,30 +88,24 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             AlreadyParried = 1f;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            if (!(AlreadyParried > 0f))
-            {
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
+            if (!(AlreadyParried > 0f)) {
                 GeneralParryEffects();
-                if (target.damage > 0)
-                {
+                if (target.damage > 0) {
                     Owner.GiveIFrames(35);
                 }
 
                 Vector2 position = target.Hitbox.Size().Length() < 140f ? target.Center : Projectile.Center + Projectile.rotation.ToRotationVector2() * 60f;
                 GeneralParticleHandler.SpawnParticle(new GenericSparkle(position, Vector2.Zero, Color.White, Color.HotPink, 1.2f, 35, 0.1f, 2f));
-                for (int i = 0; i < 10; i++)
-                {
+                for (int i = 0; i < 10; i++) {
                     Vector2 velocity = Main.rand.NextVector2CircularEdge(1f, 1f) * Main.rand.NextFloat(2.6f, 4f);
                     GeneralParticleHandler.SpawnParticle(new SquishyLightParticle(position, velocity, Main.rand.NextFloat(0.3f, 0.6f), Color.Cyan, 60, 1f, 1.5f, 3f, 0.02f));
                 }
             }
         }
 
-        public override void AI()
-        {
-            if (!initialized)
-            {
+        public override void AI() {
+            if (!initialized) {
                 Projectile.timeLeft = 340;
                 SoundStyle style = SoundID.Item84;
                 style.Volume = SoundID.Item84.Volume * 0.3f;
@@ -132,37 +120,30 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
 
             Projectile.Center = Owner.Center + DistanceFromPlayer;
             Projectile.scale = 1.4f + ThrustDisplaceRatio() * 0.2f;
-            if (Timer > ParryTime)
-            {
+            if (Timer > ParryTime) {
                 return;
             }
 
             float collisionPoint = 0f;
             float num = 142f * Projectile.scale;
-            for (int i = 0; i < Main.maxProjectiles; i++)
-            {
+            for (int i = 0; i < Main.maxProjectiles; i++) {
                 Projectile projectile = Main.projectile[i];
-                if (!projectile.active || !projectile.hostile || projectile.damage <= 1 || !(projectile.velocity.Length() * (projectile.extraUpdates + 1) > 1f) || !(projectile.Size.Length() < 300f) || !Collision.CheckAABBvLineCollision(projectile.Hitbox.TopLeft(), projectile.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + Projectile.velocity * num, 24f, ref collisionPoint))
-                {
+                if (!projectile.active || !projectile.hostile || projectile.damage <= 1 || !(projectile.velocity.Length() * (projectile.extraUpdates + 1) > 1f) || !(projectile.Size.Length() < 300f) || !Collision.CheckAABBvLineCollision(projectile.Hitbox.TopLeft(), projectile.Hitbox.Size(), Owner.Center + DistanceFromPlayer, Owner.Center + DistanceFromPlayer + Projectile.velocity * num, 24f, ref collisionPoint)) {
                     continue;
                 }
 
-                if (AlreadyParried == 0f)
-                {
+                if (AlreadyParried == 0f) {
                     GeneralParryEffects();
-                    if (Owner.velocity.Y != 0f)
-                    {
+                    if (Owner.velocity.Y != 0f) {
                         Owner.velocity += (Owner.Center - projectile.Center).SafeNormalize(Vector2.Zero) * 2f;
                     }
                 }
 
-                if (projectile.Calamity().flatDR < 160)
-                {
+                if (projectile.Calamity().flatDR < 160) {
                     projectile.Calamity().flatDR = 160;
                 }
 
-                if (projectile.Calamity().flatDRTimer < 60)
-                {
+                if (projectile.Calamity().flatDRTimer < 60) {
                     projectile.Calamity().flatDRTimer = 60;
                 }
 
@@ -172,34 +153,27 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             Owner.heldProj = Projectile.whoAmI;
             Owner.direction = Math.Sign(Projectile.velocity.X);
             Owner.itemRotation = Projectile.rotation;
-            if (Owner.direction != 1)
-            {
+            if (Owner.direction != 1) {
                 Owner.itemRotation -= MathF.PI;
             }
 
             Owner.itemRotation = MathHelper.WrapAngle(Owner.itemRotation);
-            if (AlreadyParried > 0f)
-            {
+            if (AlreadyParried > 0f) {
                 AlreadyParried += 1f;
             }
         }
 
-        internal float ThrustDisplaceRatio()
-        {
+        internal float ThrustDisplaceRatio() {
             return CalamityUtils.PiecewiseAnimation(ParryProgress, anticipation, thrust, retract);
         }
 
-        internal float RotationRatio()
-        {
+        internal float RotationRatio() {
             return CalamityUtils.PiecewiseAnimation(ParryProgress, openMore, close, stayClosed);
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
-            if (Timer > ParryTime)
-            {
-                if (Main.myPlayer == Owner.whoAmI)
-                {
+        public override bool PreDraw(ref Color lightColor) {
+            if (Timer > ParryTime) {
+                if (Main.myPlayer == Owner.whoAmI) {
                     Texture2D value = ModContent.Request<Texture2D>("CalamityMod/UI/MiscTextures/GenericBarBack").Value;
                     Texture2D value2 = ModContent.Request<Texture2D>("CalamityMod/UI/MiscTextures/GenericBarFront").Value;
                     Vector2 position = Owner.Center - Main.screenPosition + new Vector2(0f, -36f) - value.Size() / 2f;
@@ -230,23 +204,19 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.ArkoftheCosmosP
             return false;
         }
 
-        public override void OnKill(int timeLeft)
-        {
-            if (Main.myPlayer == Owner.whoAmI)
-            {
+        public override void OnKill(int timeLeft) {
+            if (Main.myPlayer == Owner.whoAmI) {
                 SoundStyle style = SoundID.Item35;
                 style.Volume = SoundID.Item35.Volume * 2f;
                 SoundEngine.PlaySound(in style);
             }
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
+        public override void SendExtraAI(BinaryWriter writer) {
             writer.Write(initialized);
         }
 
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
+        public override void ReceiveExtraAI(BinaryReader reader) {
             initialized = reader.ReadBoolean();
         }
     }

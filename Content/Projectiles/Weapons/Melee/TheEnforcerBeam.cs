@@ -70,7 +70,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Projectile.Opacity = Utils.GetLerpValue(Projectile.localAI[0], 26f, Projectile.timeLeft, clamped: true);
             Projectile.position -= Projectile.velocity;
             Projectile.scale += 0.01f;
-            Projectile.rotation -= Projectile.ai[0] == 1? 22 : 5;
+            Projectile.rotation -= Projectile.ai[0] == 1 ? 22 : 5;
         }
 
         public float SlashWidthFunction(float completionRatio) {

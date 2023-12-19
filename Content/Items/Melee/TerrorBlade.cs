@@ -21,14 +21,12 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public const float TerrorBladeMaxRageEnergy = 5000;
 
-        private float rageEnergy
-        {
+        private float rageEnergy {
             get => Item.CWR().MeleeCharge;
             set => Item.CWR().MeleeCharge = value;
         }
 
-        public override void SetDefaults()
-        {
+        public override void SetDefaults() {
             Item.width = 88;
             Item.damage = 560;
             Item.DamageType = DamageClass.Melee;
@@ -47,46 +45,38 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.CWR().remakeItem = true;
         }
 
-        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-        {
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) {
             Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>(CWRConstant.Item_Melee + "TerrorBladeGlow", (AssetRequestMode)2).Value);
         }
 
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position
-            , Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
-        {
+            , Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale) {
             base.PostDrawInInventory(spriteBatch, position, frame, drawColor, itemColor, origin, scale);
 
-            if (Item.CWR().HoldOwner != null && rageEnergy > 0)
-            {
+            if (Item.CWR().HoldOwner != null && rageEnergy > 0) {
                 DrawRageEnergyChargeBar(Item.CWR().HoldOwner);
             }
         }
 
-        public override void UpdateInventory(Player player)
-        {
+        public override void UpdateInventory(Player player) {
             UpdateBar();
             base.UpdateInventory(player);
         }
 
-        public override void HoldItem(Player player)
-        {
-            if (Item.CWR().HoldOwner == null)
-            {
+        public override void HoldItem(Player player) {
+            if (Item.CWR().HoldOwner == null) {
                 Item.CWR().HoldOwner = player;
             }
 
             UpdateBar();
 
-            if (rageEnergy > 0)
-            {
+            if (rageEnergy > 0) {
                 Item.damage = 360;
                 Item.shootSpeed = 20f;
                 Item.useAnimation = 10;
                 Item.useTime = 10;
             }
-            else
-            {
+            else {
                 Item.damage = 560;
                 Item.shootSpeed = 15f;
                 Item.useAnimation = 18;
@@ -94,20 +84,16 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             }
         }
 
-        private void UpdateBar()
-        {
+        private void UpdateBar() {
             if (rageEnergy > TerrorBladeMaxRageEnergy)
                 rageEnergy = TerrorBladeMaxRageEnergy;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             bool shootBool = false;
-            if (!Item.CWR().closeCombat)
-            {
+            if (!Item.CWR().closeCombat) {
                 bool olduseup = rageEnergy > 0;//这里使用到了效差的流程思想，用于判断能量耗尽的那一刻            
-                if (rageEnergy > 0)
-                {
+                if (rageEnergy > 0) {
                     rageEnergy -= damage / 10;
                     Projectile.NewProjectileDirect(
                         source,
@@ -121,13 +107,11 @@ namespace CalamityWeaponRemake.Content.Items.Melee
                         );
                     shootBool = false;
                 }
-                else
-                {
+                else {
                     shootBool = true;
                 }
                 bool useup = rageEnergy > 0;
-                if (useup != olduseup)
-                {
+                if (useup != olduseup) {
                     SoundEngine.PlaySound(ModSound.Peuncharge, player.Center);
                 }
             }
@@ -136,44 +120,37 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             return shootBool;
         }
 
-        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
-        {
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone) {
             Item.CWR().closeCombat = true;
             target.AddBuff(ModContent.BuffType<SoulBurning>(), 600);
 
             bool oldcharge = rageEnergy > 0;//与OnHitPvp一致，用于判断能量出现的那一刻
             rageEnergy += hit.Damage / 5;
             bool charge = rageEnergy > 0;
-            if (charge != oldcharge)
-            {
+            if (charge != oldcharge) {
                 SoundEngine.PlaySound(ModSound.Pecharge, player.Center);
             }
         }
 
-        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
-        {
+        public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo) {
             Item.CWR().closeCombat = true;
             target.AddBuff(ModContent.BuffType<SoulBurning>(), 160);
 
             bool oldcharge = rageEnergy > 0;
             rageEnergy += hurtInfo.Damage * 2;
             bool charge = rageEnergy > 0;
-            if (charge != oldcharge)
-            {
+            if (charge != oldcharge) {
                 SoundEngine.PlaySound(ModSound.Pecharge, player.Center);
             }
         }
 
-        public override void MeleeEffects(Player player, Rectangle hitbox)
-        {
-            if (Main.rand.NextBool(3))
-            {
+        public override void MeleeEffects(Player player, Rectangle hitbox) {
+            if (Main.rand.NextBool(3)) {
                 Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.RedTorch);
             }
         }
 
-        public void DrawRageEnergyChargeBar(Player player)
-        {
+        public void DrawRageEnergyChargeBar(Player player) {
             if (player.HeldItem != Item) return;
             Texture2D rageEnergyTop = CWRUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeTop");
             Texture2D rageEnergyBar = CWRUtils.GetT2DValue(CWRConstant.UI + "FrightEnergyChargeBar");
