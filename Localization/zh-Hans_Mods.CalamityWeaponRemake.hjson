@@ -3,6 +3,8 @@ CWRRecipes: {
 	GodEaterWeapon: 噬神者武器
 }
 
+Tools.RecipesLoseText: 你无法直接制作这个东西
+
 Items: {
 	BrinyBaron: {
 		DisplayName: 海爵剑
@@ -448,7 +450,7 @@ Items: {
 	}
 
 	InfinitePick: {
-		DisplayName: 无尽镐
+		DisplayName: 寰宇贪婪镐
 		Tooltip: ""
 	}
 
@@ -458,18 +460,38 @@ Items: {
 	}
 
 	GreatswordofJudgement: {
-		// DisplayName: Greatswordof Judgement
-		// Tooltip: ""
+		DisplayName: 制裁大剑
+		Tooltip: ""
 	}
 
 	Orderbringer: {
-		// DisplayName: Orderbringer
-		// Tooltip: ""
+		DisplayName: 携序之刃
+		Tooltip: ""
 	}
 
 	IridescentExcalibur: {
-		// DisplayName: Iridescent Excalibur
-		// Tooltip: ""
+		DisplayName: 元素圣剑
+		Tooltip: ""
+	}
+
+	EndlessStabilizer: {
+		DisplayName: 休谟稳定器
+		Tooltip: 让一些强大的物品稳定下来
+	}
+
+	BlackMatterStick: {
+		DisplayName: 超密质中子星聚合杆
+		Tooltip: ""
+	}
+
+	InfiniteStick: {
+		DisplayName: 无尽杆
+		Tooltip: ""
+	}
+
+	InfinityCatalyst: {
+		DisplayName: 无尽催化剂
+		Tooltip: 你的贪婪即将达到顶点
 	}
 }
 
@@ -612,6 +634,11 @@ Projectiles: {
 	// OrderbringerBeams.DisplayName: Orderbringer Beams
 	// OrderbringerProj.DisplayName: Orderbringer Proj
 	// OrderbringerBeams2.DisplayName: Orderbringer Beams2
+	// IridescentExcaliburBeam.DisplayName: Iridescent Excalibur Beam
+	// IridescentExcaliburLight.DisplayName: Iridescent Excalibur Light
+	// OrderbringerWhiteOrbs.DisplayName: Orderbringer White Orbs
+	// InfinitePickProj.DisplayName: Infinite Pick Proj
+	// InfiniteEnmgs.DisplayName: Infinite Enmgs
 }
 
 Configs: {

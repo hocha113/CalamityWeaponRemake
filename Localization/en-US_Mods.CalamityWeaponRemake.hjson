@@ -3,6 +3,8 @@ CWRRecipes: {
 	GodEaterWeapon: God Eater weapon
 }
 
+Tools.RecipesLoseText: You can't just make this thing
+
 Items: {
 	BrinyBaron: {
 		DisplayName: Briny Baron
@@ -471,6 +473,26 @@ Items: {
 		DisplayName: Iridescent Excalibur
 		Tooltip: ""
 	}
+
+	EndlessStabilizer: {
+		DisplayName: Endless Stabilizer
+		Tooltip: ""
+	}
+
+	BlackMatterStick: {
+		DisplayName: Black Matter Stick
+		Tooltip: ""
+	}
+
+	InfiniteStick: {
+		DisplayName: Infinite Stick
+		Tooltip: ""
+	}
+
+	InfinityCatalyst: {
+		DisplayName: Infinity Catalyst
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -612,6 +634,11 @@ Projectiles: {
 	OrderbringerBeams.DisplayName: Orderbringer Beams
 	OrderbringerProj.DisplayName: Orderbringer Proj
 	OrderbringerBeams2.DisplayName: Orderbringer Beams2
+	IridescentExcaliburBeam.DisplayName: Iridescent Excalibur Beam
+	IridescentExcaliburLight.DisplayName: Iridescent Excalibur Light
+	OrderbringerWhiteOrbs.DisplayName: Orderbringer White Orbs
+	InfinitePickProj.DisplayName: Infinite Pick Proj
+	InfiniteEnmgs.DisplayName: Infinite Enmgs
 }
 
 Configs: {

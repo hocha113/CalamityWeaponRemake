@@ -29,6 +29,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Projectile.timeLeft = 180;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.scale = 0.7f;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI() {
@@ -39,7 +41,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
             Lighting.AddLight(Projectile.Center, Main.DiscoColor.ToVector3());
             if (!CWRUtils.isServer) {
-                CWRParticle energyLeak = new LightParticle(Projectile.Center + Main.rand.NextVector2Unit() * Main.rand.Next(3), Vector2.Zero
+                CWRParticle energyLeak = new LightParticle(Projectile.Center + Main.rand.NextVector2Unit() * Main.rand.Next(3), Projectile.velocity * 0.25f
                                 , Main.rand.NextFloat(0.3f, 0.5f), ProjColor, 50, 1, 1.5f, hueShift: 0.0f);
                 CWRParticleHandler.SpawnParticle(energyLeak);
             }

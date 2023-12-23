@@ -12,6 +12,8 @@ namespace CalamityWeaponRemake.Content
 
         public bool inFoodStallChair;
 
+        public bool EndlessStabilizerBool;
+
         public override void Initialize() {
             theRelicLuxor = 0;
         }
@@ -19,6 +21,7 @@ namespace CalamityWeaponRemake.Content
         public override void ResetEffects() {
             theRelicLuxor = 0;
             inFoodStallChair = false;
+            EndlessStabilizerBool = false;
         }
 
         public override void OnEnterWorld() {

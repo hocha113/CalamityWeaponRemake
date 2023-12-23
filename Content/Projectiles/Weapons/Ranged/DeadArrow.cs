@@ -14,15 +14,15 @@ using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
 {
-    internal class DeadArrow : CustomProjectiles
+    internal class DeadArrow : ModProjectile
     {
         internal PrimitiveTrail TrailDrawer;
 
         public override string Texture => CWRConstant.Cay_Proj_Ranged + "DWArrow2";
 
-        public override int Status { get => (int)Projectile.ai[0]; set => Projectile.ai[0] = value; }
-        public override int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
-        public override int ThisTimeValue { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
+        public int Status { get => (int)Projectile.ai[0]; set => Projectile.ai[0] = value; }
+        public int Behavior { get => (int)Projectile.ai[1]; set => Projectile.ai[1] = value; }
+        public int ThisTimeValue { get => (int)Projectile.ai[2]; set => Projectile.ai[2] = value; }
 
         public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 25;
@@ -99,14 +99,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             return null;
-        }
-
-        public override void OnSpawn(IEntitySource source) {
-
-        }
-
-        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) {
-
         }
     }
 }

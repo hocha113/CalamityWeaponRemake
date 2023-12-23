@@ -15,9 +15,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
     {
         public override string Texture => CWRConstant.Cay_Wap_Melee + "Orderbringer";
         public NPC Owner => Main.npc[(int)Projectile.ai[2]];
-        public float rotatehammer = 35f;
-        public int ColorAlpha = 225;
-        public float speed = 0f;
         public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 14;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
@@ -28,9 +25,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Projectile.height = 120;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 1;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 1;
         }
 
         public override void AI() {
@@ -91,8 +90,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                 NPC npc = Projectile.Center.InPosClosestNPC(6000);
                 if (npc != null) {
                     Projectile.ChasingBehavior(npc.Center, 36);
-                    Projectile.penetrate = 1;
-                    Projectile.netUpdate = true;
+                    if (Projectile.Center.To(npc.Center).LengthSquared() < 16 * 16) {
+                        Projectile.Damage();
+                        Projectile.Kill();
+                    }
                 }
                 else {
                     Projectile.Kill();
@@ -100,6 +101,17 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
             }
             Projectile.ai[0]++;
+        }
+
+        public override bool? CanDamage() {
+            return Projectile.ai[1] == 2;
+        }
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
+            float point = 0;
+            Vector2 vr = Projectile.rotation.ToRotationVector2();
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center + vr * -155
+                ,  Projectile.Center + vr * 155, 155, ref point);
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {

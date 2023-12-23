@@ -23,11 +23,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
         public override void SetDefaults() {
             Projectile.width = 20;
             Projectile.height = 20;
-            Projectile.extraUpdates = 3;
+            Projectile.extraUpdates = 2;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = 3;
-            Projectile.timeLeft = 120;
+            Projectile.timeLeft = 180;
             Projectile.DamageType = DamageClass.Melee;
         }
 
@@ -86,7 +86,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                 target.CWR().OrderbringerOnHitNum += 1;
                 if (target.CWR().OrderbringerOnHitNum > 13) {
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<OrderbringerProj>()
-                    , Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f, target.whoAmI);
+                    , Projectile.damage * 3, Projectile.knockBack, Projectile.owner, 0f, 0f, target.whoAmI);
                     target.CWR().OrderbringerOnHitNum = 0;
                 }
             }

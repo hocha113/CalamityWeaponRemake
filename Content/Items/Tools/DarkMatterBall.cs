@@ -1,12 +1,12 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Items.Materials;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
 
@@ -23,11 +23,22 @@ namespace CalamityWeaponRemake.Content.Items.Tools
         }
 
         public override void SetDefaults() {
-            Item.maxStack = 1;
+            Item.maxStack = 99;
             Item.consumable = true;
             Item.width = 24;
             Item.height = 24;
             Item.rare = ItemRarityID.Purple;
+        }
+
+        public static void DrawItemIcon(SpriteBatch spriteBatch, Vector2 position, int Type, float alp = 1) {
+            spriteBatch.Draw(CWRUtils.GetT2DValue(CWRConstant.Item + "Tools/Empty"), position, null, Color.White, 0, TextureAssets.Item[Type].Value.Size() / 2, 1, SpriteEffects.None, 0);
+            float sngs = Math.Abs(MathF.Sin(Main.GameUpdateCount * 0.01f));
+            spriteBatch.Draw(CWRUtils.GetT2DValue(CWRConstant.Item + "Tools/Full"), position, null, Color.White * sngs * alp, 0, TextureAssets.Item[Type].Value.Size() / 2, 1, SpriteEffects.None, 0);
+        }
+
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale) {
+            DrawItemIcon(spriteBatch, position, Type);
+            return false;
         }
 
         public override void UpdateInventory(Player player) {
@@ -78,6 +89,12 @@ namespace CalamityWeaponRemake.Content.Items.Tools
                     player.QuickSpawnItem(player.parent(), dorpItemValue, items.Count);
                 }
             }
+            Item.TurnToAir();
+        }
+
+        public override void OnStack(Item source, int numToTransfer) {
+            DarkMatterBall darkMatterBall = (DarkMatterBall)source.ModItem;
+            dorpTypes.AddRange(darkMatterBall.dorpTypes);
         }
 
         public override bool PreDrawTooltipLine(DrawableTooltipLine line, ref int yOffset) {

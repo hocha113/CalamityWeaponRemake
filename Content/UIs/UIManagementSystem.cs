@@ -1,10 +1,10 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.UIs.SupertableUIs;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
+using CalamityWeaponRemake.Content.UIs.SupertableUIs;
 
 namespace CalamityWeaponRemake.Content.UIs
 {
@@ -19,8 +19,10 @@ namespace CalamityWeaponRemake.Content.UIs
                     return true;
                 }, InterfaceScaleType.UI));
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Sp UI", delegate {
-                    if (SupertableUI.instance.Active)
+                    if (SupertableUI.instance.Active) {
                         SupertableUI.instance.Draw(Main.spriteBatch);
+                        RecipeUI.instance.Draw(Main.spriteBatch);
+                    }  
                     return true;
                 }, InterfaceScaleType.UI));
             }
@@ -30,8 +32,10 @@ namespace CalamityWeaponRemake.Content.UIs
             base.UpdateUI(gameTime);
             if (Main.LocalPlayer.CWR().CompressorPanelID != -1)
                 CompressorUI.instance.Update();
-            if (SupertableUI.instance.Active)
+            if (SupertableUI.instance.Active) {
                 SupertableUI.instance.Update(gameTime);
+                RecipeUI.instance.Update(gameTime);
+            }  
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using CalamityMod.NPCs.Abyss;
+﻿using CalamityMod.Items;
+using CalamityMod.Items.Materials;
+using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.DesertScourge;
@@ -9,9 +11,12 @@ using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PrimordialWyrm;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityWeaponRemake.Content.Items.Materials;
+using CalamityWeaponRemake.Content.Items.Tools;
 using System.Collections.Generic;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityWeaponRemake
 {
@@ -19,8 +24,15 @@ namespace CalamityWeaponRemake
     {
         public static bool OnLoadContentBool = true;
 
-        public static Dictionary<int, int> TileToItem = new Dictionary<int, int>();
-        public static Dictionary<int, int> WallToItem = new Dictionary<int, int>();
+        public static int DarkMatterBall;
+        public static int BlackMatterStick;
+        public static int InfiniteStick;
+        public static int EndlessStabilizer;
+
+        public static int[] MaterialsTypes;
+
+        public static Dictionary<int, int> TileToItem = new();
+        public static Dictionary<int, int> WallToItem = new();
 
         /// <summary>
         /// 坟墓灾虫
@@ -132,64 +144,69 @@ namespace CalamityWeaponRemake
 
         public static void Load() {
 
-            SepulcherHead = ModContent.NPCType<SepulcherHead>();
-            SepulcherBody = ModContent.NPCType<SepulcherBody>();
-            SepulcherTail = ModContent.NPCType<SepulcherTail>();
+            DarkMatterBall = ItemType<DarkMatterBall>();
+            EndlessStabilizer = ItemType<EndlessStabilizer>();
+            InfiniteStick = ItemType<InfiniteStick>();
+            BlackMatterStick = ItemType<BlackMatterStick>();
 
-            StormWeaverHead = ModContent.NPCType<StormWeaverHead>();
-            StormWeaverBody = ModContent.NPCType<StormWeaverBody>();
-            StormWeaverTail = ModContent.NPCType<StormWeaverTail>();
+            SepulcherHead = NPCType<SepulcherHead>();
+            SepulcherBody = NPCType<SepulcherBody>();
+            SepulcherTail = NPCType<SepulcherTail>();
 
-            PrimordialWyrmHead = ModContent.NPCType<PrimordialWyrmHead>();
-            PrimordialWyrmBody = ModContent.NPCType<PrimordialWyrmBody>();
-            PrimordialWyrmTail = ModContent.NPCType<PrimordialWyrmTail>();
+            StormWeaverHead = NPCType<StormWeaverHead>();
+            StormWeaverBody = NPCType<StormWeaverBody>();
+            StormWeaverTail = NPCType<StormWeaverTail>();
 
-            PerforatorHeadLarge = ModContent.NPCType<PerforatorHeadLarge>();
-            PerforatorBodyLarge = ModContent.NPCType<PerforatorBodyLarge>();
-            PerforatorTailLarge = ModContent.NPCType<PerforatorTailLarge>();
+            PrimordialWyrmHead = NPCType<PrimordialWyrmHead>();
+            PrimordialWyrmBody = NPCType<PrimordialWyrmBody>();
+            PrimordialWyrmTail = NPCType<PrimordialWyrmTail>();
 
-            PerforatorHeadMedium = ModContent.NPCType<PerforatorHeadMedium>();
-            PerforatorBodyMedium = ModContent.NPCType<PerforatorBodyMedium>();
-            PerforatorTailMedium = ModContent.NPCType<PerforatorTailMedium>();
+            PerforatorHeadLarge = NPCType<PerforatorHeadLarge>();
+            PerforatorBodyLarge = NPCType<PerforatorBodyLarge>();
+            PerforatorTailLarge = NPCType<PerforatorTailLarge>();
 
-            ArmoredDiggerHead = ModContent.NPCType<CalamityMod.NPCs.NormalNPCs.ArmoredDiggerHead>();
-            ArmoredDiggerBody = ModContent.NPCType<CalamityMod.NPCs.NormalNPCs.ArmoredDiggerBody>();
-            ArmoredDiggerTail = ModContent.NPCType<CalamityMod.NPCs.NormalNPCs.ArmoredDiggerTail>();
+            PerforatorHeadMedium = NPCType<PerforatorHeadMedium>();
+            PerforatorBodyMedium = NPCType<PerforatorBodyMedium>();
+            PerforatorTailMedium = NPCType<PerforatorTailMedium>();
 
-            Apollo = ModContent.NPCType<Apollo>();
-            Artemis = ModContent.NPCType<Artemis>();
-            AresBody = ModContent.NPCType<CalamityMod.NPCs.ExoMechs.Ares.AresBody>();
-            ThanatosHead = ModContent.NPCType<ThanatosHead>();
-            ThanatosBody1 = ModContent.NPCType<ThanatosBody1>();
-            ThanatosBody2 = ModContent.NPCType<ThanatosBody2>();
-            ThanatosTail = ModContent.NPCType<ThanatosTail>();
+            ArmoredDiggerHead = NPCType<CalamityMod.NPCs.NormalNPCs.ArmoredDiggerHead>();
+            ArmoredDiggerBody = NPCType<CalamityMod.NPCs.NormalNPCs.ArmoredDiggerBody>();
+            ArmoredDiggerTail = NPCType<CalamityMod.NPCs.NormalNPCs.ArmoredDiggerTail>();
 
-            DevourerofGodsHead = ModContent.NPCType<CalamityMod.NPCs.DevourerofGods.DevourerofGodsHead>();
-            DevourerofGodsBody = ModContent.NPCType<CalamityMod.NPCs.DevourerofGods.DevourerofGodsBody>();
-            DevourerofGodsTail = ModContent.NPCType<CalamityMod.NPCs.DevourerofGods.DevourerofGodsTail>();
-            CosmicGuardianHead = ModContent.NPCType<CalamityMod.NPCs.DevourerofGods.CosmicGuardianHead>();
-            CosmicGuardianBody = ModContent.NPCType<CalamityMod.NPCs.DevourerofGods.CosmicGuardianBody>();
-            CosmicGuardianTail = ModContent.NPCType<CalamityMod.NPCs.DevourerofGods.CosmicGuardianTail>();
+            Apollo = NPCType<Apollo>();
+            Artemis = NPCType<Artemis>();
+            AresBody = NPCType<CalamityMod.NPCs.ExoMechs.Ares.AresBody>();
+            ThanatosHead = NPCType<ThanatosHead>();
+            ThanatosBody1 = NPCType<ThanatosBody1>();
+            ThanatosBody2 = NPCType<ThanatosBody2>();
+            ThanatosTail = NPCType<ThanatosTail>();
 
-            DesertScourgeHead = ModContent.NPCType<DesertScourgeHead>();
-            DesertScourgeBody = ModContent.NPCType<DesertScourgeBody>();
-            DesertScourgeTail = ModContent.NPCType<DesertScourgeTail>();
-            DesertNuisanceHead = ModContent.NPCType<DesertNuisanceHead>();
-            DesertNuisanceBody = ModContent.NPCType<DesertNuisanceBody>();
-            DesertNuisanceTail = ModContent.NPCType<DesertNuisanceTail>();
+            DevourerofGodsHead = NPCType<CalamityMod.NPCs.DevourerofGods.DevourerofGodsHead>();
+            DevourerofGodsBody = NPCType<CalamityMod.NPCs.DevourerofGods.DevourerofGodsBody>();
+            DevourerofGodsTail = NPCType<CalamityMod.NPCs.DevourerofGods.DevourerofGodsTail>();
+            CosmicGuardianHead = NPCType<CalamityMod.NPCs.DevourerofGods.CosmicGuardianHead>();
+            CosmicGuardianBody = NPCType<CalamityMod.NPCs.DevourerofGods.CosmicGuardianBody>();
+            CosmicGuardianTail = NPCType<CalamityMod.NPCs.DevourerofGods.CosmicGuardianTail>();
 
-            AstrumDeusHead = ModContent.NPCType<AstrumDeusHead>();
-            AstrumDeusBody = ModContent.NPCType<AstrumDeusBody>();
-            AstrumDeusTail = ModContent.NPCType<AstrumDeusTail>();
+            DesertScourgeHead = NPCType<DesertScourgeHead>();
+            DesertScourgeBody = NPCType<DesertScourgeBody>();
+            DesertScourgeTail = NPCType<DesertScourgeTail>();
+            DesertNuisanceHead = NPCType<DesertNuisanceHead>();
+            DesertNuisanceBody = NPCType<DesertNuisanceBody>();
+            DesertNuisanceTail = NPCType<DesertNuisanceTail>();
 
-            AquaticScourgeHead = ModContent.NPCType<AquaticScourgeHead>();
-            AquaticScourgeBody = ModContent.NPCType<AquaticScourgeBody>();
-            AquaticScourgeTail = ModContent.NPCType<AquaticScourgeTail>();
+            AstrumDeusHead = NPCType<AstrumDeusHead>();
+            AstrumDeusBody = NPCType<AstrumDeusBody>();
+            AstrumDeusTail = NPCType<AstrumDeusTail>();
 
-            EidolonWyrmHead = ModContent.NPCType<EidolonWyrmHead>();
-            EidolonWyrmBody = ModContent.NPCType<EidolonWyrmBody>();
-            EidolonWyrmBodyAlt = ModContent.NPCType<EidolonWyrmBodyAlt>();
-            EidolonWyrmTail = ModContent.NPCType<EidolonWyrmTail>();
+            AquaticScourgeHead = NPCType<AquaticScourgeHead>();
+            AquaticScourgeBody = NPCType<AquaticScourgeBody>();
+            AquaticScourgeTail = NPCType<AquaticScourgeTail>();
+
+            EidolonWyrmHead = NPCType<EidolonWyrmHead>();
+            EidolonWyrmBody = NPCType<EidolonWyrmBody>();
+            EidolonWyrmBodyAlt = NPCType<EidolonWyrmBodyAlt>();
+            EidolonWyrmTail = NPCType<EidolonWyrmTail>();
 
             targetNpcTypes = new List<int> { SepulcherHead, SepulcherBody, SepulcherTail };
             targetNpcTypes2 = new List<int> { StormWeaverHead, StormWeaverBody, StormWeaverTail };
@@ -206,6 +223,42 @@ namespace CalamityWeaponRemake
             targetNpcTypes13 = new List<int> { NPCID.MoonLordFreeEye, NPCID.MoonLordCore, NPCID.MoonLordHand, NPCID.MoonLordHead, NPCID.MoonLordLeechBlob };
             targetNpcTypes14 = new List<int> { NPCID.EaterofWorldsHead, NPCID.EaterofWorldsBody, NPCID.EaterofWorldsTail };
             targetNpcTypes15 = new List<int> { NPCID.TheDestroyer, NPCID.TheDestroyerBody, NPCID.TheDestroyerTail };
+
+            MaterialsTypes = new int[]{
+                ItemType<AerialiteBar>(),//水华锭
+                ItemType<AuricBar>(),//圣金源锭
+                ItemType<ShadowspecBar>(),//影魔锭
+                ItemType<AstralBar>(),//彗星锭
+                ItemType<CosmiliteBar>(),//宇宙锭
+                ItemType<CryonicBar>(),//极寒锭
+                ItemType<PerennialBar>(),//龙篙锭
+                ItemType<ScoriaBar>(),//岩浆锭
+                ItemType<MolluskHusk>(),//生物质
+                ItemType<MurkyPaste>(),//泥浆杂草混合物质
+                ItemType<DepthCells>(),//深渊生物组织
+                ItemType<DivineGeode>(),//圣神晶石
+                ItemType<DubiousPlating>(),//废弃装甲
+                ItemType<EffulgentFeather>(),//闪耀金羽
+                ItemType<ExoPrism>(),//星流棱晶
+                ItemType<BloodstoneCore>(),//血石核心
+                ItemType<CoreofCalamity>(),//灾劫精华
+                ItemType<AscendantSpiritEssence>(),//化神精魄
+                ItemType<AshesofCalamity>(),//灾厄尘
+                ItemType<AshesofAnnihilation>(),//至尊灾厄精华
+                ItemType<LifeAlloy>(),//生命合金
+                ItemType<LivingShard>(),//生命物质
+                ItemType<Lumenyl>(),//流明晶
+                ItemType<MeldConstruct>(),//幻塔物质
+                ItemType<MiracleMatter>(),//奇迹物质
+                ItemType<Polterplasm>(),//幻魂
+                ItemType<RuinousSoul>(),//幽花之魂
+                ItemType<DarkPlasma>(),//暗物质
+                ItemType<UnholyEssence>(),//灼火精华
+                ItemType<TwistingNether>(),//扭曲虚空
+                ItemType<ArmoredShell>(),//装甲心脏
+                ItemType<YharonSoulFragment>(),//龙魂
+                ItemType<Rock>()//古恒石
+            };
 
             OnLoadContentBool = false;
         }

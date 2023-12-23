@@ -1,15 +1,12 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Particles.Core;
 using CalamityWeaponRemake.Content.Particles;
+using CalamityWeaponRemake.Content.Particles.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SteelSeries.GameSense;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.Melee;
-using System;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 {
@@ -29,7 +26,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Projectile.height = 12;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 1;
             Projectile.timeLeft = 120;
             Projectile.DamageType = DamageClass.Melee;
         }
@@ -72,21 +69,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
         // 生成宝石光尘
         public void SpawnGemDust(int count, float velocityMultiplier) {
             for (int i = 0; i < count; i++) {
-                int shinyDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GemDiamond, 0f, 0f, 100, default, 1.25f);
+                int shinyDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GemDiamond, 0f, 0f, 100, Main.DiscoColor, 2.25f);
                 Main.dust[shinyDust].noGravity = true;
                 Main.dust[shinyDust].velocity = Projectile.velocity.GetNormalVector() * velocityMultiplier;
                 Main.dust[shinyDust].velocity += Projectile.velocity * 0.1f;
-                Main.dust[shinyDust].scale = 2.2f;
-            }
-        }
-
-        // 生成光尘粒子
-        public void SpawnLightParticles(int count, float velocityMultiplier) {
-            for (int i = 0; i < count; i++) {
-                Vector2 pos = Projectile.Center + Main.rand.NextVector2Unit() * Main.rand.Next(6);
-                Vector2 particleSpeed = Projectile.velocity.GetNormalVector() * velocityMultiplier * Main.rand.NextFloat(0.2f, 1);
-                CWRParticle lightdust = new LightParticle(pos, particleSpeed, Main.rand.NextFloat(0.3f, 0.5f), Color.DarkBlue, 60, 1, 1.5f, hueShift: 0.0f);
-                CWRParticleHandler.SpawnParticle(lightdust);
             }
         }
 
@@ -94,11 +80,11 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             if (Projectile.numHits == 0) {
                 SoundEngine.PlaySound(SoundID.Item122, Projectile.position);
                 float randNum = Main.rand.NextFloat(MathHelper.TwoPi);
-                for (int i = 0; i < 6; i++) {
-                    Vector2 vr = (MathHelper.TwoPi / 6f * i + randNum).ToRotationVector2() * 3;
+                for (int i = 0; i < 3; i++) {
+                    Vector2 vr = (MathHelper.TwoPi / 3f * i + randNum).ToRotationVector2() * 3;
                     int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, vr
-                        , ModContent.ProjectileType<OrderbringerWhiteOrb>(), Projectile.damage / 3, Projectile.knockBack, Projectile.owner);
-                    Main.projectile[proj].penetrate = -1;
+                        , ModContent.ProjectileType<OrderbringerWhiteOrbs>(), Projectile.damage / 3, Projectile.knockBack, Projectile.owner);
+
                 }
             }
         }

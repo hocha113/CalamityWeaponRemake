@@ -1,4 +1,5 @@
 ﻿using CalamityWeaponRemake.Content;
+using CalamityWeaponRemake.Content.Items.Tools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -24,6 +25,55 @@ namespace CalamityWeaponRemake.Common
 {
     public static class CWRUtils
     {
+        /// <summary>
+        /// 将 Item 数组的信息写入指定路径的文件中
+        /// </summary>
+        /// <param name="items">要导出的 Item 数组</param>
+        /// <param name="path">写入文件的路径，默认为 "D:\\模组资源\\AAModPrivate\\input.cs"</param>
+        public static void ExportItemTypesToFile(Item[] items, string path = "D:\\模组资源\\AAModPrivate\\input.cs") {
+            try {
+                int columnIndex = 0;
+                using (StreamWriter sw = new StreamWriter(path)) {
+                    sw.Write("string[] fullItems = new string[] {");
+                    foreach (Item item in items) {
+                        columnIndex++;
+                        // 根据是否有 ModItem 决定写入的内容
+                        string itemInfo = (item.ModItem == null) ? $"\"{item.type}\"" : $"\"{item.ModItem.FullName}\"";
+                        sw.Write(itemInfo);
+                        sw.Write(", ");
+                        // 每行最多写入9个元素，然后换行
+                        if (columnIndex >= 9) {
+                            sw.WriteLine();
+                            columnIndex = 0;
+                        }
+                    }
+                    sw.Write("};");
+                }
+            }
+            catch (UnauthorizedAccessException uae) {
+                Console.WriteLine($"UnauthorizedAccessException: 无法访问文件路径 '{path}'. 权限不足");
+            }
+            catch (DirectoryNotFoundException dnfe) {
+                Console.WriteLine($"DirectoryNotFoundException: 文件路径 '{path}' 中的目录不存在");
+            }
+            catch (PathTooLongException ptle) {
+                Console.WriteLine($"PathTooLongException: 文件路径 '{path}' 太长");
+            }
+            catch (IOException ioe) {
+                Console.WriteLine($"IOException: 无法打开文件 '{path}' 进行写入");
+            }
+            catch (Exception e) {
+                Console.WriteLine($"An error occurred: {e.Message}");
+            }
+        }
+
+        public static int GetTileDorp(Tile tile) {
+            int stye = TileObjectData.GetTileStyle(tile);
+            if (stye == -1)
+                stye = 0;
+            return TileLoader.GetItemDropFromTypeAndStyle(tile.TileType, stye);
+        }
+
         public static Player TileFindPlayer(int i, int j) {
             Player closestPlayer = null;
             Vector2 tilePosition = new Vector2(i, j) * 16;

@@ -97,6 +97,7 @@ namespace CalamityWeaponRemake.Content.Tiles
 
         public override bool RightClick(int i, int j) {
             SupertableUI.instance.Active = !SupertableUI.instance.Active;
+            SoundEngine.PlaySound(SoundID.Chat);
             Recipe.FindRecipes();
             return true;
         }

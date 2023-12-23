@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake
@@ -37,6 +38,10 @@ namespace CalamityWeaponRemake
             }
             //加载一次ID列表，从这里加载可以保障所有内容已经添加好了
             CWRIDs.Load();
+            //将自定义的UI放到最后加载，在这之前是确保物品、ID、生物等其他内容都加载完成后
+            new CompressorUI().Load();
+            new SupertableUI().Load();
+            new RecipeUI().Load();
         }
 
         public override void Load() {
@@ -44,8 +49,7 @@ namespace CalamityWeaponRemake
             RItemInstances = new List<BaseRItem>();
             FindMod();
             LoadClient();
-            new CompressorUI().Load();
-            new SupertableUI().Load();
+            
             CWRParticleHandler.Load();
             EffectsRegistry.LoadEffects();
             On_Main.DrawInfernoRings += PeSystem.CWRDrawForegroundParticles;

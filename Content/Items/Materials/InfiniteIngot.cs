@@ -3,22 +3,23 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Rarities;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Common.Effects;
+using CalamityWeaponRemake.Content.Items.Placeable;
+using CalamityWeaponRemake.Content.Items.Tools;
+using CalamityWeaponRemake.Content.Projectiles;
 using CalamityWeaponRemake.Content.Tiles;
+using Microsoft.CodeAnalysis.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
 using static CalamityWeaponRemake.CWRMod;
-using static System.Net.Mime.MediaTypeNames;
-using static Terraria.GameContent.TextureAssets;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityWeaponRemake.Content.Items.Materials
 {
@@ -26,6 +27,8 @@ namespace CalamityWeaponRemake.Content.Items.Materials
     {
         public override string Texture => CWRConstant.Item + "Materials/InfiniteIngot";
         public new string LocalizationCategory => "Items.Materials";
+        internal bool noDestruct;
+        internal int destructTime;
         public float QFH {
             get {
                 const float baseBonus = 1.0f;
@@ -62,12 +65,13 @@ namespace CalamityWeaponRemake.Content.Items.Materials
         public override void SetDefaults() {
             Item.width = Item.height = 25;
             Item.maxStack = 99;
-            Item.rare = ModContent.RarityType<HotPink>();
+            Item.rare = RarityType<HotPink>();
             Item.value = Item.sellPrice(gold: 999);
             Item.useAnimation = Item.useTime = 15;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<InfiniteIngotTile>();
+            Item.createTile = TileType<InfiniteIngotTile>();
+            destructTime = 5;
         }
 
         public override bool PreDrawTooltipLine(DrawableTooltipLine line, ref int yOffset) {
@@ -78,6 +82,24 @@ namespace CalamityWeaponRemake.Content.Items.Materials
                 return false;
             }
             return true;
+        }
+
+        public void Destruct(Vector2 pos, Player player) {
+            destructTime--;
+            Item[] inven = player.inventory;
+            if (!noDestruct && destructTime <= 0 && inven.Count((Item n) => n.type == CWRIDs.EndlessStabilizer) == 0) {
+                Projectile.NewProjectile(new EntitySource_WorldEvent()
+                    , pos, Vector2.Zero, ProjectileType<InfiniteIngotTileProj>(), 9999, 0);
+                Item.TurnToAir();
+            }
+        }
+
+        public override void PostUpdate() {
+            Destruct(Main.LocalPlayer.position, Main.LocalPlayer);
+        }
+
+        public override void UpdateInventory(Player player) {
+            Destruct(player.position, player);
         }
 
         public static void drawColorText(SpriteBatch sb, DrawableTooltipLine line, string text, Vector2 basePosition) {
@@ -95,6 +117,7 @@ namespace CalamityWeaponRemake.Content.Items.Materials
 
         public override void AddRecipes() {
             int QFD(int num) => (int)(num * QFH);
+
             CreateRecipe()
                 .AddIngredient<AerialiteBar>(QFD(150))//水华锭
                 .AddIngredient<AuricBar>(QFD(5))//圣金源锭
@@ -129,8 +152,19 @@ namespace CalamityWeaponRemake.Content.Items.Materials
                 .AddIngredient<ArmoredShell>(QFD(75))//装甲心脏
                 .AddIngredient<YharonSoulFragment>(QFD(75))//龙魂
                 .AddIngredient<Rock>(1)//古恒石
-                .AddTile(ModContent.TileType<DarkMatterCompressor>())
+                .AddConsumeItemCallback((Recipe recipe, int type, ref int amount) => {
+                    if (CWRIDs.MaterialsTypes.Contains(type)) {
+                        amount = 0;
+                    }
+                })
+                .AddOnCraftCallback(SpawnAction)
+                .AddTile(TileType<TransmutationOfMatter>())
                 .Register();
+        }
+
+        public static void SpawnAction(Recipe recipe, Item item, List<Item> consumedItems, Item destinationStack) {
+            item.TurnToAir();
+            CombatText.NewText(Main.LocalPlayer.Hitbox, Main.DiscoColor, Language.GetTextValue($"Mods.CalamityWeaponRemake.Tools.RecipesLoseText"));
         }
     }
 }

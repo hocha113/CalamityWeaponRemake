@@ -1,21 +1,20 @@
-﻿using CalamityWeaponRemake.Common;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Tools;
+using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Items.Materials;
-using CalamityWeaponRemake.Content.Tiles;
-using CalamityMod.Items.Tools;
-using CalamityWeaponRemake.Content.Particles.Core;
-using CalamityWeaponRemake.Content.Particles;
 using CalamityWeaponRemake.Content.Items.Ranged;
+using CalamityWeaponRemake.Content.Particles;
+using CalamityWeaponRemake.Content.Particles.Core;
+using CalamityWeaponRemake.Content.Projectiles;
+using CalamityWeaponRemake.Content.Tiles;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
-using CalamityMod;
 using Terraria.GameContent;
-using Terraria.ObjectData;
-using Terraria.GameInput;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Items.Tools
 {
@@ -40,36 +39,22 @@ namespace CalamityWeaponRemake.Content.Items.Tools
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.pick = int.MaxValue;
-            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 9));
-        }
-
-        int frmae;
-        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale) {
-            spriteBatch.Draw(value, position, frame, drawColor, 0, origin, scale, SpriteEffects.None, 0);
-            return false;
-        }
-
-        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI) {
-            CWRUtils.ClockFrame(ref frmae, 5, 8);
-            spriteBatch.Draw(value, Item.Center - Main.screenPosition, CWRUtils.GetRec(value, frmae, 9), lightColor, 0, CWRUtils.GetOrig(value, 9), scale, SpriteEffects.None, 0);
-            return false;
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 16));
         }
 
         public override bool AltFunctionUse(Player player) {
-            return !IsPick;
+            return true;
         }
 
         public override bool? UseItem(Player player) {
             if (IsPick) {
-                Item.pick = int.MaxValue / 2;
-                Item.axe = 0;
+                Item.pick = int.MaxValue;
                 Item.hammer = 0;
                 Item.useAnimation = Item.useTime = 10;
 
             }
             else {
                 Item.pick = 0;
-                Item.axe = int.MaxValue / 5;
                 Item.hammer = int.MaxValue;
                 Item.useAnimation = Item.useTime = 30;
             }
@@ -81,48 +66,68 @@ namespace CalamityWeaponRemake.Content.Items.Tools
         public override void HoldItem(Player player) {
             if (CWRKeySystem.InfinitePickSkillKey.JustPressed) {
                 IsPick = !IsPick;
-                SoundEngine.PlaySound(IsPick ? ModSound.Pecharge : ModSound.Peuncharge, player.Center);
+                SoundEngine.PlaySound(!IsPick ? ModSound.Pecharge : ModSound.Peuncharge, player.Center);
                 TextureAssets.Item[Type] = CWRUtils.GetT2DAsset(Texture);
             }
 
             rDown = player.PressKey(false);
             bool justRDown = rDown && !oldRDown;
             oldRDown = rDown;
-            if (justRDown && !Main.playerInventory && !IsPick) {
+            if (justRDown && !Main.playerInventory) {
                 SoundEngine.PlaySound(new SoundStyle(CWRConstant.Sound + "Pedestruct"), Main.MouseWorld);
-                for (int i = 0; i < 78; i++) {
-                    HeavenHeavySmoke spark = new HeavenHeavySmoke(Main.MouseWorld, Main.rand.NextVector2Unit() * Main.rand.Next(3, 57)
-                        , CWRUtils.MultiLerpColor(Main.rand.NextFloat(), HeavenfallLongbow.rainbowColors)
-                        , Main.rand.Next(30, 75), Main.rand.NextFloat(1.5f, 6.2f), 1, 0.1f);
-                    CWRParticleHandler.SpawnParticle(spark);
-                }
-                int maxX = 500;
-                int maxY = 500;
-                Vector2 pos = Main.MouseWorld - new Vector2(maxX, maxY) / 2;
-                Item ball = new Item(ModContent.ItemType<DarkMatterBall>());
-                DarkMatterBall darkMatterBall = (DarkMatterBall)ball.ModItem;
-                if (darkMatterBall != null) {
-                    for (int x = 0; x < maxX; x++) {
-                        for (int y = 0; y < maxY; y++) {
-                            Vector2 tilePos = CWRUtils.WEPosToTilePos(pos + new Vector2(x, y));
-                            Tile tile = CWRUtils.GetTile(tilePos);
-                            if (tile.HasTile) {
-                                int stye = TileObjectData.GetTileStyle(tile);
-                                if (stye == -1)
-                                    stye = 0;
-                                int dorptype = TileLoader.GetItemDropFromTypeAndStyle(tile.TileType, stye);
-                                if (dorptype != 0)
-                                    darkMatterBall.dorpTypes.Add(dorptype);
-                            }
-                            tile.LiquidAmount = 0;
-                            tile.HasTile = false;
-                            tile.WallType = 0;
-                        }
+                if (!IsPick) {
+                    for (int i = 0; i < 78; i++) {
+                        HeavenHeavySmoke spark = new HeavenHeavySmoke(Main.MouseWorld, Main.rand.NextVector2Unit() * Main.rand.Next(3, 57)
+                            , CWRUtils.MultiLerpColor(Main.rand.NextFloat(), HeavenfallLongbow.rainbowColors)
+                            , Main.rand.Next(30, 75), Main.rand.NextFloat(1.5f, 6.2f), 1, 0.1f);
+                        CWRParticleHandler.SpawnParticle(spark);
                     }
-                    if (darkMatterBall.dorpTypes.Count > 0)
-                        player.QuickSpawnItem(player.parent(), darkMatterBall.Item, 1);
+                    int maxX = 500;
+                    int maxY = 500;
+                    Vector2 pos = Main.MouseWorld - new Vector2(maxX, maxY) / 2;
+                    Item ball = new Item(ModContent.ItemType<DarkMatterBall>());
+                    DarkMatterBall darkMatterBall = (DarkMatterBall)ball.ModItem;
+                    if (darkMatterBall != null) {
+                        for (int x = 0; x < maxX; x++) {
+                            for (int y = 0; y < maxY; y++) {
+                                Vector2 tilePos = CWRUtils.WEPosToTilePos(pos + new Vector2(x, y));
+                                Tile tile = CWRUtils.GetTile(tilePos);
+                                if (tile.HasTile && tile.TileType != TileID.Cactus) {
+                                    int dorptype = CWRUtils.GetTileDorp(tile);
+                                    if (dorptype != 0)
+                                        darkMatterBall.dorpTypes.Add(dorptype);
+                                    if (tile.WallType != 0) {
+                                        if (CWRIDs.WallToItem.TryGetValue(tile.WallType, out int value))
+                                            darkMatterBall.dorpTypes.Add(value);
+                                    }
+                                    tile.LiquidAmount = 0;
+                                    tile.HasTile = false;
+                                    tile.WallType = 0;
+                                    if (Main.netMode != NetmodeID.SinglePlayer)
+                                        NetMessage.SendTileSquare(player.whoAmI, x, y);
+                                }
+                            }
+                        }
+                        Projectile.NewProjectile(player.parent(), Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<InfinitePickProj>(), Item.damage * 10, 0, player.whoAmI);
+                        if (darkMatterBall.dorpTypes.Count > 0)
+                            player.QuickSpawnItem(player.parent(), darkMatterBall.Item, 1);
+                    }
+                }
+                else {
+                    int proj = Projectile.NewProjectile(player.parent(), player.Center, player.Center.To(Main.MouseWorld).UnitVector() * 32, ModContent.ProjectileType<InfinitePickProj>(), Item.damage * 10, 0, player.whoAmI, 1);
+                    Main.projectile[proj].width = Main.projectile[proj].height = 64;
                 }
             }
+        }
+
+        public override bool PreDrawTooltipLine(DrawableTooltipLine line, ref int yOffset) {
+            if (line.Name == "ItemName" && line.Mod == "Terraria") {
+                Vector2 basePosition = Main.MouseWorld - Main.screenPosition + new Vector2(23, 23);
+                string text = Language.GetTextValue("Mods.CalamityWeaponRemake.Items.InfinitePick.DisplayName");
+                InfiniteIngot.drawColorText(Main.spriteBatch, line, text, basePosition);
+                return false;
+            }
+            return true;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox) {
