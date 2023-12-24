@@ -2,6 +2,7 @@
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.RemakeItems.Core;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -12,6 +13,11 @@ namespace CalamityWeaponRemake.Content
 {
     internal class CWRRecipes : ModSystem
     {
+        public static void SpawnAction(Recipe recipe, Item item, List<Item> consumedItems, Item destinationStack) {
+            item.TurnToAir();
+            CombatText.NewText(Main.LocalPlayer.Hitbox, Main.DiscoColor, Language.GetTextValue($"Mods.CalamityWeaponRemake.Tools.RecipesLoseText"));
+        }
+
         public override void PostAddRecipes() {
             if (CWRConstant.ForceReplaceResetContent) {
                 foreach (BaseRItem baseRItem in CWRMod.RItemInstances) {

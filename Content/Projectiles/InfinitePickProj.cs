@@ -27,6 +27,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
         }
 
         public override void AI() {
+            Lighting.AddLight(Projectile.Center, Main.DiscoColor.ToVector3() * (Projectile.ai[0] == 1 ? 1.2f : 10));
             if (Projectile.ai[0] == 1 && !CWRUtils.isServer) {
                 for (int i = 0; i < 8; i++) {
                     HeavenHeavySmoke spark = new HeavenHeavySmoke(Projectile.Center

@@ -33,6 +33,8 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
 
         public Rectangle inputRec;
 
+        public Rectangle closeRec;
+
         public bool Active;
 
         private Vector2 topLeft;
@@ -58,6 +60,8 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
         private bool onMainP2;
 
         private bool onInputP;
+
+        private bool onCloseP;
 
         public static List<RecipeData> AllRecipes = new List<RecipeData>();
 
@@ -125,9 +129,11 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
             mainRec = new Rectangle((int)topLeft.X, (int)topLeft.Y, cellWid * maxCellNumX + 200, cellHig * maxCellNumY);
             mainRec2 = new Rectangle((int)topLeft.X, (int)topLeft.Y, cellWid * maxCellNumX, cellHig * maxCellNumY);
             inputRec = new Rectangle((int)(DrawPos.X + 555), (int)(DrawPos.Y + 215), 92, 90);
+            closeRec = new Rectangle((int)(DrawPos.X), (int)(DrawPos.Y), 30, 30);
             onMainP = mainRec.Intersects(new Rectangle((int)MouPos.X, (int)MouPos.Y, 1, 1));
             onMainP2 = mainRec2.Intersects(new Rectangle((int)MouPos.X, (int)MouPos.Y, 1, 1));
             onInputP = inputRec.Intersects(new Rectangle((int)MouPos.X, (int)MouPos.Y, 1, 1));
+            onCloseP = closeRec.Intersects(new Rectangle((int)MouPos.X, (int)MouPos.Y, 1, 1));
         }
 
         /// <summary>
@@ -172,9 +178,14 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
         /// <param name="index"></param>
         /// <returns></returns>
         public Vector2 ArcCellPos(int index) {
-            int y = index / maxCellNumX;
-            int x = index - (y * maxCellNumX);
-            return (new Vector2(x, y) * new Vector2(cellWid, cellHig)) + topLeft;
+            if (maxCellNumX != 0) {
+                int y = index / maxCellNumX;
+                int x = index - (y * maxCellNumX);
+                return (new Vector2(x, y) * new Vector2(cellWid, cellHig)) + topLeft;
+            }
+            else {
+                return Vector2.Zero;
+            }
         }
 
         /// <summary>
@@ -199,16 +210,16 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
                         goto End;
                     }
                 }
+                
                 if (inputItem.type == ItemID.None) {
                     Item item = new Item(fullItemTypes[fullItemTypes.Length - 1]);
-                    if (item.type == ModContent.ItemType<InfiniteIngot>()) {
-                        InfiniteIngot infiniteIngot = (InfiniteIngot)item.ModItem;
-                        infiniteIngot.noDestruct = true;
-                        inputItem = infiniteIngot.Item;
+                    
+                    if (item.CWR().isInfiniteItem) {
+                        item.CWR().noDestruct = true;
+                        item.CWR().destructTime = 10;
                     }
-                    else {
-                        inputItem = new Item(fullItemTypes[fullItemTypes.Length - 1]);
-                    }
+                    inputItem = item;
+                    break;
                 }
 End:;
             }
@@ -218,12 +229,18 @@ End:;
             Initialize();
             int museS = DownStartL();
             int museSR = DownStartR();
-
+            if (onCloseP) {
+                player.mouseInterface = true;
+                if (museS == 1) {
+                    SoundEngine.PlaySound(SoundID.MenuClose);
+                    Active = false;
+                }               
+            }
             if (onMainP) {
                 player.mouseInterface = true;
                 if (onMainP2) {
                     if (museS == 1) {
-                        if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftShift)) {
+                        if (CWRKeySystem.TOM_QuickFetch.Current) {
                             GatheringItem2(inCoordIndex, ref Main.mouseItem);
                         }
                         else {
@@ -235,14 +252,21 @@ End:;
                         HandleRightClick(ref items[inCoordIndex], ref Main.mouseItem);
                     }
                 }
-
+                
                 if (Main.LocalPlayer.PressKey(false)) {
                     DragDorg(ref items[inCoordIndex], ref Main.mouseItem);
-                    CWRUtils.ExportItemTypesToFile(items);
                 }
 
-                if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.G)) {
+                if (CWRKeySystem.TOM_GatheringItem.Current) {
                     GatheringItem(inCoordIndex, ref Main.mouseItem);
+                }
+
+                if (CWRKeySystem.TOM_OneClickP.JustPressed) {
+                    OneClickPFunc();
+                }
+
+                if (CWRKeySystem.TOM_GlobalRecall.JustPressed) {
+                    TakeAllItem();
                 }
             }
 
@@ -254,7 +278,33 @@ End:;
             }
         }
 
-        
+        public void TakeAllItem() {
+            foreach (var item in items) {
+                Item item1 = item.Clone();
+                player.QuickSpawnItem(player.parent(), item1, item1.stack);
+                item.TurnToAir();
+            }
+        }
+
+        public void OneClickPFunc() {
+            if (previewItems != null && previewItems?.Length == items.Length) {
+                TakeAllItem();
+                for (int i = 0; i < previewItems.Length; i++) {
+                    Item preItem = previewItems[i];
+                    foreach (var backItem in player.inventory) {
+                        if (preItem.type == backItem.type && backItem.type != ItemID.None) {
+                            Item targetItem = backItem.Clone();
+                            targetItem.stack = 1;
+                            items[i] = targetItem;
+                            backItem.stack -= 1;
+                            if (backItem.stack == 0) {
+                                backItem.TurnToAir();
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// 处理获取结果的逻辑，将 onitem 转移到 holdItem 中，并根据配方数据更新物品槽
@@ -443,22 +493,29 @@ End:;
                 Rectangle rectangle = Main.itemAnimations[item.type] != null ? Main.itemAnimations[item.type].GetFrame(TextureAssets.Item[item.type].Value) : TextureAssets.Item[item.type].Value.Frame(1, 1, 0, 0);
                 Vector2 vector = rectangle.Size();
                 Vector2 size = TextureAssets.Item[item.type].Value.Size();
+                Vector2 offset = new Vector2(cellWid, cellHig) / 2;
                 float slp = 1;
                 if (size.X > 32) {
                     slp = 32f / size.X;
                 }
                 slp *= overSlp;
                 if (item.type == CWRIDs.DarkMatterBall) {
-                    DarkMatterBall.DrawItemIcon(spriteBatch, drawpos + new Vector2(cellWid, cellHig) / 2, item.type, alp);
+                    DarkMatterBall.DrawItemIcon(spriteBatch, drawpos + offset, item.type, alp);
                 }
                 else if (item.type == CWRIDs.BlackMatterStick) {
-                    BlackMatterStick.DrawItemIcon(spriteBatch, drawpos + new Vector2(cellWid, cellHig) / 2, Color.White, item.type, alp);
+                    BlackMatterStick.DrawItemIcon(spriteBatch, drawpos + offset, Color.White, item.type, alp);
                 }
                 else if (item.type == CWRIDs.InfiniteStick) {
-                    InfiniteStick.DrawItemIcon(spriteBatch, drawpos + new Vector2(cellWid, cellHig) / 2, item.type, alp);
+                    InfiniteStick.DrawItemIcon(spriteBatch, drawpos + offset, item.type, alp);
+                }
+                else if (item.type == ModContent.ItemType<DecayParticles>() 
+                    || item.type == ModContent.ItemType<DecaySubstance>() 
+                    || item.type == ModContent.ItemType<DissipationSubstance>() 
+                    || item.type == ModContent.ItemType<SpectralMatter>()) {
+                    DecayParticles.DrawItemIcon(spriteBatch, drawpos + offset, drawColor, item.type, alp, slp);
                 }
                 else {
-                    spriteBatch.Draw(TextureAssets.Item[item.type].Value, drawpos + (new Vector2(cellWid, cellHig) / 2f), new Rectangle?(rectangle), (drawColor == default ? Color.White : drawColor) * alp, 0f, vector / 2, slp, 0, 0f);
+                    spriteBatch.Draw(TextureAssets.Item[item.type].Value, drawpos + offset, new Rectangle?(rectangle), (drawColor == default ? Color.White : drawColor) * alp, 0f, vector / 2, slp, 0, 0f);
                 }
                 if (item.stack > 1) {
                     Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.ItemStack.Value, item.stack.ToString(), drawpos.X, drawpos.Y + 25, Color.White, Color.Black, new Vector2(0.3f), 1f);
@@ -468,12 +525,17 @@ End:;
 
         public override void Draw(SpriteBatch spriteBatch) {
             spriteBatch.Draw(Texture, DrawPos, null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);//绘制出UI主体
+            spriteBatch.Draw(CWRUtils.GetT2DValue("CalamityMod/UI/DraedonSummoning/DecryptCancelIcon"), DrawPos, null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);//绘制出关闭按键
+            if (onCloseP) {
+                Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.ItemStack.Value, "关闭", DrawPos.X, DrawPos.Y, Color.Gold, Color.Black, new Vector2(0.3f), 1.1f + Math.Abs(MathF.Sin(Main.GameUpdateCount * 0.05f) * 0.1f));
+            }
             if (previewItems != null) {
                 for (int i = 0; i < items.Length; i++) {//遍历绘制出UI格中的所有预览物品
                     if (previewItems[i] != null) {
                         Item item = previewItems[i];
                         if (item != null) {
                             DrawItemIcons(spriteBatch, item, ArcCellPos(i), alp: 0.25f);
+                            //Main.DrawItemIcon(spriteBatch, item, ArcCellPos(i), Color.White * 0.25f, 1);
                         }
                     }
                 }
@@ -491,6 +553,7 @@ End:;
             if (inputItem != null && inputItem?.type != 0) {//如果输出格有物品，那么将它画出来
                 DrawItemIcons(spriteBatch, inputItem, DrawPos + new Vector2(555, 215), overSlp: 1.5f);
             }
+
             if (onMainP2 && inCoordIndex >= 0 && inCoordIndex <= 80) { //处理鼠标在UI格中查看物品的事情
                 Item overItem = items[inCoordIndex];
                 Main.HoverItem = overItem.Clone();

@@ -4,6 +4,7 @@ using CalamityMod.Items.SummonItems;
 using CalamityMod.NPCs.Ravager;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.NPCs.RavagerAs;
+using CalamityWeaponRemake.Content.Projectiles;
 using CalamityWeaponRemake.Content.Projectiles.Weapons;
 using Microsoft.Xna.Framework;
 using System;
@@ -45,6 +46,10 @@ namespace CalamityWeaponRemake.Content
         /// </summary>
         public float MeleeCharge;
 
+        internal bool isInfiniteItem;
+        internal bool noDestruct;
+        internal int destructTime;
+
         public override void SetDefaults(Item item) {
             base.SetDefaults(item);
             if (CWRIDs.OnLoadContentBool) {
@@ -54,6 +59,9 @@ namespace CalamityWeaponRemake.Content
                 if (item.createWall != -1 && !CWRIDs.WallToItem.ContainsKey(item.createWall)) {
                     CWRIDs.WallToItem.Add(item.createWall, item.type);
                 }
+            }
+            if (isInfiniteItem) {
+                destructTime = 5;
             }
         }
 
@@ -67,10 +75,12 @@ namespace CalamityWeaponRemake.Content
 
         public override void SaveData(Item item, TagCompound tag) {
             tag.Add("_MeleeCharge", MeleeCharge);
+            tag.Add("_noDestruct", noDestruct);
         }
 
         public override void LoadData(Item item, TagCompound tag) {
             MeleeCharge = tag.GetFloat("_MeleeCharge");
+            noDestruct = tag.GetBool("_noDestruct");
         }
 
         public override void HoldItem(Item item, Player player) {
@@ -86,6 +96,28 @@ namespace CalamityWeaponRemake.Content
                     );
 
                 AppAwakeningLine(tooltips);
+            }
+        }
+
+        public override void PostUpdate(Item item) {
+            if (isInfiniteItem) {
+                Destruct(item, item.position, CWRUtils.InPosFindPlayer(item.position, 9999));
+            }
+        }
+
+        public override void UpdateInventory(Item item, Player player) {
+            if (isInfiniteItem) {
+                Destruct(item, player.position, player);
+            }
+        }
+
+        public void Destruct(Item item, Vector2 pos, Player player) {
+            destructTime--;
+            Item[] inven = player.inventory;
+            if (!noDestruct && destructTime <= 0 && inven.Count((Item n) => n.type == CWRIDs.EndlessStabilizer) == 0) {
+                Projectile.NewProjectile(new EntitySource_WorldEvent()
+                    , pos, Vector2.Zero, ModContent.ProjectileType<InfiniteIngotTileProj>(), 9999, 0);
+                item.TurnToAir();
             }
         }
 
@@ -174,22 +206,6 @@ namespace CalamityWeaponRemake.Content
         }
 
         public override bool? UseItem(Item item, Player player) {
-            //if (CWRUtils.RemakeByItem<DeathWhistle>(item))//这种修改方法会不可避免的调用原行为，导致生成两个甚至多个Boss实体，因而注释
-            //{
-            //    SoundEngine.PlaySound(SoundID.ScaryScream, player.Center);
-            //    int types = ModContent.NPCType<RavagerBody>();
-            //    if (DownedBossSystem.downedProvidence) 
-            //        types = ModContent.NPCType<RavagerABody>();
-            //    if (Main.netMode != NetmodeID.MultiplayerClient)
-            //    {
-            //        int npc = NPC.NewNPC(new EntitySource_BossSpawn(player), (int)(player.position.X + Main.rand.Next(-250, 251)), (int)(player.position.Y - 500f), types, 1);
-            //        Main.npc[npc].timeLeft *= 20;
-            //        CalamityUtils.BossAwakenMessage(npc);
-            //    }
-            //    else
-            //        NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, types);
-            //    return true;
-            //}
             return base.UseItem(item, player);
         }
     }

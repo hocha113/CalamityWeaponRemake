@@ -1,6 +1,4 @@
 ﻿using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Items.Ranged;
-using CalamityWeaponRemake.Content.Items.Tools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -82,16 +80,19 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
                     SupertableUI.instance.previewItems = new Item[SupertableUI.instance.items.Length];
                     string[] names = itemNames[index];
                     if (names != null) {
+                        Item sdItem = new Item();
                         for (int i = 0; i < 81; i++) {
                             Item item = new Item(0);
                             string value = names[i];
                             if (int.TryParse(value, out int intValue)) {
                                 item = new Item(intValue);
+                                Main.instance.LoadItem(intValue);
                             }
                             else {
                                 string[] fruits = value.Split('/');
                                 item = ModLoader.GetMod(fruits[0]).Find<ModItem>(fruits[1]).Item;
                             }
+                            
                             SupertableUI.instance.previewItems[i] = item;
                         }
                     }

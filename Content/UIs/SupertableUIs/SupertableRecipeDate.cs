@@ -124,6 +124,90 @@
             "0", "0", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "0", "0",
             "CalamityWeaponRemake/EndlessStabilizer"
         };
+        // <summary>
+        /// 苍穹破晓
+        /// </summary>
+        public static string[] FullItems10 = new string[] {"0", "0", "0", "0", "0", "0", "0", "3458", "3458",
+            "0", "0", "0", "0", "0", "0", "3458", "3543", "3458",
+            "0", "0", "0", "0", "0", "3458", "CalamityMod/RedSun", "3458", "0",
+            "0", "0", "0", "0", "3458", "CalamityMod/DraconicDestruction", "3458", "0", "0",
+            "0", "0", "0", "3458", "CalamityMod/DragonPow", "3458", "0", "0", "0",
+            "0", "0", "3458", "CalamityMod/DragonRage", "3458", "0", "0", "0", "0",
+            "0", "3458", "CalamityWeaponRemake/BlackMatterStick", "3458", "0", "0", "0", "0", "0",
+            "3458", "CalamityWeaponRemake/BlackMatterStick", "3458", "0", "0", "0", "0", "0", "0",
+            "CalamityWeaponRemake/BlackMatterStick", "3458", "0", "0", "0", "0", "0", "0", "0",
+            "CalamityWeaponRemake/DawnshatterAzure"
+        };
+        // <summary>
+        /// 虚粒子
+        /// </summary>
+        public static string[] FullItems11 = new string[] {"0", "0", "0", "0", "0", "0", "0", "0", "0",
+            "0", "0", "0", "0", "0", "0", "0", "0", "0",
+            "0", "0", "548", "0", "0", "0", "549", "0", "0",
+            "0", "0", "0", "0", "520", "0", "0", "0", "0",
+            "0", "0", "0", "521", "1225", "521", "0", "0", "0",
+            "0", "0", "0", "0", "520", "0", "0", "0", "0",
+            "0", "0", "547", "0", "0", "0", "575", "0", "0",
+            "0", "0", "0", "0", "0", "0", "0", "0", "0",
+            "0", "0", "0", "0", "0", "0", "0", "0", "0",
+            "CalamityWeaponRemake/DecayParticles"
+        };
+        /// <summary>
+        /// 衰变物质
+        /// </summary>
+        public static string[] FullItems12 = new string[] {"0", "0", "0", "0", "0", "0", "0", "0", "0",
+            "0", "0", "0", "0", "0", "0", "0", "0", "0",
+            "0", "0", "3457", "0", "0", "0", "3456", "0", "0",
+            "0", "0", "0", "0", "3467", "0", "0", "0", "0",
+            "0", "0", "0", "3467", "CalamityWeaponRemake/DecayParticles", "3467", "0", "0", "0",
+            "0", "0", "0", "0", "3467", "0", "0", "0", "0",
+            "0", "0", "3459", "0", "0", "0", "3458", "0", "0",
+            "0", "0", "0", "0", "0", "0", "0", "0", "0",
+            "0", "0", "0", "0", "0", "0", "0", "0", "0",
+            "CalamityWeaponRemake/DecaySubstance"
+        };
+        // <summary>
+        /// 消减物质
+        /// </summary>
+        public static string[] FullItems13 = new string[] {"0", "0", "0", "0", "0", "0", "0", "0", "0",
+            "0", "0", "0", "0", "0", "0", "0", "0", "0",
+            "0", "0", "109", "0", "0", "0", "109", "0", "0",
+            "0", "0", "0", "CalamityWeaponRemake/DecayParticles", "CalamityWeaponRemake/DecayParticles", "CalamityWeaponRemake/DecayParticles", "0", "0", "0",
+            "0", "0", "0", "CalamityWeaponRemake/DecayParticles", "CalamityWeaponRemake/DecaySubstance", "CalamityWeaponRemake/DecayParticles", "0", "0", "0",
+            "0", "0", "0", "CalamityWeaponRemake/DecayParticles", "CalamityWeaponRemake/DecayParticles", "CalamityWeaponRemake/DecayParticles", "0", "0", "0",
+            "0", "0", "109", "0", "0", "0", "109", "0", "0",
+            "0", "0", "0", "0", "0", "0", "0", "0", "0",
+            "0", "0", "0", "0", "0", "0", "0", "0", "0",
+            "CalamityWeaponRemake/DissipationSubstance"
+        };
+        /// <summary>
+        /// 幽灵物质
+        /// </summary>
+        public static string[] FullItems14 = new string[] {"0", "0", "0", "0", "0", "0", "0", "0", "0",
+            "0", "0", "0", "0", "0", "0", "0", "0", "0",
+            "0", "0", "CalamityWeaponRemake/DecaySubstance", "CalamityWeaponRemake/DecaySubstance", "CalamityWeaponRemake/DecaySubstance", "CalamityWeaponRemake/DecaySubstance", "CalamityWeaponRemake/DecaySubstance", "0", "0",
+            "0", "0", "CalamityWeaponRemake/DecaySubstance", "CalamityWeaponRemake/DissipationSubstance", "CalamityWeaponRemake/DissipationSubstance", "CalamityWeaponRemake/DissipationSubstance", "CalamityWeaponRemake/DecaySubstance", "0", "0",
+            "0", "0", "CalamityWeaponRemake/DecaySubstance", "CalamityWeaponRemake/DissipationSubstance", "CalamityMod/DarkPlasma", "CalamityWeaponRemake/DissipationSubstance", "CalamityWeaponRemake/DecaySubstance", "0", "0",
+            "0", "0", "CalamityWeaponRemake/DecaySubstance", "CalamityWeaponRemake/DissipationSubstance", "CalamityWeaponRemake/DissipationSubstance", "CalamityWeaponRemake/DissipationSubstance", "CalamityWeaponRemake/DecaySubstance", "0", "0",
+            "0", "0", "CalamityWeaponRemake/DecaySubstance", "CalamityWeaponRemake/DecaySubstance", "CalamityWeaponRemake/DecaySubstance", "CalamityWeaponRemake/DecaySubstance", "CalamityWeaponRemake/DecaySubstance", "0", "0",
+            "0", "0", "0", "0", "0", "0", "0", "0", "0",
+            "0", "0", "0", "0", "0", "0", "0", "0", "0",
+            "CalamityWeaponRemake/SpectralMatter"
+        };
+        /// <summary>
+        /// 暗物质团
+        /// </summary>
+        public static string[] FullItems15 = new string[] {"0", "0", "0", "0", "0", "0", "0", "0", "0",
+            "0", "0", "0", "0", "0", "0", "0", "0", "0",
+            "0", "0", "CalamityWeaponRemake/DissipationSubstance", "CalamityWeaponRemake/DissipationSubstance", "CalamityWeaponRemake/DissipationSubstance", "CalamityWeaponRemake/DissipationSubstance", "CalamityWeaponRemake/DissipationSubstance", "0", "0",
+            "0", "0", "CalamityWeaponRemake/DissipationSubstance", "CalamityMod/DarkPlasma", "CalamityMod/DarkPlasma", "CalamityMod/DarkPlasma", "CalamityWeaponRemake/DissipationSubstance", "0", "0",
+            "0", "0", "CalamityWeaponRemake/DissipationSubstance", "CalamityMod/DarkPlasma", "CalamityWeaponRemake/SpectralMatter", "CalamityMod/DarkPlasma", "CalamityWeaponRemake/DissipationSubstance", "0", "0",
+            "0", "0", "CalamityWeaponRemake/DissipationSubstance", "CalamityMod/DarkPlasma", "CalamityMod/DarkPlasma", "CalamityMod/DarkPlasma", "CalamityWeaponRemake/DissipationSubstance", "0", "0",
+            "0", "0", "CalamityWeaponRemake/DissipationSubstance", "CalamityWeaponRemake/DissipationSubstance", "CalamityWeaponRemake/DissipationSubstance", "CalamityWeaponRemake/DissipationSubstance", "CalamityWeaponRemake/DissipationSubstance", "0", "0",
+            "0", "0", "0", "0", "0", "0", "0", "0", "0",
+            "0", "0", "0", "0", "0", "0", "0", "0", "0",
+            "CalamityWeaponRemake/DarkMatterBall"
+        };
         /// <summary>
         /// 熔炉
         /// </summary>

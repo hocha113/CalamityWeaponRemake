@@ -21,8 +21,13 @@ namespace CalamityWeaponRemake.Content.TileEntitys
         }
 
         public override void Update() {
-            if (SupertableUI.instance.Active && Main.LocalPlayer.Center.To(Center).LengthSquared() >= 20000)
-                SupertableUI.instance.Active = false;
+            if (SupertableUI.instance.Active) {
+                float leng = Main.LocalPlayer.Center.To(Center).LengthSquared();
+                if (leng >= 100 * 100 && leng < 1000 * 1000) {
+                    SupertableUI.instance.Active = false;
+                }
+            }
+                
             Time++;
         }
 

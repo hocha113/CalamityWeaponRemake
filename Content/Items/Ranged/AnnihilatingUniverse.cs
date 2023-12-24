@@ -13,6 +13,8 @@ using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.AnnihilatingUniver
 using CalamityMod.Items.Materials;
 using CalamityWeaponRemake.Content.Tiles;
 using CalamityWeaponRemake.Content.Items.Placeable;
+using System.Buffers;
+using System.Linq;
 
 namespace CalamityWeaponRemake.Content.Items.Ranged
 {
@@ -69,6 +71,12 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
                 .AddIngredient<CalamityMod.Items.Weapons.Magic.Apotheosis>()
                 .AddIngredient<Rock>()
                 .AddIngredient<CosmiliteBar>(150)//宇宙锭
+                .AddConsumeItemCallback((Recipe recipe, int type, ref int amount) => {
+                    if (CWRIDs.MaterialsTypes2.Contains(type)) {
+                        amount = 0;
+                    }
+                })
+                .AddOnCraftCallback(CWRRecipes.SpawnAction)
                 .AddTile(ModContent.TileType<TransmutationOfMatter>())
                 .Register();
         }

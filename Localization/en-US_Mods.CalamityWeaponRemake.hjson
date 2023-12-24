@@ -493,6 +493,31 @@ Items: {
 		DisplayName: Infinity Catalyst
 		Tooltip: ""
 	}
+
+	DawnshatterAzure: {
+		DisplayName: Dawnshatter Azure
+		Tooltip: ""
+	}
+
+	DecayParticles: {
+		DisplayName: Decay Particles
+		Tooltip: ""
+	}
+
+	DecaySubstance: {
+		DisplayName: Decay Substance
+		Tooltip: ""
+	}
+
+	DissipationSubstance: {
+		DisplayName: Dissipation Substance
+		Tooltip: ""
+	}
+
+	SpectralMatter: {
+		DisplayName: Spectral Matter
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -639,6 +664,8 @@ Projectiles: {
 	OrderbringerWhiteOrbs.DisplayName: Orderbringer White Orbs
 	InfinitePickProj.DisplayName: Infinite Pick Proj
 	InfiniteEnmgs.DisplayName: Infinite Enmgs
+	TheDaybreak.DisplayName: The Daybreak
+	TheEndSun.DisplayName: The End Sun
 }
 
 Configs: {
@@ -712,4 +739,10 @@ Keybinds: {
 	天堂陨落长弓技能键.DisplayName: 天堂陨落长弓技能键
 	"HeavenfallLongbow Skill Key.DisplayName": Heavenfall Longbow  Skill  Key
 	无尽之镐形态切换键.DisplayName: 无尽之镐形态切换键
+	"天堂陨落长弓:万象审判.DisplayName": 天堂陨落长弓:万象审判
+	"无尽之镐:形态切换.DisplayName": 无尽之镐:形态切换
+	"欧米茄合成:一键摆放.DisplayName": 欧米茄合成:一键摆放
+	"欧米茄合成:快速拿取.DisplayName": 欧米茄合成:快速拿取
+	"欧米茄合成:聚拢物品.DisplayName": 欧米茄合成:聚拢物品
+	"欧米茄合成:全部收回.DisplayName": 欧米茄合成:全部收回
 }

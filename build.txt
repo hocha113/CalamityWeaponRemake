@@ -1,4 +1,4 @@
-displayName = Calamity Weapon Remake
+displayName = Calamity Overhaul
 modReferences = CalamityMod
 author = HoCha113
-version = 0.22
+version = 0.23

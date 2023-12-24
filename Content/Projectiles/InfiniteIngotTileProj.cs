@@ -20,6 +20,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
         private DarkMatterBall darkMatterBall;
         public override void SetDefaults() {
             Projectile.width = Projectile.height = 32;
+            Projectile.penetrate = -1;
             Projectile.hostile = true;
             Projectile.friendly = true;
             Projectile.timeLeft = 900;

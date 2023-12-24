@@ -27,8 +27,6 @@ namespace CalamityWeaponRemake.Content.Items.Materials
     {
         public override string Texture => CWRConstant.Item + "Materials/InfiniteIngot";
         public new string LocalizationCategory => "Items.Materials";
-        internal bool noDestruct;
-        internal int destructTime;
         public float QFH {
             get {
                 const float baseBonus = 1.0f;
@@ -71,7 +69,7 @@ namespace CalamityWeaponRemake.Content.Items.Materials
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
             Item.createTile = TileType<InfiniteIngotTile>();
-            destructTime = 5;
+            Item.CWR().isInfiniteItem = true;
         }
 
         public override bool PreDrawTooltipLine(DrawableTooltipLine line, ref int yOffset) {
@@ -82,24 +80,6 @@ namespace CalamityWeaponRemake.Content.Items.Materials
                 return false;
             }
             return true;
-        }
-
-        public void Destruct(Vector2 pos, Player player) {
-            destructTime--;
-            Item[] inven = player.inventory;
-            if (!noDestruct && destructTime <= 0 && inven.Count((Item n) => n.type == CWRIDs.EndlessStabilizer) == 0) {
-                Projectile.NewProjectile(new EntitySource_WorldEvent()
-                    , pos, Vector2.Zero, ProjectileType<InfiniteIngotTileProj>(), 9999, 0);
-                Item.TurnToAir();
-            }
-        }
-
-        public override void PostUpdate() {
-            Destruct(Main.LocalPlayer.position, Main.LocalPlayer);
-        }
-
-        public override void UpdateInventory(Player player) {
-            Destruct(player.position, player);
         }
 
         public static void drawColorText(SpriteBatch sb, DrawableTooltipLine line, string text, Vector2 basePosition) {
@@ -157,14 +137,9 @@ namespace CalamityWeaponRemake.Content.Items.Materials
                         amount = 0;
                     }
                 })
-                .AddOnCraftCallback(SpawnAction)
+                .AddOnCraftCallback(CWRRecipes.SpawnAction)
                 .AddTile(TileType<TransmutationOfMatter>())
                 .Register();
-        }
-
-        public static void SpawnAction(Recipe recipe, Item item, List<Item> consumedItems, Item destinationStack) {
-            item.TurnToAir();
-            CombatText.NewText(Main.LocalPlayer.Hitbox, Main.DiscoColor, Language.GetTextValue($"Mods.CalamityWeaponRemake.Tools.RecipesLoseText"));
         }
     }
 }

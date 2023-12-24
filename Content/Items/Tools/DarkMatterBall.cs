@@ -17,7 +17,7 @@ namespace CalamityWeaponRemake.Content.Items.Tools
         public override string Texture => CWRConstant.Item + "Tools/" + (isEmpty ? "Empty" : "Full");
         public bool isEmpty;
         public List<int> dorpTypes = new List<int>();
-        public List<Item> dorpItems;
+        public List<Item> dorpItems = new List<Item>();
         public override void SetStaticDefaults() {
             Item.ResearchUnlockCount = 3;
         }
@@ -60,48 +60,46 @@ namespace CalamityWeaponRemake.Content.Items.Tools
         }
 
         public void LoadDorp() {
-            if (dorpTypes.Count > 0) {
-                dorpTypes.Sort();
-                var groupedDrops = dorpTypes.GroupBy(x => x);
-                foreach (var group in groupedDrops) {
-                    List<int> items = group.ToList();
-                    int types = items[0];
-                    Item dorpItemValue = new Item(types);
-                    dorpItemValue.stack = items.Count;
-                    if (dorpItemValue != null)
-                        dorpItems.Add(dorpItemValue);
+            if (dorpItems == null) {
+                dorpItems = new List<Item>();
+            }
+            if (dorpTypes == null) {
+                dorpTypes = new List<int>();
+            }
+            if (dorpItems.Count < new HashSet<int>(dorpTypes).Count) {
+                if (dorpTypes.Count > 0) {
+                    dorpTypes.Sort();
+                    var groupedDrops = dorpTypes.GroupBy(x => x);
+                    foreach (var group in groupedDrops) {
+                        List<int> items = group.ToList();
+                        int types = items[0];
+                        Item dorpItemValue = new Item(types);
+                        dorpItemValue.stack = items.Count;
+                        if (dorpItemValue != null)
+                            dorpItems.Add(dorpItemValue);
+                    }
                 }
             }
         }
 
         public override void RightClick(Player player) {
-            if (dorpItems == null) {
-                dorpItems = new List<Item>();
-                LoadDorp();
+            LoadDorp();
+            foreach (var item in dorpItems) {
+                player.QuickSpawnItem(player.parent(), item, item.stack);
             }
-            if (dorpTypes.Count > 0) {
-                dorpTypes.Sort();
-                var groupedDrops = dorpTypes.GroupBy(x => x);
-                foreach (var group in groupedDrops) {
-                    List<int> items = group.ToList();
-                    int types = items[0];
-                    Item dorpItemValue = new Item(types);
-                    player.QuickSpawnItem(player.parent(), dorpItemValue, items.Count);
-                }
-            }
-            Item.TurnToAir();
+            dorpTypes = new List<int>();
+            dorpItems = new List<Item>();
         }
 
         public override void OnStack(Item source, int numToTransfer) {
             DarkMatterBall darkMatterBall = (DarkMatterBall)source.ModItem;
             dorpTypes.AddRange(darkMatterBall.dorpTypes);
+            LoadDorp();
         }
 
         public override bool PreDrawTooltipLine(DrawableTooltipLine line, ref int yOffset) {
-            if (dorpItems == null) {
-                dorpItems = new List<Item>();
-                LoadDorp();
-            }
+            LoadDorp();
+            //Main.NewText($"{dorpItems.Count} -- {dorpTypes.Count}");
             if (line.Name == "ItemName" && line.Mod == "Terraria") {
                 Color rarityColor = Main.DiscoColor;
                 Vector2 basePosition = Main.MouseWorld - Main.screenPosition + new Vector2(23, 23);

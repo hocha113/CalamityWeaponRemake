@@ -74,21 +74,24 @@ namespace CalamityWeaponRemake.Common
             return TileLoader.GetItemDropFromTypeAndStyle(tile.TileType, stye);
         }
 
-        public static Player TileFindPlayer(int i, int j) {
-            Player closestPlayer = null;
-            Vector2 tilePosition = new Vector2(i, j) * 16;
-            int minLength = 99999;
-            foreach (Player p in Main.player) {
-                if (!p.Alives()) {
+        public static Player InPosFindPlayer(Vector2 position, int maxRange = 3000) {
+            foreach (Player player in Main.player) {
+                if (!player.Alives()) {
                     continue;
                 }
-                int length = (int)p.position.To(tilePosition).Length();
-                if (length < minLength) {
-                    closestPlayer = p;
-                    minLength = length;
+                if (maxRange == -1) {
+                    return player;
+                }
+                int distance = (int)player.position.To(position).Length();
+                if (distance < maxRange) {
+                    return player;
                 }
             }
-            return closestPlayer;
+            return null;
+        }
+
+        public static Player TileFindPlayer(int i, int j) {
+            return InPosFindPlayer(new Vector2(i, j) * 16, 9999);
         }
 
         public static Color[] GetColorDate(Texture2D tex) {

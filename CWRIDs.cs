@@ -4,10 +4,12 @@ using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.DesertScourge;
+using CalamityMod.NPCs.DraedonLabThings;
 using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.Perforator;
+using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.PrimordialWyrm;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
@@ -28,12 +30,30 @@ namespace CalamityWeaponRemake
         public static int BlackMatterStick;
         public static int InfiniteStick;
         public static int EndlessStabilizer;
-
+        public static int DubiousPlating;
+        /// <summary>
+        /// 无尽锭
+        /// </summary>
         public static int[] MaterialsTypes;
+        /// <summary>
+        /// 湮宇星矢
+        /// </summary>
+        public static int[] MaterialsTypes2;
+        /// <summary>
+        /// 天堂陨落
+        /// </summary>
+        public static int[] MaterialsTypes3;
 
         public static Dictionary<int, int> TileToItem = new();
         public static Dictionary<int, int> WallToItem = new();
-
+        /// <summary>
+        /// 扫地机器人
+        /// </summary>
+        public static int Androomba;
+        /// <summary>
+        /// 瘟疫使者
+        /// </summary>
+        public static int PlaguebringerGoliath;
         /// <summary>
         /// 坟墓灾虫
         /// </summary>
@@ -143,11 +163,14 @@ namespace CalamityWeaponRemake
         public static List<int> targetNpcTypes15;
 
         public static void Load() {
-
+            DubiousPlating = ItemType<DubiousPlating>();
             DarkMatterBall = ItemType<DarkMatterBall>();
             EndlessStabilizer = ItemType<EndlessStabilizer>();
             InfiniteStick = ItemType<InfiniteStick>();
             BlackMatterStick = ItemType<BlackMatterStick>();
+
+            Androomba = NPCType<Androomba>();
+            PlaguebringerGoliath = NPCType<PlaguebringerGoliath>();
 
             SepulcherHead = NPCType<SepulcherHead>();
             SepulcherBody = NPCType<SepulcherBody>();
@@ -258,6 +281,19 @@ namespace CalamityWeaponRemake
                 ItemType<ArmoredShell>(),//装甲心脏
                 ItemType<YharonSoulFragment>(),//龙魂
                 ItemType<Rock>()//古恒石
+            };
+            MaterialsTypes2 = new int[]{
+                ItemType<CalamityMod.Items.Weapons.Ranged.Deathwind>(),
+                ItemType<CalamityMod.Items.Weapons.Ranged.Alluvion>(),
+                ItemType<CalamityMod.Items.Weapons.Magic.Apotheosis>(),
+                ItemType<Rock>(),
+                ItemType<CosmiliteBar>()
+            };
+            MaterialsTypes3 = new int[]{
+                ItemType<CalamityMod.Items.Weapons.Ranged.Drataliornus>(),
+                ItemType<CalamityMod.Items.Weapons.Ranged.HeavenlyGale>(),
+                ItemType<CalamityMod.Items.Weapons.Magic.Eternity>(),
+                ItemType<InfiniteIngot>()
             };
 
             OnLoadContentBool = false;

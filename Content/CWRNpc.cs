@@ -1,7 +1,11 @@
-﻿using CalamityWeaponRemake.Common;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.World;
+using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content
@@ -12,6 +16,7 @@ namespace CalamityWeaponRemake.Content
 
         public byte TerratomereBoltOnHitNum = 0;
         public byte OrderbringerOnHitNum = 0;
+        public byte TheEndSunOnHitNum = 0;
         public ushort colldHitTime = 0;
         public byte WhipHitNum = 0;
         public byte WhipHitType = 0;
@@ -38,6 +43,44 @@ namespace CalamityWeaponRemake.Content
                     WhipHitNum = 10;
                 }
             }
+        }
+
+        public override bool PreKill(NPC npc) {
+            return base.PreKill(npc);
+        }
+
+        public override void OnKill(NPC npc) {
+            if (npc.boss) {
+                if (CWRIDs.targetNpcTypes7.Contains(npc.type) || npc.type == CWRIDs.PlaguebringerGoliath) {
+                    for (int i = 0; i < Main.rand.Next(3, 6); i++) {
+                        int type = Item.NewItem(npc.parent(), npc.Hitbox, CWRIDs.DubiousPlating, Main.rand.Next(7, 13));
+                        if (CWRUtils.isClient) {
+                            NetMessage.SendData(MessageID.SyncItem, -1, -1, null, type, 0f, 0f, 0f, 0, 0, 0);
+                        }
+                    }
+                }
+            }
+            //else {
+            //    if (npc.type == CWRIDs.Androomba) {
+            //        int type = Item.NewItem(npc.parent(), npc.Hitbox, CWRIDs.DubiousPlating, Main.rand.Next(2, 5));
+            //        if (CWRUtils.isClient) {
+            //            NetMessage.SendData(MessageID.SyncItem, -1, -1, null, type, 0f, 0f, 0f, 0, 0, 0);
+            //        }
+            //    }
+            //}
+            base.OnKill(npc);
+        }
+
+        public override void HitEffect(NPC npc, NPC.HitInfo hit) {
+            if (npc.life <= 0) {
+                if (TheEndSunOnHitNum > 0) {
+                    for (int i = 0; i < Main.rand.Next(16, 33); i++) {
+                        npc.NPCLoot();
+                    }
+                }
+            }
+            
+            base.HitEffect(npc, hit);
         }
 
         public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) {

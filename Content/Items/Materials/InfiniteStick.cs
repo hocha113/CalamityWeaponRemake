@@ -21,7 +21,7 @@ namespace CalamityWeaponRemake.Content.Items.Materials
             Item.value = Terraria.Item.sellPrice(gold: 999);
             Item.useAnimation = Item.useTime = 15;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.consumable = true;
+            Item.CWR().isInfiniteItem = true;
         }
 
         public override bool PreDrawTooltipLine(DrawableTooltipLine line, ref int yOffset) {
