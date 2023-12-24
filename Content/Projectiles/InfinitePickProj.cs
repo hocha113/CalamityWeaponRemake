@@ -23,7 +23,7 @@ namespace CalamityWeaponRemake.Content.Projectiles
             Projectile.timeLeft = 30;
             Projectile.tileCollide = false;
             Projectile.friendly = true;
-            Projectile.hostile = true;
+            Projectile.hostile = false;
         }
 
         public override void AI() {
