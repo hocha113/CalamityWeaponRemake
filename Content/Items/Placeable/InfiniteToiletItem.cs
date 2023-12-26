@@ -41,11 +41,7 @@ namespace CalamityWeaponRemake.Content.Items.Placeable
         }
 
         public static void DrawItemIcon(SpriteBatch spriteBatch, Vector2 position, int Type, float alp = 1) {
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.UIScaleMatrix);
-            for (int i = 0; i < 13; i++)
-                spriteBatch.Draw(TextureAssets.Item[Type].Value, position, null, Main.DiscoColor * alp, Main.GameUpdateCount * 0.1f, TextureAssets.Item[Type].Value.Size() / 2, 1, SpriteEffects.None, 0);
-            spriteBatch.ResetUICanvasState();
+            spriteBatch.Draw(TextureAssets.Item[Type].Value, position, null, Main.DiscoColor * alp, 0, TextureAssets.Item[Type].Value.Size() / 2, 1, SpriteEffects.None, 0);
         }
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale) {
@@ -54,7 +50,7 @@ namespace CalamityWeaponRemake.Content.Items.Placeable
         }
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI) {
-            spriteBatch.Draw(TextureAssets.Item[Type].Value, Item.Center - Main.screenPosition, null, Main.DiscoColor, Main.GameUpdateCount * 0.1f, TextureAssets.Item[Type].Value.Size() / 2, 1, SpriteEffects.None, 0);
+            spriteBatch.Draw(TextureAssets.Item[Type].Value, Item.Center - Main.screenPosition, null, Main.DiscoColor, 0, TextureAssets.Item[Type].Value.Size() / 2, 1, SpriteEffects.None, 0);
             return false;
         }
 

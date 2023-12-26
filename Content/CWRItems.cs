@@ -84,7 +84,12 @@ namespace CalamityWeaponRemake.Content
         }
 
         public override void HoldItem(Item item, Player player) {
-            OwnerByDir(item, player);
+            if (player.HeldItem.type != CWRIDs.FoodStallChair) {
+                OwnerByDir(item, player);
+            }
+            else {
+                player.direction = -1;
+            }
         }
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {

@@ -14,6 +14,7 @@ using CalamityMod.NPCs.PrimordialWyrm;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityWeaponRemake.Content.Items.Materials;
+using CalamityWeaponRemake.Content.Items.Placeable;
 using CalamityWeaponRemake.Content.Items.Tools;
 using System.Collections.Generic;
 using Terraria.ID;
@@ -31,6 +32,7 @@ namespace CalamityWeaponRemake
         public static int InfiniteStick;
         public static int EndlessStabilizer;
         public static int DubiousPlating;
+        public static int FoodStallChair;
         /// <summary>
         /// 无尽锭
         /// </summary>
@@ -172,6 +174,7 @@ namespace CalamityWeaponRemake
             EndlessStabilizer = ItemType<EndlessStabilizer>();
             InfiniteStick = ItemType<InfiniteStick>();
             BlackMatterStick = ItemType<BlackMatterStick>();
+            FoodStallChair = ItemType<FoodStallChair>();
 
             Androomba = NPCType<Androomba>();
             PlaguebringerGoliath = NPCType<PlaguebringerGoliath>();

@@ -6,19 +6,31 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using CalamityWeaponRemake.Content.UIs.SupertableUIs;
 using Terraria.ModLoader.IO;
+using System;
 
 namespace CalamityWeaponRemake.Content.UIs
 {
     internal class UIManagementSystem : ModSystem
     {
         public override void SaveWorldData(TagCompound tag) {
-            if (SupertableUI.instance != null) {
-                tag.Add("SupertableUI_ItemDate", SupertableUI.instance?.items);
+            if (SupertableUI.instance != null && SupertableUI.instance?.items != null) {
+                for (int i = 0; i < SupertableUI.instance.items.Length; i++) {
+                    if (SupertableUI.instance.items[i] == null) {
+                        SupertableUI.instance.items[i] = new Item(0);
+                    }
+                }
+                tag.Add("SupertableUI_ItemDate", SupertableUI.instance.items);
             }
         }
 
         public override void LoadWorldData(TagCompound tag) {
             if (SupertableUI.instance != null && tag.ContainsKey("SupertableUI_ItemDate")) {
+                Item[] loadSupUIItems = tag.Get<Item[]>("SupertableUI_ItemDate");
+                for (int i = 0; i < loadSupUIItems.Length; i++) {
+                    if (loadSupUIItems[i] == null) {
+                        loadSupUIItems[i] = new Item(0);
+                    }
+                }
                 SupertableUI.instance.items = tag.Get<Item[]>("SupertableUI_ItemDate");
             }
         }

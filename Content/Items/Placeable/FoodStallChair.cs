@@ -1,4 +1,5 @@
 ﻿using CalamityWeaponRemake.Common;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Items.Placeable
@@ -12,6 +13,11 @@ namespace CalamityWeaponRemake.Content.Items.Placeable
             Item.width = 32;
             Item.height = 32;
             Item.value = 1150;
+        }
+
+        public override bool? UseItem(Player player) {
+            player.direction = -1;
+            return base.UseItem(player);
         }
     }
 }
