@@ -186,9 +186,7 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
                 .AddIngredient<CalamityMod.Items.Weapons.Magic.Eternity>()
                 .AddIngredient<InfiniteIngot>(15)
                 .AddConsumeItemCallback((Recipe recipe, int type, ref int amount) => {
-                    if (CWRIDs.MaterialsTypes3.Contains(type)) {
-                        amount = 0;
-                    }
+                    amount = 0;
                 })
                 .AddOnCraftCallback(CWRRecipes.SpawnAction)
                 .AddTile(ModContent.TileType<TransmutationOfMatter>())

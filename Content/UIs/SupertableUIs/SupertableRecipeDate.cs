@@ -1,4 +1,6 @@
-﻿namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
+﻿using System.Collections.Generic;
+
+namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
 {
     public class SupertableRecipeDate
     {
@@ -209,23 +211,6 @@
             "CalamityWeaponRemake/DarkMatterBall"
         };
         /// <summary>
-        /// 熔炉
-        /// </summary>
-        public static string[] FullItems998 = new string[] {"3", "3", "3", "3", "3", "3", "3",
-            "3", "3", "3", "0", "0", "0", "0",
-            "0", "0", "0", "3", "3", "0", "0",
-            "0", "0", "0", "0", "0", "3", "3",
-            "0", "0", "0", "0", "0", "0", "0",
-            "3", "3", "0", "0", "0", "0", "0",
-            "0", "0", "3", "3", "3", "3", "3",
-            "22", "3", "3", "3", "3", "3", "8",
-            "8", "8", "8", "8", "8", "8", "3",
-            "3", "8", "8", "8", "8", "8", "8",
-            "8", "3", "3", "3", "3", "3", "3",
-            "3", "3", "3", "3",
-            "33"
-        };
-        /// <summary>
         /// 测试物品
         /// </summary>
         public static string[] FullItems999 = new string[] {"CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot",
@@ -238,6 +223,20 @@
             "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/DarkMatterBall", "CalamityWeaponRemake/DarkMatterBall", "CalamityWeaponRemake/DarkMatterBall", "CalamityWeaponRemake/DarkMatterBall", "CalamityWeaponRemake/DarkMatterBall", "CalamityWeaponRemake/DarkMatterBall", "CalamityWeaponRemake/DarkMatterBall", "CalamityWeaponRemake/InfiniteIngot",
             "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot",
             "CalamityWeaponRemake/TextItem"
+        };
+        /// <summary>
+        /// 无尽马桶
+        /// </summary>
+        public static List<string> FullItems1000 = new List<string> {"CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "0", "0", "0", "0", "0", "0", "0",
+            "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "0", "0", "0", "0", "0", "0", "0",
+            "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "0", "0", "0", "0", "0", "0", "0",
+            "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot",
+            "0", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfiniteIngot", "0",
+            "0", "0", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfiniteIngot", "0", "0",
+            "0", "0", "0", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfiniteIngot", "0", "0", "0",
+            "0", "0", "0", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "0", "0", "0",
+            "0", "0", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "0", "0",
+            "CalamityWeaponRemake/InfiniteToiletItem"
         };
     }
 }

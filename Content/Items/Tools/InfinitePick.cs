@@ -8,6 +8,7 @@ using CalamityWeaponRemake.Content.Projectiles;
 using CalamityWeaponRemake.Content.Tiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -158,6 +159,12 @@ namespace CalamityWeaponRemake.Content.Items.Tools
                 .AddIngredient<SkyfringePickaxe>()
                 .AddIngredient<TectonicTruncator>()
                 .AddIngredient<InfiniteIngot>(5)
+                .AddConsumeItemCallback((Recipe recipe, int type, ref int amount) => {
+                    if (CWRIDs.MaterialsTypes4.Contains(type)) {
+                        amount = 0;
+                    }
+                })
+                .AddOnCraftCallback(CWRRecipes.SpawnAction)
                 .AddTile(ModContent.TileType<TransmutationOfMatter>())
                 .Register();
         }

@@ -522,6 +522,11 @@ Items: {
 		DisplayName: 幽灵物质
 		Tooltip: ""
 	}
+
+	InfiniteToiletItem: {
+		DisplayName: 无尽马桶
+		Tooltip: 寰宇之力，就在桶中
+	}
 }
 
 Projectiles: {

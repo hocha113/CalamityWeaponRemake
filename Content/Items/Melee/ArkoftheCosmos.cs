@@ -51,7 +51,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public new string LocalizationCategory => "Items.Weapons.Melee";
 
-        public override string Texture => CWRConstant.Item_Melee + "ArkoftheCosmos";
+        public override string Texture => CWRConstant.Cay_Wap_Melee + "ArkoftheCosmos";
 
         public override void ModifyTooltips(List<TooltipLine> tooltips) {
             if (tooltips != null && Main.player[Main.myPlayer] != null) {

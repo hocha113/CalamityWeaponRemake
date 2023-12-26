@@ -43,6 +43,10 @@ namespace CalamityWeaponRemake
         /// 天堂陨落
         /// </summary>
         public static int[] MaterialsTypes3;
+        /// <summary>
+        /// 无尽镐
+        /// </summary>
+        public static int[] MaterialsTypes4;
 
         public static Dictionary<int, int> TileToItem = new();
         public static Dictionary<int, int> WallToItem = new();
@@ -293,6 +297,29 @@ namespace CalamityWeaponRemake
                 ItemType<CalamityMod.Items.Weapons.Ranged.Drataliornus>(),
                 ItemType<CalamityMod.Items.Weapons.Ranged.HeavenlyGale>(),
                 ItemType<CalamityMod.Items.Weapons.Magic.Eternity>(),
+                ItemType<InfiniteIngot>()
+            };
+            MaterialsTypes4 = new int[]{
+                ItemType<CalamityMod.Items.Tools.CrystylCrusher>(),
+                ItemType<CalamityMod.Items.Tools.AbyssalWarhammer>(),
+                ItemType<CalamityMod.Items.Tools.AerialHamaxe>(),
+                ItemType<CalamityMod.Items.Tools.AstralHamaxe>(),
+                ItemType<CalamityMod.Items.Tools.AstralPickaxe>(),
+                ItemType<CalamityMod.Items.Tools.AxeofPurity>(),
+                ItemType<CalamityMod.Items.Tools.BeastialPickaxe>(),
+                ItemType<CalamityMod.Items.Tools.BerserkerWaraxe>(),
+                ItemType<CalamityMod.Items.Tools.BlossomPickaxe>(),
+                ItemType<CalamityMod.Items.Tools.FellerofEvergreens>(),
+                ItemType<CalamityMod.Items.Tools.Gelpick>(),
+                ItemType<CalamityMod.Items.Tools.GenesisPickaxe>(),
+                ItemType<CalamityMod.Items.Tools.Grax>(),
+                ItemType<CalamityMod.Items.Tools.GreatbayPickaxe>(),
+                ItemType<CalamityMod.Items.Tools.InfernaCutter>(),
+                ItemType<CalamityMod.Items.Tools.ReefclawHamaxe>(),
+                ItemType<CalamityMod.Items.Tools.SeismicHampick>(),
+                ItemType<CalamityMod.Items.Tools.ShardlightPickaxe>(),
+                ItemType<CalamityMod.Items.Tools.SkyfringePickaxe>(),
+                ItemType<CalamityMod.Items.Tools.TectonicTruncator>(),
                 ItemType<InfiniteIngot>()
             };
 

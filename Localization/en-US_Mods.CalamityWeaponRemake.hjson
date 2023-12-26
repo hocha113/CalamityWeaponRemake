@@ -518,6 +518,11 @@ Items: {
 		DisplayName: Spectral Matter
 		Tooltip: ""
 	}
+
+	InfiniteToiletItem: {
+		DisplayName: Infinite Toilet Item
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

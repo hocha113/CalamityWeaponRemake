@@ -13,7 +13,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
 
-        public override string Texture => CWRConstant.Item_Melee + "ElementalLance";
+        public override string Texture => CWRConstant.Cay_Wap_Melee + "ElementalLance";
 
         public override void SetStaticDefaults() {
             ItemID.Sets.Spears[Type] = true;

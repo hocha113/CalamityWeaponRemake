@@ -1,5 +1,6 @@
 ﻿using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Items.Materials;
+using CalamityWeaponRemake.Content.Items.Placeable;
 using CalamityWeaponRemake.Content.Items.Tools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,6 +37,8 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
         public Rectangle closeRec;
 
         public bool Active;
+
+        public bool loadOrUnLoadZenithWorldAsset = true;
 
         private Vector2 topLeft;
 
@@ -90,8 +93,7 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
             }).Where(array => array != null).ToArray();
 
             foreach (string[] value in stringArrays) {
-                RecipeData recipeData = new RecipeData
-                {
+                RecipeData recipeData = new RecipeData{
                     Values = value,
                     Target = InStrGetItemType(value[value.Length - 1])
                 };
@@ -134,6 +136,30 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
             onMainP2 = mainRec2.Intersects(new Rectangle((int)MouPos.X, (int)MouPos.Y, 1, 1));
             onInputP = inputRec.Intersects(new Rectangle((int)MouPos.X, (int)MouPos.Y, 1, 1));
             onCloseP = closeRec.Intersects(new Rectangle((int)MouPos.X, (int)MouPos.Y, 1, 1));
+
+            if (loadOrUnLoadZenithWorldAsset) {
+                int infiniteToiletItemType = ModContent.ItemType<InfiniteToiletItem>();
+                if (Main.zenithWorld) {
+                    // 判断是否已经存在 InfiniteToiletItem 的配方，如果不存在则添加
+                    if (!AllRecipes.Any(n => n.Target == infiniteToiletItemType)) {
+                        string[] value = SupertableRecipeDate.FullItems1000.ToArray();
+                        RecipeData recipeData = new RecipeData
+                        {
+                            Values = value,
+                            Target = InStrGetItemType(value[value.Length - 1])
+                        };
+                        AllRecipes.Add(recipeData);
+                    }
+                }
+                else {
+                    // 移除所有 InfiniteToiletItem 的配方
+                    AllRecipes.RemoveAll(n => n.Target == infiniteToiletItemType);
+                }
+                // 加载配方并更新 UI
+                RecipeUI.instance.LoadZenithWRecipes();
+                // 标记已经加载或者卸载了 Zenith World 资产
+                loadOrUnLoadZenithWorldAsset = false;
+            }
         }
 
         /// <summary>
@@ -148,8 +174,10 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
         /// </summary>
         /// <param name="key">用于解析的字符串键，可以是整数类型或模组/物品名称的组合</param>
         /// <returns>解析后得到的物品类型</returns>
-        public static int InStrGetItemType(string key) {
+        public static int InStrGetItemType(string key, bool loadVanillaItem = false) {
             if (int.TryParse(key, out int intValue)) {
+                if (loadVanillaItem)
+                    Main.instance.LoadItem(intValue);
                 return (intValue);
             }
             else {
@@ -188,6 +216,13 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
             }
         }
 
+        // 重置输入物品
+        private void ResetInputItem() {
+            if (inputItem.type != ItemID.None) {
+                inputItem = new Item();
+            }
+        }
+
         /// <summary>
         /// 进行输出制作结果的操作，应当注意他的使用方式防止造成不必要的性能浪费
         /// </summary>
@@ -195,18 +230,15 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
             foreach (RecipeData data in AllRecipes) {
                 string[] arg = data.Values;
                 fullItemTypes = FullItem(arg);
+                
                 if (items.Length != fullItemTypes.Length - 1) {
-                    if (inputItem.type != ItemID.None) {
-                        inputItem = new Item();
-                    }
+                    ResetInputItem();
                     goto End;
                 }
-                
+
                 for (int i = 0; i < fullItemTypes.Length - 1; i++) {
                     if (items[i].type != fullItemTypes[i]) {
-                        if (inputItem.type != ItemID.None) {
-                            inputItem = new Item();
-                        }
+                        ResetInputItem();
                         goto End;
                     }
                 }
@@ -227,6 +259,7 @@ End:;
 
         public override void Update(GameTime gameTime) {
             Initialize();
+            
             int museS = DownStartL();
             int museSR = DownStartR();
             if (onCloseP) {
@@ -246,34 +279,42 @@ End:;
                         else {
                             HandleItemClick(ref items[inCoordIndex], ref Main.mouseItem);
                         }
+                        OutItem();
                     }
 
                     if (museSR == 1) {
                         HandleRightClick(ref items[inCoordIndex], ref Main.mouseItem);
+                        OutItem();
                     }
                 }
                 
                 if (Main.LocalPlayer.PressKey(false)) {
                     DragDorg(ref items[inCoordIndex], ref Main.mouseItem);
+                    OutItem();
                 }
 
                 if (CWRKeySystem.TOM_GatheringItem.Current) {
                     GatheringItem(inCoordIndex, ref Main.mouseItem);
+                    OutItem();
                 }
 
                 if (CWRKeySystem.TOM_OneClickP.JustPressed) {
                     OneClickPFunc();
+                    OutItem();
                 }
 
                 if (CWRKeySystem.TOM_GlobalRecall.JustPressed) {
                     TakeAllItem();
+                    OutItem();
                 }
             }
 
             if (onInputP) {
                 player.mouseInterface = true;
                 if (museS == 1) {
+                    
                     GetResult(ref inputItem, ref Main.mouseItem, ref items);
+                    OutItem();
                 }
             }
         }
@@ -316,22 +357,14 @@ End:;
             if (holdItem.type == ItemID.None && onitem.type != ItemID.None) {
                 PlayGrabSound();
                 SoundEngine.PlaySound(SoundID.Research);
-                foreach (RecipeData data in AllRecipes) {
-                    string[] value = data.Values;
-                    int types = 0;
-                    string name = value[value.Length - 1];
-                    types = InStrGetItemType(name);
-                    if (types == onitem.type) {
-                        fullItemTypes = FullItem(value);
-                    }
-                }
                 for (int i = 0; i < items.Length; i++) {
-                    if (items[i].type == fullItemTypes[i]) {
+                    if (items[i].type == previewItems[i].type) {
                         items[i].stack -= 1;
                         if (items[i].stack <= 0)
                             items[i] = new Item();
                     }    
                 }
+                
                 holdItem = onitem;
                 onitem = new Item();
             }
@@ -353,7 +386,6 @@ End:;
                 PlayGrabSound();
                 holdItem = onitem;
                 onitem = new Item();
-                OutItem();
                 return;
             }
             // 同种物品堆叠逻辑
@@ -367,14 +399,11 @@ End:;
             if (onitem.type == ItemID.None && holdItem.type != ItemID.None) {
                 PlayGrabSound();
                 Utils.Swap(ref holdItem, ref onitem);
-                holdItem = new Item();
-                OutItem();
             }
             else {
                 // 不同种物品交换逻辑
                 PlayGrabSound();
                 (holdItem, onitem) = (onitem, holdItem);
-                OutItem();
             }
             
         }
@@ -431,7 +460,6 @@ End:;
                 Item intoItem = holdItem.Clone();
                 intoItem.stack = 1;
                 onitem = intoItem;
-                OutItem();
             }
         }
 

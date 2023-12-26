@@ -72,9 +72,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                         }
                     }
                 }
-
+                if (Projectile.damage < Projectile.originalDamage * 50)
+                    Projectile.damage += 35;
                 Projectile.velocity = Vector2.Zero;
-                Projectile.damage += 35;
                 Projectile.rotation += 0.2f;
                 Projectile.position += Main.player[Projectile.owner].velocity;
                 if (Main.player[Projectile.owner].PressKey(false)) {
@@ -101,6 +101,14 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
             }
             Projectile.ai[0]++;
+        }
+
+        public override bool? CanHitNPC(NPC target) {
+            return Projectile.ai[1] == 2;
+        }
+
+        public override bool CanHitPvp(Player target) {
+            return Projectile.ai[1] == 2;
         }
 
         public override void OnKill(int timeLeft) {

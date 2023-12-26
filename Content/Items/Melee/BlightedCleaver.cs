@@ -15,7 +15,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 {
     internal class BlightedCleaver : ModItem
     {
-        public override string Texture => CWRConstant.Item_Melee + "BlightedCleaver";
+        public override string Texture => CWRConstant.Cay_Wap_Melee + "BlightedCleaver";
 
         public const float BlightedCleaverMaxRageEnergy = 5000;
 

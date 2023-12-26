@@ -1,8 +1,10 @@
 ﻿using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Placeable;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -15,7 +17,7 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
     {
         public static RecipeUI instance;
 
-        private int index;
+        public int index;
 
         private static List<Item> itemValue = new List<Item>();
 
@@ -49,11 +51,28 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
 
         public override void Load() {
             instance = this;
-
             for (int i = 0; i < SupertableUI.AllRecipes.Count; i++) {
                 Console.WriteLine($"正在装载配方：{i} --:-- {SupertableUI.AllRecipes.Count}");
                 itemValue.Add(new Item(SupertableUI.AllRecipes[i].Target));
                 itemNames.Add(SupertableUI.AllRecipes[i].Values);
+            }
+        }
+
+        public void LoadZenithWRecipes() {
+            if (Main.zenithWorld) {
+                if (itemValue.Count < SupertableUI.AllRecipes.Count) {
+                    int index = SupertableUI.AllRecipes.Count - 1;
+                    itemValue.Add(new Item(SupertableUI.AllRecipes[index].Target));
+                    itemNames.Add(SupertableUI.AllRecipes[index].Values);
+                }
+            }
+            else {
+                for (int i = 0; i < itemValue.Count; i++) {
+                    if (itemValue[i].type == ModContent.ItemType<InfiniteToiletItem>()) {
+                        itemValue.RemoveAt(i);
+                        itemNames.RemoveAt(i);
+                    }
+                }
             }
         }
 
@@ -75,31 +94,33 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
                 if (index > itemValue.Count - 1) {
                     index = 0;
                 }
-                
-                if (SupertableUI.instance != null) {
-                    SupertableUI.instance.previewItems = new Item[SupertableUI.instance.items.Length];
-                    string[] names = itemNames[index];
-                    if (names != null) {
-                        Item sdItem = new Item();
-                        for (int i = 0; i < 81; i++) {
-                            Item item = new Item(0);
-                            string value = names[i];
-                            if (int.TryParse(value, out int intValue)) {
-                                item = new Item(intValue);
-                                Main.instance.LoadItem(intValue);
-                            }
-                            else {
-                                string[] fruits = value.Split('/');
-                                item = ModLoader.GetMod(fruits[0]).Find<ModItem>(fruits[1]).Item;
-                            }
-                            
-                            SupertableUI.instance.previewItems[i] = item;
-                        }
+
+                LoadPsreviewItems();
+            }
+        }
+
+        public void LoadPsreviewItems() {
+            if (SupertableUI.instance != null) {
+                if (SupertableUI.instance.previewItems == null) {
+                    SupertableUI.instance.previewItems = new Item[81];
+                }
+                if (SupertableUI.instance.items == null) {
+                    SupertableUI.instance.items = new Item[81];
+                }
+                SupertableUI.instance.previewItems = new Item[SupertableUI.instance.items.Length];
+                string[] names = itemNames[index];
+                if (names != null) {
+                    Item sdItem = new Item();
+                    for (int i = 0; i < 81; i++) {
+                        Item item = new Item(0);
+                        string value = names[i];
+                        item = new Item(SupertableUI.InStrGetItemType(value, true));
+                        SupertableUI.instance.previewItems[i] = item;
                     }
-                    else {
-                        for (int i = 0; i < 81; i++) {
-                            SupertableUI.instance.previewItems[i] = new Item();
-                        }
+                }
+                else {
+                    for (int i = 0; i < 81; i++) {
+                        SupertableUI.instance.previewItems[i] = new Item();
                     }
                 }
             }

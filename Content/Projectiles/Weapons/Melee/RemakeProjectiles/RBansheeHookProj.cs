@@ -30,7 +30,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Projectile.velocity * 0.5f, Projectile.velocity * 0.8f, ModContent.ProjectileType<RBansheeHookScythe>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack * 0.85f, Projectile.owner);
         };
 
-        public override string Texture => CWRConstant.Item_Melee + "BansheeHook";
+        public override string Texture => CWRConstant.Cay_Wap_Melee + "BansheeHook";
 
         public override void SetDefaults() {
             Projectile.width = 40;

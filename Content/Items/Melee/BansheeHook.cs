@@ -19,7 +19,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 {
     internal class BansheeHook : ModItem
     {
-        public override string Texture => CWRConstant.Item_Melee + "BansheeHook";
+        public override string Texture => CWRConstant.Cay_Wap_Melee + "BansheeHook";
 
         public override void SetStaticDefaults() {
             ItemID.Sets.Spears[Type] = true;
@@ -48,7 +48,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) {
-            base.Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>(CWRConstant.Item_Melee + "BansheeHookGlow", (AssetRequestMode)2).Value);
+            base.Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>(CWRConstant.Cay_Wap_Melee + "BansheeHookGlow", (AssetRequestMode)2).Value);
         }
 
         public override bool CanUseItem(Player player) {

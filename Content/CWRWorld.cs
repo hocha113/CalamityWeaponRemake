@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using CalamityWeaponRemake.Content.UIs.SupertableUIs;
+using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
 namespace CalamityWeaponRemake.Content
@@ -9,6 +10,17 @@ namespace CalamityWeaponRemake.Content
 
         public override void ClearWorld() {
             TitleMusicBoxEasterEgg = true;
+        }
+
+        public override void OnWorldLoad() {
+            if (SupertableUI.instance != null) {
+                SupertableUI.instance.loadOrUnLoadZenithWorldAsset = true;
+                SupertableUI.instance.Active = false;
+            }
+            if (RecipeUI.instance != null) {
+                RecipeUI.instance.index = 0;
+                RecipeUI.instance.LoadPsreviewItems();
+            }
         }
 
         public override void SaveWorldData(TagCompound tag) {

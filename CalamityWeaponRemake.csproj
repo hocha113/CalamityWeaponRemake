@@ -30,8 +30,6 @@
     <None Remove="Assets\Items\MagneticMeltdown.png" />
     <None Remove="Assets\Items\Materials\SingularityLayer_0.png" />
     <None Remove="Assets\Items\Materials\SingularityLayer_1.png" />
-    <None Remove="Assets\Items\Melee\ArkoftheCosmos.png" />
-    <None Remove="Assets\Items\Melee\ArkoftheCosmosGlow.png" />
     <None Remove="Assets\Items\Melee\ElementalLance.png" />
     <None Remove="Assets\Items\Melee\StreamGouge.png" />
     <None Remove="Assets\Items\Melee\StreamGougeGlow.png" />
@@ -96,7 +94,6 @@
     <None Remove="Assets\Overs\memo.txt" />
     <None Remove="Assets\placeholder.png" />
     <None Remove="Assets\Projectiles\CosmicShivBlade.png" />
-    <None Remove="Assets\Projectiles\Melee\BansheeHookScythe.png" />
     <None Remove="Assets\Projectiles\Melee\BlazingPhantomBlade.png" />
     <None Remove="Assets\Projectiles\Melee\DrataliornusFlame.png" />
     <None Remove="Assets\Projectiles\Melee\ElementalLanceProjectile.png" />
@@ -125,6 +122,7 @@
     <None Remove="Assets\Projectiles\RayBeam.png" />
     <None Remove="Assets\Tiles\FoodStallChair.png" />
     <None Remove="Assets\Tiles\InfiniteIngotTile.png" />
+    <None Remove="Assets\Tiles\InfiniteToilet_Highlight.png" />
     <None Remove="Assets\UIs\GenericBarBack.png" />
     <None Remove="Assets\UIs\GenericBarFront.png" />
     <None Remove="Assets\UIs\Ticoninfinity.png" />

@@ -9,7 +9,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 {
     internal class AbominateHookScythe : ModProjectile
     {
-        public override string Texture => CWRConstant.Projectile_Melee + "BansheeHookScythe";
+        public override string Texture => CWRConstant.Cay_Proj_Melee + "BansheeHookScythe";
 
         public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailingMode[Type] = 2;
