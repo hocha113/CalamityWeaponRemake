@@ -176,7 +176,7 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
         /// <returns>解析后得到的物品类型</returns>
         public static int InStrGetItemType(string key, bool loadVanillaItem = false) {
             if (int.TryParse(key, out int intValue)) {
-                if (loadVanillaItem)
+                if (loadVanillaItem && !CWRUtils.isServer)
                     Main.instance.LoadItem(intValue);
                 return (intValue);
             }
@@ -237,7 +237,7 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
                 }
 
                 for (int i = 0; i < fullItemTypes.Length - 1; i++) {
-                    if (items[i].type != fullItemTypes[i]) {
+                    if (items?[i]?.type != fullItemTypes[i]) {
                         ResetInputItem();
                         goto End;
                     }
@@ -257,9 +257,17 @@ End:;
             }
         }
 
+        public static void SetItemIsNull(ref Item item) {
+            if (item == null) {
+                item = new Item();
+            }
+        }
+
         public override void Update(GameTime gameTime) {
+            if (Main.myPlayer != Main.LocalPlayer.whoAmI) {
+                return;
+            }
             Initialize();
-            
             int museS = DownStartL();
             int museSR = DownStartR();
             if (onCloseP) {
@@ -273,6 +281,9 @@ End:;
                 player.mouseInterface = true;
                 if (onMainP2) {
                     if (museS == 1) {
+                        if (items[inCoordIndex] == null) {
+                            items[inCoordIndex] = new Item();
+                        }
                         if (CWRKeySystem.TOM_QuickFetch.Current) {
                             GatheringItem2(inCoordIndex, ref Main.mouseItem);
                         }
@@ -312,7 +323,6 @@ End:;
             if (onInputP) {
                 player.mouseInterface = true;
                 if (museS == 1) {
-                    
                     GetResult(ref inputItem, ref Main.mouseItem, ref items);
                     OutItem();
                 }
@@ -321,6 +331,8 @@ End:;
 
         public void TakeAllItem() {
             foreach (var item in items) {
+                if (item == null)
+                    continue;
                 Item item1 = item.Clone();
                 player.QuickSpawnItem(player.parent(), item1, item1.stack);
                 item.TurnToAir();
@@ -584,9 +596,11 @@ End:;
 
             if (onMainP2 && inCoordIndex >= 0 && inCoordIndex <= 80) { //处理鼠标在UI格中查看物品的事情
                 Item overItem = items[inCoordIndex];
+                if (overItem == null)
+                    overItem = new Item();
                 Main.HoverItem = overItem.Clone();
                 Main.hoverItemName = overItem.Name;
-                if (Main.mouseItem.type == ItemID.None && items[inCoordIndex].type == ItemID.None && previewItems != null) {
+                if (Main.mouseItem.type == ItemID.None && items[inCoordIndex]?.type == ItemID.None && previewItems != null) {
                     Item previewItem = previewItems[inCoordIndex];
                     Main.HoverItem = previewItem.Clone();
                     Main.hoverItemName = previewItem.Name;
