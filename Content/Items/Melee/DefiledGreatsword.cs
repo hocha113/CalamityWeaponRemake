@@ -15,7 +15,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 {
     internal class DefiledGreatsword : ModItem
     {
-        public override string Texture => CWRConstant.Item_Melee + "DefiledGreatsword";
+        public override string Texture => CWRConstant.Cay_Wap_Melee + "DefiledGreatsword";
 
         public const float DefiledGreatswordMaxRageEnergy = 15000;
 

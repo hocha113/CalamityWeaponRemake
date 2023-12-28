@@ -11,7 +11,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 {
     internal class BurntSienna : ModItem
     {
-        public override string Texture => CWRConstant.Item + "Melee/" + "BurntSienna";
+        public override string Texture => CWRConstant.Cay_Wap_Melee + "BurntSienna";
 
         public override void SetDefaults() {
             Item.width = 42;

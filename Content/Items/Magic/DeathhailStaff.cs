@@ -43,6 +43,7 @@ namespace CalamityWeaponRemake.Content.Items.Magic
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<DeathhailBeam>();
             Item.shootSpeed = 18f;
+            Item.CWR().remakeItem = true;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) {

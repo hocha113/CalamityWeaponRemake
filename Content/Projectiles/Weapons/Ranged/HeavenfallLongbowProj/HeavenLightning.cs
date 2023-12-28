@@ -14,9 +14,9 @@ using Terraria.ModLoader;
 using Terraria.Utilities;
 using CalamityWeaponRemake.Common;
 using CalamityMod.Particles;
-using CalamityWeaponRemake.Content.Items.Ranged;
 using CalamityWeaponRemake.Content.Particles.Core;
 using CalamityWeaponRemake.Content.Particles;
+using CalamityWeaponRemake.Content.Items.Ranged.Extras;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLongbowProj
 {

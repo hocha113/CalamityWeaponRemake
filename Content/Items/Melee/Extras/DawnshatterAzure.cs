@@ -7,14 +7,15 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityWeaponRemake.Content.Items.Melee
+namespace CalamityWeaponRemake.Content.Items.Melee.Extras
 {
     internal class DawnshatterAzure : ModItem
     {
         public override string Texture => CWRConstant.Item_Melee + "DawnshatterAzure";
-        public override void SetDefaults() {
+        public override void SetDefaults()
+        {
             Item.height = Item.width = 54;
-            Item.damage = 11709;
+            Item.damage = 2709;
             Item.DamageType = DamageClass.Melee;
             Item.noMelee = true;
             Item.useTurn = true;
@@ -28,14 +29,17 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.rare = ItemRarityID.Orange;
             Item.shoot = ModContent.ProjectileType<DawnshatterAzureProj>();
             Item.shootSpeed = 8f;
+            Item.CWR().remakeItem = true;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             return false;
         }
 
-        public override bool CanUseItem(Player player) {
+        public override bool CanUseItem(Player player)
+        {
             return player.ownedProjectileCounts[Item.shoot] <= 0;
         }
     }

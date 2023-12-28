@@ -34,7 +34,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public static readonly SoundStyle SwingSound = new SoundStyle("CalamityMod/Sounds/Item/TerratomereSwing");
 
-        public override string Texture => CWRConstant.Item_Melee + "Terratomere";
+        public override string Texture => CWRConstant.Cay_Wap_Melee + "Terratomere";
 
         public override void SetDefaults() {
             Item.width = 60;

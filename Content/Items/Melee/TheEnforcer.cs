@@ -43,6 +43,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.rare = ModContent.RarityType<DarkBlue>();
             Item.shoot = ModContent.ProjectileType<EssenceFlames>();
             Item.shootSpeed = 2;
+            Item.CWR().remakeItem = true;
         }
 
         public override void UseAnimation(Player player) {

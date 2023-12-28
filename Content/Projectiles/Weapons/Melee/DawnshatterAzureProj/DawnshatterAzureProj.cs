@@ -7,12 +7,13 @@ using Terraria.ModLoader;
 using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using CalamityWeaponRemake.Content.Items.Melee.Extras;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.DawnshatterAzureProj
 {
-    internal class DawnshatterAzureProj : BaseSpearProjectile
+    internal class DawnshatterAzureProj : ModProjectile
     {
-        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Items.Melee.DawnshatterAzure>();
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<DawnshatterAzure>();
 
         public override string Texture => CWRConstant.Projectile_Melee + "DawnshatterAzureProj";
 
@@ -22,17 +23,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.DawnshatterAzur
 
         protected float HoldoutRangeMin => -24f;
         protected float HoldoutRangeMax => 96f;
-
-        public override float InitialSpeed => 3f;
-
-        public override float ReelbackSpeed => 2.5f;
-
-        public override float ForwardSpeed => 0.9f;
-
-        public override Action<Projectile> EffectBeforeReelback => delegate {
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Projectile.velocity, Projectile.velocity
-                , ModContent.ProjectileType<TheEndSun>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-        };
 
         public override void SetDefaults() {
             Projectile.width = Projectile.height = 40;
@@ -79,7 +69,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.DawnshatterAzur
             float rot = Projectile.rotation + MathHelper.PiOver4;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Vector2 origin = texture.Size() / 2;
-            Main.EntitySpriteDraw(texture, drawPosition, null, Projectile.GetAlpha(lightColor), rot, origin, Projectile.scale * 0.8f, 0, 0);
+            Main.EntitySpriteDraw(texture, drawPosition, null, Projectile.GetAlpha(lightColor), rot, origin, Projectile.scale * 0.7f, 0, 0);
             return false;
         }
     }

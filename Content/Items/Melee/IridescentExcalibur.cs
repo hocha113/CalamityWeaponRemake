@@ -60,6 +60,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.shoot = ModContent.ProjectileType<IridescentExcaliburBeam>();
             Item.shootSpeed = 6f;
             Item.rare = ModContent.RarityType<Rainbow>();
+            Item.CWR().remakeItem = true;
         }
 
         public override void ModifyWeaponCrit(Player player, ref float crit) {

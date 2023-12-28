@@ -13,7 +13,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 {
     internal class CosmicShiv : ModItem
     {
-        public override string Texture => CWRConstant.Item + "Melee/" + "CosmicShiv";
+        public override string Texture => CWRConstant.Cay_Wap_Melee + "CosmicShiv";
 
         public override void SetDefaults() {
             Item.useStyle = ItemUseStyleID.Rapier;

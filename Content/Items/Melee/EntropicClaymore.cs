@@ -13,7 +13,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 {
     internal class EntropicClaymore : ModItem
     {
-        public override string Texture => CWRConstant.Item_Melee + "EntropicClaymore";
+        public override string Texture => CWRConstant.Cay_Wap_Melee + "EntropicClaymore";
 
         public static readonly Color EntropicColor1 = new Color(25, 5, 9);
 

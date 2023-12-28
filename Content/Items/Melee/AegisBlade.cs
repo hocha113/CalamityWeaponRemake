@@ -37,6 +37,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.shoot = ProjectileID.PurificationPowder;
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
+            Item.CWR().remakeItem = true;
         }
 
         public override bool AltFunctionUse(Player player) {

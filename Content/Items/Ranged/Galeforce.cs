@@ -42,6 +42,7 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
             Item.shootSpeed = 20f;
             Item.useAmmo = AmmoID.Arrow;
             Item.Calamity().canFirePointBlankShots = true;
+            Item.CWR().remakeItem = true;
         }
 
         public override void HoldItem(Player player) {

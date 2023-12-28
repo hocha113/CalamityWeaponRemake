@@ -30,9 +30,6 @@
     <None Remove="Assets\Items\MagneticMeltdown.png" />
     <None Remove="Assets\Items\Materials\SingularityLayer_0.png" />
     <None Remove="Assets\Items\Materials\SingularityLayer_1.png" />
-    <None Remove="Assets\Items\Melee\ElementalLance.png" />
-    <None Remove="Assets\Items\Melee\StreamGouge.png" />
-    <None Remove="Assets\Items\Melee\StreamGougeGlow.png" />
     <None Remove="Assets\Items\SubsumingVortex.png" />
     <None Remove="Assets\Items\SubsumingVortexGlow.png" />
     <None Remove="Assets\Items\TearsofHeaven.png" />
@@ -120,6 +117,7 @@
     <None Remove="Assets\Projectiles\Ranged\AnnihilatingUniverseProj\DivineDevourerIllusionTailGlow.png" />
     <None Remove="Assets\Projectiles\Ranged\DragonsBreathRound.png" />
     <None Remove="Assets\Projectiles\RayBeam.png" />
+    <None Remove="Assets\Projectiles\StormLightning.png" />
     <None Remove="Assets\Tiles\FoodStallChair.png" />
     <None Remove="Assets\Tiles\InfiniteIngotTile.png" />
     <None Remove="Assets\Tiles\InfiniteToilet_Highlight.png" />

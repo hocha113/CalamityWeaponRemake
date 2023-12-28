@@ -43,6 +43,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.UseSound = SoundID.DD2_SkyDragonsFurySwing;
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.rare = ModContent.RarityType<Violet>();
+            Item.CWR().remakeItem = true;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {

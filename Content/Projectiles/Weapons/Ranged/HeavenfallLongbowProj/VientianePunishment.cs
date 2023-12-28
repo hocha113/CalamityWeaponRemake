@@ -1,7 +1,7 @@
 ﻿using CalamityMod;
 using CalamityMod.Sounds;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Items.Ranged;
+using CalamityWeaponRemake.Content.Items.Ranged.Extras;
 using CalamityWeaponRemake.Content.Particles;
 using CalamityWeaponRemake.Content.Particles.Core;
 using Microsoft.Xna.Framework;

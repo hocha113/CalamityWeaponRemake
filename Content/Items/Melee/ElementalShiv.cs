@@ -28,6 +28,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.UseSound = SoundID.Item1;
             Item.value = CalamityGlobalItem.Rarity11BuyPrice;
             Item.rare = ItemRarityID.Purple;
+            Item.CWR().remakeItem = true;
         }
 
         public override bool MeleePrefix() {

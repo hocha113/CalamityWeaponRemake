@@ -54,7 +54,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
         public static CalamityUtils.CurveSegment Recovery => new CalamityUtils.CurveSegment(CalamityUtils.EasingType.PolyOut, RecoveryCompletionRatio, Swing.EndingHeight, 0.97f, 3);
 
-        public override string Texture => CWRConstant.Item_Melee + "EntropicClaymore";
+        public override string Texture => CWRConstant.Cay_Wap_Melee + "EntropicClaymore";
 
         public static float GetSwingOffsetAngle(float completion) {
             return CalamityUtils.PiecewiseAnimation(completion, AnticipationWait, Anticipation, Swing, Recovery);

@@ -38,6 +38,7 @@ namespace CalamityWeaponRemake.Content.Items.Magic
             Item.shoot = ModContent.ProjectileType<RemakeGhastlyVisageProj>();
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.rare = ModContent.RarityType<PureGreen>();
+            Item.CWR().remakeItem = true;
         }
 
         public override void OnConsumeMana(Player player, int manaConsumed) {

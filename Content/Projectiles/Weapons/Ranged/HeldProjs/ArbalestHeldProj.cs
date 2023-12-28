@@ -36,14 +36,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeldProjs
         private Vector2 toMou = Vector2.Zero;
         private Item arbalest => Owner.HeldItem;
 
-        public override void OnSpawn(IEntitySource source) {
-            base.OnSpawn(source);
-        }
-
-        public override void OnKill(int timeLeft) {
-            base.OnKill(timeLeft);
-        }
-
         public override bool ShouldUpdatePosition() {
             return false;
         }

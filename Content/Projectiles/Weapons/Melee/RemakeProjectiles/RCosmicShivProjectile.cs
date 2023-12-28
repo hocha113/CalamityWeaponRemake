@@ -11,7 +11,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.RemakeProjectil
 {
     internal class RCosmicShivProjectile : BaseShortswordProjectile
     {
-        public override string Texture => CWRConstant.Item_Melee + "CosmicShiv";
+        public override string Texture => CWRConstant.Cay_Wap_Melee + "CosmicShiv";
 
         public override Action<Projectile> EffectBeforePullback => delegate {
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 14f, ModContent.ProjectileType<RCosmicShivBall>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner);

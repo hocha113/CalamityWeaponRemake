@@ -1,10 +1,13 @@
-﻿using CalamityMod.NPCs.Yharon;
+﻿using CalamityMod;
+using CalamityMod.NPCs.Yharon;
 using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,6 +16,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.DawnshatterAzur
     internal class TheEndSun : ModProjectile
     {
         public override string Texture => CWRConstant.Projectile_Melee + "TheEndSun";
+        internal PrimitiveTrail TailDrawer;
         public override void SetStaticDefaults() {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 13;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
@@ -27,45 +31,12 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.DawnshatterAzur
             Projectile.MaxUpdates = 6;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 600;           
+            Projectile.timeLeft = 300;
         }
 
         public override void AI() {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
-            SpanDust();
-        }
-
-        public void SpanDust() {
-            for (int i = 0; i < 1; i++) {
-                if (Main.rand.NextBool()) {
-                    Vector2 vector3 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
-                    Dust dust = Main.dust[Dust.NewDust(Projectile.Center - vector3 * 30f, 0, 0, DustID.InfernoFork)];
-                    dust.noGravity = true;
-                    dust.position = Projectile.Center - vector3 * Main.rand.Next(10, 21);
-                    dust.velocity = vector3.RotatedBy(1.5707963705062866) * 6f;
-                    dust.scale = 0.9f + Main.rand.NextFloat();
-                    dust.fadeIn = 0.5f;
-                    dust.customData = Projectile;
-                    vector3 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
-                    dust.noGravity = true;
-                    dust.position = Projectile.Center - vector3 * Main.rand.Next(10, 21);
-                    dust.velocity = vector3.RotatedBy(1.5707963705062866) * 6f;
-                    dust.scale = 0.9f + Main.rand.NextFloat();
-                    dust.fadeIn = 0.5f;
-                    dust.customData = Projectile;
-                    dust.color = Color.Crimson;
-                }
-                else {
-                    Vector2 vector4 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
-                    Dust dust = Main.dust[Dust.NewDust(Projectile.Center - vector4 * 30f, 0, 0, DustID.Flare)];
-                    dust.noGravity = true;
-                    dust.position = Projectile.Center - vector4 * Main.rand.Next(20, 31);
-                    dust.velocity = vector4.RotatedBy(-1.5707963705062866) * 5f;
-                    dust.scale = 0.9f + Main.rand.NextFloat();
-                    dust.fadeIn = 0.5f;
-                    dust.customData = Projectile;
-                }
-            }
+            CWRDust.SpanCycleDust(Projectile, DustID.InfernoFork, DustID.Flare);
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {

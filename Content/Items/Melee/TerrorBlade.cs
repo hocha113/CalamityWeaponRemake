@@ -17,7 +17,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 {
     internal class TerrorBlade : ModItem
     {
-        public override string Texture => CWRConstant.Item_Melee + "TerrorBlade";
+        public override string Texture => CWRConstant.Cay_Wap_Melee + "TerrorBlade";
 
         public const float TerrorBladeMaxRageEnergy = 5000;
 
@@ -46,7 +46,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) {
-            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>(CWRConstant.Item_Melee + "TerrorBladeGlow", (AssetRequestMode)2).Value);
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>(CWRConstant.Cay_Wap_Melee + "TerrorBladeGlow", (AssetRequestMode)2).Value);
         }
 
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position

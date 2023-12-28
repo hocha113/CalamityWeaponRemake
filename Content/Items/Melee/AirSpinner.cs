@@ -39,6 +39,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.shootSpeed = 14f;
             Item.rare = ItemRarityID.Orange;
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.CWR().remakeItem = true;
         }
     }
 }

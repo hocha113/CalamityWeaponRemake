@@ -92,6 +92,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.shootSpeed = 24f;
             Item.rare = ModContent.RarityType<Violet>();
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 14));
+            Item.CWR().remakeItem = true;
         }
 
         public override void HoldItem(Player player) {

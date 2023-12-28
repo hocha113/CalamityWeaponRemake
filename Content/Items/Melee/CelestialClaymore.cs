@@ -29,6 +29,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.rare = ItemRarityID.LightRed;
             Item.shoot = ModContent.ProjectileType<CosmicSpiritBombs>();
             Item.shootSpeed = 0.1f;
+            Item.CWR().remakeItem = true;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {

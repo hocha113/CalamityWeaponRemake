@@ -1,7 +1,7 @@
 ﻿using CalamityMod.Items.Tools;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Items.Materials;
-using CalamityWeaponRemake.Content.Items.Ranged;
+using CalamityWeaponRemake.Content.Items.Ranged.Extras;
 using CalamityWeaponRemake.Content.Particles;
 using CalamityWeaponRemake.Content.Particles.Core;
 using CalamityWeaponRemake.Content.Projectiles;

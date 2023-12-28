@@ -37,6 +37,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<RStarnightLanceProjectile>();
             Item.shootSpeed = 6f;
+            Item.CWR().remakeItem = true;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;

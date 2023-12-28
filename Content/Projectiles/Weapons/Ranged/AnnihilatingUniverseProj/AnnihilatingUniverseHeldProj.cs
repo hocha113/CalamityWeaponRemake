@@ -2,7 +2,7 @@
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Particles;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Items.Ranged;
+using CalamityWeaponRemake.Content.Items.Ranged.Extras;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

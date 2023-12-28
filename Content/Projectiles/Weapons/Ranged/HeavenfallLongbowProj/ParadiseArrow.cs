@@ -10,7 +10,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityWeaponRemake.Content.Items.Ranged;
+using CalamityWeaponRemake.Content.Items.Ranged.Extras;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLongbowProj
 {

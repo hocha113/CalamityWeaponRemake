@@ -18,7 +18,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 
         public const int LightningArea = 2800;
 
-        public override string Texture => CWRConstant.Item_Melee + "GildedProboscis";
+        public override string Texture => CWRConstant.Cay_Wap_Melee + "GildedProboscis";
 
         public override void SetStaticDefaults() {
             ItemID.Sets.Spears[Type] = true;

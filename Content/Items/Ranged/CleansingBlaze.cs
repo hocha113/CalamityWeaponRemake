@@ -36,6 +36,7 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
             Item.shootSpeed = 14f;
             Item.useAmmo = AmmoID.Gel;
             Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.CWR().remakeItem = true;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) {

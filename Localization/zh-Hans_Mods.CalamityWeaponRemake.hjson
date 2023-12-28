@@ -527,6 +527,16 @@ Items: {
 		DisplayName: 无尽马桶
 		Tooltip: "[c/fff08c:寰宇之力，就在桶中]"
 	}
+
+	StormGoddessSpear: {
+		// DisplayName: Storm Goddess Spear
+		// Tooltip: ""
+	}
+
+	DragonsScaleGreatsword: {
+		// DisplayName: Dragons Scale Greatsword
+		// Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -675,6 +685,11 @@ Projectiles: {
 	// InfiniteEnmgs.DisplayName: Infinite Enmgs
 	// TheDaybreak.DisplayName: The Daybreak
 	// TheEndSun.DisplayName: The End Sun
+	// BaseHeldBow.DisplayName: Base Held Bow
+	// StormLightning.DisplayName: Storm Lightning
+	// StormArc.DisplayName: Storm Arc
+	// DragonsScaleGreatswordBeam.DisplayName: Dragons Scale Greatsword Beam
+	// SporeCloud.DisplayName: Spore Cloud
 }
 
 Configs: {

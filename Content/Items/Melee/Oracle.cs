@@ -48,6 +48,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.rare = ModContent.RarityType<Violet>();
             Item.Calamity().donorItem = true;
+            Item.CWR().remakeItem = true;
         }
     }
 }

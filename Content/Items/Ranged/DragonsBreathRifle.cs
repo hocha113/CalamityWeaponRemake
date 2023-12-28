@@ -42,6 +42,7 @@ namespace CalamityWeaponRemake.Content.Items.Ranged
             Item.Calamity().canFirePointBlankShots = true;
             Item.rare = ModContent.RarityType<Violet>();
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.CWR().remakeItem = true;
         }
 
         public override bool AltFunctionUse(Player player) {

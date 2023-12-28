@@ -13,7 +13,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee
 {
     internal class BrinyBaron : ModItem
     {
-        public override string Texture => CWRConstant.Item + "Melee/" + "BrinyBaron";
+        public override string Texture => CWRConstant.Cay_Wap_Melee + "BrinyBaron";
 
         public override void SetStaticDefaults() {
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
