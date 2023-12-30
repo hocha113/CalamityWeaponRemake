@@ -200,8 +200,7 @@ namespace CalamityWeaponRemake.Content.Items.Ranged.Extras
             }
         }
 
-        public override void AddRecipes()
-        {
+        public override void AddRecipes(){
             CreateRecipe()
                 .AddIngredient<CalamityMod.Items.Weapons.Ranged.Drataliornus>()
                 .AddIngredient<CalamityMod.Items.Weapons.Ranged.HeavenlyGale>()

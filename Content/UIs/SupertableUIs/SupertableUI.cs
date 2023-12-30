@@ -40,6 +40,8 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
 
         public bool loadOrUnLoadZenithWorldAsset = true;
 
+        public bool initializeBool = true;
+
         private Vector2 topLeft;
 
         private int cellWid;
@@ -53,9 +55,13 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
         private Point mouseInCellCoord;
 
         private int inCoordIndex => (mouseInCellCoord.Y * maxCellNumX) + mouseInCellCoord.X;
-
+        /// <summary>
+        /// 主UI的面板矩形
+        /// </summary>
         private Rectangle mainRec;
-
+        /// <summary>
+        /// 物品放置格子的面板矩形
+        /// </summary>
         private Rectangle mainRec2;
 
         private bool onMainP;
@@ -102,26 +108,15 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
             Console.WriteLine($"得到配方表容量：{AllRecipes.Count}");
         }
 
-        public override void Initialize() {
-            DrawPos = (new Vector2(Main.screenWidth, Main.screenHeight) - new Vector2(Texture.Width - Main.screenWidth / 2, Texture.Height + 400)) / 2;
+        public void UpdateUIElementPos() {
+            if (DrawPos == Vector2.Zero && initializeBool) {
+                DrawPos = (new Vector2(Main.screenWidth, Main.screenHeight) - new Vector2(Texture.Width - Main.screenWidth / 2, Texture.Height + 400)) / 2;
+                initializeBool = false;
+            } 
             topLeft = new Vector2(15, 30) + DrawPos;
             cellWid = 48;
             cellHig = 46;
             maxCellNumX = maxCellNumY = 9;
-
-            if (items == null) {
-                items = new Item[maxCellNumX * maxCellNumY];
-                for (int i = 0; i < items.Length; i++) {
-                    items[i] = new Item();
-                }
-            }
-
-            if (fullItemTypes == null || fullItemTypes?.Length != items.Length) {
-                fullItemTypes = new int[items.Length];
-                FullItem(SupertableRecipeDate.FullItems);
-            }
-
-            inputItem ??= new Item();
 
             Vector2 inUIMousePos = MouPos - topLeft;
             int mouseXGrid = (int)(inUIMousePos.X / cellWid);
@@ -136,6 +131,24 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
             onMainP2 = mainRec2.Intersects(new Rectangle((int)MouPos.X, (int)MouPos.Y, 1, 1));
             onInputP = inputRec.Intersects(new Rectangle((int)MouPos.X, (int)MouPos.Y, 1, 1));
             onCloseP = closeRec.Intersects(new Rectangle((int)MouPos.X, (int)MouPos.Y, 1, 1));
+        }
+
+        public override void Initialize() {
+            UpdateUIElementPos();
+
+            if (items == null) {
+                items = new Item[maxCellNumX * maxCellNumY];
+                for (int i = 0; i < items.Length; i++) {
+                    items[i] = new Item();
+                }
+            }
+
+            if (fullItemTypes == null || fullItemTypes?.Length != items.Length) {
+                fullItemTypes = new int[items.Length];
+                FullItem(SupertableRecipeDate.FullItems);
+            }
+
+            inputItem ??= new Item();
 
             if (loadOrUnLoadZenithWorldAsset) {
                 int infiniteToiletItemType = ModContent.ItemType<InfiniteToiletItem>();
@@ -293,20 +306,20 @@ End:;
                         OutItem();
                     }
 
+                    if (Main.LocalPlayer.PressKey(false)) {
+                        DragDorg(ref items[inCoordIndex], ref Main.mouseItem);
+                        OutItem();
+                    }
+
+                    if (CWRKeySystem.TOM_GatheringItem.Current) {
+                        GatheringItem(inCoordIndex, ref Main.mouseItem);
+                        OutItem();
+                    }
+
                     if (museSR == 1) {
                         HandleRightClick(ref items[inCoordIndex], ref Main.mouseItem);
                         OutItem();
                     }
-                }
-                
-                if (Main.LocalPlayer.PressKey(false)) {
-                    DragDorg(ref items[inCoordIndex], ref Main.mouseItem);
-                    OutItem();
-                }
-
-                if (CWRKeySystem.TOM_GatheringItem.Current) {
-                    GatheringItem(inCoordIndex, ref Main.mouseItem);
-                    OutItem();
                 }
 
                 if (CWRKeySystem.TOM_OneClickP.JustPressed) {
@@ -564,6 +577,11 @@ End:;
         }
 
         public override void Draw(SpriteBatch spriteBatch) {
+            if (DragButton.instance != null) {
+                if (DragButton.instance.onDrag) {//为了防止拖拽状态下出现位置更新的延迟所导致的果冻感，这里用于在拖拽状态下进行一次额外的更新
+                    UpdateUIElementPos();
+                }
+            }
             spriteBatch.Draw(Texture, DrawPos, null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);//绘制出UI主体
             spriteBatch.Draw(CWRUtils.GetT2DValue("CalamityMod/UI/DraedonSummoning/DecryptCancelIcon"), DrawPos, null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);//绘制出关闭按键
             if (onCloseP) {
@@ -590,9 +608,13 @@ End:;
                     }
                 }
             }
+
+            Texture2D arrow = CWRUtils.GetT2DValue("CalamityWeaponRemake/Assets/UIs/SupertableUIs/InputArrow2");
             if (inputItem != null && inputItem?.type != 0) {//如果输出格有物品，那么将它画出来
                 DrawItemIcons(spriteBatch, inputItem, DrawPos + new Vector2(555, 215), overSlp: 1.5f);
+                arrow = CWRUtils.GetT2DValue("CalamityWeaponRemake/Assets/UIs/SupertableUIs/InputArrow");
             }
+            spriteBatch.Draw(arrow, DrawPos + new Vector2(460, 225), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);//绘制出输出箭头
 
             if (onMainP2 && inCoordIndex >= 0 && inCoordIndex <= 80) { //处理鼠标在UI格中查看物品的事情
                 Item overItem = items[inCoordIndex];

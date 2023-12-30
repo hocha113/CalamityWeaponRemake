@@ -17,7 +17,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
 {
     internal class HeavenfallLongbowHeldProj : ModProjectile
     {
-        public override string Texture => CWRConstant.Item_Ranged + "HeavenfallLongbow";
+        public override string Texture => CWRConstant.Projectile_Ranged + "HeavenfallLongbowProj";
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<HeavenfallLongbow>();
 
         private Player Owners => CWRUtils.GetPlayerInstance(Projectile.owner);
@@ -124,16 +124,17 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             Main.EntitySpriteDraw(
                 mainValue,
                 Projectile.Center - Main.screenPosition,
-                CWRUtils.GetRec(mainValue),
+                CWRUtils.GetRec(mainValue, Projectile.frame, 5),
                 Color.White,
                 Projectile.rotation,
-                CWRUtils.GetOrig(mainValue),
+                CWRUtils.GetOrig(mainValue, 5),
                 Projectile.scale,
                 Owners.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipVertically
                 );
         }
 
         public override bool PreDraw(ref Color lightColor) {
+            CWRUtils.ClockFrame(ref Projectile.frame, 5, 4);
             Texture2D mainValue = CWRUtils.GetT2DValue(Texture);
             Color drawColor2 = CWRUtils.MultiLerpColor(Projectile.ai[0] % 15 / 15f, HeavenfallLongbow.rainbowColors);
             if (HFBow.ChargeValue < 200)
@@ -149,10 +150,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
                 Main.EntitySpriteDraw(
                     mainValue,
                     Projectile.Center - Main.screenPosition,
-                    CWRUtils.GetRec(mainValue),
+                    CWRUtils.GetRec(mainValue, Projectile.frame, 5),
                     drawColor2,
                     Projectile.rotation,
-                    CWRUtils.GetOrig(mainValue),
+                    CWRUtils.GetOrig(mainValue, 5),
                     Projectile.scale * (1 + slp2 * 0.08f),
                     Owners.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipVertically
                     );
@@ -161,10 +162,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLong
             Main.EntitySpriteDraw(
                 mainValue,
                 Projectile.Center - Main.screenPosition,
-                CWRUtils.GetRec(mainValue),
+                CWRUtils.GetRec(mainValue, Projectile.frame, 5),
                 lightColor,
                 Projectile.rotation,
-                CWRUtils.GetOrig(mainValue),
+                CWRUtils.GetOrig(mainValue, 5),
                 Projectile.scale,
                 Owners.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipVertically
                 );

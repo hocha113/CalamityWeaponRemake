@@ -8,6 +8,9 @@ using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityWeaponRemake.Content.Items.Melee.Extras;
+using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.StormGoddessSpearProj;
+using CalamityMod.NPCs.Yharon;
+using Terraria.Audio;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.DawnshatterAzureProj
 {
@@ -62,6 +65,24 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.DawnshatterAzur
             Projectile.Center = player.MountedCenter + Vector2.SmoothStep(Projectile.velocity * HoldoutRangeMin, Projectile.velocity * HoldoutRangeMax, progress);
             Projectile.rotation = Projectile.velocity.ToRotation();
             player.direction = Math.Sign(player.position.To(Main.MouseWorld).X);
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
+            if (Projectile.numHits == 0) {
+                target.CWR().TheEndSunOnHitNum = true;
+                SoundEngine.PlaySound(Yharon.ShortRoarSound, target.position);
+            }
+            if (Projectile.numHits < 3) {
+                const int maxX = 860;
+                const int maxY = 530;
+                for (int i = 0; i < 6; i++) {
+                    Vector2 spanPos = target.Center + new Vector2(maxX * (i < 3 ? -1 : 1), Main.rand.Next(-maxY, maxY));
+                    Vector2 vr = spanPos.To(target.Center).UnitVector() * 25;
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spanPos, vr
+                    , ModContent.ProjectileType<TheDaybreak2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Main.projectile[proj].timeLeft = 120;
+                }
+            }
         }
 
         public override bool PreDraw(ref Color lightColor) {

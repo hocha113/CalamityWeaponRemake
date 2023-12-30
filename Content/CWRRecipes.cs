@@ -30,23 +30,40 @@ namespace CalamityWeaponRemake.Content
                 }
             }
             //修改暴政的合成
-            for (int i = 0; i < Recipe.numRecipes; i++) {
-                Recipe recipe = Main.recipe[i];
-                if (recipe.HasResult(ItemType<CalamityMod.Items.Weapons.Melee.TheEnforcer>())) {
-                    recipe.DisableRecipe();
+            {
+                for (int i = 0; i < Recipe.numRecipes; i++) {
+                    Recipe recipe = Main.recipe[i];
+                    if (recipe.HasResult(ItemType<CalamityMod.Items.Weapons.Melee.TheEnforcer>())) {
+                        recipe.DisableRecipe();
+                    }
                 }
+                Recipe.Create(ItemType<CalamityMod.Items.Weapons.Melee.TheEnforcer>())
+                    .AddIngredient(ItemType<CalamityMod.Items.Weapons.Melee.HolyCollider>())
+                    .AddIngredient(ItemType<CosmiliteBar>(), 5)
+                    .AddTile(TileType<CosmicAnvil>())
+                    .Register();
             }
-            Recipe.Create(ItemType<CalamityMod.Items.Weapons.Melee.TheEnforcer>())
-                .AddIngredient(ItemType<CalamityMod.Items.Weapons.Melee.HolyCollider>())
-                .AddIngredient(ItemType<CosmiliteBar>(), 5)
-                .AddTile(TileType<CosmicAnvil>())
-                .Register();
             //添加圣火之刃的合成
-            Recipe.Create(ItemType<CalamityMod.Items.Weapons.Melee.HolyCollider>())
+            {
+                Recipe.Create(ItemType<CalamityMod.Items.Weapons.Melee.HolyCollider>())
                 .AddIngredient(ItemType<CalamityMod.Items.Weapons.Melee.CelestialClaymore>())
                 .AddIngredient(ItemType<DivineGeode>(), 16)
                 .AddTile(TileID.LunarCraftingStation)
                 .Register();
+            }
+            //添加风暴长矛的合成
+            {
+                Recipe.Create(ItemID.ThunderSpear)
+                .AddIngredient(ItemID.Spear)
+                .AddIngredient<StormlionMandible>(5)
+                .AddTile(TileID.Anvils)
+                .Register();
+                Recipe.Create(ItemID.ThunderSpear)
+                    .AddIngredient(ItemID.Trident)
+                    .AddIngredient<StormlionMandible>(5)
+                    .AddTile(TileID.Anvils)
+                    .Register();
+            }
         }
 
         public static string Any => Language.GetTextValue("LegacyMisc.37");

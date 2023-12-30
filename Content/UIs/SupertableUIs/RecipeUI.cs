@@ -127,6 +127,11 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
         }
 
         public override void Draw(SpriteBatch spriteBatch) {
+            if (DragButton.instance != null) {
+                if (DragButton.instance.onDrag) {//为了防止拖拽状态下出现位置更新的延迟所导致的果冻感，这里用于在拖拽状态下进行一次额外的更新
+                    Initialize();
+                }
+            }
             Texture2D arow = CWRUtils.GetT2DValue("CalamityWeaponRemake/Assets/UIs/SupertableUIs/BlueArrow");
             Texture2D arow2 = CWRUtils.GetT2DValue("CalamityWeaponRemake/Assets/UIs/SupertableUIs/BlueArrow2");
             spriteBatch.Draw(Texture, DrawPos, null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);//绘制出UI主体

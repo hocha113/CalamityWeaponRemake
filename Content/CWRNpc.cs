@@ -16,7 +16,7 @@ namespace CalamityWeaponRemake.Content
 
         public byte TerratomereBoltOnHitNum = 0;
         public byte OrderbringerOnHitNum = 0;
-        public byte TheEndSunOnHitNum = 0;
+        public bool TheEndSunOnHitNum;
         public ushort colldHitTime = 0;
         public byte WhipHitNum = 0;
         public byte WhipHitType = 0;
@@ -73,7 +73,7 @@ namespace CalamityWeaponRemake.Content
 
         public override void HitEffect(NPC npc, NPC.HitInfo hit) {
             if (npc.life <= 0) {
-                if (TheEndSunOnHitNum > 0) {
+                if (TheEndSunOnHitNum) {
                     for (int i = 0; i < Main.rand.Next(16, 33); i++) {
                         npc.NPCLoot();
                     }

@@ -46,13 +46,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.DawnshatterAzur
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
             if (Projectile.numHits == 0) {
-                target.CWR().TheEndSunOnHitNum = 1;
+                target.CWR().TheEndSunOnHitNum = true;
                 SoundEngine.PlaySound(Yharon.ShortRoarSound, target.position);
             }
-        }
-
-        public override void OnKill(int timeLeft) {
-            base.OnKill(timeLeft);
         }
 
         public float PrimitiveWidthFunction(float completionRatio) => CalamityUtils.Convert01To010(completionRatio) * Projectile.scale * Projectile.width * 0.6f;
@@ -70,7 +66,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.DawnshatterAzur
             GameShaders.Misc["CalamityMod:HeavenlyGaleLightningArc"].UseImage1("Images/Misc/noise");
             GameShaders.Misc["CalamityMod:HeavenlyGaleLightningArc"].Apply();
 
-            TailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 80);
+            TailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 30);
 
             Texture2D value = TextureAssets.Projectile[Type].Value;
             Vector2 orig = value.Size() / 2;

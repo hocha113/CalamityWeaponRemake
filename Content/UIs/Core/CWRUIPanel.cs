@@ -161,7 +161,7 @@ namespace CalamityWeaponRemake
         public virtual int DownStartL() {
             oldDownL = downL;
             downL = player.PressKey();
-            return downL && !oldDownL ? 1 : !downL && oldDownL ? 2 : 0;
+            return downL && !oldDownL ? 1 : oldDownL && !downL ? 2 : 0;
         }
 
         public virtual int DownStartR() {

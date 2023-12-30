@@ -42,6 +42,7 @@ namespace CalamityWeaponRemake
             new CompressorUI().Load();
             new SupertableUI().Load();
             new RecipeUI().Load();
+            new DragButton().Load();
         }
 
         public override void Load() {

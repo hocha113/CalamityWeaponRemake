@@ -47,6 +47,7 @@ namespace CalamityWeaponRemake.Content.UIs
                     if (SupertableUI.instance.Active) {
                         SupertableUI.instance.Draw(Main.spriteBatch);
                         RecipeUI.instance.Draw(Main.spriteBatch);
+                        DragButton.instance.Draw(Main.spriteBatch);
                     }  
                     return true;
                 }, InterfaceScaleType.UI));
@@ -60,6 +61,7 @@ namespace CalamityWeaponRemake.Content.UIs
             if (SupertableUI.instance.Active) {
                 SupertableUI.instance.Update(gameTime);
                 RecipeUI.instance.Update(gameTime);
+                DragButton.instance.Update(gameTime);
             }  
         }
     }

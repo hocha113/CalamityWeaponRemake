@@ -529,13 +529,17 @@ Items: {
 	}
 
 	StormGoddessSpear: {
-		// DisplayName: Storm Goddess Spear
-		// Tooltip: ""
+		DisplayName: 风暴女神之矛
+		Tooltip:
+			'''
+			发射出带有毁灭电弧的风暴之吻
+			[tips]
+			'''
 	}
 
 	DragonsScaleGreatsword: {
-		// DisplayName: Dragons Scale Greatsword
-		// Tooltip: ""
+		DisplayName: 龙藻巨剑
+		Tooltip: ""
 	}
 }
 
@@ -690,6 +694,7 @@ Projectiles: {
 	// StormArc.DisplayName: Storm Arc
 	// DragonsScaleGreatswordBeam.DisplayName: Dragons Scale Greatsword Beam
 	// SporeCloud.DisplayName: Spore Cloud
+	// TheDaybreak2.DisplayName: The Daybreak2
 }
 
 Configs: {

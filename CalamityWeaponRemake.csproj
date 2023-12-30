@@ -123,6 +123,8 @@
     <None Remove="Assets\Tiles\InfiniteToilet_Highlight.png" />
     <None Remove="Assets\UIs\GenericBarBack.png" />
     <None Remove="Assets\UIs\GenericBarFront.png" />
+    <None Remove="Assets\UIs\SupertableUIs\HotbarRadial_0.png" />
+    <None Remove="Assets\UIs\SupertableUIs\TexturePackButtons.png" />
     <None Remove="Assets\UIs\Ticoninfinity.png" />
     <None Remove="Content\Projectiles\ModeProj.txt" />
     <None Remove="description_workshop.txt" />
@@ -132,7 +134,6 @@
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\UIs\SupertableUIs\" />
     <Folder Include="Content\RemakeItems\Summon\" />
   </ItemGroup>
   <ItemGroup>

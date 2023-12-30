@@ -5,12 +5,14 @@ using CalamityWeaponRemake.Content.RemakeItems.Core;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
+using CalamityWeaponRemake.Content.Items.Melee;
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 {
     internal class RGreatswordofJudgement : BaseRItem
     {
         public override int TargetID => ModContent.ItemType<CalamityMod.Items.Weapons.Melee.GreatswordofJudgement>();
+        public override int ProtogenesisID => ModContent.ItemType<GreatswordofJudgement>();
         public override void SetDefaults(Item item) {
             item.width = 78;
             item.damage = 40;

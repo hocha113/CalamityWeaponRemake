@@ -41,10 +41,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.DawnshatterAzur
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
             if (Projectile.numHits == 0) {
-                target.CWR().TheEndSunOnHitNum = 1;
+                target.CWR().TheEndSunOnHitNum = true;
                 SoundEngine.PlaySound(Yharon.ShortRoarSound, target.position);
-            }
-            if (Projectile.numHits < 3) {
                 for (int i = 0; i < 3; i++) {
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + new Vector2(Main.rand.Next(-260, 260), -520 + Main.rand.Next(-160, 160)), new Vector2(0, 26)
                     , ModContent.ProjectileType<TheDaybreak>(), Projectile.damage, Projectile.knockBack, Projectile.owner);

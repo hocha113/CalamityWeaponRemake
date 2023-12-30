@@ -1,16 +1,15 @@
 ﻿using CalamityMod;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Items.Melee.Extras;
-using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.DawnshatterAzureProj;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using System;
-using Terraria.Localization;
-using Terraria;
-using Terraria.ModLoader;
-using CalamityWeaponRemake.Content.Particles.Core;
 using CalamityWeaponRemake.Content.Particles;
+using CalamityWeaponRemake.Content.Particles.Core;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.StormGoddessSpearProj
 {
