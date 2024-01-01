@@ -1,15 +1,12 @@
-﻿using CalamityMod.Graphics.Metaballs;
-using CalamityMod.Particles;
-using CalamityMod;
-using CalamityWeaponRemake.Common;
+﻿using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Tools;
+using CalamityWeaponRemake.Content.Particles;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityWeaponRemake.Content.Particles;
-using Terraria.Audio;
-using System.Collections.Generic;
-using CalamityWeaponRemake.Content.Items.Tools;
 
 namespace CalamityWeaponRemake.Content.Projectiles
 {

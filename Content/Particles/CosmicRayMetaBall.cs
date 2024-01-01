@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Graphics.Metaballs;
+using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Particles.Core;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -6,26 +7,34 @@ using System.Collections.Generic;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using CalamityWeaponRemake.Common;
+using System.Linq;
 
 namespace CalamityWeaponRemake.Content.Particles
 {
-    internal class DarkMatterMetaBall : CWRMetaball
+    internal class CosmicRayMetaBall : CWRMetaball
     {
         public class CosmicParticle
         {
             public float Size;
 
+            public float Rot;
+
+            public float Leng;
+
+            public float Weig;
+
             public Vector2 Velocity;
 
             public Vector2 Center;
 
-            public CosmicParticle(Vector2 center, Vector2 velocity, float size) {
+            public CosmicParticle(Vector2 center, Vector2 velocity, float size, float rot, float leng, float weig) {
                 Center = center;
                 Velocity = velocity;
                 Size = size;
+                Rot = rot;
+                Leng = leng;
+                Weig = weig;
             }
 
             public void Update() {
@@ -72,8 +81,8 @@ namespace CalamityWeaponRemake.Content.Particles
             Particles.RemoveAll(p => p.Size <= 2f);
         }
 
-        public static void SpawnParticle(Vector2 position, Vector2 velocity, float size) =>
-            Particles.Add(new(position, velocity, size));
+        public static void SpawnParticle(Vector2 position, Vector2 velocity, float size, float rot, float leng, float wid) =>
+            Particles.Add(new(position, velocity, size, rot, leng, wid));
 
         // 使纹理滚动。
         public override Vector2 CalculateManualOffsetForLayer(int layerIndex) {
@@ -81,14 +90,18 @@ namespace CalamityWeaponRemake.Content.Particles
         }
 
         public override void DrawInstances() {
-            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BasicCircle").Value;
+            Texture2D tex = ModContent.Request<Texture2D>("CalamityWeaponRemake/Assets/BasicSquareCircle").Value;
 
             foreach (CosmicParticle particle in Particles) {
                 Vector2 drawPosition = particle.Center - Main.screenPosition;
                 Vector2 origin = tex.Size() * 0.5f;
-                Vector2 scale = Vector2.One * particle.Size / tex.Size();
-                for (int i = 0; i < 15; i++)
-                    Main.spriteBatch.Draw(tex, drawPosition, null, Color.White, Main.GameUpdateCount / 10f + i * 0.01f, origin, scale, SpriteEffects.None, 0f);
+                Vector2 scale = new Vector2(particle.Weig / tex.Width, 1) * particle.Size / tex.Size();
+                int num = (int)(particle.Leng / tex.Height);
+                Vector2 slp = new Vector2(particle.Weig / tex.Width, 1);
+                Vector2 rotVr = particle.Rot.ToRotationVector2();
+                for (int i = 0; i < num; i++) {
+                    Main.spriteBatch.Draw(tex, drawPosition + rotVr * tex.Height * i, null, Color.White, particle.Rot, origin, scale, SpriteEffects.None, 0f);
+                }
             }
         }
     }

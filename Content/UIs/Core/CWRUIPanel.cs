@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 
-namespace CalamityWeaponRemake
+namespace CalamityWeaponRemake.Content.UIs.Core
 {
     public class CWRUIPanel
     {

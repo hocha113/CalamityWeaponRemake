@@ -7,6 +7,7 @@ using Terraria;
 using Microsoft.Xna.Framework.Input;
 using Terraria.Audio;
 using Terraria.ID;
+using CalamityWeaponRemake.Content.UIs.Core;
 
 namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
 {

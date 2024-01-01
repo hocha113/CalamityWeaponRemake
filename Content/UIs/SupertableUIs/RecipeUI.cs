@@ -1,5 +1,6 @@
 ﻿using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Items.Placeable;
+using CalamityWeaponRemake.Content.UIs.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

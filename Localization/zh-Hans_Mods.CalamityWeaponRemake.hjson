@@ -541,6 +541,20 @@ Items: {
 		DisplayName: 龙藻巨剑
 		Tooltip: ""
 	}
+
+	CosmicCalamity: {
+		DisplayName: 银河之灾
+		Tooltip: ""
+	}
+
+	Weapons: {
+		Rogue: {
+			WaveSkipper: {
+				// DisplayName: Wave Skipper
+				// Tooltip: ""
+			}
+		}
+	}
 }
 
 Projectiles: {
@@ -695,6 +709,9 @@ Projectiles: {
 	// DragonsScaleGreatswordBeam.DisplayName: Dragons Scale Greatsword Beam
 	// SporeCloud.DisplayName: Spore Cloud
 	// TheDaybreak2.DisplayName: The Daybreak2
+	// CosmicCalamityProjectile.DisplayName: Cosmic Calamity Projectile
+	// CosmicCalamityRay.DisplayName: Cosmic Calamity Ray
+	// Rogue.RWaveSkipperProjectile.DisplayName: R Wave Skipper Projectile
 }
 
 Configs: {

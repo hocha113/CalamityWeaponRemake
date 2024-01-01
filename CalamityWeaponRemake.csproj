@@ -30,6 +30,7 @@
     <None Remove="Assets\Items\MagneticMeltdown.png" />
     <None Remove="Assets\Items\Materials\SingularityLayer_0.png" />
     <None Remove="Assets\Items\Materials\SingularityLayer_1.png" />
+    <None Remove="Assets\Items\Rogue\CosmicCalamity.png" />
     <None Remove="Assets\Items\SubsumingVortex.png" />
     <None Remove="Assets\Items\SubsumingVortexGlow.png" />
     <None Remove="Assets\Items\TearsofHeaven.png" />

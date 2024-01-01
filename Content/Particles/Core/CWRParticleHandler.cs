@@ -66,7 +66,7 @@ namespace CalamityWeaponRemake.Content.Particles.Core
         }
 
         /// <summary>
-        /// Spawns the particle instance provided into the world. If the particle limit is reached but the particle is marked as important, it will try to replace a non important particle.
+        /// 生成提供给世界的粒子实例。如果达到颗粒限值，但该颗粒被标记为重要，它将尝试替换不重要的颗粒
         /// </summary>
         public static void SpawnParticle(CWRParticle particle) {
             if (Main.gamePaused || Main.dedServ || particles == null)
@@ -177,7 +177,7 @@ namespace CalamityWeaponRemake.Content.Particles.Core
         }
 
         /// <summary>
-        /// Gives you the amount of particle slots that are available. Useful when you need multiple particles at once to make an effect and dont want it to be only halfway drawn due to a lack of particle slots
+        /// 给出可用粒子槽的数量。当一次需要多个粒子来制作效果，并且不希望由于缺乏粒子槽而只绘制一半时非常有用
         /// </summary>
         /// <returns></returns>
         public static int FreeSpacesAvailable() {
@@ -189,7 +189,7 @@ namespace CalamityWeaponRemake.Content.Particles.Core
         }
 
         /// <summary>
-        /// Gives you the texture of the particle type. Useful for custom drawing
+        /// 给予粒子类型的纹理。用于自定义绘图
         /// </summary>
         public static Texture2D GetTexture(int type) => particleTextures[type];
     }

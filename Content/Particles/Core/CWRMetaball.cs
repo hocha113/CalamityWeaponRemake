@@ -16,117 +16,116 @@ namespace CalamityWeaponRemake.Content.Particles.Core
         internal List<ManagedRenderTarget> LayerTargets = new();
 
         /// <summary>
-        /// Required utility that is used to determine whether this metaball has anything to draw.<br></br>
-        /// This exists for efficiency, ensuring that as few operations are executed as possible when not required.
+        /// 必需的实用程序，用于确定此元球是否有任何内容可绘制。<br></br>
+        /// 这是为了提高效率而存在，确保在不需要时尽可能少执行操作
         /// </summary>
         public abstract bool AnythingToDraw {
             get;
         }
 
         /// <summary>
-        /// The collection of all textures to draw on top of the metaball contents.
+        /// 所有纹理的集合，用于在元球内容上绘制
         /// </summary>
         public abstract IEnumerable<Texture2D> Layers {
             get;
         }
 
         /// <summary>
-        /// The draw layer in which metaballs should be drawn.
+        /// 元球应该绘制的绘制层
         /// </summary>
         public abstract MetaballDrawLayer DrawContext {
             get;
         }
 
         /// <summary>
-        /// The color that metaballs should draw at the edge between air and particle contents.
+        /// 元球在空气和粒子内容之间绘制的边缘颜色
         /// </summary>
         public abstract Color EdgeColor {
             get;
         }
 
         /// <summary>
-        /// Whether the layer overlay contents from <see cref="Layers"/> should be fixed to the screen.<br></br>
-        /// When true, the texture will be statically drawn to the screen with no respect for world position.
+        /// 是否应将来自<see cref="Layers"/>的图层覆盖内容固定到屏幕<br></br>
+        /// 当为true时，纹理将静态绘制到屏幕上，不考虑世界位置
         /// </summary>
         public virtual bool FixedToScreen => false;
 
         /// <summary>
-        /// Optionally overridable method for clearing particle instances as necessary. This is used automatically in contexts such as world unloads.
+        /// 可选的、可重写的方法，用于根据需要清除粒子实例。这在诸如世界卸载等上下文中会被自动使用
         /// </summary>
         public virtual void ClearInstances() { }
 
         /// <summary>
-        /// Optionally overridable method that can be used to update the metaball set. This can be useful for over-time update effects or for keeping special data particle types all updated.
+        /// 可选的、可重写的方法，用于更新元球集。这对于实现随时间更新效果或保持所有特殊数据粒子类型更新非常有用
         /// </summary>
         public virtual void Update() { }
 
         /// <summary>
-        /// Optionally overridable method that can be used to make layers offset when drawn, to allow for layer-specific animations. Defaults to <see cref="Vector2.Zero"/>, aka no animation.
+        /// 可选的、可重写的方法，用于在绘制时使图层偏移，以允许图层特定的动画效果。默认为<see cref="Vector2.Zero"/>，即无动画
         /// </summary>
         public virtual Vector2 CalculateManualOffsetForLayer(int layerIndex) => Vector2.Zero;
 
         /// <summary>
-        /// Optionally overridable method that allows for <see cref="SpriteBatch"/> preparations prior to the drawing of the individual raw metaball instances <i>(Not the final result)</i>.<br></br>
-        /// An example of this could be having the metaball particles drawn with <see cref="BlendState.Additive"/>.
+        /// 可选的、可重写的方法，允许在绘制单个原始元球实例<i>(而不是最终结果)</i>之前准备<see cref="SpriteBatch"/><br></br>
+        /// 例如，可以使元球粒子以<see cref="BlendState.Additive"/>模式绘制
         /// </summary>
-        /// <param name="spriteBatch">Shorthand parameter for <see cref="Main.spriteBatch"/>.</param>
+        /// <param name="spriteBatch">用于<see cref="Main.spriteBatch"/>的缩写参数。</param>
         public virtual void PrepareSpriteBatch(SpriteBatch spriteBatch) { }
 
         /// <summary>
-        /// Optionally overridable method that defines for preparations for the render target. Defaults to using the typical texture overlay behavior.
+        /// 可选的、可重写的方法，用于为渲染目标进行准备。默认为使用典型的纹理覆盖行为。
         /// </summary>
-        /// <param name="layerIndex">The layer index that should be prepared for.</param>
+        /// <param name="layerIndex">应该准备的图层索引。</param>
         public virtual void PrepareShaderForTarget(int layerIndex) {
-            // Store the graphics device and shader in easy to use local variables.
+            // 将图形设备和着色器存储在易于使用的本地变量中
             var metaballShader = EffectsRegistry.MetaballEdgeShader;
             var gd = Main.instance.GraphicsDevice;
 
-            // Fetch the layer texture. This is the texture that will be overlayed over the greyscale contents on the screen.
+            // 获取图层纹理。这是将覆盖屏幕上灰度内容的纹理
             Texture2D layerTexture = Layers.ElementAt(layerIndex);
 
-            // Calculate the layer scroll offset. This is used to ensure that the texture contents of the given metaball have parallax, rather than being static over the screen
-            // regardless of world position.
-            // This may be toggled off optionally by the metaball.
+            // 计算图层滚动偏移量。这用于确保给定元球的纹理内容具有视差效果，而不是无论世界位置如何都保持在屏幕上静态
+            // 这可以选择性地由元球进行切换关闭
             Vector2 screenSize = new(Main.screenWidth, Main.screenHeight);
             Vector2 layerScrollOffset = Main.screenPosition / screenSize + CalculateManualOffsetForLayer(layerIndex);
             if (FixedToScreen)
                 layerScrollOffset = Vector2.Zero;
 
-            // Supply shader parameter values.
+            // 提供着色器参数值
             metaballShader.Parameters["layerSize"]?.SetValue(layerTexture.Size());
             metaballShader.Parameters["screenSize"]?.SetValue(screenSize);
             metaballShader.Parameters["layerOffset"]?.SetValue(layerScrollOffset);
             metaballShader.Parameters["edgeColor"]?.SetValue(EdgeColor.ToVector4());
             metaballShader.Parameters["singleFrameScreenOffset"]?.SetValue((Main.screenLastPosition - Main.screenPosition) / screenSize);
 
-            // Supply the metaball's layer texture to the graphics device so that the shader can read it.
+            // 将元球的层纹理提供给图形设备，以便着色器可以读取它
             gd.Textures[1] = layerTexture;
             gd.SamplerStates[1] = SamplerState.LinearWrap;
 
-            // Apply the metaball shader.
+            // 应用元球着色器
             metaballShader.CurrentTechnique.Passes[0].Apply();
         }
 
         /// <summary>
-        /// Required overridable that is intended to draw all metaball instances.
+        /// 必需的可重写方法，旨在绘制所有元球实例
         /// </summary>
         public abstract void DrawInstances();
 
         protected sealed override void Register() {
-            // Register this metaball mod TML's inbuilt ModType handlers.
+            // 注册这个元球模型TML的内置ModType处理程序
             ModTypeLookup<CWRMetaball>.Register(this);
 
-            // Store this metaball instance in the personalized manager so that it can be kept track of for rendering purposes.
+            // 将此元球实例存储在个性化管理器中，以便在呈现时对其进行跟踪
             if (!CWRMetaballManager.metaballs.Contains(this))
                 CWRMetaballManager.metaballs.Add(this);
 
-            // Disallow render target creation on servers.
+            // 禁止在服务器上创建渲染目标
             if (Main.netMode == NetmodeID.Server)
                 return;
 
-            // Generate render targets.
+            // 生成渲染目标
             Main.QueueMainThreadAction(() => {
-                // Load render targets.
+                // 加载渲染目标，这是最终的一步
                 int layerCount = Layers.Count();
                 for (int i = 0; i < layerCount; i++)
                     LayerTargets.Add(new(true, ManagedRenderTarget.CreateScreenSizedTarget));
@@ -134,8 +133,8 @@ namespace CalamityWeaponRemake.Content.Particles.Core
         }
 
         /// <summary>
-        /// Disposes of all unmanaged GPU resources used up by the <see cref="LayerTargets"/>. This is called automatically on mod unload.<br></br>
-        /// <i>It is your responsibility to recreate layer targets later if you call this method manually.</i>
+        /// 释放<see cref="LayerTargets"/>占用的所有不受管制的GPU资源。这在模组卸载时会自动调用<br></br>
+        /// <i>如果手动调用此方法，您有责任在以后重新创建图层目标</i>
         /// </summary>
         public void Dispose() {
             for (int i = 0; i < LayerTargets.Count; i++)

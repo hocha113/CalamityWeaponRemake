@@ -2,6 +2,7 @@
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.RemakeItems.Core;
+using CalamityWeaponRemake.Content.RemakeItems.Vanilla;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -21,12 +22,14 @@ namespace CalamityWeaponRemake.Content
         public override void PostAddRecipes() {
             if (CWRConstant.ForceReplaceResetContent) {
                 foreach (BaseRItem baseRItem in CWRMod.RItemInstances) {
-                    baseRItem.UnLoadItemRecipe();
+                    if (baseRItem.FormulaSubstitution)
+                        baseRItem.UnLoadItemRecipe();
                 }
             }
             else {
                 foreach (BaseRItem baseRItem in CWRMod.RItemInstances) {
-                    baseRItem.LoadItemRecipe();
+                    if (baseRItem.FormulaSubstitution)
+                        baseRItem.LoadItemRecipe();
                 }
             }
             //修改暴政的合成
@@ -63,6 +66,15 @@ namespace CalamityWeaponRemake.Content
                     .AddIngredient<StormlionMandible>(5)
                     .AddTile(TileID.Anvils)
                     .Register();
+            }
+            //添加水瓶的合成事件
+            {
+                for (int i = 0; i < Recipe.numRecipes; i++) {
+                    Recipe recipe = Main.recipe[i];
+                    if (recipe.HasResult(ItemID.BottledWater)) {
+                        recipe.AddOnCraftCallback(WaterBottle.OnRecipeBottle);
+                    }
+                }
             }
         }
 

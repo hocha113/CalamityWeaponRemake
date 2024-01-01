@@ -2,6 +2,7 @@
 using CalamityWeaponRemake.Content.Items.Materials;
 using CalamityWeaponRemake.Content.Items.Placeable;
 using CalamityWeaponRemake.Content.Items.Tools;
+using CalamityWeaponRemake.Content.UIs.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

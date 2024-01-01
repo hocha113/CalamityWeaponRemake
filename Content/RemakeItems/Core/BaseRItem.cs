@@ -17,6 +17,8 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
 
         public virtual int ProtogenesisID => SetReadonlyTargetID;
 
+        public virtual bool FormulaSubstitution => true;
+
         public virtual void Load() {
             SetReadonlyTargetID = TargetID;//这里默认加载一次，在多数情况使其下不用重写Load()方法
         }

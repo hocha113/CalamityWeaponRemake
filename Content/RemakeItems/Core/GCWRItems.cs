@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.UI;
@@ -210,14 +211,23 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
 
         public override void OnConsumedAsAmmo(Item ammo, Item weapon, Player player) {
             base.OnConsumedAsAmmo(ammo, weapon, player);
+            ProcessRemakeAction(ammo, (inds) => inds.OnConsumedAsAmmo(ammo, weapon, player));
         }
 
         public override void OnConsumeItem(Item item, Player player) {
             base.OnConsumeItem(item, player);
+            ProcessRemakeAction(item, (inds) => inds.OnConsumeItem(item, player));
+            if (item.useStyle == ItemUseStyleID.DrinkLiquid 
+                && (item.buffType != 0 || item.type == ItemID.BottledWater) 
+                && item.consumable 
+                && item.UseSound == SoundID.Item3) {
+                player.QuickSpawnItem(player.parent(), ItemID.Bottle);
+            }
         }
 
         public override void OnConsumeMana(Item item, Player player, int manaConsumed) {
             base.OnConsumeMana(item, player, manaConsumed);
+            ProcessRemakeAction(item, (inds) => inds.OnConsumeMana(item, player, manaConsumed));
         }
 
         public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone) {
@@ -232,6 +242,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
 
         public override void OnMissingMana(Item item, Player player, int neededMana) {
             base.OnMissingMana(item, player, neededMana);
+            ProcessRemakeAction(item, (inds) => inds.OnMissingMana(item, player, neededMana));
         }
 
         public override bool OnPickup(Item item, Player player) {
