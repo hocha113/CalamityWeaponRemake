@@ -49,8 +49,13 @@ namespace CalamityWeaponRemake
         /// 无尽镐
         /// </summary>
         public static int[] MaterialsTypes4;
-
+        /// <summary>
+        /// 物块对应掉落物的词典
+        /// </summary>
         public static Dictionary<int, int> TileToItem = new();
+        /// <summary>
+        /// 墙体对应掉落物的词典
+        /// </summary>
         public static Dictionary<int, int> WallToItem = new();
         /// <summary>
         /// 扫地机器人
@@ -81,6 +86,10 @@ namespace CalamityWeaponRemake
         public static int PrimordialWyrmHead;
         public static int PrimordialWyrmBody;
         public static int PrimordialWyrmTail;
+        /// <summary>
+        /// 血肉宿主
+        /// </summary>
+        public static int PerforatorHive;
         /// <summary>
         /// 血肉蠕虫 
         /// </summary>
@@ -179,6 +188,7 @@ namespace CalamityWeaponRemake
             Androomba = NPCType<Androomba>();
             PlaguebringerGoliath = NPCType<PlaguebringerGoliath>();
 
+            PerforatorHive = NPCType<PerforatorHive>();
             SepulcherHead = NPCType<SepulcherHead>();
             SepulcherBody = NPCType<SepulcherBody>();
             SepulcherTail = NPCType<SepulcherTail>();

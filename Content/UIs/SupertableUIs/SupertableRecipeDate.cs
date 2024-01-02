@@ -50,7 +50,7 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
             "0", "0", "0", "0", "CalamityWeaponRemake/DarkMatterBall", "CalamityMod/ShadowspecBar", "CalamityWeaponRemake/DarkMatterBall", "CalamityMod/CosmiliteBar", "0",
             "0", "0", "0", "0", "0", "CalamityMod/ShadowspecBar", "CalamityMod/Alluvion", "CalamityWeaponRemake/DarkMatterBall", "CalamityMod/CosmiliteBar",
             "0", "0", "0", "0", "0", "CalamityMod/ShadowspecBar", "CalamityMod/Rock", "CalamityWeaponRemake/DarkMatterBall", "CalamityMod/CosmiliteBar",
-            "0", "0", "0", "0", "0", "CalamityMod/ShadowspecBar", "CalamityWeaponRemake/Deathwind", "CalamityWeaponRemake/DarkMatterBall", "CalamityMod/CosmiliteBar",
+            "0", "0", "0", "0", "0", "CalamityMod/ShadowspecBar", "CalamityMod/Deathwind", "CalamityWeaponRemake/DarkMatterBall", "CalamityMod/CosmiliteBar",
             "0", "0", "0", "0", "CalamityWeaponRemake/DarkMatterBall", "CalamityMod/ShadowspecBar", "CalamityWeaponRemake/DarkMatterBall", "CalamityMod/CosmiliteBar", "0",
             "0", "0", "0", "CalamityMod/ShadowspecBar", "CalamityMod/ShadowspecBar", "CalamityWeaponRemake/DarkMatterBall", "CalamityMod/CosmiliteBar", "0", "0",
             "0", "0", "CalamityMod/ShadowspecBar", "CalamityWeaponRemake/DarkMatterBall", "CalamityMod/CosmiliteBar", "CalamityMod/CosmiliteBar", "0", "0", "0",

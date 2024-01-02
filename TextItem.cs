@@ -3,6 +3,7 @@ using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Chat;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -30,11 +31,12 @@ namespace CalamityWeaponRemake
         }
 
         public override void HoldItem(Player player) {
-            Main.NewText(Mod.Name);
+            Main.bloodMoon = true;
             base.HoldItem(player);
         }
 
         public override bool? UseItem(Player player) {
+            Main.time = 65000;
             return base.UseItem(player);
         }
 

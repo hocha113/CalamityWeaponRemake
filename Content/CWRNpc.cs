@@ -1,7 +1,5 @@
-﻿using CalamityMod.Items.Materials;
-using CalamityMod.NPCs.PlaguebringerGoliath;
-using CalamityMod.World;
-using CalamityWeaponRemake.Common;
+﻿using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.NPCs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -31,10 +29,7 @@ namespace CalamityWeaponRemake.Content
             if (ObliterateBool) {
                 return true;
             }
-            else {
-                return base.CheckDead(npc);
-            }
-
+            return base.CheckDead(npc);
         }
 
         public override void PostAI(NPC npc) {
@@ -42,6 +37,9 @@ namespace CalamityWeaponRemake.Content
                 if (WhipHitNum > 10) {
                     WhipHitNum = 10;
                 }
+            }
+            if (Main.bloodMoon) {//在血月的情况下让一些生物执行特殊的行为，将这段代码写在PostAI中是防止被覆盖
+                PerforatorBehavior.Instance.Intensive(npc);
             }
         }
 
@@ -60,14 +58,7 @@ namespace CalamityWeaponRemake.Content
                     }
                 }
             }
-            //else {
-            //    if (npc.type == CWRIDs.Androomba) {
-            //        int type = Item.NewItem(npc.parent(), npc.Hitbox, CWRIDs.DubiousPlating, Main.rand.Next(2, 5));
-            //        if (CWRUtils.isClient) {
-            //            NetMessage.SendData(MessageID.SyncItem, -1, -1, null, type, 0f, 0f, 0f, 0, 0, 0);
-            //        }
-            //    }
-            //}
+            PerforatorBehavior.Instance.BloodMoonDorp(npc);
             base.OnKill(npc);
         }
 
@@ -79,13 +70,11 @@ namespace CalamityWeaponRemake.Content
                     }
                 }
             }
-            
             base.HitEffect(npc, hit);
         }
 
         public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) {
             base.PostDraw(npc, spriteBatch, screenPos, drawColor);
-
             if (WhipHitNum > 0) {
                 DrawTameBar(spriteBatch, npc);
             }
@@ -108,41 +97,11 @@ namespace CalamityWeaponRemake.Content
 
             Vector2 drawPos = new Vector2(npc.position.X + (npc.width / 2), npc.Bottom.Y + top.Height) - Main.screenPosition;
 
-            spriteBatch.Draw(
-                top,
-                drawPos,
-                null,
-                color,
-                0,
-                bar.Size() / 2,
-                slp,
-                SpriteEffects.None,
-                0
-                );
+            spriteBatch.Draw(top, drawPos, null, color, 0, bar.Size() / 2, slp, SpriteEffects.None, 0);
 
-            spriteBatch.Draw(
-                bar,
-                drawPos + (new Vector2(14, sengs + 18) * slp),
-                barRec,
-                color,
-                0,
-                bar.Size() / 2,
-                slp,
-                SpriteEffects.None,
-                0
-                );
+            spriteBatch.Draw(bar, drawPos + (new Vector2(14, sengs + 18) * slp), barRec, color, 0, bar.Size() / 2, slp, SpriteEffects.None, 0);
 
-            spriteBatch.Draw(
-                whi,
-                drawPos + (new Vector2(0, whi.Height) * slp),
-                null,
-                color,
-                0,
-                bar.Size() / 2,
-                slp / 2,
-                SpriteEffects.None,
-                0
-                );
+            spriteBatch.Draw(whi, drawPos + (new Vector2(0, whi.Height) * slp), null, color, 0, bar.Size() / 2, slp / 2, SpriteEffects.None, 0);
         }
     }
 }
