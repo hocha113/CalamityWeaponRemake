@@ -30,11 +30,7 @@ namespace CalamityWeaponRemake
         }
 
         public override void HoldItem(Player player) {
-            foreach (Projectile projectile in Main.projectile) {
-                if (projectile.Center.To(player.Center).LengthSquared() < 16 * 16) {
-                    Main.NewText(projectile.ModProjectile.FullName);
-                }
-            }
+            Main.NewText(Mod.Name);
             base.HoldItem(player);
         }
 

@@ -10,6 +10,9 @@ using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using CalamityMod.Projectiles.Rogue;
 using CalamityWeaponRemake.Common;
+using System.Collections.Generic;
+using System.Linq;
+using Terraria.Localization;
 
 namespace CalamityWeaponRemake.Content.RemakeItems.Rogue
 {
@@ -39,11 +42,31 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Rogue
             item.DamageType = ModContent.GetInstance<RogueDamageClass>();
         }
 
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips) {
+            if (CWRMod.Instance.betterWaveSkipper == null) {
+                List<TooltipLine> newTooltips = new List<TooltipLine>(tooltips);
+                foreach (TooltipLine line in tooltips.ToList()) {
+                    if (line.Name == "Tooltip0")
+                        line.Hide();
+                    if (line.Name == "Tooltip1")
+                        line.Hide();
+                }
+                TooltipLine newLine = new TooltipLine(CWRMod.Instance, "GCWRText"
+                    , Language.GetText($"Mods.CalamityWeaponRemake.Items.Weapons.Rogue.WaveSkipper.Tooltip").Value);
+                newTooltips.Add(newLine);
+                tooltips.Clear(); // 清空原 tooltips 集合
+                tooltips.AddRange(newTooltips); // 添加修改后的 newTooltips 集合
+            }
+        }
+
         public override bool? AltFunctionUse(Item item, Player player) {
             return true;
         }
 
         public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
+            if (CWRMod.Instance.betterWaveSkipper != null) {//如果添加了"BetterWaveSkipper"，那么不会执行这个Shoot覆盖行为
+                return null;
+            }
             if (player.altFunctionUse == 2) {
                 if (player.Calamity().StealthStrikeAvailable()) {
                     for (int i = 0; i < 9; i++) {

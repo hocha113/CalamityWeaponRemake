@@ -22,6 +22,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Rogue
         public override string Texture => CWRConstant.Placeholder;
         internal PrimitiveTrail LightningDrawer;
         internal Vector2[] RayPoint;
+        internal int pointNum => 100;
         public override bool ShouldUpdatePosition() => false;
 
         public override void SetDefaults() {
@@ -39,9 +40,9 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Rogue
         public override bool PreAI() {
             Projectile.rotation = Projectile.velocity.ToRotation();
             if (Projectile.ai[0] == 0) {
-                RayPoint = new Vector2[100];
-                for (int i = 0; i < 100; i++) {
-                    RayPoint[i] = Projectile.velocity.ToRotation().ToRotationVector2() * (-3000 + 60 * i) + Projectile.Center;
+                RayPoint = new Vector2[pointNum];
+                for (int i = 0; i < pointNum; i++) {
+                    RayPoint[i] = Projectile.velocity.ToRotation().ToRotationVector2() * (-pointNum * 30 + 60 * i) + Projectile.Center;
                 }
                 foreach (Vector2 pos in RayPoint) {
                     CWRParticle pulse = new DimensionalWave(pos - Projectile.velocity * 0.52f, Projectile.velocity / 1.5f, Color.Blue, new Vector2(1f, 2f), Projectile.velocity.ToRotation(), 0.52f, 0.06f, 90);

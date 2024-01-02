@@ -550,8 +550,12 @@ Items: {
 	Weapons: {
 		Rogue: {
 			WaveSkipper: {
-				// DisplayName: Wave Skipper
-				// Tooltip: ""
+				DisplayName: 越浪蛟
+				Tooltip:
+					'''
+					左键发射在沙地中潜跃的沙牙，潜行攻击发射三发巨大的沙牙
+					右键发射弹跳沙牙，潜行攻击令数个疾速的沙牙从天而降
+					'''
 			}
 		}
 	}
