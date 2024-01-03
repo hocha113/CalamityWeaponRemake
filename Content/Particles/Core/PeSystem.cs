@@ -75,6 +75,7 @@ namespace CalamityWeaponRemake.Content.Particles.Core
         private void HandleTargetUpdateLoop(GameTime obj) {
             // 自动处理在一段时间内未使用的目标，以阻止它们占用GPU内存
             if (ManagedTargets != null) {
+                
                 foreach (ManagedRenderTarget target in ManagedTargets) {
                     if (target == null || target.IsDisposed || !target.ShouldAutoDispose)
                         continue;

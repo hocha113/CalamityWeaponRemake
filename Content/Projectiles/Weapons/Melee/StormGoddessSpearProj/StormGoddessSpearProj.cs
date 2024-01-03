@@ -103,7 +103,8 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.StormGoddessSpe
             float rot = Projectile.rotation + MathHelper.PiOver4;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Vector2 origin = texture.Size() / 2;
-            Main.EntitySpriteDraw(texture, drawPosition, null, Projectile.GetAlpha(lightColor), rot, origin, Projectile.scale * 0.8f, 0, 0);
+            Main.EntitySpriteDraw(texture, drawPosition, null, Projectile.GetAlpha(lightColor), rot + (Owner.direction > 0 ? 0 : MathHelper.PiOver2)
+                , origin, Projectile.scale * 0.8f, Owner.direction > 0 ? 0 : SpriteEffects.FlipHorizontally, 0);
             return false;
         }
     }

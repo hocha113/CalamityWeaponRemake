@@ -41,20 +41,6 @@ namespace CalamityWeaponRemake.Content.Items.Tools
             return false;
         }
 
-        public override void UpdateInventory(Player player) {
-            if (Main.GameUpdateCount % 10f == 0) {
-                isEmpty = !isEmpty;
-                TextureAssets.Item[Type] = CWRUtils.GetT2DAsset(Texture);
-            }
-        }
-
-        public override void Update(ref float gravity, ref float maxFallSpeed) {
-            if (Main.GameUpdateCount % 10f == 0) {
-                isEmpty = !isEmpty;
-                TextureAssets.Item[Type] = CWRUtils.GetT2DAsset(Texture);
-            }
-        }
-
         public override bool CanRightClick() {
             return true;
         }

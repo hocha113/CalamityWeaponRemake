@@ -124,6 +124,7 @@
     <None Remove="Assets\Tiles\InfiniteToilet_Highlight.png" />
     <None Remove="Assets\UIs\GenericBarBack.png" />
     <None Remove="Assets\UIs\GenericBarFront.png" />
+    <None Remove="Assets\UIs\SupertableUIs\BookPans.png" />
     <None Remove="Assets\UIs\SupertableUIs\HotbarRadial_0.png" />
     <None Remove="Assets\UIs\SupertableUIs\TexturePackButtons.png" />
     <None Remove="Assets\UIs\Ticoninfinity.png" />

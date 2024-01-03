@@ -1,4 +1,5 @@
 ﻿using CalamityWeaponRemake.Content.UIs.SupertableUIs;
+using System.IO;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -10,6 +11,14 @@ namespace CalamityWeaponRemake.Content
 
         public override void ClearWorld() {
             TitleMusicBoxEasterEgg = true;
+        }
+
+        public override void NetReceive(BinaryReader reader) {
+            TitleMusicBoxEasterEgg = reader.ReadBoolean();
+        }
+
+        public override void NetSend(BinaryWriter writer) {
+            writer.Write(TitleMusicBoxEasterEgg);
         }
 
         public override void OnWorldLoad() {

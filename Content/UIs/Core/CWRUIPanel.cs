@@ -161,12 +161,18 @@ namespace CalamityWeaponRemake.Content.UIs.Core
         public virtual int DownStartL() {
             oldDownL = downL;
             downL = player.PressKey();
+            if (downL && oldDownL) {
+                return 3;
+            }
             return downL && !oldDownL ? 1 : oldDownL && !downL ? 2 : 0;
         }
 
         public virtual int DownStartR() {
             oldDownR = downR;
             downR = player.PressKey(false);
+            if (downR && oldDownR) {
+                return 3;
+            }
             return !oldDownR && downR ? 1 : oldDownR && !downR ? 2 : 0;
         }
     }

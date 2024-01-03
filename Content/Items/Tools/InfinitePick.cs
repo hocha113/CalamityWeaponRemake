@@ -26,6 +26,7 @@ namespace CalamityWeaponRemake.Content.Items.Tools
         public Texture2D value => CWRUtils.GetT2DValue(Texture);
         private bool oldRDown;
         private bool rDown;
+        public override void SetStaticDefaults() => Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 16));
         public override void SetDefaults() {
             Item.damage = 9999;
             Item.DamageType = DamageClass.Melee;
@@ -40,7 +41,7 @@ namespace CalamityWeaponRemake.Content.Items.Tools
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.pick = int.MaxValue;
-            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 16));
+            
         }
 
         public override bool AltFunctionUse(Player player) {
@@ -49,14 +50,14 @@ namespace CalamityWeaponRemake.Content.Items.Tools
 
         public override bool? UseItem(Player player) {
             if (IsPick) {
-                Item.pick = int.MaxValue;
+                Item.pick = 9999;
                 Item.hammer = 0;
                 Item.useAnimation = Item.useTime = 10;
 
             }
             else {
                 Item.pick = 0;
-                Item.hammer = int.MaxValue;
+                Item.hammer = 9999;
                 Item.useAnimation = Item.useTime = 30;
             }
 

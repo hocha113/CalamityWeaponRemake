@@ -20,6 +20,7 @@ namespace CalamityWeaponRemake.Content
         public byte WhipHitType = 0;
         public bool SprBoss;
         public bool ObliterateBool;
+        public bool GangarusSign;
 
         public override bool CanBeHitByNPC(NPC npc, NPC attacker) {
             return base.CanBeHitByNPC(npc, attacker);
@@ -39,7 +40,8 @@ namespace CalamityWeaponRemake.Content
                 }
             }
             if (Main.bloodMoon) {//在血月的情况下让一些生物执行特殊的行为，将这段代码写在PostAI中是防止被覆盖
-                PerforatorBehavior.Instance.Intensive(npc);
+                if (npc.type == CWRIDs.PerforatorHive)//改动血肉宿主的行为，这会让它在血月更加的暴躁和危险
+                    PerforatorBehavior.Instance.Intensive(npc);
             }
         }
 
@@ -77,6 +79,11 @@ namespace CalamityWeaponRemake.Content
             base.PostDraw(npc, spriteBatch, screenPos, drawColor);
             if (WhipHitNum > 0) {
                 DrawTameBar(spriteBatch, npc);
+            }
+            if (Main.bloodMoon) {
+                if (npc.type == CWRIDs.PerforatorHive) {
+                    PerforatorBehavior.Instance.Draw(spriteBatch, npc);
+                }
             }
         }
 

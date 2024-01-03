@@ -1,9 +1,5 @@
 ﻿using CalamityMod;
-using CalamityMod.Events;
-using CalamityMod.Items.SummonItems;
-using CalamityMod.NPCs.Ravager;
 using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.NPCs.RavagerAs;
 using CalamityWeaponRemake.Content.Projectiles;
 using CalamityWeaponRemake.Content.Projectiles.Weapons;
 using Microsoft.Xna.Framework;
@@ -126,6 +122,10 @@ namespace CalamityWeaponRemake.Content
             }
         }
 
+        public override GlobalItem Clone(Item from, Item to) {
+            return base.Clone(from, to);
+        }
+
         private void OwnerByDir(Item item, Player player) {
             if (player.whoAmI == Main.myPlayer && item.useStyle == ItemUseStyleID.Swing
                 && (item.createTile == -1 && item.createWall == -1)
@@ -196,17 +196,9 @@ namespace CalamityWeaponRemake.Content
 
         public override void OnConsumeItem(Item item, Player player) {
             base.OnConsumeItem(item, player);
-
         }
 
         public override bool CanUseItem(Item item, Player player) {
-            if (CWRUtils.RemakeByItem<DeathWhistle>(item))//不管如何，不希望任意两种Boss存在时可以再次使用该物品
-            {
-                return !NPC.AnyNPCs(ModContent.NPCType<RavagerBody>())
-                    && !NPC.AnyNPCs(ModContent.NPCType<RavagerABody>())
-                    && player.ZoneOverworldHeight
-                    && !BossRushEvent.BossRushActive;
-            }
             return base.CanUseItem(item, player);
         }
 
