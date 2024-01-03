@@ -211,6 +211,20 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
             "CalamityWeaponRemake/DarkMatterBall"
         };
         /// <summary>
+        /// 刚格尼尔
+        /// </summary>
+        public static string[] FullItems16 = new string[] {"0", "0", "0", "0", "0", "0", "0", "CalamityMod/ShadowspecBar", "CalamityMod/Rock",
+            "0", "0", "0", "0", "0", "0", "CalamityMod/ShadowspecBar", "CalamityMod/ScarletDevil", "CalamityMod/ShadowspecBar",
+            "0", "0", "0", "0", "0", "CalamityMod/ShadowspecBar", "CalamityWeaponRemake/CosmicCalamity", "CalamityMod/ShadowspecBar", "0",
+            "0", "0", "0", "0", "CalamityMod/ShadowspecBar", "CalamityMod/EssenceFlayer", "CalamityMod/ShadowspecBar", "0", "0",
+            "0", "0", "0", "CalamityMod/ShadowspecBar", "550", "CalamityMod/ShadowspecBar", "0", "0", "0",
+            "0", "0", "CalamityMod/ShadowspecBar", "CalamityWeaponRemake/BlackMatterStick", "CalamityMod/ShadowspecBar", "0", "0", "0", "0",
+            "0", "CalamityMod/ShadowspecBar", "CalamityWeaponRemake/BlackMatterStick", "CalamityMod/ShadowspecBar", "0", "0", "0", "0", "0",
+            "CalamityMod/ShadowspecBar", "CalamityWeaponRemake/BlackMatterStick", "CalamityMod/ShadowspecBar", "0", "0", "0", "0", "0", "0",
+            "CalamityWeaponRemake/BlackMatterStick", "CalamityMod/ShadowspecBar", "0", "0", "0", "0", "0", "0", "0",
+            "CalamityWeaponRemake/Gangarus"
+        };
+        /// <summary>
         /// 测试物品
         /// </summary>
         public static string[] FullItems999 = new string[] {"CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot",

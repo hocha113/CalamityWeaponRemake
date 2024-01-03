@@ -305,11 +305,6 @@ End:;
                         OutItem();
                     }
 
-                    if (Main.LocalPlayer.PressKey(false)) {
-                        DragDorg(ref items[inCoordIndex], ref Main.mouseItem);
-                        OutItem();
-                    }
-
                     if (CWRKeySystem.TOM_GatheringItem.Current) {
                         GatheringItem(inCoordIndex, ref Main.mouseItem);
                         OutItem();
@@ -317,6 +312,11 @@ End:;
 
                     if (museSR == 1) {
                         HandleRightClick(ref items[inCoordIndex], ref Main.mouseItem);
+                        OutItem();
+                    }
+
+                    if (museSR == 3) {
+                        DragDorg(ref items[inCoordIndex], ref Main.mouseItem);
                         OutItem();
                     }
                 }
@@ -341,6 +341,9 @@ End:;
             }
         }
 
+        /// <summary>
+        /// 一键拿取所有合成UI中的物品
+        /// </summary>
         public void TakeAllItem() {
             foreach (var item in items) {
                 if (item == null)
@@ -351,6 +354,9 @@ End:;
             }
         }
 
+        /// <summary>
+        /// 一键放置配方物品
+        /// </summary>
         public void OneClickPFunc() {
             if (previewItems != null && previewItems?.Length == items.Length) {
                 TakeAllItem();
@@ -442,6 +448,18 @@ End:;
             if (onitem.type == ItemID.None && holdItem.type == ItemID.None) {
                 return;
             }
+            //如果鼠标上的物品为空但目标格上不为空，那么执行一次右键拿取的操作
+            if (onitem.type != ItemID.None && holdItem.type == ItemID.None && onitem.stack > 1) {
+                PlayGrabSound();
+                Item item = onitem.Clone();
+                onitem.stack -= 1;
+                if (onitem.stack <= 0) {
+                    onitem.TurnToAir();
+                }
+                item.stack = 1;
+                holdItem = item;
+                return;
+            }
             // 同种物品右键增加逻辑
             if (onitem.type == holdItem.type && holdItem.type != ItemID.None) {
                 PlayGrabSound();
@@ -507,8 +525,14 @@ End:;
             }
         }
 
+        /// <summary>
+        /// 进行快捷拿取
+        /// </summary>
+        /// <param name="inCoordIndex"></param>
+        /// <param name="item"></param>
         private void GatheringItem2(int inCoordIndex, ref Item item) {
             if (item.type == ItemID.None && items[inCoordIndex].type != ItemID.None) {
+                PlayGrabSound();
                 Item item1 = items[inCoordIndex].Clone();
                 player.QuickSpawnItem(player.parent(), item1, item1.stack);
                 items[inCoordIndex] = new Item();

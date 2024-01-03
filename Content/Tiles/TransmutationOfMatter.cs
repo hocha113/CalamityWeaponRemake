@@ -98,7 +98,9 @@ namespace CalamityWeaponRemake.Content.Tiles
         public override bool RightClick(int i, int j) {
             TileEntity.InitializeAll();
             SupertableUI.instance.Active = !SupertableUI.instance.Active;
-            
+            if (SupertableUI.instance.Active && !Main.playerInventory) {//如果是开启合成UI但此时玩家并没有打开背包，那么就打开背包UI
+                Main.playerInventory = true;
+            }
             SoundEngine.PlaySound(SoundID.Chat);
             Recipe.FindRecipes();
             return true;

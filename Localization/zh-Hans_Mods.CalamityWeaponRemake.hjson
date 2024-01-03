@@ -559,6 +559,11 @@ Items: {
 			}
 		}
 	}
+
+	Gangarus: {
+		DisplayName: 冈格尼尔
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -716,6 +721,11 @@ Projectiles: {
 	// CosmicCalamityProjectile.DisplayName: Cosmic Calamity Projectile
 	// CosmicCalamityRay.DisplayName: Cosmic Calamity Ray
 	// Rogue.RWaveSkipperProjectile.DisplayName: R Wave Skipper Projectile
+	// GangarusProjectile.DisplayName: Gangarus Projectile
+	// GangarusHeldProjectile.DisplayName: Gangarus Held Projectile
+	// PilgrimsFury.DisplayName: Pilgrims Fury
+	// Godslight.DisplayName: Godslight
+	// SoulSeeker.DisplayName: Soul Seeker
 }
 
 Configs: {

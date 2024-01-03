@@ -85,11 +85,11 @@ namespace CalamityWeaponRemake.Content.Items.Materials
         public static void drawColorText(SpriteBatch sb, DrawableTooltipLine line, string text, Vector2 basePosition) {
             EffectsRegistry.ColourModulationShader.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.25f);
             Main.instance.GraphicsDevice.Textures[1] = EffectsRegistry.Ticoninfinity;
-            ChatManager.DrawColorCodedString(sb, line.Font, text, basePosition, Color.White, 0f, Vector2.Zero, new Vector2(1.1f, 1.1f));
+            ChatManager.DrawColorCodedString(sb, line.Font, line.Text, basePosition, Color.White, 0f, Vector2.Zero, new Vector2(1.1f, 1.1f));
             sb.End();
             sb.Begin(SpriteSortMode.Immediate, sb.GraphicsDevice.BlendState, sb.GraphicsDevice.SamplerStates[0],
                 sb.GraphicsDevice.DepthStencilState, sb.GraphicsDevice.RasterizerState, EffectsRegistry.ColourModulationShader, Main.UIScaleMatrix);
-            ChatManager.DrawColorCodedString(sb, line.Font, text, basePosition, Color.White, 0f, Vector2.Zero, new Vector2(1.1f, 1.1f));
+            ChatManager.DrawColorCodedString(sb, line.Font, line.Text, basePosition, Color.White, 0f, Vector2.Zero, new Vector2(1.1f, 1.1f));
             sb.End();
             sb.Begin(SpriteSortMode.Deferred, sb.GraphicsDevice.BlendState, sb.GraphicsDevice.SamplerStates[0],
                 sb.GraphicsDevice.DepthStencilState, sb.GraphicsDevice.RasterizerState, null, Main.UIScaleMatrix);
