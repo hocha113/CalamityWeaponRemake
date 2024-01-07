@@ -19,6 +19,7 @@ using CalamityWeaponRemake.Content.Items.Rogue.Extras;
 using CalamityWeaponRemake.Content.Items.Tools;
 using System.Collections.Generic;
 using Terraria.ID;
+using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityWeaponRemake
@@ -34,6 +35,9 @@ namespace CalamityWeaponRemake
         public static int DubiousPlating;
         public static int FoodStallChair;
         public static int Gangarus;
+
+        public static int EternitySoul;
+
         /// <summary>
         /// 无尽锭
         /// </summary>
@@ -337,6 +341,10 @@ namespace CalamityWeaponRemake
                 ItemType<CalamityMod.Items.Tools.TectonicTruncator>(),
                 ItemType<InfiniteIngot>()
             };
+
+            if (CWRMod.Instance.fargowiltasSouls != null) {
+                EternitySoul = CWRMod.Instance.fargowiltasSouls.Find<ModItem>("EternitySoul").Type;
+            }
 
             OnLoadContentBool = false;
         }

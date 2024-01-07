@@ -44,7 +44,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
 
         public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
             for (int i = 0; i < Main.rand.Next(3, 5); i++) {
-                Projectile.NewProjectile(source, player.Center + Main.rand.NextVector2Unit() * Main.rand.Next(342, 468), velocity / 3, ModContent.ProjectileType<HolyColliderHolyFires>(), damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, player.Center + Main.rand.NextVector2Unit() * Main.rand.Next(342, 468), velocity / 3, ModContent.ProjectileType<HolyColliderHolyFires>(), damage / 2, knockback, player.whoAmI);
                 for (int j = 0; j < 3; j++) {
                     Vector2 pos = player.Center + Main.rand.NextVector2Unit() * Main.rand.Next(342, 468);
                     Vector2 particleSpeed = pos.To(player.Center).UnitVector() * 7;

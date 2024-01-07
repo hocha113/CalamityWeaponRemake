@@ -595,6 +595,21 @@ Items: {
 			I must become the most devout follower of this supreme entity, the most disrespectful blasphemer in history.
 			'''
 	}
+
+	SubmarineShocker: {
+		DisplayName: Submarine Shocker
+		Tooltip: ""
+	}
+
+	BrimstoneSword: {
+		DisplayName: Brimstone Sword
+		Tooltip: ""
+	}
+
+	BloodAltar: {
+		DisplayName: Mods.CalamityWeaponRemake.Items.BloodAltar.DisplayName
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -757,6 +772,10 @@ Projectiles: {
 	PilgrimsFury.DisplayName: Pilgrims Fury
 	Godslight.DisplayName: Godslight
 	SoulSeeker.DisplayName: Soul Seeker
+	LigSpark.DisplayName: Lig Spark
+	SparkBall.DisplayName: Spark Ball
+	SparkLightning.DisplayName: Spark Lightning
+	BrimstoneSwordBall.DisplayName: Brimstone Sword Ball
 }
 
 Configs: {

@@ -11,6 +11,7 @@ using Terraria.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityWeaponRemake.Content.Items.Rogue.Extras;
 using Mono.Cecil;
+using Terraria.GameContent;
 
 namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Rogue.GangarusProjectiles
 {
@@ -137,7 +138,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Rogue.GangarusProject
         }
 
         public override bool PreDraw(ref Color lightColor) {
-            Texture2D value = CWRUtils.GetT2DValue(Texture);
+            Texture2D value = TextureAssets.Item[CWRIDs.Gangarus].Value;
             Main.EntitySpriteDraw(value, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation + MathHelper.PiOver4, value.Size() / 2, Projectile.scale * 0.9f, SpriteEffects.None, 0);
             return false;
         }

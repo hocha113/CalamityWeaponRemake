@@ -56,9 +56,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
         }
 
         public override bool? AltFunctionUse(Item item, Player player) {
-            if (CWRUtils.RemakeByItem<CalamityMod.Items.Weapons.Melee.BansheeHook>(item))
-                return true;
-            return base.AltFunctionUse(item, player);
+            return true;
         }
 
         public override bool? Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source

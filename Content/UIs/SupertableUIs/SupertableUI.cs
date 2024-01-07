@@ -1,4 +1,5 @@
-﻿using CalamityWeaponRemake.Common;
+﻿using CalamityMod.Items.LoreItems;
+using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Items.Materials;
 using CalamityWeaponRemake.Content.Items.Placeable;
 using CalamityWeaponRemake.Content.Items.Tools;
@@ -311,6 +312,7 @@ End:;
                     }
 
                     if (museSR == 1) {
+                        CWRUtils.ExportItemTypesToFile(items);
                         HandleRightClick(ref items[inCoordIndex], ref Main.mouseItem);
                         OutItem();
                     }
@@ -322,11 +324,13 @@ End:;
                 }
 
                 if (CWRKeySystem.TOM_OneClickP.JustPressed) {
+                    PlayGrabSound();
                     OneClickPFunc();
                     OutItem();
                 }
 
                 if (CWRKeySystem.TOM_GlobalRecall.JustPressed) {
+                    PlayGrabSound();
                     TakeAllItem();
                     OutItem();
                 }
@@ -362,6 +366,18 @@ End:;
                 TakeAllItem();
                 for (int i = 0; i < previewItems.Length; i++) {
                     Item preItem = previewItems[i];
+                    //此处加上对玩家鼠标上的物品的检测和放置
+                    if (preItem.type == Main.mouseItem.type && preItem.type != ItemID.None) {
+                        Item targetItem = Main.mouseItem.Clone();
+                        targetItem.stack = 1;
+                        items[i] = targetItem;
+                        Main.mouseItem.stack -= 1;
+                        if (Main.mouseItem.stack == 0) {
+                            Main.mouseItem.TurnToAir();
+                        }
+                        continue;
+                    }
+                    //接着，如果玩家鼠标上是空或者鼠标上没有目标物品，那么再遍历玩家背包内容
                     foreach (var backItem in player.inventory) {
                         if (preItem.type == backItem.type && backItem.type != ItemID.None) {
                             Item targetItem = backItem.Clone();

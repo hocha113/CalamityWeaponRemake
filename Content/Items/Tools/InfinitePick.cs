@@ -71,11 +71,10 @@ namespace CalamityWeaponRemake.Content.Items.Tools
                 SoundEngine.PlaySound(!IsPick ? ModSound.Pecharge : ModSound.Peuncharge, player.Center);
                 TextureAssets.Item[Type] = CWRUtils.GetT2DAsset(Texture);
             }
-
             rDown = player.PressKey(false);
             bool justRDown = rDown && !oldRDown;
             oldRDown = rDown;
-            if (justRDown && !Main.playerInventory) {
+            if (justRDown && !player.mouseInterface) {
                 SoundEngine.PlaySound(new SoundStyle(CWRConstant.Sound + "Pedestruct"), Main.MouseWorld);
                 if (!IsPick) {
                     for (int i = 0; i < 78; i++) {
@@ -161,9 +160,7 @@ namespace CalamityWeaponRemake.Content.Items.Tools
                 .AddIngredient<TectonicTruncator>()
                 .AddIngredient<InfiniteIngot>(5)
                 .AddConsumeItemCallback((Recipe recipe, int type, ref int amount) => {
-                    if (CWRIDs.MaterialsTypes4.Contains(type)) {
-                        amount = 0;
-                    }
+                    amount = 0;
                 })
                 .AddOnCraftCallback(CWRRecipes.SpawnAction)
                 .AddTile(ModContent.TileType<TransmutationOfMatter>())

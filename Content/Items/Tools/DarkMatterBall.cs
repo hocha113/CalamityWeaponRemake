@@ -14,8 +14,7 @@ namespace CalamityWeaponRemake.Content.Items.Tools
 {
     internal class DarkMatterBall : ModItem
     {
-        public override string Texture => CWRConstant.Item + "Tools/" + (isEmpty ? "Empty" : "Full");
-        public bool isEmpty;
+        public override string Texture => CWRConstant.Item + "Tools/DarkMatter";
         public List<int> dorpTypes = new List<int>();
         public List<Item> dorpItems = new List<Item>();
         public override void SetStaticDefaults() {
@@ -31,7 +30,7 @@ namespace CalamityWeaponRemake.Content.Items.Tools
         }
 
         public static void DrawItemIcon(SpriteBatch spriteBatch, Vector2 position, int Type, float alp = 1) {
-            spriteBatch.Draw(CWRUtils.GetT2DValue(CWRConstant.Item + "Tools/Empty"), position, null, Color.White, 0, TextureAssets.Item[Type].Value.Size() / 2, 1, SpriteEffects.None, 0);
+            spriteBatch.Draw(CWRUtils.GetT2DValue(CWRConstant.Item + "Tools/DarkMatter"), position, null, Color.White, 0, TextureAssets.Item[Type].Value.Size() / 2, 1, SpriteEffects.None, 0);
             float sngs = Math.Abs(MathF.Sin(Main.GameUpdateCount * 0.01f));
             spriteBatch.Draw(CWRUtils.GetT2DValue(CWRConstant.Item + "Tools/Full"), position, null, Color.White * sngs * alp, 0, TextureAssets.Item[Type].Value.Size() / 2, 1, SpriteEffects.None, 0);
         }

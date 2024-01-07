@@ -20,6 +20,7 @@ namespace CalamityWeaponRemake
         internal static CWRMod Instance;
         internal Mod musicMod = null;
         internal Mod betterWaveSkipper = null;
+        internal Mod fargowiltasSouls = null;
         internal List<Mod> LoadMods;
         internal static List<BaseRItem> RItemInstances;
 
@@ -71,6 +72,7 @@ namespace CalamityWeaponRemake
             musicMod = null;
             ModLoader.TryGetMod("CalamityModMusic", out musicMod);
             ModLoader.TryGetMod("BetterWaveSkipper", out betterWaveSkipper);
+            ModLoader.TryGetMod("FargowiltasSouls", out fargowiltasSouls);
         }
 
         public void LoadClient() {

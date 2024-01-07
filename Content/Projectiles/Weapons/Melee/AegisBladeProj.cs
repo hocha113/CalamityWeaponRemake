@@ -103,12 +103,10 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
             Projectile.ai[0]++;
         }
 
-        public override bool? CanHitNPC(NPC target) {
-            return Projectile.ai[1] == 2;
-        }
-
-        public override bool CanHitPvp(Player target) {
-            return Projectile.ai[1] == 2;
+        public override bool? CanDamage() {
+            if (Projectile.ai[1] != 2)
+                return false;
+            return base.CanDamage();
         }
 
         public override void OnKill(int timeLeft) {

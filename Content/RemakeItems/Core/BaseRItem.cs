@@ -11,12 +11,21 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
 {
     public class BaseRItem
     {
+        /// <summary>
+        /// 一个不变的ID字段，它会在加载的时候获取一次<see cref="TargetID"/>的值
+        /// </summary>
         public int SetReadonlyTargetID;
-
+        /// <summary>
+        /// 重置对象的目标ID，这个字段一般用于重写后指向灾厄本体的物品ID
+        /// </summary>
         public virtual int TargetID => SetReadonlyTargetID;
-
+        /// <summary>
+        /// 本模组自身对于的物品副本ID，这个字段一般用于重写后指向本模组程序集内的物品ID
+        /// </summary>
         public virtual int ProtogenesisID => SetReadonlyTargetID;
-
+        /// <summary>
+        /// 是否参与配方替换，默认为<see langword="true"/>
+        /// </summary>
         public virtual bool FormulaSubstitution => true;
 
         public virtual void Load() {

@@ -15,6 +15,7 @@ using CalamityMod;
 using Terraria.DataStructures;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
+using CalamityWeaponRemake.Content.Items.Placeable;
 
 namespace CalamityWeaponRemake.Content.NPCs
 {
@@ -26,6 +27,18 @@ namespace CalamityWeaponRemake.Content.NPCs
         public static PerforatorBehavior Instance;
 
         public void Load() => Instance = this;
+
+        public bool AttributeReinforcement = true;
+
+        public void AttributeReinforcementFunc(NPC npc) {
+            if (AttributeReinforcement) {
+                npc.life = npc.lifeMax = npc.lifeMax * 3;
+                npc.damage += 25;
+                npc.defense += 15;
+                npc.scale += 0.25f;
+                AttributeReinforcement = false;
+            }           
+        }
 
         public struct HiveBlob{
             public Vector2 orig;
@@ -97,6 +110,7 @@ namespace CalamityWeaponRemake.Content.NPCs
         /// </summary>
         /// <param name="npc"></param>
         public void Intensive(NPC npc) {
+            AttributeReinforcementFunc(npc);
             PerforatorHive perforatorHive = (PerforatorHive)npc.ModNPC;
             float lifeRatio = npc.life / (float)npc.lifeMax;
             Player player = Main.player[npc.target];
@@ -221,14 +235,21 @@ namespace CalamityWeaponRemake.Content.NPCs
         }
 
         public void BloodMoonDorp(NPC npc) {
-            if (npc.type == CWRIDs.PerforatorHive && Main.bloodMoon && !CWRUtils.isClient) {
-                for (int i = 0; i < Main.rand.Next(19, 26); i++) {
-                    int type = Item.NewItem(npc.parent(), npc.Hitbox, ModContent.ItemType<BloodOrb>(), Main.rand.Next(7, 13));
-                    Main.item[type].velocity = Main.rand.NextVector2Unit() * Main.rand.Next(12, 15);
+            if (npc.type == CWRIDs.PerforatorHive) {
+                if (Main.bloodMoon && !CWRUtils.isClient) {
+                    for (int i = 0; i < Main.rand.Next(19, 26); i++) {
+                        int type = Item.NewItem(npc.parent(), npc.Hitbox, ModContent.ItemType<BloodOrb>(), Main.rand.Next(7, 13));
+                        Main.item[type].velocity = Main.rand.NextVector2Unit() * Main.rand.Next(12, 15);
+                        if (CWRUtils.isClient) {
+                            NetMessage.SendData(MessageID.SyncItem, -1, -1, null, type, 0f, 0f, 0f, 0, 0, 0);
+                        }
+                    }
+                    int type2 = Item.NewItem(npc.parent(), npc.Hitbox, ModContent.ItemType<BloodAltar>());
                     if (CWRUtils.isClient) {
-                        NetMessage.SendData(MessageID.SyncItem, -1, -1, null, type, 0f, 0f, 0f, 0, 0, 0);
+                        NetMessage.SendData(MessageID.SyncItem, -1, -1, null, type2, 0f, 0f, 0f, 0, 0, 0);
                     }
                 }
+                AttributeReinforcement = true;
             }
         }
     }

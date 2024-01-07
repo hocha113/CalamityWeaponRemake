@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Materials;
 using CalamityWeaponRemake.Content.RemakeItems.Core;
 using CalamityWeaponRemake.Content.RemakeItems.Vanilla;
 using System.Collections.Generic;
@@ -30,6 +31,17 @@ namespace CalamityWeaponRemake.Content
                 foreach (BaseRItem baseRItem in CWRMod.RItemInstances) {
                     if (baseRItem.FormulaSubstitution)
                         baseRItem.LoadItemRecipe();
+                }
+            }
+            //添加无尽锭的额外联动合成
+            {
+                if (CWRIDs.EternitySoul > ItemID.None) {
+                    for (int i = 0; i < Recipe.numRecipes; i++) {
+                        Recipe recipe = Main.recipe[i];
+                        if (recipe.HasResult(ItemType<InfiniteIngot>())) {
+                            recipe.AddIngredient(CWRIDs.EternitySoul);
+                        }
+                    }
                 }
             }
             //修改暴政的合成

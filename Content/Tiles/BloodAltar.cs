@@ -1,8 +1,9 @@
-﻿using CalamityMod.CalPlayer;
-using CalamityMod.Items.DraedonMisc;
-using CalamityMod.Items.Placeables.DraedonStructures;
-using CalamityMod.TileEntities;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod;
+using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Placeable;
+using CalamityWeaponRemake.Content.TileEntitys;
+using CalamityWeaponRemake.Content.UIs.SupertableUIs;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -13,24 +14,17 @@ using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Microsoft.Xna.Framework;
 using Terraria.Enums;
-using CalamityWeaponRemake.Common;
-using CalamityWeaponRemake.Content.Items.Placeable;
-using CalamityMod.Tiles.Furniture.CraftingStations;
-using CalamityMod.Items.Materials;
-using FTile = CalamityMod.Items.Placeables.Furniture.CraftingStations;
-using System.Collections.Generic;
-using CalamityWeaponRemake.Content.TileEntitys;
-using CalamityWeaponRemake.Content.UIs.SupertableUIs;
+using CalamityMod.TileEntities;
 
 namespace CalamityWeaponRemake.Content.Tiles
 {
-    internal class TransmutationOfMatter : ModTile
+    internal class BloodAltar : ModTile
     {
-        public override string Texture => CWRConstant.Asset + "Tiles/" + "TransmutationOfMatter";
-        public const int Width = 3;
+        public override string Texture => CWRConstant.Asset + "Tiles/" + "BloodAltar";
+        public const int Width = 4;
         public const int Height = 3;
         public const int OriginOffsetX = 1;
-        public const int OriginOffsetY = 1;
+        public const int OriginOffsetY = 2;
         public const int SheetSquare = 18;
 
         public override void SetStaticDefaults() {
@@ -46,35 +40,14 @@ namespace CalamityWeaponRemake.Content.Tiles
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
             TileObjectData.newTile.LavaDeath = false;
-            ModTileEntity te = ModContent.GetInstance<TransmutationOfMatterEntity>();
+            ModTileEntity te = ModContent.GetInstance<BloodAltarEntity>();
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(te.Hook_AfterPlacement, -1, 0, true);
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(67, 72, 81), CalamityUtils.GetItemName<TransmutationOfMatterItem>());
-            AnimationFrameHeight = 68;
+            AddMapEntry(Color.Red, CalamityUtils.GetItemName<Items.Placeable.BloodAltar>());
+            AnimationFrameHeight = 54;
 
             AdjTiles = new int[] {
-                TileID.WorkBenches,
-                TileID.Chairs,
-                TileID.Tables,
-                TileID.Anvils,
-                TileID.MythrilAnvil,
-                ModContent.TileType<CosmicAnvil>(),
-                ModContent.TileType<SCalAltarLarge>(),
-                ModContent.TileType<AncientAltar>(),
-                ModContent.TileType<AshenAltar>(),
-                ModContent.TileType<BotanicPlanter>(),
-                ModContent.TileType<EutrophicShelf>(),
-                ModContent.TileType<MonolithAmalgam>(),
-                ModContent.TileType<VoidCondenser>(),
-                ModContent.TileType<WulfrumLabstation>(),
-                ModContent.TileType<StaticRefiner>(),
-                ModContent.TileType<DraedonsForge>(),
-                TileID.Furnaces,
-                TileID.Hellforge,
-                TileID.AdamantiteForge,
-                TileID.TinkerersWorkbench,
-                TileID.LunarCraftingStation,
                 TileID.DemonAltar
             };
         }
@@ -91,32 +64,30 @@ namespace CalamityWeaponRemake.Content.Tiles
         public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY) {
-            SupertableUI.instance.Active = false;
-            ModContent.GetInstance<TransmutationOfMatterEntity>().Kill(i, j);
+            ModContent.GetInstance<BloodAltarEntity>().Kill(i, j);
+            Main.dayTime = true;
+            if (Main.bloodMoon) {
+                Main.bloodMoon = false;
+            }
         }
 
         public override bool RightClick(int i, int j) {
             TileEntity.InitializeAll();
-            SupertableUI.instance.Active = !SupertableUI.instance.Active;
-            if (SupertableUI.instance.Active && !Main.playerInventory) {//如果是开启合成UI但此时玩家并没有打开背包，那么就打开背包UI
-                Main.playerInventory = true;
-            }
             SoundEngine.PlaySound(SoundID.Chat);
             Recipe.FindRecipes();
             return true;
         }
 
-        int frameIndex = 1;
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch) {
             Tile t = Main.tile[i, j];
             int frameXPos = t.TileFrameX;
             int frameYPos = t.TileFrameY;
-            TransmutationOfMatterEntity transmutationOfMatterEntity = CalamityUtils.FindTileEntity<TransmutationOfMatterEntity>(i, j, Width, Height, SheetSquare);
-            frameYPos += transmutationOfMatterEntity.frameIndex % 4 * (Height * SheetSquare);
+            BloodAltarEntity bloodAltarEntity = CalamityUtils.FindTileEntity<BloodAltarEntity>(i, j, Width, Height, SheetSquare);
+            frameYPos += bloodAltarEntity.frameIndex % 4 * (Height * SheetSquare);
 
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 offset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
-            Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + offset;
+            Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + offset + new Vector2(0, 8);
             Color drawColor = Lighting.GetColor(i, j);
 
             if (!t.IsHalfBlock && t.Slope == 0)

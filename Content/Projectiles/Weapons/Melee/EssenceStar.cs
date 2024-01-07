@@ -57,7 +57,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
 
         public override bool OnTileCollide(Vector2 oldVelocity) {
             Projectile.Explode();
-            SpanEssStar(36, 3, 29, 0.2f, 1.7f);
+            SpanEssStar(16, 3, 29, 0.2f, 0.7f);
             Projectile.velocity = -oldVelocity;
             Projectile.timeLeft -= 15;
             return false;
@@ -66,7 +66,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Melee
         public override void OnKill(int timeLeft) {
             Projectile.damage *= 3;
             Projectile.Explode(150);
-            SpanEssStar(42, 0, 79, 0.1f, 3.7f);
+            SpanEssStar(22, 0, 79, 0.1f, 2.7f);
         }
 
         public override bool PreDraw(ref Color lightColor) {

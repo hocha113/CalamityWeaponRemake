@@ -68,6 +68,8 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Melee
                         if (proj.Hitbox.Intersects(hitbox)) {
                             proj.ai[0] += 1;
                             proj.velocity += toMou * (6);
+                            proj.timeLeft = 150;
+                            proj.damage = proj.originalDamage / 2;
                         }
                     }
                 }

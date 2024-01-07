@@ -1,5 +1,9 @@
-﻿using CalamityWeaponRemake.Content.UIs.SupertableUIs;
+﻿using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items.Rogue.Extras;
+using CalamityWeaponRemake.Content.UIs.SupertableUIs;
 using System.IO;
+using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -30,6 +34,7 @@ namespace CalamityWeaponRemake.Content
                 RecipeUI.instance.index = 0;
                 RecipeUI.instance.LoadPsreviewItems();
             }
+            Gangarus.ZenithWorldAsset();
         }
 
         public override void SaveWorldData(TagCompound tag) {

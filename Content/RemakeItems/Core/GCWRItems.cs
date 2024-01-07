@@ -1,6 +1,7 @@
 ﻿using CalamityWeaponRemake.Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Mono.Cecil;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -31,6 +32,9 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
                 foreach (BaseRItem rItem in CWRMod.RItemInstances) {
                     if (rItem.SetReadonlyTargetID == item.type) {
                         result = action(rItem);
+                        //Main.NewText(result == null ? "null" : result.Value);
+                        if (result != null)
+                            break;
                     }
                 }
             }
@@ -289,6 +293,7 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
 
         public override void UpdateAccessory(Item item, Player player, bool hideVisual) {
             base.UpdateAccessory(item, player, hideVisual);
+            ProcessRemakeAction(item, (inds) => inds.UpdateAccessory(item, player, hideVisual));
         }
 
         public override void UpdateInventory(Item item, Player player) {
@@ -300,7 +305,8 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         }
 
         public override bool? UseItem(Item item, Player player) {
-            return base.UseItem(item, player);
+            bool? rest = ProcessRemakeAction(item, (inds) => inds.UseItem(item, player));
+            return rest ?? base.UseItem(item, player);
         }
 
         public override void UseItemFrame(Item item, Player player) {

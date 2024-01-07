@@ -594,6 +594,25 @@ Items: {
 			这是一场不可避免的亵渎，为了文明的延续，为了战争的胜利，我不得不成为那至高之物最虔诚的信徒，有史以来最不敬的亵渎者。
 			'''
 	}
+
+	SubmarineShocker: {
+		DisplayName: 渊海短剑
+		Tooltip: 发射电离子火花
+	}
+
+	BrimstoneSword: {
+		DisplayName: 硫火短剑
+		Tooltip:
+			'''
+			一把炽热的短剑
+			击中敌人后生成硫火间歇泉
+			'''
+	}
+
+	BloodAltar: {
+		DisplayName: 深红祭坛
+		Tooltip: 让世界被深红所注视
+	}
 }
 
 Projectiles: {
@@ -756,6 +775,10 @@ Projectiles: {
 	// PilgrimsFury.DisplayName: Pilgrims Fury
 	// Godslight.DisplayName: Godslight
 	// SoulSeeker.DisplayName: Soul Seeker
+	// LigSpark.DisplayName: Lig Spark
+	// SparkBall.DisplayName: Spark Ball
+	// SparkLightning.DisplayName: Spark Lightning
+	// BrimstoneSwordBall.DisplayName: Brimstone Sword Ball
 }
 
 Configs: {

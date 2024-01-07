@@ -16,6 +16,7 @@ using System.Linq;
 using Terraria.Localization;
 using CalamityMod.Rarities;
 using System;
+using Terraria.GameContent;
 
 namespace CalamityWeaponRemake.Content.Items.Rogue.Extras
 {
@@ -26,6 +27,16 @@ namespace CalamityWeaponRemake.Content.Items.Rogue.Extras
         public int ChargeGrade;
         public override string Texture => CWRConstant.Item + "Rogue/Gangarus";
         public LocalizedText Legend { get; private set; }
+
+        public static void ZenithWorldAsset() {
+            if (Main.zenithWorld) {
+                TextureAssets.Item[CWRIDs.Gangarus] = CWRUtils.GetT2DAsset(CWRConstant.Item + "Rogue/Gangarus3");
+            }
+            else {
+                TextureAssets.Item[CWRIDs.Gangarus] = CWRUtils.GetT2DAsset(CWRConstant.Item + "Rogue/Gangarus");
+            }
+        }
+
         public override void SetStaticDefaults() => Legend = this.GetLocalization(nameof(Legend));
         public override void SetDefaults() {
             Item.width = 44;

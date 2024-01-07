@@ -10,6 +10,7 @@ namespace CalamityWeaponRemake.Content.TileEntitys
 {
     internal class TransmutationOfMatterEntity : ModTileEntity
     {
+        public int frameIndex = 1;
         public Vector2 Center => Position.ToWorldCoordinates(8 * TransmutationOfMatter.Width, 8 * TransmutationOfMatter.Height);
         public long Time = 0;
         public float rot;
@@ -27,7 +28,7 @@ namespace CalamityWeaponRemake.Content.TileEntitys
                     SupertableUI.instance.Active = false;
                 }
             }
-                
+            CWRUtils.ClockFrame(ref frameIndex, 6, 3);
             Time++;
         }
 
