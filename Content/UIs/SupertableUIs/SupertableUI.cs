@@ -24,6 +24,10 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
 
         public override Texture2D Texture => CWRUtils.GetT2DValue("CalamityWeaponRemake/Assets/UIs/SupertableUIs/MainValue2");
 
+        public string[] StaticFullItemNames;
+
+        public int[] StaticFullItemTypes;
+
         private int[] fullItemTypes;
 
         public Item[] items;
@@ -229,7 +233,9 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
             }
         }
 
-        // 重置输入物品
+        /// <summary>
+        /// 重置输入物品
+        /// </summary>
         private void ResetInputItem() {
             if (inputItem.type != ItemID.None) {
                 inputItem = new Item();
@@ -244,26 +250,33 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
                 string[] arg = data.Values;
                 fullItemTypes = FullItem(arg);
                 
-                if (items.Length != fullItemTypes.Length - 1) {
+                if (items.Length != fullItemTypes.Length - 1) {//如果预装填的物品ID集合的长度对不上物品集合，那么就直接重置
                     ResetInputItem();
                     goto End;
                 }
 
-                for (int i = 0; i < fullItemTypes.Length - 1; i++) {
+                for (int i = 0; i < fullItemTypes.Length - 1; i++) {//进行一次装填检测，检测材料是否摆放正确
                     if (items?[i]?.type != fullItemTypes[i]) {
                         ResetInputItem();
                         goto End;
                     }
                 }
                 
-                if (inputItem.type == ItemID.None) {
-                    Item item = new Item(fullItemTypes[fullItemTypes.Length - 1]);
+                if (inputItem.type == ItemID.None) {//如果材料摆放正确，那么就进行输出行为
+                    Item item = new Item(fullItemTypes[fullItemTypes.Length - 1]);//获取预装填集合的末尾物品，末尾物品就是输出结果
                     
-                    if (item.CWR().isInfiniteItem) {
+                    if (item.CWR().isInfiniteItem) {//如果这个物品是会湮灭的无尽物品，将其稳定性设置为稳定，即不发生湮灭
                         item.CWR().noDestruct = true;
                         item.CWR().destructTime = 10;
                     }
                     inputItem = item;
+                    string[] names = new string[fullItemTypes.Length];
+                    for (int i = 0; i < fullItemTypes.Length; i++) {
+                        Item fullItem = new Item(fullItemTypes[i]);
+                        names[i] = fullItem.ModItem == null ? fullItem.type.ToString() : fullItem.ModItem.FullName;
+                    }
+                    StaticFullItemNames = names;
+                    StaticFullItemTypes = fullItemTypes;
                     break;
                 }
 End:;
@@ -312,7 +325,6 @@ End:;
                     }
 
                     if (museSR == 1) {
-                        CWRUtils.ExportItemTypesToFile(items);
                         HandleRightClick(ref items[inCoordIndex], ref Main.mouseItem);
                         OutItem();
                     }
@@ -375,7 +387,7 @@ End:;
                         if (Main.mouseItem.stack == 0) {
                             Main.mouseItem.TurnToAir();
                         }
-                        continue;
+                        goto End;
                     }
                     //接着，如果玩家鼠标上是空或者鼠标上没有目标物品，那么再遍历玩家背包内容
                     foreach (var backItem in player.inventory) {
@@ -387,8 +399,10 @@ End:;
                             if (backItem.stack == 0) {
                                 backItem.TurnToAir();
                             }
+                            goto End;
                         }
                     }
+End:;
                 }
             }
         }
@@ -400,11 +414,11 @@ End:;
         /// <param name="holdItem">正在拖拽的物品</param>
         /// <param name="arg">用于配方的字符串数组</param>
         private void GetResult(ref Item onitem, ref Item holdItem, ref Item[] arg) {
-            if (holdItem.type == ItemID.None && onitem.type != ItemID.None) {
+            if (holdItem.type == ItemID.None && onitem.type != ItemID.None && StaticFullItemTypes != null) {
                 PlayGrabSound();
                 SoundEngine.PlaySound(SoundID.Research);
                 for (int i = 0; i < items.Length; i++) {
-                    if (items[i].type == previewItems[i].type) {
+                    if (items[i].type == StaticFullItemTypes[i]) {
                         items[i].stack -= 1;
                         if (items[i].stack <= 0)
                             items[i] = new Item();

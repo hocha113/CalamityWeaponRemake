@@ -3,6 +3,7 @@ using CalamityWeaponRemake.Content.Items.Placeable;
 using CalamityWeaponRemake.Content.UIs.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Steamworks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,9 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
 
         public int index;
 
-        private static List<Item> itemValue = new List<Item>();
+        private static List<Item> itemTarget = new List<Item>();
 
-        private static List<string[]> itemNames = new List<string[]>();
+        private static List<string[]> itemNameString_FormulaContent_Values = new List<string[]>();
 
         private Rectangle mainRec;
 
@@ -54,24 +55,24 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
             instance = this;
             for (int i = 0; i < SupertableUI.AllRecipes.Count; i++) {
                 Console.WriteLine($"正在装载配方：{i} --:-- {SupertableUI.AllRecipes.Count}");
-                itemValue.Add(new Item(SupertableUI.AllRecipes[i].Target));
-                itemNames.Add(SupertableUI.AllRecipes[i].Values);
+                itemTarget.Add(new Item(SupertableUI.AllRecipes[i].Target));
+                itemNameString_FormulaContent_Values.Add(SupertableUI.AllRecipes[i].Values);
             }
         }
 
         public void LoadZenithWRecipes() {
             if (Main.zenithWorld) {
-                if (itemValue.Count < SupertableUI.AllRecipes.Count) {
+                if (itemTarget.Count < SupertableUI.AllRecipes.Count) {
                     int index = SupertableUI.AllRecipes.Count - 1;
-                    itemValue.Add(new Item(SupertableUI.AllRecipes[index].Target));
-                    itemNames.Add(SupertableUI.AllRecipes[index].Values);
+                    itemTarget.Add(new Item(SupertableUI.AllRecipes[index].Target));
+                    itemNameString_FormulaContent_Values.Add(SupertableUI.AllRecipes[index].Values);
                 }
             }
             else {
-                for (int i = 0; i < itemValue.Count; i++) {
-                    if (itemValue[i].type == ModContent.ItemType<InfiniteToiletItem>()) {
-                        itemValue.RemoveAt(i);
-                        itemNames.RemoveAt(i);
+                for (int i = 0; i < itemTarget.Count; i++) {
+                    if (itemTarget[i].type == ModContent.ItemType<InfiniteToiletItem>()) {
+                        itemTarget.RemoveAt(i);
+                        itemNameString_FormulaContent_Values.RemoveAt(i);
                     }
                 }
             }
@@ -90,13 +91,30 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
                     index -= 1;
                 }
                 if (index < 0) {
-                    index = itemValue.Count - 1;
+                    index = itemTarget.Count - 1;
                 }
-                if (index > itemValue.Count - 1) {
+                if (index > itemTarget.Count - 1) {
                     index = 0;
                 }
 
                 LoadPsreviewItems();
+
+                if (SupertableUI.instance.inputItem == null)//如果输出物品是Null，进行初始化防止空报错
+                    SupertableUI.instance.inputItem = new Item();
+                if (SupertableUI.instance.inputItem.type != ItemID.None && SupertableUI.instance.StaticFullItemNames != null) {//如果输出物品不是空物品，进行遍历检测预装填列表
+                    for (int i = 0; i < itemNameString_FormulaContent_Values.Count; i++) {
+                        string[] formulaContent_Values = itemNameString_FormulaContent_Values[i];
+                        for (int j = 0; j < 80; j++) {
+                            string fullName = formulaContent_Values[j];
+                            if (fullName != SupertableUI.instance.StaticFullItemNames[j]) {
+                                goto End;
+                            }
+                        }
+                        index = i;
+                        LoadPsreviewItems();
+End:;
+                    }
+                }
             }
         }
 
@@ -109,14 +127,11 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
                     SupertableUI.instance.items = new Item[81];
                 }
                 SupertableUI.instance.previewItems = new Item[SupertableUI.instance.items.Length];
-                string[] names = itemNames[index];
+                string[] names = itemNameString_FormulaContent_Values[index];
                 if (names != null) {
-                    Item sdItem = new Item();
                     for (int i = 0; i < 81; i++) {
-                        Item item = new Item(0);
                         string value = names[i];
-                        item = new Item(SupertableUI.InStrGetItemType(value, true));
-                        SupertableUI.instance.previewItems[i] = item;
+                        SupertableUI.instance.previewItems[i] = new Item(SupertableUI.InStrGetItemType(value, true));
                     }
                 }
                 else {
@@ -138,16 +153,16 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
             spriteBatch.Draw(Texture, DrawPos, null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);//绘制出UI主体
             spriteBatch.Draw(onR ? arow : arow2, DrawPos + new Vector2(65, 20), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
             spriteBatch.Draw(onL ? arow : arow2, DrawPos + new Vector2(-30, 20), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
-            string text2 = $"{index + 1} -:- {itemValue.Count}";
+            string text2 = $"{index + 1} -:- {itemTarget.Count}";
             Terraria.Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.MouseText.Value, text2, DrawPos.X - text2.Length * 5 + 40, DrawPos.Y + 65, Color.White, Color.Black, new Vector2(0.3f), 0.8f);
-            if (itemValue != null && SupertableUI.instance != null && index >= 0 && index < itemValue.Count) {
-                SupertableUI.instance.DrawItemIcons(spriteBatch, itemValue[index], DrawPos + new Vector2(5, 5), alp: 0.6f, overSlp: 1.5f);
-                string name = itemValue[index].HoverName;
+            if (itemTarget != null && SupertableUI.instance != null && index >= 0 && index < itemTarget.Count) {
+                SupertableUI.instance.DrawItemIcons(spriteBatch, itemTarget[index], DrawPos + new Vector2(5, 5), alp: 0.6f, overSlp: 1.5f);
+                string name = itemTarget[index].HoverName;
                 string text = $"查看配方：{(name == "" ? "无" : name)}";
                 Terraria.Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.MouseText.Value, text, DrawPos.X - text.Length * 5, DrawPos.Y - 25, Color.White, Color.Black, new Vector2(0.3f), 0.8f);
             }
             if (onM) { //处理鼠标在UI格中查看物品的事情
-                Item overItem = itemValue[index];
+                Item overItem = itemTarget[index];
                 if (overItem != null && overItem?.type != ItemID.None) {
                     Main.HoverItem = overItem.Clone();
                     Main.hoverItemName = overItem.Name;

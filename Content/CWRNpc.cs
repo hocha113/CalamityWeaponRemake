@@ -42,6 +42,8 @@ namespace CalamityWeaponRemake.Content
             if (Main.bloodMoon) {//在血月的情况下让一些生物执行特殊的行为，将这段代码写在PostAI中是防止被覆盖
                 if (npc.type == CWRIDs.PerforatorHive)//改动血肉宿主的行为，这会让它在血月更加的暴躁和危险
                     PerforatorBehavior.Instance.Intensive(npc);
+                if (npc.type == CWRIDs.HiveMind)//改动腐巢意志的行为，这会让它在血月更加的恐怖和强大
+                    HiveMindBehavior.Instance.Intensive(npc);
             }
         }
 
@@ -61,6 +63,7 @@ namespace CalamityWeaponRemake.Content
                 }
             }
             PerforatorBehavior.Instance.BloodMoonDorp(npc);
+            HiveMindBehavior.Instance.BloodMoonDorp(npc);
             base.OnKill(npc);
         }
 
@@ -83,6 +86,9 @@ namespace CalamityWeaponRemake.Content
             if (Main.bloodMoon) {
                 if (npc.type == CWRIDs.PerforatorHive) {
                     PerforatorBehavior.Instance.Draw(spriteBatch, npc);
+                }
+                if (npc.type == CWRIDs.HiveMind) {
+                    HiveMindBehavior.Instance.Draw(spriteBatch, npc);
                 }
             }
         }

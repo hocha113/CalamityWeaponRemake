@@ -26,11 +26,11 @@ namespace CalamityWeaponRemake.Content.NPCs
     {
         public static PerforatorBehavior Instance;
 
-        public void Load() => Instance = this;
+        public virtual void Load() => Instance = this;
 
         public bool AttributeReinforcement = true;
 
-        public void AttributeReinforcementFunc(NPC npc) {
+        public virtual void AttributeReinforcementFunc(NPC npc) {
             if (AttributeReinforcement) {
                 npc.life = npc.lifeMax = npc.lifeMax * 3;
                 npc.damage += 25;
@@ -50,6 +50,37 @@ namespace CalamityWeaponRemake.Content.NPCs
 
         public HiveBlob[] ThisHiveBlobs;
         public HiveBlob[] ThisHiveBlobs2;
+
+        public virtual void UpdateBlob(NPC npc, bool phase1) {
+            ThisHiveBlobs = new HiveBlob[6];
+            for (int i = 0; i < 6; i++) {
+                HiveBlob blob = new HiveBlob()
+                {
+                    orig = npc.Center,
+                    leng = phase1 ? 133 : 155,
+                    rot = MathHelper.TwoPi / 6 * i + Main.GameUpdateCount * (phase1 ? 0.05f : 0.08f),
+                    scale = phase1 ? 1 : 1.5f
+                };
+                ThisHiveBlobs[i] = blob;
+            }
+            ThisHiveBlobs2 = new HiveBlob[16];
+            for (int i = 0; i < 16; i++) {
+                HiveBlob blob = new HiveBlob()
+                {
+                    orig = npc.Center,
+                    leng = phase1 ? 1299 : 1155,
+                    rot = MathHelper.TwoPi / 16 * i + Main.GameUpdateCount * 0.02f,
+                    scale = phase1 ? 4 : 6.5f
+                };
+                ThisHiveBlobs2[i] = blob;
+            }
+            foreach (HiveBlob hiveBlob in ThisHiveBlobs) {
+                Lighting.AddLight(hiveBlob.pos, Color.Red.ToVector3());
+            }
+            foreach (HiveBlob hiveBlob2 in ThisHiveBlobs2) {
+                Lighting.AddLight(hiveBlob2.pos, Color.Red.ToVector3() * 3);
+            }
+        }
 
         /// <summary>
         /// 处理瞬移的视觉效果
@@ -92,7 +123,7 @@ namespace CalamityWeaponRemake.Content.NPCs
                 Projectile.NewProjectile(npc.GetSource_FromAI(), spanPos, toTargetUnit * speed, ModContent.ProjectileType<IchorShot>(), damage, 0f, Main.myPlayer);
             }
         }
-        public void Draw(SpriteBatch spriteBatch, NPC npc) {
+        public virtual void Draw(SpriteBatch spriteBatch, NPC npc) {
             Texture2D value = CWRUtils.GetT2DValue("CalamityMod/NPCs/HiveMind/HiveBlob");
             if (ThisHiveBlobs != null) {
                 foreach (HiveBlob hiveBlob in ThisHiveBlobs) {
@@ -109,7 +140,7 @@ namespace CalamityWeaponRemake.Content.NPCs
         /// 执行强化行为附加
         /// </summary>
         /// <param name="npc"></param>
-        public void Intensive(NPC npc) {
+        public virtual void Intensive(NPC npc) {
             AttributeReinforcementFunc(npc);
             PerforatorHive perforatorHive = (PerforatorHive)npc.ModNPC;
             float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -120,39 +151,11 @@ namespace CalamityWeaponRemake.Content.NPCs
             bool death = CalamityWorld.death || bossRush;
             bool phase1 = lifeRatio >= 0.7f;
             int npcDamage = npc.damage / (Main.masterMode ? 5 : Main.expertMode ? 3 : 2);
-            ThisHiveBlobs = new HiveBlob[6];
-            for (int i = 0; i < 6; i++) {
-                HiveBlob blob = new HiveBlob()
-                {
-                    orig = npc.Center,
-                    leng = phase1 ? 133 : 155,
-                    rot = MathHelper.TwoPi / 6 * i + Main.GameUpdateCount * (phase1 ? 0.05f : 0.08f),
-                    scale = phase1 ? 1 : 1.5f
-                };
-                ThisHiveBlobs[i] = blob;
-            }
-            ThisHiveBlobs2 = new HiveBlob[16];
-            for (int i = 0; i < 16; i++) {
-                HiveBlob blob = new HiveBlob()
-                {
-                    orig = npc.Center,
-                    leng = phase1 ? 1299 : 1155,
-                    rot = MathHelper.TwoPi / 16 * i + Main.GameUpdateCount * 0.02f,
-                    scale = phase1 ? 4 : 6.5f
-                };
-                ThisHiveBlobs2[i] = blob;
-            }
-            foreach (HiveBlob hiveBlob in ThisHiveBlobs) {
-                Lighting.AddLight(hiveBlob.pos, Color.Red.ToVector3());
-            }
-            foreach (HiveBlob hiveBlob2 in ThisHiveBlobs2) {
-                Lighting.AddLight(hiveBlob2.pos, Color.Red.ToVector3() * 3);
-            }
-
+            UpdateBlob(npc, phase1);
             if (phase1) {//一阶段
                 if (npc.localAI[0] != 0) {
                     if (!CWRUtils.isClient) {
-                        if (npc.localAI[0] % 180 == 0) {//在一阶段，我们需要周期性的发射跨整个屏幕的水平弹幕来提高难度
+                        if (npc.localAI[0] % 180 == 0) {//在一阶段，我们需要周期性的发射横跨整个屏幕的水平弹幕来提高难度
                             const int maxspanWidth = 9000;
                             const int maxspanProjNum = 60;
                             int step = maxspanWidth / maxspanProjNum;
@@ -234,7 +237,7 @@ namespace CalamityWeaponRemake.Content.NPCs
             }
         }
 
-        public void BloodMoonDorp(NPC npc) {
+        public virtual void  BloodMoonDorp(NPC npc) {
             if (npc.type == CWRIDs.PerforatorHive) {
                 if (Main.bloodMoon && !CWRUtils.isClient) {
                     for (int i = 0; i < Main.rand.Next(19, 26); i++) {

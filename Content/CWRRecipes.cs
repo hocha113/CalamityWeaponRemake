@@ -33,12 +33,25 @@ namespace CalamityWeaponRemake.Content
                         baseRItem.LoadItemRecipe();
                 }
             }
+            //添加血泪的额外合成
+            {
+                Recipe.Create(ItemID.BloodMoonStarter)
+                    .AddIngredient(ItemType<BloodSample>(), 50)
+                    .AddIngredient(ItemType<BlightedGel>(), 75)
+                    .AddTile(TileID.DemonAltar)
+                    .Register();
+                Recipe.Create(ItemID.BloodMoonStarter)
+                    .AddIngredient(ItemType<RottenMatter>(), 50)
+                    .AddIngredient(ItemType<BlightedGel>(), 75)
+                    .AddTile(TileID.DemonAltar)
+                    .Register();
+            }
             //添加无尽锭的额外联动合成
             {
                 if (CWRIDs.EternitySoul > ItemID.None) {
                     for (int i = 0; i < Recipe.numRecipes; i++) {
                         Recipe recipe = Main.recipe[i];
-                        if (recipe.HasResult(ItemType<InfiniteIngot>())) {
+                        if (recipe.HasResult(ItemType<InfinityCatalyst>())) {
                             recipe.AddIngredient(CWRIDs.EternitySoul);
                         }
                     }

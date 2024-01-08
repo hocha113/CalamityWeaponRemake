@@ -1,4 +1,4 @@
 displayName = Calamity Overhaul
 modReferences = CalamityMod
 author = HoCha113
-version = 0.24
+version = 0.241

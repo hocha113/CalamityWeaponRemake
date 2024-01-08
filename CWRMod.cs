@@ -43,6 +43,7 @@ namespace CalamityWeaponRemake
             CWRIDs.Load();
             //加载生物定义
             new PerforatorBehavior().Load();
+            new HiveMindBehavior().Load();
             //将自定义的UI放到最后加载，在这之前是确保物品、ID、生物等其他内容都加载完成后
             new CompressorUI().Load();
             new SupertableUI().Load();

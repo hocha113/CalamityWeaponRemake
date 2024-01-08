@@ -24,7 +24,7 @@ namespace CalamityWeaponRemake.Content.Tiles
         public const int Width = 4;
         public const int Height = 3;
         public const int OriginOffsetX = 1;
-        public const int OriginOffsetY = 2;
+        public const int OriginOffsetY = 1;
         public const int SheetSquare = 18;
 
         public override void SetStaticDefaults() {
@@ -83,11 +83,12 @@ namespace CalamityWeaponRemake.Content.Tiles
             int frameXPos = t.TileFrameX;
             int frameYPos = t.TileFrameY;
             BloodAltarEntity bloodAltarEntity = CalamityUtils.FindTileEntity<BloodAltarEntity>(i, j, Width, Height, SheetSquare);
-            frameYPos += bloodAltarEntity.frameIndex % 4 * (Height * SheetSquare);
+            if (bloodAltarEntity != null)
+                frameYPos += bloodAltarEntity.frameIndex % 4 * (Height * SheetSquare);
 
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 offset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
-            Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + offset + new Vector2(0, 8);
+            Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + offset;
             Color drawColor = Lighting.GetColor(i, j);
 
             if (!t.IsHalfBlock && t.Slope == 0)

@@ -8,6 +8,7 @@ using CalamityMod.NPCs.DraedonLabThings;
 using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
+using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.PrimordialWyrm;
@@ -95,6 +96,10 @@ namespace CalamityWeaponRemake
         /// 血肉宿主
         /// </summary>
         public static int PerforatorHive;
+        /// <summary>
+        /// 腐巢意志
+        /// </summary>
+        public static int HiveMind;
         /// <summary>
         /// 血肉蠕虫 
         /// </summary>
@@ -195,6 +200,8 @@ namespace CalamityWeaponRemake
             PlaguebringerGoliath = NPCType<PlaguebringerGoliath>();
 
             PerforatorHive = NPCType<PerforatorHive>();
+            HiveMind = NPCType<HiveMind>();
+
             SepulcherHead = NPCType<SepulcherHead>();
             SepulcherBody = NPCType<SepulcherBody>();
             SepulcherTail = NPCType<SepulcherTail>();
