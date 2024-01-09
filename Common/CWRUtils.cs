@@ -26,6 +26,28 @@ namespace CalamityWeaponRemake.Common
 {
     public static class CWRUtils
     {
+        public static List<int> GenerateUniqueNumbers(int count, int minValue, int maxValue) {
+            if (count > maxValue - minValue + 1) {
+                throw new ArgumentException("Count of unique numbers cannot be greater than the range of values.");
+            }
+
+            List<int> uniqueNumbers = new List<int>();
+            HashSet<int> usedNumbers = new HashSet<int>();
+
+            for (int i = minValue; i <= maxValue; i++) {
+                usedNumbers.Add(i);
+            }
+
+            for (int i = 0; i < count; i++) {
+                int randomIndex = Main.rand.Next(usedNumbers.Count);
+                int randomNumber = usedNumbers.ElementAt(randomIndex);
+                usedNumbers.Remove(randomNumber);
+                uniqueNumbers.Add(randomNumber);
+            }
+
+            return uniqueNumbers;
+        }
+
         /// <summary>
         /// 将 Item 数组的信息写入指定路径的文件中
         /// </summary>

@@ -221,12 +221,6 @@ namespace CalamityWeaponRemake.Content.RemakeItems.Core
         public override void OnConsumeItem(Item item, Player player) {
             base.OnConsumeItem(item, player);
             ProcessRemakeAction(item, (inds) => inds.OnConsumeItem(item, player));
-            if (item.useStyle == ItemUseStyleID.DrinkLiquid 
-                && (item.buffType != 0 || item.type == ItemID.BottledWater) 
-                && item.consumable 
-                && item.UseSound == SoundID.Item3) {
-                player.QuickSpawnItem(player.parent(), ItemID.Bottle);
-            }
         }
 
         public override void OnConsumeMana(Item item, Player player, int manaConsumed) {

@@ -24,7 +24,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Rogue.GangarusProject
             Projectile.tileCollide = false;
             Projectile.ignoreWater = false;
             Projectile.penetrate = 3;
-            Projectile.timeLeft = 280;
+            Projectile.timeLeft = 380;
         }
 
         public override void AI() {

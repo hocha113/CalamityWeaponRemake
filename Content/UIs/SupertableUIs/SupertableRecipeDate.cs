@@ -225,6 +225,20 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
             "CalamityWeaponRemake/Gangarus"
         };
         /// <summary>
+        /// 万变之星
+        /// </summary>
+        public static string[] FullItems17 = new string[] {"CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst",
+            "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst",
+            "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst",
+            "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfinityCatalyst",
+            "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteIngot",
+            "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfinityCatalyst",
+            "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst",
+            "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteStick", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst",
+            "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst", "CalamityWeaponRemake/InfinityCatalyst",
+            "CalamityWeaponRemake/StarMyriadChanges"
+        };
+        /// <summary>
         /// 测试物品
         /// </summary>
         //public static string[] FullItems999 = new string[] {"CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot", "CalamityWeaponRemake/InfiniteIngot",

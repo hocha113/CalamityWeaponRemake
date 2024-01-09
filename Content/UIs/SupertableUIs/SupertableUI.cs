@@ -20,7 +20,7 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
 {
     internal class SupertableUI : CWRUIPanel
     {
-        public static SupertableUI instance;
+        public static SupertableUI Instance;
 
         public override Texture2D Texture => CWRUtils.GetT2DValue("CalamityWeaponRemake/Assets/UIs/SupertableUIs/MainValue2");
 
@@ -46,15 +46,15 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
 
         public bool initializeBool = true;
 
-        private Vector2 topLeft;
+        public Vector2 topLeft;
 
-        private int cellWid;
+        public static int cellWid;
 
-        private int cellHig;
+        public static int cellHig;
 
-        private int maxCellNumX;
+        public static int maxCellNumX;
 
-        private int maxCellNumY;
+        public static int maxCellNumY;
 
         private Point mouseInCellCoord;
 
@@ -68,18 +68,18 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
         /// </summary>
         private Rectangle mainRec2;
 
-        private bool onMainP;
+        public bool onMainP;
 
-        private bool onMainP2;
+        public bool onMainP2;
 
-        private bool onInputP;
+        public bool onInputP;
 
-        private bool onCloseP;
+        public bool onCloseP;
 
         public static List<RecipeData> AllRecipes = new List<RecipeData>();
 
         public override void Load() {
-            instance = this;
+            Instance = this;
             LoadRecipe();
         }
 
@@ -173,7 +173,7 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
                     AllRecipes.RemoveAll(n => n.Target == infiniteToiletItemType);
                 }
                 // 加载配方并更新 UI
-                RecipeUI.instance.LoadZenithWRecipes();
+                RecipeUI.Instance.LoadZenithWRecipes();
                 // 标记已经加载或者卸载了 Zenith World 资产
                 loadOrUnLoadZenithWorldAsset = false;
             }
@@ -200,6 +200,23 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
             else {
                 string[] fruits = key.Split('/');
                 return (ModLoader.GetMod(fruits[0]).Find<ModItem>(fruits[1]).Type);
+            }
+        }
+
+        /// <summary>
+        /// 解析字符串键并获取对应的物品实例
+        /// </summary>
+        /// <param name="key">用于解析的字符串键，可以是整数类型或模组/物品名称的组合</param>
+        /// <returns>解析后得到的物品类型</returns>
+        public static Item InStrGetItem(string key, bool loadVanillaItem = false) {
+            if (int.TryParse(key, out int intValue)) {
+                if (loadVanillaItem && !CWRUtils.isServer)
+                    Main.instance.LoadItem(intValue);
+                return new Item(intValue);
+            }
+            else {
+                string[] fruits = key.Split('/');
+                return ModLoader.GetMod(fruits[0]).Find<ModItem>(fruits[1]).Item;
             }
         }
 
@@ -594,12 +611,13 @@ End:;
         /// <param name="spriteBatch">批处理对象</param>
         /// <param name="item">物品</param>
         /// <param name="drawpos">绘制位置</param>
-        public void DrawItemIcons(SpriteBatch spriteBatch, Item item, Vector2 drawpos, Color drawColor = default, float alp = 1, float overSlp = 1) {
+        public static void DrawItemIcons(SpriteBatch spriteBatch, Item item, Vector2 drawpos, Vector2 offset = default, Color drawColor = default, float alp = 1, float overSlp = 1) {
             if (item != null && item.type != ItemID.None) {
                 Rectangle rectangle = Main.itemAnimations[item.type] != null ? Main.itemAnimations[item.type].GetFrame(TextureAssets.Item[item.type].Value) : TextureAssets.Item[item.type].Value.Frame(1, 1, 0, 0);
                 Vector2 vector = rectangle.Size();
                 Vector2 size = TextureAssets.Item[item.type].Value.Size();
-                Vector2 offset = new Vector2(cellWid, cellHig) / 2;
+                if (offset == default)
+                    offset = new Vector2(cellWid, cellHig) / 2;
                 float slp = 1;
                 if (size.X > 32) {
                     slp = 32f / size.X;
@@ -614,6 +632,9 @@ End:;
                 else if (item.type == CWRIDs.InfiniteStick) {
                     InfiniteStick.DrawItemIcon(spriteBatch, drawpos + offset, item.type, alp);
                 }
+                //else if (item.type == CWRIDs.StarMyriadChanges) {
+                //    StarMyriadChanges.DrawItemIcon(spriteBatch, drawpos + offset, drawColor, item.type, alp, slp);
+                //}
                 else if (item.type == ModContent.ItemType<DecayParticles>() 
                     || item.type == ModContent.ItemType<DecaySubstance>() 
                     || item.type == ModContent.ItemType<DissipationSubstance>() 

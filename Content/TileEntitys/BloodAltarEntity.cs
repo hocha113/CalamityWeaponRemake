@@ -9,7 +9,6 @@ using System;
 using CalamityMod.Items.Materials;
 using CalamityWeaponRemake.Content.Particles;
 using CalamityWeaponRemake.Content.Particles.Core;
-using Terraria.DataStructures;
 
 namespace CalamityWeaponRemake.Content.TileEntitys
 {

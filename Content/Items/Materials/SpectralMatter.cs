@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using CalamityWeaponRemake.Content.UIs.SupertableUIs;
 
 namespace CalamityWeaponRemake.Content.Items.Materials
 {
@@ -21,6 +22,7 @@ namespace CalamityWeaponRemake.Content.Items.Materials
             Item.value = Terraria.Item.sellPrice(gold: 153);
             Item.useAnimation = Item.useTime = 15;
             Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.CWR().OmigaSnyContent = SupertableRecipeDate.FullItems14;
         }
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale) {

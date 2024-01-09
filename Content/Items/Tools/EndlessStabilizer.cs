@@ -1,4 +1,5 @@
 ﻿using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.UIs.SupertableUIs;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -19,6 +20,7 @@ namespace CalamityWeaponRemake.Content.Items.Tools
             Item.expert = true;
             Item.accessory = true;
             Item.rare = ItemRarityID.Purple;
+            Item.CWR().OmigaSnyContent = SupertableRecipeDate.FullItems9;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual) {

@@ -1,9 +1,11 @@
 ﻿using CalamityMod.Items;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content;
+using CalamityWeaponRemake.Content.Projectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Chat;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -37,6 +39,8 @@ namespace CalamityWeaponRemake
 
         public override bool? UseItem(Player player) {
             Main.time = 65000;
+            Projectile.NewProjectile(new EntitySource_WorldEvent()
+                    , player.Center, Vector2.Zero, ModContent.ProjectileType<StarMyriadChangesProj>(), 1, 0);
             return base.UseItem(player);
         }
 

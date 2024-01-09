@@ -613,6 +613,16 @@ Items: {
 		DisplayName: 深红祭坛
 		Tooltip: 让世界被深红所注视
 	}
+
+	StarMyriadChanges: {
+		DisplayName: 万变之星
+		Tooltip: 赞美变化之神！
+	}
+
+	TerminusOver: {
+		DisplayName: 终焉之触
+		Tooltip: 开启终焉之战
+	}
 }
 
 Projectiles: {
@@ -779,6 +789,7 @@ Projectiles: {
 	// SparkBall.DisplayName: Spark Ball
 	// SparkLightning.DisplayName: Spark Lightning
 	// BrimstoneSwordBall.DisplayName: Brimstone Sword Ball
+	// StarMyriadChangesProj.DisplayName: Star Myriad Changes Proj
 }
 
 Configs: {

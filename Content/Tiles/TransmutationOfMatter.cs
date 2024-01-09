@@ -91,14 +91,14 @@ namespace CalamityWeaponRemake.Content.Tiles
         public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY) {
-            SupertableUI.instance.Active = false;
+            SupertableUI.Instance.Active = false;
             ModContent.GetInstance<TransmutationOfMatterEntity>().Kill(i, j);
         }
 
         public override bool RightClick(int i, int j) {
             TileEntity.InitializeAll();
-            SupertableUI.instance.Active = !SupertableUI.instance.Active;
-            if (SupertableUI.instance.Active && !Main.playerInventory) {//如果是开启合成UI但此时玩家并没有打开背包，那么就打开背包UI
+            SupertableUI.Instance.Active = !SupertableUI.Instance.Active;
+            if (SupertableUI.Instance.Active && !Main.playerInventory) {//如果是开启合成UI但此时玩家并没有打开背包，那么就打开背包UI
                 Main.playerInventory = true;
             }
             SoundEngine.PlaySound(SoundID.Chat);

@@ -113,7 +113,7 @@ namespace CalamityWeaponRemake.Content.NPCs
             object burrowTimerValue = privateBurrowTimer.GetValue(hiveMind);
             stateValueInt = (int)stateValue;
             int burrowTimerValueInt = (int)burrowTimerValue;
-            if (stateValueInt == 0 && !phase2) {
+            if (stateValueInt == 0 && !phase2 && !CWRUtils.isClient) {
                 if (burrowTimerValueInt == 0) {
                     for (int i = 0; i < 3; i++) {
                         foreach (HiveBlob hiveBlob in ThisHiveBlobs) {
@@ -123,7 +123,7 @@ namespace CalamityWeaponRemake.Content.NPCs
                         }
                     }
                 }
-                if (burrowTimerValueInt % 60 == 0 && !CWRUtils.isClient) {
+                if (burrowTimerValueInt % 60 == 0) {
                     if (Main.npc.Count((NPC n) => n.type == NPCID.EaterofSouls) <= 33) {
                         int npcwho = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.position.X + Main.rand.Next(npc.width), (int)npc.position.Y + Main.rand.Next(npc.height), NPCID.EaterofSouls);
                         NPC eaterofSouls = Main.npc[npcwho];
@@ -134,7 +134,7 @@ namespace CalamityWeaponRemake.Content.NPCs
                     }
                 }
             }
-            if (phase2) {
+            if (phase2 && !CWRUtils.isClient) {
                 if (stateValueInt == 3) {
                     if (Time % 20 == 0) {
                         foreach (HiveBlob hiveBlob in ThisHiveBlobs) {

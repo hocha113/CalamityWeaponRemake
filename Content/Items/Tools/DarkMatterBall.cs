@@ -1,4 +1,5 @@
 ﻿using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.UIs.SupertableUIs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -27,12 +28,13 @@ namespace CalamityWeaponRemake.Content.Items.Tools
             Item.width = 24;
             Item.height = 24;
             Item.rare = ItemRarityID.Purple;
+            Item.CWR().OmigaSnyContent = SupertableRecipeDate.FullItems7;
         }
 
         public static void DrawItemIcon(SpriteBatch spriteBatch, Vector2 position, int Type, float alp = 1) {
             spriteBatch.Draw(CWRUtils.GetT2DValue(CWRConstant.Item + "Tools/DarkMatter"), position, null, Color.White, 0, TextureAssets.Item[Type].Value.Size() / 2, 1, SpriteEffects.None, 0);
             float sngs = Math.Abs(MathF.Sin(Main.GameUpdateCount * 0.01f));
-            spriteBatch.Draw(CWRUtils.GetT2DValue(CWRConstant.Item + "Tools/Full"), position, null, Color.White * sngs * alp, 0, TextureAssets.Item[Type].Value.Size() / 2, 1, SpriteEffects.None, 0);
+            spriteBatch.Draw(CWRUtils.GetT2DValue(CWRConstant.Item + "Tools/Full"), position, null, Color.White * sngs * (0.5f + alp * 0.5f), 0, TextureAssets.Item[Type].Value.Size() / 2, 1, SpriteEffects.None, 0);
         }
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale) {

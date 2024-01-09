@@ -50,7 +50,6 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Rogue.GangarusProject
                 HeavenfallStarParticle spark = new HeavenfallStarParticle(Projectile.Center, Projectile.velocity, false, 27, 3, Color.Gold);
                 CWRParticleHandler.SpawnParticle(spark);
             }
-            
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
@@ -73,7 +72,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Rogue.GangarusProject
                             SoundEngine.PlaySound(DevourerofGodsHead.DeathExplosionSound, Projectile.Center);
                             SoundEngine.PlaySound(Gangarus.BelCanto, Projectile.Center);
                             SpanPrmst = false;
-                            Projectile.Explode(320);
+                            Projectile.Explode(620);
                         }
                         if (target.CWR().GangarusSign) {
                             Projectile.NewProjectile(Projectile.parent(), target.Center, Vector2.Zero, ModContent.ProjectileType<PilgrimsFury>(), Projectile.damage, 0, Projectile.owner, 0, target.whoAmI);
@@ -130,7 +129,7 @@ namespace CalamityWeaponRemake.Content.Projectiles.Weapons.Rogue.GangarusProject
                         }
                         SoundEngine.PlaySound(DevourerofGodsHead.DeathExplosionSound, Projectile.Center);
                         SpanPrmst = false;
-                        Projectile.Explode(120);
+                        Projectile.Explode(320);
                     }
                 }
                 

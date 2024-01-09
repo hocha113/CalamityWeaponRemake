@@ -1,4 +1,7 @@
-﻿using CalamityWeaponRemake.Common;
+﻿using CalamityMod.Events;
+using CalamityMod.Items;
+using CalamityWeaponRemake.Common;
+using CalamityWeaponRemake.Content.Items;
 using CalamityWeaponRemake.Content.NPCs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -61,6 +64,12 @@ namespace CalamityWeaponRemake.Content
                         }
                     }
                 }
+                if (npc.type == CWRIDs.PrimordialWyrmHead) {
+                    int type = Item.NewItem(npc.parent(), npc.Hitbox, ModContent.ItemType<TerminusOver>());
+                    if (CWRUtils.isClient) {
+                        NetMessage.SendData(MessageID.SyncItem, -1, -1, null, type, 0f, 0f, 0f, 0, 0, 0);
+                    }
+                }
             }
             PerforatorBehavior.Instance.BloodMoonDorp(npc);
             HiveMindBehavior.Instance.BloodMoonDorp(npc);
@@ -70,8 +79,18 @@ namespace CalamityWeaponRemake.Content
         public override void HitEffect(NPC npc, NPC.HitInfo hit) {
             if (npc.life <= 0) {
                 if (TheEndSunOnHitNum) {
-                    for (int i = 0; i < Main.rand.Next(16, 33); i++) {
-                        npc.NPCLoot();
+                    if (!BossRushEvent.BossRushActive) {
+                        for (int i = 0; i < Main.rand.Next(16, 33); i++) {
+                            npc.NPCLoot();
+                        }
+                    }
+                    else {
+                        if (Main.rand.NextBool(5)) {//如果是在BossRush时期，让Boss有一定概率掉落古恒石，这是额外的掉落
+                            int type = Item.NewItem(npc.parent(), npc.Hitbox, ModContent.ItemType<Rock>());
+                            if (CWRUtils.isClient) {
+                                NetMessage.SendData(MessageID.SyncItem, -1, -1, null, type, 0f, 0f, 0f, 0, 0, 0);
+                            }
+                        }
                     }
                 }
             }

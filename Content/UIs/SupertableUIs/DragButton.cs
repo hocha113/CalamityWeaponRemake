@@ -17,7 +17,7 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
 
         public override Texture2D Texture => CWRUtils.GetT2DValue("CalamityWeaponRemake/Assets/UIs/SupertableUIs/HotbarRadial_0");
 
-        public Vector2 supPos => SupertableUI.instance.DrawPos;
+        public Vector2 supPos => SupertableUI.Instance.DrawPos;
 
         public Rectangle mainRec;
 
@@ -36,13 +36,13 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
         }
 
         public override void Initialize() {
-            DrawPos = SupertableUI.instance.DrawPos + InSupPosOffset;
+            DrawPos = SupertableUI.Instance.DrawPos + InSupPosOffset;
             mainRec = new Rectangle((int)DrawPos.X, (int)DrawPos.Y, 48, 48);
             onMain = mainRec.Intersects(new Rectangle((int)MouPos.X, (int)MouPos.Y, 1, 1));
         }
 
         public override void Update(GameTime gameTime) {
-            if (SupertableUI.instance == null) {
+            if (SupertableUI.Instance == null) {
                 return;
             }
             Initialize();
@@ -60,7 +60,7 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
                     onDrag = false;
                 }
                 DragVelocity = (DrawPos + InPosOffsetDragToPos).To(MouPos);//更新拖拽的速度
-                SupertableUI.instance.DrawPos += DragVelocity;
+                SupertableUI.Instance.DrawPos += DragVelocity;
             }
             else {
                 DragVelocity = Vector2.Zero;
@@ -70,17 +70,17 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
         }
 
         public void Prevention() {
-            if (SupertableUI.instance.DrawPos.X < 0) {
-                SupertableUI.instance.DrawPos.X = 0;
+            if (SupertableUI.Instance.DrawPos.X < 0) {
+                SupertableUI.Instance.DrawPos.X = 0;
             }
-            if (SupertableUI.instance.DrawPos.X + SupertableUI.instance.Texture.Width > Main.screenWidth) {
-                SupertableUI.instance.DrawPos.X = Main.screenWidth - SupertableUI.instance.Texture.Width;
+            if (SupertableUI.Instance.DrawPos.X + SupertableUI.Instance.Texture.Width > Main.screenWidth) {
+                SupertableUI.Instance.DrawPos.X = Main.screenWidth - SupertableUI.Instance.Texture.Width;
             }
-            if (SupertableUI.instance.DrawPos.Y < 0) {
-                SupertableUI.instance.DrawPos.Y = 0;
+            if (SupertableUI.Instance.DrawPos.Y < 0) {
+                SupertableUI.Instance.DrawPos.Y = 0;
             }
-            if (SupertableUI.instance.DrawPos.Y + SupertableUI.instance.Texture.Height > Main.screenHeight) {
-                SupertableUI.instance.DrawPos.Y = Main.screenHeight - SupertableUI.instance.Texture.Height;
+            if (SupertableUI.Instance.DrawPos.Y + SupertableUI.Instance.Texture.Height > Main.screenHeight) {
+                SupertableUI.Instance.DrawPos.Y = Main.screenHeight - SupertableUI.Instance.Texture.Height;
             }
         }
 

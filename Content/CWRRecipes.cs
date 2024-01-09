@@ -4,6 +4,7 @@ using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Items.Materials;
 using CalamityWeaponRemake.Content.RemakeItems.Core;
 using CalamityWeaponRemake.Content.RemakeItems.Vanilla;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -99,6 +100,18 @@ namespace CalamityWeaponRemake.Content
                     if (recipe.HasResult(ItemID.BottledWater)) {
                         recipe.AddOnCraftCallback(WaterBottle.OnRecipeBottle);
                     }
+                }
+            }
+            //添加万变之星的合成
+            {
+                for (int i = 0; i < ItemLoader.ItemCount; i++) {
+                    Item item = new Item(i);
+                    if (item != null && item.type != ItemID.None) {
+                        Console.WriteLine("添加合成结果ID:" + i + "-----" + item + "-----");
+                        Recipe.Create(i)
+                            .AddIngredient(CWRIDs.StarMyriadChanges)
+                            .Register();
+                    }    
                 }
             }
         }

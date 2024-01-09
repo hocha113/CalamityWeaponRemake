@@ -17,7 +17,7 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
 {
     internal class RecipeUI : CWRUIPanel
     {
-        public static RecipeUI instance;
+        public static RecipeUI Instance;
 
         public int index;
 
@@ -40,8 +40,8 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
         public override Texture2D Texture => CWRUtils.GetT2DValue("CalamityWeaponRemake/Assets/UIs/SupertableUIs/RecPBook");
 
         public override void Initialize() {
-            if (SupertableUI.instance != null) {
-                DrawPos = SupertableUI.instance.DrawPos + new Vector2(545, 80);
+            if (SupertableUI.Instance != null) {
+                DrawPos = SupertableUI.Instance.DrawPos + new Vector2(545, 80);
             }
             mainRec = new Rectangle((int)(DrawPos.X), (int)(DrawPos.Y), Texture.Width, Texture.Height);
             rAow = new Rectangle((int)DrawPos.X + 65, (int)DrawPos.Y + 20, 25, 25);
@@ -52,7 +52,9 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
         }
 
         public override void Load() {
-            instance = this;
+            Instance = this;
+            InItemDrawRecipe.Instance = new InItemDrawRecipe();
+
             for (int i = 0; i < SupertableUI.AllRecipes.Count; i++) {
                 Console.WriteLine($"正在装载配方：{i} --:-- {SupertableUI.AllRecipes.Count}");
                 itemTarget.Add(new Item(SupertableUI.AllRecipes[i].Target));
@@ -99,14 +101,14 @@ namespace CalamityWeaponRemake.Content.UIs.SupertableUIs
 
                 LoadPsreviewItems();
 
-                if (SupertableUI.instance.inputItem == null)//如果输出物品是Null，进行初始化防止空报错
-                    SupertableUI.instance.inputItem = new Item();
-                if (SupertableUI.instance.inputItem.type != ItemID.None && SupertableUI.instance.StaticFullItemNames != null) {//如果输出物品不是空物品，进行遍历检测预装填列表
+                if (SupertableUI.Instance.inputItem == null)//如果输出物品是Null，进行初始化防止空报错
+                    SupertableUI.Instance.inputItem = new Item();
+                if (SupertableUI.Instance.inputItem.type != ItemID.None && SupertableUI.Instance.StaticFullItemNames != null) {//如果输出物品不是空物品，进行遍历检测预装填列表
                     for (int i = 0; i < itemNameString_FormulaContent_Values.Count; i++) {
                         string[] formulaContent_Values = itemNameString_FormulaContent_Values[i];
                         for (int j = 0; j < 80; j++) {
                             string fullName = formulaContent_Values[j];
-                            if (fullName != SupertableUI.instance.StaticFullItemNames[j]) {
+                            if (fullName != SupertableUI.Instance.StaticFullItemNames[j]) {
                                 goto End;
                             }
                         }
@@ -119,24 +121,24 @@ End:;
         }
 
         public void LoadPsreviewItems() {
-            if (SupertableUI.instance != null) {
-                if (SupertableUI.instance.previewItems == null) {
-                    SupertableUI.instance.previewItems = new Item[81];
+            if (SupertableUI.Instance != null) {
+                if (SupertableUI.Instance.previewItems == null) {
+                    SupertableUI.Instance.previewItems = new Item[81];
                 }
-                if (SupertableUI.instance.items == null) {
-                    SupertableUI.instance.items = new Item[81];
+                if (SupertableUI.Instance.items == null) {
+                    SupertableUI.Instance.items = new Item[81];
                 }
-                SupertableUI.instance.previewItems = new Item[SupertableUI.instance.items.Length];
+                SupertableUI.Instance.previewItems = new Item[SupertableUI.Instance.items.Length];
                 string[] names = itemNameString_FormulaContent_Values[index];
                 if (names != null) {
                     for (int i = 0; i < 81; i++) {
                         string value = names[i];
-                        SupertableUI.instance.previewItems[i] = new Item(SupertableUI.InStrGetItemType(value, true));
+                        SupertableUI.Instance.previewItems[i] = new Item(SupertableUI.InStrGetItemType(value, true));
                     }
                 }
                 else {
                     for (int i = 0; i < 81; i++) {
-                        SupertableUI.instance.previewItems[i] = new Item();
+                        SupertableUI.Instance.previewItems[i] = new Item();
                     }
                 }
             }
@@ -155,8 +157,8 @@ End:;
             spriteBatch.Draw(onL ? arow : arow2, DrawPos + new Vector2(-30, 20), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
             string text2 = $"{index + 1} -:- {itemTarget.Count}";
             Terraria.Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.MouseText.Value, text2, DrawPos.X - text2.Length * 5 + 40, DrawPos.Y + 65, Color.White, Color.Black, new Vector2(0.3f), 0.8f);
-            if (itemTarget != null && SupertableUI.instance != null && index >= 0 && index < itemTarget.Count) {
-                SupertableUI.instance.DrawItemIcons(spriteBatch, itemTarget[index], DrawPos + new Vector2(5, 5), alp: 0.6f, overSlp: 1.5f);
+            if (itemTarget != null && SupertableUI.Instance != null && index >= 0 && index < itemTarget.Count) {
+                SupertableUI.DrawItemIcons(spriteBatch, itemTarget[index], DrawPos + new Vector2(5, 5), alp: 0.6f, overSlp: 1.5f);
                 string name = itemTarget[index].HoverName;
                 string text = $"查看配方：{(name == "" ? "无" : name)}";
                 Terraria.Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.MouseText.Value, text, DrawPos.X - text.Length * 5, DrawPos.Y - 25, Color.White, Color.Black, new Vector2(0.3f), 0.8f);

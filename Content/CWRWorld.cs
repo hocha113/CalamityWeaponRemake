@@ -26,13 +26,13 @@ namespace CalamityWeaponRemake.Content
         }
 
         public override void OnWorldLoad() {
-            if (SupertableUI.instance != null) {
-                SupertableUI.instance.loadOrUnLoadZenithWorldAsset = true;
-                SupertableUI.instance.Active = false;
+            if (SupertableUI.Instance != null) {
+                SupertableUI.Instance.loadOrUnLoadZenithWorldAsset = true;
+                SupertableUI.Instance.Active = false;
             }
-            if (RecipeUI.instance != null) {
-                RecipeUI.instance.index = 0;
-                RecipeUI.instance.LoadPsreviewItems();
+            if (RecipeUI.Instance != null) {
+                RecipeUI.Instance.index = 0;
+                RecipeUI.Instance.LoadPsreviewItems();
             }
             Gangarus.ZenithWorldAsset();
         }

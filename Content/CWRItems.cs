@@ -2,9 +2,13 @@
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles;
 using CalamityWeaponRemake.Content.Projectiles.Weapons;
+using CalamityWeaponRemake.Content.RemakeItems.Vanilla;
+using CalamityWeaponRemake.Content.UIs.SupertableUIs;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using Terraria;
@@ -41,10 +45,22 @@ namespace CalamityWeaponRemake.Content
         /// 一般用于近战类武器的充能值
         /// </summary>
         public float MeleeCharge;
-
+        /// <summary>
+        /// 是否是一个无尽物品，这个的设置决定物品是否会受到湮灭机制的影响
+        /// </summary>
         internal bool isInfiniteItem;
+        /// <summary>
+        /// 是否湮灭，在设置<see cref="isInfiniteItem"/>为<see langword="true"/>后启用，决定无尽物品是否湮灭
+        /// </summary>
         internal bool noDestruct;
+        /// <summary>
+        /// 湮灭时间
+        /// </summary>
         internal int destructTime;
+        /// <summary>
+        /// 这个物品所属的终焉合成内容，这决定了它的物品简介是否绘制终焉合成表格
+        /// </summary>
+        internal string[] OmigaSnyContent;
 
         public override void SetDefaults(Item item) {
             base.SetDefaults(item);
@@ -116,8 +132,14 @@ namespace CalamityWeaponRemake.Content
             destructTime--;
             Item[] inven = player.inventory;
             if (!noDestruct && destructTime <= 0 && inven.Count((Item n) => n.type == CWRIDs.EndlessStabilizer) == 0) {
-                Projectile.NewProjectile(new EntitySource_WorldEvent()
-                    , pos, Vector2.Zero, ModContent.ProjectileType<InfiniteIngotTileProj>(), 9999, 0);
+                if (item.type != CWRIDs.StarMyriadChanges) {
+                    Projectile.NewProjectile(new EntitySource_WorldEvent()
+                    , pos, Vector2.Zero, ModContent.ProjectileType<InfiniteIngotTileProj>(), 9999, 0); 
+                }
+                else {
+                    Projectile.NewProjectile(new EntitySource_WorldEvent()
+                    , pos, Vector2.Zero, ModContent.ProjectileType<StarMyriadChangesProj>(), 1, 0);
+                }
                 item.TurnToAir();
             }
         }
@@ -196,6 +218,7 @@ namespace CalamityWeaponRemake.Content
 
         public override void OnConsumeItem(Item item, Player player) {
             base.OnConsumeItem(item, player);
+            WaterBottle.OnUse(item, player);
         }
 
         public override bool CanUseItem(Item item, Player player) {
@@ -204,6 +227,23 @@ namespace CalamityWeaponRemake.Content
 
         public override bool? UseItem(Item item, Player player) {
             return base.UseItem(item, player);
+        }
+
+        public override void PostDrawTooltip(Item item, ReadOnlyCollection<DrawableTooltipLine> lines) {
+            base.PostDrawTooltip(item, lines);
+        }
+
+        public override bool PreDrawTooltip(Item item, ReadOnlyCollection<TooltipLine> lines, ref int x, ref int y) {
+            if (OmigaSnyContent != null && InItemDrawRecipe.Instance != null && SupertableUI.Instance != null) {
+                if (!InItemDrawRecipe.Instance.OnSupTale) {
+                    InItemDrawRecipe.Instance.Draw(Main.spriteBatch, new Vector2(800, 200), OmigaSnyContent);
+                }
+            }
+            return base.PreDrawTooltip(item, lines, ref x, ref y);
+        }
+
+        public override void PostDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale) {
+            base.PostDrawInInventory(item, spriteBatch, position, frame, drawColor, itemColor, origin, scale);
         }
     }
 }

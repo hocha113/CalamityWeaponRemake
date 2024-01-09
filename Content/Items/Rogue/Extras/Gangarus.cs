@@ -17,6 +17,7 @@ using Terraria.Localization;
 using CalamityMod.Rarities;
 using System;
 using Terraria.GameContent;
+using CalamityWeaponRemake.Content.UIs.SupertableUIs;
 
 namespace CalamityWeaponRemake.Content.Items.Rogue.Extras
 {
@@ -54,6 +55,7 @@ namespace CalamityWeaponRemake.Content.Items.Rogue.Extras
             Item.shoot = ModContent.ProjectileType<GangarusProjectile>();
             Item.shootSpeed = 15f;
             Item.DamageType = ModContent.GetInstance<RogueDamageClass>();
+            Item.CWR().OmigaSnyContent = SupertableRecipeDate.FullItems16;
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips) {

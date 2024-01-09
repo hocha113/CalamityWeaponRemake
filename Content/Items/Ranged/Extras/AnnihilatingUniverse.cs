@@ -15,6 +15,7 @@ using CalamityWeaponRemake.Content.Tiles;
 using CalamityWeaponRemake.Content.Items.Placeable;
 using System.Buffers;
 using System.Linq;
+using CalamityWeaponRemake.Content.UIs.SupertableUIs;
 
 namespace CalamityWeaponRemake.Content.Items.Ranged.Extras
 {
@@ -55,6 +56,7 @@ namespace CalamityWeaponRemake.Content.Items.Ranged.Extras
             Item.rare = ModContent.RarityType<PureGreen>();
             Item.CWR().remakeItem = true;
             Item.Calamity().canFirePointBlankShots = true;
+            Item.CWR().OmigaSnyContent = SupertableRecipeDate.FullItems4;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;

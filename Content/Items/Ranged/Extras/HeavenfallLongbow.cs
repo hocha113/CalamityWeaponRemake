@@ -8,6 +8,7 @@ using CalamityWeaponRemake.Content.Particles;
 using CalamityWeaponRemake.Content.Particles.Core;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Ranged.HeavenfallLongbowProj;
 using CalamityWeaponRemake.Content.Tiles;
+using CalamityWeaponRemake.Content.UIs.SupertableUIs;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -63,6 +64,7 @@ namespace CalamityWeaponRemake.Content.Items.Ranged.Extras
             Item.rare = ModContent.RarityType<PureGreen>();
             Item.CWR().remakeItem = true;
             Item.Calamity().canFirePointBlankShots = true;
+            Item.CWR().OmigaSnyContent = SupertableRecipeDate.FullItems2;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;

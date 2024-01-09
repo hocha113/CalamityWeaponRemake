@@ -6,6 +6,7 @@ using CalamityWeaponRemake.Content.Particles;
 using CalamityWeaponRemake.Content.Particles.Core;
 using CalamityWeaponRemake.Content.Projectiles;
 using CalamityWeaponRemake.Content.Tiles;
+using CalamityWeaponRemake.Content.UIs.SupertableUIs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
@@ -41,7 +42,7 @@ namespace CalamityWeaponRemake.Content.Items.Tools
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.pick = int.MaxValue;
-            
+            Item.CWR().OmigaSnyContent = SupertableRecipeDate.FullItems3;
         }
 
         public override bool AltFunctionUse(Player player) {
@@ -136,35 +137,35 @@ namespace CalamityWeaponRemake.Content.Items.Tools
             CWRParticleHandler.SpawnParticle(spark);
         }
 
-        public override void AddRecipes() {
-            CreateRecipe()
-                .AddIngredient<CrystylCrusher>()
-                .AddIngredient<AbyssalWarhammer>()
-                .AddIngredient<AerialHamaxe>()
-                .AddIngredient<AstralHamaxe>()
-                .AddIngredient<AstralPickaxe>()
-                .AddIngredient<AxeofPurity>()
-                .AddIngredient<BeastialPickaxe>()
-                .AddIngredient<BerserkerWaraxe>()
-                .AddIngredient<BlossomPickaxe>()
-                .AddIngredient<FellerofEvergreens>()
-                .AddIngredient<Gelpick>()
-                .AddIngredient<GenesisPickaxe>()
-                .AddIngredient<Grax>()
-                .AddIngredient<GreatbayPickaxe>()
-                .AddIngredient<InfernaCutter>()
-                .AddIngredient<ReefclawHamaxe>()
-                .AddIngredient<SeismicHampick>()
-                .AddIngredient<ShardlightPickaxe>()
-                .AddIngredient<SkyfringePickaxe>()
-                .AddIngredient<TectonicTruncator>()
-                .AddIngredient<InfiniteIngot>(5)
-                .AddConsumeItemCallback((Recipe recipe, int type, ref int amount) => {
-                    amount = 0;
-                })
-                .AddOnCraftCallback(CWRRecipes.SpawnAction)
-                .AddTile(ModContent.TileType<TransmutationOfMatter>())
-                .Register();
-        }
+        //public override void AddRecipes() {
+        //    CreateRecipe()
+        //        .AddIngredient<CrystylCrusher>()
+        //        .AddIngredient<AbyssalWarhammer>()
+        //        .AddIngredient<AerialHamaxe>()
+        //        .AddIngredient<AstralHamaxe>()
+        //        .AddIngredient<AstralPickaxe>()
+        //        .AddIngredient<AxeofPurity>()
+        //        .AddIngredient<BeastialPickaxe>()
+        //        .AddIngredient<BerserkerWaraxe>()
+        //        .AddIngredient<BlossomPickaxe>()
+        //        .AddIngredient<FellerofEvergreens>()
+        //        .AddIngredient<Gelpick>()
+        //        .AddIngredient<GenesisPickaxe>()
+        //        .AddIngredient<Grax>()
+        //        .AddIngredient<GreatbayPickaxe>()
+        //        .AddIngredient<InfernaCutter>()
+        //        .AddIngredient<ReefclawHamaxe>()
+        //        .AddIngredient<SeismicHampick>()
+        //        .AddIngredient<ShardlightPickaxe>()
+        //        .AddIngredient<SkyfringePickaxe>()
+        //        .AddIngredient<TectonicTruncator>()
+        //        .AddIngredient<InfiniteIngot>(5)
+        //        .AddConsumeItemCallback((Recipe recipe, int type, ref int amount) => {
+        //            amount = 0;
+        //        })
+        //        .AddOnCraftCallback(CWRRecipes.SpawnAction)
+        //        .AddTile(ModContent.TileType<TransmutationOfMatter>())
+        //        .Register();
+        //}
     }
 }

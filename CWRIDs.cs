@@ -36,6 +36,7 @@ namespace CalamityWeaponRemake
         public static int DubiousPlating;
         public static int FoodStallChair;
         public static int Gangarus;
+        public static int StarMyriadChanges;
 
         public static int EternitySoul;
 
@@ -195,6 +196,7 @@ namespace CalamityWeaponRemake
             BlackMatterStick = ItemType<BlackMatterStick>();
             FoodStallChair = ItemType<FoodStallChair>();
             Gangarus = ItemType<Gangarus>();
+            StarMyriadChanges = ItemType<StarMyriadChanges>();
 
             Androomba = NPCType<Androomba>();
             PlaguebringerGoliath = NPCType<PlaguebringerGoliath>();

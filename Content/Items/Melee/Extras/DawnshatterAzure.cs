@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items;
 using CalamityWeaponRemake.Common;
 using CalamityWeaponRemake.Content.Projectiles.Weapons.Melee.DawnshatterAzureProj;
+using CalamityWeaponRemake.Content.UIs.SupertableUIs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -30,6 +31,7 @@ namespace CalamityWeaponRemake.Content.Items.Melee.Extras
             Item.shoot = ModContent.ProjectileType<DawnshatterAzureProj>();
             Item.shootSpeed = 8f;
             Item.CWR().remakeItem = true;
+            Item.CWR().OmigaSnyContent = SupertableRecipeDate.FullItems10;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
